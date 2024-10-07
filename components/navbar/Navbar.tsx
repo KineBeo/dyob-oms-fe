@@ -16,10 +16,10 @@ export default function HeroSection() {
 
   const menuItems = [
     { title: "Trang chủ", href: "/" },
-    { title: "Về chúng tôi", href: "/aboutus", hasSubmenu: true },
-    { title: "Sản phẩm", href: "/products", hasSubmenu: true },
-    { title: "Phản hồi", href: "/feedback" },
-    { title: "Giỏ hàng", href: "/cart" },
+    { title: "Về chúng tôi", href: "/#", hasSubmenu: true },
+    { title: "Sản phẩm", href: "/#", hasSubmenu: true },
+    { title: "Phản hồi", href: "/#" },
+    { title: "Giỏ hàng", href: "/#" },
   ];
   return (
     <div className="bg-navbar-background">

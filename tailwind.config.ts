@@ -1,6 +1,5 @@
 import {nextui} from '@nextui-org/theme';
 import type { Config } from "tailwindcss";
-
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,6 +9,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+      'text-brown-primary': '#3C2415',
+      'navbar-background': '#FBF6EC',
+      'navbar-line':"#D7A444"
+    },
     },
     screens: {
       mobile: {

@@ -1,8 +1,6 @@
-import { Card, CardHeader, CardBody, CardFooter, Divider, Link } from "@nextui-org/react";
-import Image from "next/image";
+import { Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
 import { IoMdGlobe } from "react-icons/io";
 import { RiCheckboxCircleLine } from "react-icons/ri";
-
 
 export default function OurDestinyCard() {
     return (

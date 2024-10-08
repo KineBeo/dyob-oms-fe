@@ -1,7 +1,4 @@
 import OurDestinyCard from "@/components/cards/OurDestinyCard";
-import ProductCard from "@/components/cards/ProductCard";
-import StoreCard from "@/components/cards/StoreCard";
-import WhyChoosingCard from "@/components/cards/WhyChoosingCard";
 
 export default function Search() {
     return (

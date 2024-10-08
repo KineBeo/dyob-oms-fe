@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardBody, CardFooter, Button } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, Button } from "@nextui-org/react";
 import Image from "next/image";
 import { FaLocationDot } from "react-icons/fa6";
 import { BiDetail } from "react-icons/bi";

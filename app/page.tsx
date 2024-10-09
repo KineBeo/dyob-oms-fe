@@ -1,13 +1,15 @@
 import Image from "next/image";
 import WhyChoosingCard from "@/components/cards/WhyChoosingCard";
+
 export default function Home() {
-    const benefits = [
-      { image_url: "/images/whychosing.png", title: "DƯỢC LIỆU SẠCH 100%" },
-      { image_url: "/images/whychosing.png", title: "DƯỢC LIỆU SẠCH 100%" },
-      { image_url: "/images/whychosing.png", title: "DƯỢC LIỆU SẠCH 100%" },
-      { image_url: "/images/whychosing.png", title: "DƯỢC LIỆU SẠCH 100%" },
-      { image_url: "/images/whychosing.png", title: "DƯỢC LIỆU SẠCH 100%" },
-    ];
+  const benefits = [
+    { image_url: "/images/whychosing.png", title: "DƯỢC LIỆU SẠCH 100%" },
+    { image_url: "/images/whychosing.png", title: "DƯỢC LIỆU SẠCH 100%" },
+    { image_url: "/images/whychosing.png", title: "DƯỢC LIỆU SẠCH 100%" },
+    { image_url: "/images/whychosing.png", title: "DƯỢC LIỆU SẠCH 100%" },
+    { image_url: "/images/whychosing.png", title: "DƯỢC LIỆU SẠCH 100%" },
+  ];
+
   return (
     <div>
       {/* Hero section  */}
@@ -21,7 +23,7 @@ export default function Home() {
       </div>
       {/* Why choosing */}
       <div>
-        <div className="relative ">
+        <div className="relative">
           {/* Split background */}
           <div className="absolute inset-0">
             <div className="h-3/5 bg-[#3F291B]"></div>
@@ -34,10 +36,10 @@ export default function Home() {
             <p className="text-white/80 text-sm md:text-base mb-8 max-w-3xl mx-auto">
               Phát triển nền tảng Đông y Hải Thượng Lãn Ông dựa trên công nghệ
               khoa học hiện đại. Xây dựng một hệ sinh thái toàn diện về Đông y
-              4.0. Giúp người Việt chữa lành thân tâm qua hệ thống "Vườn chữa
-              lành Ông Bụt"
+              4.0. Giúp người Việt chữa lành thân tâm qua hệ thống &quot;Vườn
+              chữa lành Ông Bụt&quot;
             </p>
-            <div className="grid grid-cols-5 mobile:grid-cols-2 tablet:grid-cols-2 mini-laptop:grid-cols-3 justify-center gap-4 mx-5 ">
+            <div className="grid grid-cols-5 mobile:grid-cols-2 tablet:grid-cols-2 mini-laptop:grid-cols-3 justify-center gap-4 mx-5">
               {benefits.map((benefit, index) => (
                 <WhyChoosingCard
                   key={index}

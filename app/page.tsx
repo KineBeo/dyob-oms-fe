@@ -37,7 +37,7 @@ export default function Home() {
               4.0. Giúp người Việt chữa lành thân tâm qua hệ thống "Vườn chữa
               lành Ông Bụt"
             </p>
-            <div className="flex flex-wrap justify-center gap-4 -pt-30 ">
+            <div className="grid grid-cols-5 mobile:grid-cols-2 tablet:grid-cols-2 mini-laptop:grid-cols-3 justify-center gap-4 mx-5 ">
               {benefits.map((benefit, index) => (
                 <WhyChoosingCard
                   key={index}

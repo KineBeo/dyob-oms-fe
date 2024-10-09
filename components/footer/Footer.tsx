@@ -1,7 +1,6 @@
 import { SiTiktok } from "react-icons/si";
 import { FaYoutube } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import { MdAccountCircle } from "react-icons/md";
 import { FaPhone } from "react-icons/fa";
 import { FaLocationPin } from "react-icons/fa6";
 export default function Footer() {

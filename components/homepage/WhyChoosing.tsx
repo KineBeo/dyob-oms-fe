@@ -32,7 +32,7 @@ return (
         <div className="h-3/5 bg-[#3F291B]"></div>
         <div className="h-2/5 bg-white"></div>
       </div>
-      <div className="relative z-10 text-center py-8 px-4 justify-items-center ">
+      <div className="relative z-10 text-center py-8 px-4 justify-items-center  ">
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center">
           VÌ SAO NÊN CHỌN ĐÔNG Y ÔNG BỤT
         </h2>
@@ -42,14 +42,21 @@ return (
           người Việt chữa lành thân tâm qua hệ thống &quot;Vườn chữa lành Ông
           Bụt&quot;
         </p>
-        <div
-          className="grid grid-cols-5 
-                        mobile:flex mobile:overflow-x-auto 
-                        mobile:whitespace-normal mobile:w-full
-                        tablet:grid tablet:grid-cols-2 
-                        mini-laptop:grid-cols-3 px-0 mx-0 w-fit
-                        gap-4 "
-        >
+       <div className="max-w-5xl mx-auto">
+        {/* Mobile view: horizontal scrollable */}
+        <div className="flex md:hidden overflow-x-auto gap-4 pb-4 snap-x snap-mandatory">
+          {benefits.map((benefit, index) => (
+            <div key={index} className="snap-center shrink-0  w-[45%]">
+              <WhyChoosingCard
+                image_url={benefit.image_url}
+                title={benefit.title}
+              />
+            </div>
+          ))}
+        </div>
+        
+        {/* Desktop view: grid */}
+        <div className="hidden md:grid grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center">
           {benefits.map((benefit, index) => (
             <WhyChoosingCard
               key={index}
@@ -60,6 +67,8 @@ return (
         </div>
       </div>
     </div>
-  </div>
+      </div>
+    </div>
+  
 );
 }

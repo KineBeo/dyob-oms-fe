@@ -48,7 +48,7 @@ export default function OurMembers() {
             <div className="flex flex-col md:flex-row gap-8">
               {/* Main doctor */}
               <div className="md:w-1/2 justify-items-center">
-                <div className="rounded-lg overflow-hidden shadow-lg w-3/5  ">
+                <div className="rounded-lg overflow-hidden shadow-lg w-3/5  mobile:w-full ">
                   <img
                     src={mainDoctor?.image}
                     alt={mainDoctor?.name}

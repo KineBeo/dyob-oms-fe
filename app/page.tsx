@@ -2,6 +2,7 @@ import Image from "next/image";
 import WhyChoosing from "@/components/homepage/WhyChoosing";
 import Solutions from "@/components/homepage/Solutions";
 import OurMembers from "@/components/homepage/OurMembers";
+import Address from "@/components/homepage/Address";
 export default function Home() {
   
   
@@ -20,6 +21,7 @@ export default function Home() {
       <WhyChoosing/>
       <Solutions/>
       <OurMembers/>
+      <Address/>
     </div>
   );
 }

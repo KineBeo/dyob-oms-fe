@@ -1,7 +1,5 @@
-import ProductCard from "@/components/cards/ProductCard";
-import { Card } from "@/components/ui/card";
+import ProductCard from "@/components/cards/ProductCard";S
 import { Pagination } from "@nextui-org/react";
-import Image from "next/image";
 
 import {
     Carousel,

@@ -3,7 +3,7 @@
 const locationCard = () => (
   <div className="relative overflow-hidden rounded-lg">
     <img 
-      src="/api/placeholder/600/400" 
+      src="/images/homepage/address.png" 
       alt="Traditional medicine preparation"
       className="w-full object-cover"
     />
@@ -31,7 +31,7 @@ const locationCard = () => (
 export default function Address() {
 
 return (
-  <div className="max-w-7xl mx-auto px-4 py-12">
+  <div className="max-w-7xl mx-auto px-4 py-12 w-full">
     <h1 className="text-4xl font-bold text-center text-red-800 mb-6">
       HỆ THỐNG CƠ SỞ ĐÔNG Y ÔNG BỤT
     </h1>

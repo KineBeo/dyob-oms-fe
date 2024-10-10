@@ -1,10 +1,20 @@
 
 const TreatmentIcon = ({ name, icon }: { name: string; icon: string }) => (
   <div className="flex flex-col items-center">
-    <div className="w-16 h-16 rounded-full bg-[#E4A853] flex items-center justify-center mb-2">
-      <img src={icon} alt={name} className="w-8 h-8" />
+    <div
+      className="w-16 h-16 mobile:w-20 mobile:h-20
+                    tablet:w-22 tablet:h-22
+                    rounded-full bg-[#E4A853] flex items-center justify-center mb-2"
+    >
+      <img
+        src={icon}
+        alt={name}
+        className="w-10 h-10 mobile:w-16 mobile:h-16 "
+      />
     </div>
-    <span className="text-sm text-center text-[#3F291B] font-medium">{name}</span>
+    <span className="text-sm text-center text-[#3F291B] font-medium">
+      {name}
+    </span>
   </div>
 );
 const iconData = [

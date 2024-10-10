@@ -5,15 +5,29 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-      'text-brown-primary': '#3C2415',
-      'navbar-background': '#FBF6EC',
-      'navbar-line':"#D7A444"
-    },
+        "text-brown-primary": "#3C2415",
+        "navbar-background": "#FBF6EC",
+        "navbar-line": "#D7A444",
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        roboto: ["Roboto", "sans-serif"],
+        robotoslab: ["Roboto Slab", "serif"],
+        robotoflex: ["Roboto Flex", "sans - serif"],
+        inter: ["Inter", "sans - serif"],
+      },
+      backgroundImage: {
+        paper: "url('/images/productbg.png')",
+      },
     },
     screens: {
       mobile: {
@@ -40,9 +54,9 @@ const config: Config = {
       lg: "1024px",
       xl: "1280px",
       "2xl": "1536px",
-      },
+    },
   },
-  darkMode: "class",
-  plugins: [nextui()],
+  darkMode: ["class", "class"],
+  plugins: [nextui(), require("tailwindcss-animate")],
 };
 export default config;

@@ -7,22 +7,26 @@ export default function Footer() {
     return (
         <div >
             <footer className="bg-[#3F291B]">
-                <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 mobile:px-6 tablet:px-8 tablet:pt-24">
-                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 mobile:px-6 tablet:px-8 tablet:pt-24 mini-laptop:px-32 laptop:px-8">
+                    <div className="grid grid-cols-1 gap-8 
+                    laptop:flex
+                    desktop:grid-cols-3
+                    ">
                         <div>
-                            <p className="text-left font-bold text-[#FFFFFF]">QUÁN TÂM AN BỆNH ĐÔNG Y ÔNG BỤT</p>
+                            <p className="text-left text-lg font-bold text-[#FFFFFF]">QUÁN TÂM AN BỆNH ĐÔNG Y ÔNG BỤT</p>
                             <p className="mt-3 text-[#F6F4F1]
                             mobile:text-left
                             mini-laptop:max-w-xs 
                             laptop:max-w-xs 
-                            desktp:max-w-xs">
+                            desktp:max-w-xs"
+                            >
                                 Giấy đăng ký kinh doanh số:  410803511 do UBND QUẬN X - TP Hải Dương cấp ngày 00/00/0000
                             </p>
                             <div className="text-[#FFFFFF] mt-4">
                                 <p className="text-center font-bold w-28 h-8 bg-[#D7A444]">Trụ sở chính</p>
                                 <ul className="mt-8 space-y-4 text-sm">
                                     <li
-                                        className="flex items-start justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
+                                        className="flex items-start justify-center gap-1.5 "
                                     >
                                         <a
                                             href="#"
@@ -39,7 +43,7 @@ export default function Footer() {
                                     </li>
                                     <li>
                                         <div
-                                            className="flex items-center justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
+                                            className="flex items-center justify-center gap-1.5"
                                         >
                                             <a href="#"
                                                 rel="noreferrer"
@@ -59,7 +63,7 @@ export default function Footer() {
                                 <p className="text-center font-bold w-28 h-8 bg-[#D7A444]">Trụ sở chính</p>
                                 <ul className="mt-8 space-y-4 text-sm">
                                     <li
-                                        className="flex items-start justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
+                                        className="flex items-start justify-center gap-1.5 "
                                     >
                                         <a
                                             href="#"
@@ -76,7 +80,7 @@ export default function Footer() {
                                     </li>
                                     <li>
                                         <div
-                                            className="flex items-center justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
+                                            className="flex items-center justify-center gap-1.5 "
                                         >
                                             <a href="#"
                                                 rel="noreferrer"
@@ -93,8 +97,14 @@ export default function Footer() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 gap-sm:grid-cols-2 md:grid-cols-2 lg:col-span-2 md:ml-10">
-                            <div className="mobile:text-left sm:text-left ">
+                        <div className="grid grid-cols-1 gap-sm:grid-cols-2 mobile:ml-0 mini-laptop:ml-0 laptop:ml-0 tablet:ml-0
+                        tablet:grid-cols-2 
+                        mini-laptop:grid-cols-2
+                        desktop:grid-cols-2
+                        laptop:grid-cols-2
+                        lg:col-span-2
+                        ">
+                            <div className="text-justify pl-16 mobile:pl-0 mini-laptop:pl-0 tablet:pl-0">
                                 <p className="text-lg font-bold text-[#F6F4F1]">TÌM HIỂU THÊM</p>
 
                                 <div className="mt-8 space-y-4 text-sm font-bold">
@@ -138,7 +148,12 @@ export default function Footer() {
                                 </div>
                             </div>
 
-                            <div className="mobile:text-left w-full mt-4 md:mt-0">
+                            <div className="mobile:text-left w-full mt-4
+                            tablet:mt-0
+                            mini-laptop:mt-0 
+                            desktop:mt-0
+                            laptop:mt-0
+                            ">
                                 <div>
                                     <p className="text-lg font-bold text-[#F6F4F1]">KẾT NỐI</p>
                                 </div>
@@ -213,8 +228,8 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-                <div className="mt-12 border-t border-gray-100 pt-4 item-center justify-center text-[#F6F4F1]">
-                    <div className="text-center ">
+                <div className="mt-12 border-t border-[#D7A444] pt-4 item-center justify-center text-[#FFFFFF] pb-4">
+                    <div className="text-center">
                         &copy; Bản quyền nội dung thuộc về <b className="text-[#D7A444]">Cyslabs</b>
                     </div>
                 </div>

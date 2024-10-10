@@ -1,4 +1,4 @@
-import ProductCard from "@/components/cards/ProductCard";S
+import ProductCard from "@/components/cards/ProductCard";
 import { Pagination } from "@nextui-org/react";
 
 import {

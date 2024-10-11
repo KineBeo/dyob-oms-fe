@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { FaFileAlt, FaDownload } from "react-icons/fa";
 
 const documents = [

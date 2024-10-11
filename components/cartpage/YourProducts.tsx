@@ -35,9 +35,9 @@ export default function YourProducts() {
         <p className="text-2xl uppercase">Giỏ hàng của bạn</p>
       </div>
       <div className="max-w-6xl mx-auto p-4">
-        <table className="w-full">
+        <table className="w-full border-collapse rounded-lg overflow-hidden">
           <thead>
-            <tr className="bg-[#F0E0CA] text-black">
+            <tr className="bg-[#F0E0CA]  text-black">
               <th className="p-2 text-left">Ảnh sản phẩm</th>
               <th className="p-2 text-left">Tên sản phẩm</th>
               <th className="p-2 text-center">Số lượng</th>
@@ -68,10 +68,13 @@ export default function YourProducts() {
           </tbody>
           <tfoot>
             <tr className="bg-[#F0E0CA]">
-              <td colSpan={4} className="p-2 text-right font-bold">
+              <td
+                colSpan={4}
+                className="p-2 text-right font-bold mobile:col-span-3 "
+              >
                 Tổng thanh toán
               </td>
-              <td className="p-2 text-right text-[#7A0505] font-bold">
+              <td className="p-2 text-right text-[#7A0505] font-bold whitespace-nowrap">
                 {total.toLocaleString("vi-VN")} ₫
               </td>
             </tr>

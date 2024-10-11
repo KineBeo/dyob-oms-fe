@@ -3,13 +3,13 @@ const MoreDetails = () => {
     <div className="max-w-7xl mx-auto ">
       <div className="bg-[#f9f3ea] p-4  drop-shadow-md">
         <h2 className="text-2xl font-bold text-[#3F291B] ">
-          CHI TIẾT SẢN PHẨM
+          Chi tiết sản phẩm
         </h2>
       </div>
       <div className="flex flex-col md:flex-row gap-8 px-6 items-center ">
         <div className="md:w-3/5">
           <section className="mb-8">
-            <h3 className="text-xl font-semibold text-[#7A0505] mb-3">
+            <h3 className="text-xl font-semibold text-[#7A0505] mb-3 pt-2">
               An vị khang Ông bụt là ...
             </h3>
             <p className="text-gray-700">

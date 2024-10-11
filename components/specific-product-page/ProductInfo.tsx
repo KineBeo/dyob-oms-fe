@@ -26,14 +26,14 @@ const ProductInfo = () => {
   ];
 
   return (
-    <div className="flex flex-col md:flex-row gap-8 p-4 max-w-7xl mx-auto">
+    <div className="flex flex-col laptop:flex-row desktop:flex-row gap-8 p-4 max-w-7xl mx-auto">
       {/* Left side - Image gallery */}
       <div className="md:w-1/2">
         <div className="mb-4">
           <img
             src="/images/product.png"
             alt="Product"
-            className="w-full rounded-lg"
+            className="h-full w-full rounded-lg"
           />
         </div>
         <div className="relative">
@@ -77,7 +77,7 @@ const ProductInfo = () => {
                 key={size.label}
                 className={`px-4 py-2 rounded border ${
                   selectedSize === size.label
-                    ? "border-red-900 text-red-900"
+                    ? "border-[#7A0505] text-[#7A0505]"
                     : "border-gray-300"
                 }`}
                 onClick={() => setSelectedSize(size.label)}

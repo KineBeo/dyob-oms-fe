@@ -116,7 +116,7 @@ export default function PaymentInfo() {
                   className="w-4 h-4  text-[#7A0505]"
                 />
                 <label htmlFor="cash-on-delivery">
-                  Trả tiền mặt khi nhận hàng
+                  Thanh toán khi nhận hàng
                 </label>
               </div>
             </div>

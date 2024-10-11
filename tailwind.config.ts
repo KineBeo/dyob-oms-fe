@@ -20,7 +20,7 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        roboto: ["Roboto", "sans-serif"],
+        roboto: ["Roboto", "sans - serif"],
         robotoslab: ["Roboto Slab", "serif"],
         robotoflex: ["Roboto Flex", "sans - serif"],
         inter: ["Inter", "sans - serif"],

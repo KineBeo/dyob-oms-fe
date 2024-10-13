@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from "react";
 import { Table, Card, Button, Avatar, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
-import { Menu } from "lucide-react";
 
 const stats = [
   { label: "Tổng số", value: "$9,342" },

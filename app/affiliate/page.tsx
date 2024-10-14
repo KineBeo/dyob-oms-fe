@@ -1,6 +1,8 @@
+'use client'
 import React from 'react';
 import { Card, Button } from '@nextui-org/react';
 import BenefitsCard from '@/components/cards/BenefitsCard';
+import { useRouter } from "next/navigation";
 
 const steps = [
     {
@@ -18,6 +20,7 @@ const steps = [
 ];
 
 export default function Affiliate() {
+    const router = useRouter()
     return (
         <div className="bg-paper">
             <div className="w-full max-w-[100rem] mx-auto">
@@ -32,7 +35,9 @@ export default function Affiliate() {
                                 Chúng tôi luôn mong muốn tìm kiếm những đối tác mới.
                                 Hãy tham gia cùng chúng tôi ngay.
                             </p>
-                            <Button className="bg-[#7A0505] text-white font-medium py-3 px-8 rounded-2xl text-xs mini-laptop:text-sm laptop:text-lg desktop:text-xl h-full">
+                            <Button className="bg-[#7A0505] text-white font-medium py-3 px-8 rounded-2xl text-xs mini-laptop:text-sm laptop:text-lg desktop:text-xl h-full"
+                                onClick={() => router.push('/affiliate/login')}
+                            >
                                 Đăng kí ngay
                             </Button>
                         </div>

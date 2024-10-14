@@ -1,10 +1,11 @@
+"use client";
 
 const TreatmentIcon = ({ name, icon }: { name: string; icon: string }) => (
   <div className="flex flex-col items-center">
     <div
       className="w-16 h-16 mobile:w-20 mobile:h-20
                     tablet:w-22 tablet:h-22
-                    rounded-full bg-[#E4A853] flex items-center justify-center mb-2"
+                    rounded-full bg-[#D7A444] flex items-center justify-center"
     >
       <img
         src={icon}
@@ -30,14 +31,16 @@ const iconData = [
 
 export default function Solutions() {
     return (
-      <section className="max-w-6xl mx-auto px-4 py-12">
+      <section className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Left content */}
           <div className="md:w-1/3">
-            <h2 className="text-2xl font-bold text-[#7A0505] mb-4">
+            <h2 className="text-2xl font-bold text-[#7A0505] mb-4 text-left font-robotoslab">
               GIẢI PHÁP ĐIỀU TRỊ
+              <div className="w-24 h-1 bg-[#D7A444] mt-2"></div>
             </h2>
-            <p className="text-sm mb-6 font-[450]">
+
+            <p className="text-sm mb-6 font-[450] font-robotoflex">
               Ứng dụng học thuyết của Thần Y Hải Thượng Lãn Ông kết hợp với khoa
               học hiện đại để chữa Thần kinh Y học hiện đại. Dùng các thiết bị
               máy móc trị liệu hiện đại để trị liệu khoa thương hàn đảm và cung
@@ -52,7 +55,7 @@ export default function Solutions() {
 
           {/* Right content - Icons grid */}
           <div className="md:w-2/3">
-            <div className="grid grid-cols-4 gap-4 mobile:grid-cols-2 mobile:gap-y-6 tablet:grid-cols-3">
+            <div className="grid grid-cols-4 mobile:grid-cols-2 mobile:gap-y-6 tablet:grid-cols-3">
               {iconData.map((item) => (
                 <TreatmentIcon
                   key={item.id}

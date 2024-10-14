@@ -33,10 +33,10 @@ return (
         <div className="h-2/5 bg-white"></div>
       </div>
       <div className="relative z-10 text-center py-8 px-4 justify-items-center  ">
-        <h2 className="text-2xl laptop:text-3xl desktop:text-3xl font-bold text-white mb-4 text-center">
+        <h2 className="text-2xl laptop:text-3xl desktop:text-3xl font-bold text-white mb-4 text-center font-robotoslab">
           VÌ SAO NÊN CHỌN ĐÔNG Y ÔNG BỤT
         </h2>
-        <p className="text-white/80 text-sm laptop:text-base desktop:text-base mb-8 max-w-3xl mx-auto">
+        <p className="text-white/80 text-sm laptop:text-base desktop:text-base mb-8 max-w-3xl mx-auto font-robotoflex">
           Phát triển nền tảng Đông y Hải Thượng Lãn Ông dựa trên công nghệ khoa
           học hiện đại. Xây dựng một hệ sinh thái toàn diện về Đông y 4.0. Giúp
           người Việt chữa lành thân tâm qua hệ thống &quot;Vườn chữa lành Ông

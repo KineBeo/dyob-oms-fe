@@ -87,9 +87,9 @@ export default function AffiliateDashboard() {
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
-    <div className="flex flex-col md:flex-row bg-[#F5F5F5] min-h-screen">
+    <div className="flex flex-col laptop:flex-row desktop:flex-row mini-laptop:flex-row bg-[#F5F5F5] min-h-screen">
       {/* Sidebar for mobile */}
-      <div className="md:hidden bg-[#7A0505] p-4 flex flex-row justify-normal items-center">
+      <div className="laptop:hidden desktop:hidden mini-laptop:hidden bg-[#7A0505] p-4 flex flex-row justify-normal items-center">
         <Avatar
           src="/placeholder-avatar.png"
           size="sm"
@@ -97,7 +97,9 @@ export default function AffiliateDashboard() {
           color="warning"
           onClick={toggleSidebar}
         />
-        <h2 className="mt-2 text-xl font-semibold px-2 text-white">Nguyễn Văn A</h2>
+        <h2 className="mt-2 text-xl font-semibold px-2 text-white">
+          Nguyễn Văn A
+        </h2>
         {/* <Button isIconOnly onClick={toggleSidebar} className="bg-transparent">
           <Menu className="text-white" />
         </Button> */}
@@ -107,7 +109,7 @@ export default function AffiliateDashboard() {
       <div
         className={`w-full md:w-64 bg-white shadow-md ${
           sidebarOpen ? "block" : "hidden"
-        } md:block`}
+        } laptop:block mini-laptop:block desktop:block`}
       >
         <div className="p-4 flex flex-row">
           <Avatar
@@ -117,7 +119,9 @@ export default function AffiliateDashboard() {
             color="warning"
             className="hidden md:inline-block"
           />
-          <h2 className="mt-2 text-xl  font-semibold px-2 mobile:hidden">Nguyễn Văn A</h2>
+          <h2 className="mt-2 text-xl  font-semibold px-2 mobile:hidden tablet:hidden ">
+            Nguyễn Văn A
+          </h2>
         </div>
         <nav className="mt-6 mx-4">
           <Button color="primary" className="w-full mb-2 bg-[#7A0505]">
@@ -138,12 +142,12 @@ export default function AffiliateDashboard() {
       <div className="flex-1">
         <div className="bg-[#3F291B] text-white p-4 md:p-6">
           <div className="max-w-7xl mx-auto">
-            <h1 className="text-lg md:text-xl font-bold">
+            <h1 className="text-lg laptop:text-xl desktop:text-xl font-bold">
               Chúc bạn một ngày tốt lành
             </h1>
-            <p className="mt-2 text-base md:text-xl">
+            <p className="mt-2 text-base laptop:text-xl desktop:text-xl">
               Bạn làm tốt lắm! Bạn đã kiếm được{" "}
-              <span className="font-bold text-2xl md:text-3xl text-[#D7A444]">
+              <span className="font-bold text-2xl laptop:text-3xl desktop:text-3xl text-[#D7A444]">
                 5.000.000 đ
               </span>{" "}
               trong tuần này.
@@ -152,22 +156,22 @@ export default function AffiliateDashboard() {
         </div>
 
         <div className="max-w-7xl mx-auto p-4 md:p-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+          <div className="grid grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-5 gap-4 mb-8">
             {stats.map((stat, index) => (
               <Card key={index} className="p-4">
-                <h3 className="text-xs md:text-sm font-medium text-gray-600">
+                <h3 className="text-xs laptop:text-sm desktop:text-sm font-medium text-gray-600">
                   {stat.label}
                 </h3>
-                <p className="text-lg md:text-xl text-[#7A0505] font-bold mt-1">
+                <p className="text-lg laptop:text-xl desktop:text-xl text-[#7A0505] font-bold mt-1">
                   {stat.value}
                 </p>
               </Card>
             ))}
           </div>
 
-          <div className="space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-8">
+          <div className="space-y-8 laptop:space-y-0 desktop:space-y-0 laptop:grid desktop:grid  laptop:grid-cols-1 desktop:grid-cols-2 laptop:gap-8 desktop:gap-8">
             <div>
-              <h2 className="text-lg md:text-xl font-bold mb-4">
+              <h2 className="text-lg laptop:text-xl desktop:text-xl font-bold mb-4">
                 Đơn hàng được bạn giới thiệu
               </h2>
               <div className="overflow-x-auto">
@@ -195,7 +199,7 @@ export default function AffiliateDashboard() {
             </div>
 
             <div>
-              <h2 className="text-lg md:text-xl font-bold mb-4">
+              <h2 className="text-lg laptop:text-xl desktop:text-xl font-bold mb-4">
                 Nhân viên được bạn giới thiệu
               </h2>
               <div className="overflow-x-auto">

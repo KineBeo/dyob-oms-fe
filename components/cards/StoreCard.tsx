@@ -10,7 +10,7 @@ interface StoreCardProps {
 
 export default function StoreCard(props: StoreCardProps) {
     return (
-        <Card className="m-4 desktop:mx-16 py-0 bg-[#D7A444] h-full">
+        <Card className="py-0 bg-[#D7A444] h-full hover:scale-105 transition">
             <CardBody className="items-center justify-center p-0">
                 <Image
                     alt="Store"
@@ -19,7 +19,7 @@ export default function StoreCard(props: StoreCardProps) {
                     width={500}
                     height={500}
                 />
-                <h2 className="font-semibold text-large text-[#F0E0CA] p-2">{props.location}</h2>
+                <h2 className="font-semibold text-large text-white p-2">{props.location}</h2>
             </CardBody>
 
             <CardFooter className="pb-2 pt-0 flex-row gap-2 items-center justify-center">

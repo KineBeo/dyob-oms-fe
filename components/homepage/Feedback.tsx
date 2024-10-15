@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { FaPlay } from "react-icons/fa";
 interface Testimonial {
@@ -49,12 +50,14 @@ const VideoThumbnail: React.FC<VideoThumbnailProps> = ({
       isMain ? "w-full" : "w-[280px]"
     } group cursor-pointer`}
   >
-    <img
+    <Image
       src={thumbnail}
       alt={title}
       className={`w-full ${
         isMain ? "h-[460px]" : "h-[157px]"
       } object-cover rounded-lg`}
+      width={isMain ? 460 : 157} 
+      height={isMain ? 460 : 157} 
     />
     <div className="absolute inset-0 flex items-center justify-center">
       <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:bg-red-700 transition-colors">

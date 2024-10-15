@@ -51,7 +51,6 @@ const teamMembers = [
 export default function OurMembers() {
   const mainDoctor = teamMembers.find((member) => member.isMain);
   const otherDoctors = teamMembers.filter((member) => !member.isMain);
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
   return (
     <div className="relative">
       {/* Split background */}

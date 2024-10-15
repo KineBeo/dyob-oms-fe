@@ -4,8 +4,6 @@ import { FaFacebook } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa";
 import { FaLocationPin } from "react-icons/fa6";
 import { Link } from "@nextui-org/react";
-import { link } from "fs";
-
 const moreLinks = [
   {
     title: "Về chúng tôi",

@@ -43,6 +43,7 @@ return (
         <h2 className="text-2xl laptop:text-3xl desktop:text-3xl font-bold text-white mb-4 text-center font-robotoslab">
           VÌ SAO NÊN CHỌN ĐÔNG Y ÔNG BỤT
         </h2>
+        <div className="w-24 h-1 bg-[#D7A444] mx-auto mb-8"></div>
         <p className="text-white/80 text-sm laptop:text-base desktop:text-base mb-8 max-w-3xl mx-auto font-robotoflex">
           Phát triển nền tảng Đông y Hải Thượng Lãn Ông dựa trên công nghệ khoa
           học hiện đại. Xây dựng một hệ sinh thái toàn diện về Đông y 4.0. Giúp

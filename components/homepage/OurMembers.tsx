@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 
 import {
   Carousel,
@@ -112,8 +111,8 @@ export default function OurMembers() {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious className=" mobile:hidden tablet:hidden left-0 " />
-                  <CarouselNext className=" mobile:hidden  tablet:hidden right-0 " />
+                  <CarouselPrevious className=" mobile:hidden tablet:hidden left-0 hover:bg-[#D7A444] hover:text-white " />
+                  <CarouselNext className=" mobile:hidden  tablet:hidden right-0 hover:bg-[#D7A444] hover:text-white " />
                 </Carousel>
               </div>
             </div>

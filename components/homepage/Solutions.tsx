@@ -1,16 +1,16 @@
 "use client";
 
 const TreatmentIcon = ({ name, icon }: { name: string; icon: string }) => (
-  <div className="flex flex-col items-center">
+  <div className="flex flex-col items-center ">
     <div
       className="w-16 h-16 mobile:w-20 mobile:h-20
                     tablet:w-22 tablet:h-22
-                    rounded-full bg-[#D7A444] flex items-center justify-center"
+                    rounded-full bg-[#D7A444] hover:border-1 hover:border-[#7A0505] flex items-center justify-center mb-1"
     >
       <img
         src={icon}
         alt={name}
-        className="w-10 h-10 mobile:w-16 mobile:h-16 "
+        className="w-14 h-14 mobile:w-16 mobile:h-16 "
       />
     </div>
     <span className="text-sm text-center text-[#3F291B] font-medium">
@@ -54,8 +54,8 @@ export default function Solutions() {
           </div>
 
           {/* Right content - Icons grid */}
-          <div className="md:w-2/3">
-            <div className="grid grid-cols-4 mobile:grid-cols-2 mobile:gap-y-6 tablet:grid-cols-3 gap-y-4">
+          <div className="md:w-3/5">
+            <div className="grid grid-cols-4 mobile:grid-cols-2 mobile:gap-y-6 tablet:grid-cols-3 gap-y-2">
               {iconData.map((item) => (
                 <TreatmentIcon
                   key={item.id}

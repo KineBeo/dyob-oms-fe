@@ -73,7 +73,7 @@ export default function CustomerFeedback() {
       <h1 className="text-4xl font-bold text-red-800 text-center mb-2">
         PHẢN HỒI KHÁCH HÀNG
       </h1>
-      <div className="w-24 h-1 bg-yellow-500 mx-auto mb-8"></div>
+      <div className="w-24 h-1 bg-[#D7A444] mx-auto mb-8"></div>
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Main video */}
@@ -94,7 +94,9 @@ export default function CustomerFeedback() {
                 thumbnail={testimonial.thumbnail}
                 title={testimonial.title}
               />
-              <p className="flex-1 text-sm">{testimonial.title}</p>
+              <p className="flex-1 text-sm font-robotoflex font-medium">
+                {testimonial.title}
+              </p>
             </div>
           ))}
         </div>

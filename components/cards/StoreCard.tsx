@@ -10,7 +10,7 @@ interface StoreCardProps {
 
 export default function StoreCard(props: StoreCardProps) {
     return (
-        <Card className="py-0 bg-[#D7A444] h-full hover:scale-110 transition">
+        <Card className="py-0 bg-[#D7A444] h-full hover:scale-105 transition">
             <CardBody className="items-center justify-center p-0">
                 <Image
                     alt="Store"

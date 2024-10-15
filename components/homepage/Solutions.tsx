@@ -55,7 +55,7 @@ export default function Solutions() {
 
           {/* Right content - Icons grid */}
           <div className="md:w-2/3">
-            <div className="grid grid-cols-4 mobile:grid-cols-2 mobile:gap-y-6 tablet:grid-cols-3">
+            <div className="grid grid-cols-4 mobile:grid-cols-2 mobile:gap-y-6 tablet:grid-cols-3 gap-y-4">
               {iconData.map((item) => (
                 <TreatmentIcon
                   key={item.id}

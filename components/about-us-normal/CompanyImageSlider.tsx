@@ -1,4 +1,5 @@
 "use client";
+import { Divider } from "@nextui-org/react";
 import React, { useState } from "react";
 
 const images = [
@@ -20,12 +21,14 @@ export default function CompanyImageSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   return (
-    <section className="py-6 md:py-12 w-full">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-4 md:mb-8">
-          Hình ảnh về công ty
-        </h2>
-
+    <div className="w-full max-w-7xl mx-auto px-4 py-4">
+      <div className="w-full mobile:mb-4 tablet:mb-4 mb-6 items-center justify-center flex flex-col">
+        <p className="mobile:text-3xl tablet:text-3xl text-4xl font-robotoslab font-bold text-center p-2 text-[#4A2511]">
+          Hình ảnh công ty
+        </p>
+        <Divider className="w-24 h-1 bg-[#D7A444]" />
+      </div>
+      <div className="laptop:px-8 desktop:px-12">
         <div className="relative overflow-hidden rounded-lg shadow-lg">
           {/* Main Image */}
           <div className="relative pb-[56.25%]">
@@ -64,15 +67,15 @@ export default function CompanyImageSlider() {
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  currentSlide === index ? "bg-white w-4" : "bg-white/60"
-                }`}
+                className={`w-2 h-2 rounded-full transition-all ${currentSlide === index ? "bg-white w-4" : "bg-white/60"
+                  }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
         </div>
       </div>
-    </section>
+
+    </div>
   );
 }

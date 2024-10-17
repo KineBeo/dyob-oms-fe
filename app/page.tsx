@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero section  */}
-      <div className="w-full mobile:hidden tablet:hidden mini-laptop:hidden">
+      <div className="w-full mobile:hidden tablet:hidden">
         <Image
           src="/images/herosection-homepage.jpg"
           width={1920}
@@ -19,12 +19,13 @@ export default function Home() {
           alt="Herosection"
         />
       </div>
-      <div className="relative w-full h-64 tablet:h-96 mini-laptop:h-156 hidden mobile:block tablet:block mini-laptop:block">
+      <div className="relative w-full hidden mobile:block tablet:block ">
         <Image
-          src="/images/herosection-homepage.jpg"
+          src="/images/homepage/herosection_mini.jpg"
           objectFit="cover"
-          layout="fill"
-          objectPosition="center"
+          width={618}
+          height={644}
+          style={{ height: "100%", width: "100%" }}
           alt="Herosection"
         />
       </div>

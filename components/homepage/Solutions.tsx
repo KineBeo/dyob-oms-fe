@@ -3,14 +3,14 @@
 const TreatmentIcon = ({ name, icon }: { name: string; icon: string }) => (
   <div className="flex flex-col items-center ">
     <div
-      className="w-20 h-20 mobile:w-20 mobile:h-20
+      className="w-24 h-24 mobile:w-20 mobile:h-20
                     tablet:w-22 tablet:h-22
                     rounded-full bg-[#D7A444] hover:border-1 hover:border-[#7A0505] flex items-center justify-center mb-1"
     >
       <img
         src={icon}
         alt={name}
-        className="w-14 h-14 mobile:w-16 mobile:h-16 "
+        className="w-18 h-18 mobile:w-16 mobile:h-16 "
       />
     </div>
     <span className="text-sm text-center text-[#3F291B] font-medium">
@@ -19,14 +19,14 @@ const TreatmentIcon = ({ name, icon }: { name: string; icon: string }) => (
   </div>
 );
 const iconData = [
-  { id: 1, name: "Thần Kinh", icon: "/images/homepage/thankinh.png" },
-  { id: 2, name: "Dạ Tràng", icon: "/images/homepage/thankinh.png" },
-  { id: 3, name: "Xương Khớp", icon: "/images/homepage/thankinh.png" },
-  { id: 4, name: "Viêm họng", icon: "/images/homepage/thankinh.png" },
-  { id: 5, name: "Thần Kinh", icon: "/images/homepage/thankinh.png" },
-  { id: 6, name: "Viêm họng", icon: "/images/homepage/thankinh.png" },
-  { id: 7, name: "Dạ Tràng", icon: "/images/homepage/thankinh.png" },
-  { id: 8, name: "Xương Khớp", icon: "/images/homepage/thankinh.png" },
+  { id: 1, name: "Thần Kinh", icon: "/images/homepage/icon-than-kinh.svg" },
+  { id: 2, name: "Da Liễu", icon: "/images/homepage/icon-da-lieu.svg" },
+  { id: 3, name: "Phụ Khoa", icon: "/images/homepage/icon-phu-khoa.svg" },
+  { id: 4, name: "Tai Mũi Họng", icon: "/images/homepage/icon-tai-mui-hong.svg",},
+  { id: 5, name: "Tiêu Hóa", icon: "/images/homepage/icon-tieu-hoa.svg" },
+  { id: 6, name: "Thận", icon: "/images/homepage/icon-than.svg" },
+  { id: 7, name: "Nam Khoa", icon: "/images/homepage/icon-nam-khoa.svg" },
+  { id: 8, name: "Xương Khớp", icon: "/images/homepage/icon-xuong-khop.svg" },
 ]; 
 
 export default function Solutions() {
@@ -34,7 +34,7 @@ export default function Solutions() {
       <section className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex flex-col laptop:flex-row desktop:flex-row gap-8">
           {/* Left content */}
-          <div className="md:w-1/3">
+          <div className="laptop:w-1/3 desktop:w-1/3">
             <h2 className="text-2xl font-bold text-[#7A0505] mb-4 text-left font-robotoslab">
               GIẢI PHÁP ĐIỀU TRỊ
               <div className="w-24 h-1 bg-[#D7A444] mt-2"></div>

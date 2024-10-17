@@ -29,7 +29,7 @@ export default function HeroSection() {
     <Navbar
       onMenuOpenChange={setIsOpen}
       className="py-1 px-0 bg-navbar-background mini-laptop:border-b-8 laptop:border-b-8 desktop:border-b-8 border-[#D7A444]"
-      maxWidth="2xl"
+      maxWidth="xl"
       shouldHideOnScroll
     >
       <NavbarContent>
@@ -71,7 +71,7 @@ export default function HeroSection() {
           <NavbarItem key={index}>
             <Link
               href={item.href}
-              className="text-text-brown-primary hover:text-[#D7A444] font-medium laptop:text-lg desktop:text-xl "
+              className="text-text-brown-primary hover:text-[#D7A444] font-medium laptop:text-lg desktop:text-lg "
             >
               <div className="flex justify-between items-center">
                 {item.title}

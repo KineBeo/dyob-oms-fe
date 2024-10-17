@@ -75,10 +75,6 @@ export default function HeroSection() {
     },
     { title: "Giỏ hàng", href: "/cart" },
   ];
- const handleSubMenuClick = (href: string) => {
-   router.push(href);
-   setIsOpen(false);
- };
   return (
     <Navbar
       onMenuOpenChange={setIsOpen}

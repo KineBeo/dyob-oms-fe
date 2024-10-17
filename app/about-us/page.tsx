@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useCallback, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
+import React from "react";
+import ReactFullpage from "@fullpage/react-fullpage";
 import Image from "next/image";
 
 const images = [
@@ -32,83 +32,50 @@ const images = [
 ];
 
 export default function AboutUs() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    axis: "y",
-    loop: false,
-    dragFree: false,
-  });
-  const [canScroll, setCanScroll] = useState(true);
-
-  const onWheel = useCallback(
-    (event: WheelEvent) => {
-      if (!emblaApi || !canScroll) return;
-
-      event.preventDefault();
-
-      if (event.deltaY > 0) {
-        emblaApi.scrollNext();
-      } else if (event.deltaY < 0) {
-        emblaApi.scrollPrev();
-      }
-
-      setCanScroll(false);
-      setTimeout(() => setCanScroll(true), 1000); // Adjust this delay as needed
-    },
-    [emblaApi, canScroll]
-  );
-
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const rootNode = emblaApi.rootNode();
-    rootNode.addEventListener("wheel", onWheel, { passive: false });
-
-    return () => {
-      rootNode.removeEventListener("wheel", onWheel);
-    };
-  }, [emblaApi, onWheel]);
-
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex-grow overflow-hidden" ref={emblaRef}>
-        <style jsx global>{`
-          html,
-          body {
-            overflow: hidden;
-          }
-        `}</style>
-        <div className="h-[calc(100vh-74px)]">
-          {images.map((image, index) => (
-            <div key={index} className="relative w-full h-full flex-shrink-0">
-              <Image
-                src={image.src}
-                alt={image.alt}
-                layout="fill"
-                objectFit="cover"
-                quality={100}
-              />
-              <h2
-                className="absolute text-3xl font-semibold font-robotoslab
-                           mobile:text-base mobile:font-normal
-                           right-1/4 top-3/4 text-white text-left
-                           text-wrap w-1/4"
-              >
-                {image.subcaption}
-              </h2>
-              <h2
-                className="absolute text-3xl font-semibold font-robotoslab
-                           mini-laptop:text-2xl mini-laptop:font-medium
-                           tablet:text-xl table:font-normal
-                           mobile:text-base mobile:font-normal
-                           left-1/4 top-1/4 text-white text-right
-                           text-wrap max-w-xl w-1/4"
-              >
-                {image.caption}
-              </h2>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <ReactFullpage
+      navigation={false} // Hiển thị các chấm điều hướng ở bên phải màn hình
+      scrollingSpeed={700} // Tốc độ cuộn giữa các slide
+      credits={{ enabled: true }} // Tắt credits hiển thị dưới cùng
+      sectionsColor={["#fff", "#fff", "#fff", "#fff"]}
+      
+      render={() => {
+        return (
+          <ReactFullpage.Wrapper>
+            {images.map((image, index) => (
+              <div key={index} className="section ">
+                <div className="relative w-full h-screen flex items-center justify-center">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    layout="fill"
+                    objectFit="cover"
+                    quality={100}
+                  />
+                  <h2
+                    className="absolute text-3xl font-semibold font-robotoslab
+                               mobile:text-base mobile:font-normal
+                               right-1/4 bottom-1/4 text-white text-left
+                               text-wrap w-1/4"
+                  >
+                    {image.subcaption}
+                  </h2>
+                  <h2
+                    className="absolute text-3xl font-semibold font-robotoslab
+                               mini-laptop:text-2xl mini-laptop:font-medium
+                               tablet:text-xl tablet:font-normal
+                               mobile:text-base mobile:font-normal
+                               left-1/4 top-1/4 text-white text-right
+                               text-wrap max-w-xl w-1/4"
+                  >
+                    {image.caption}
+                  </h2>
+                </div>
+              </div>
+            ))}
+          </ReactFullpage.Wrapper>
+        );
+      }}
+    />
   );
 }

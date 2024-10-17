@@ -6,7 +6,7 @@ import Address from "@/components/homepage/Address";
 import CustomerFeedback from "@/components/homepage/Feedback";
 export default function Home() {
   
-  
+
   return (
     <div>
       {/* Hero section  */}

@@ -4,22 +4,22 @@ import LegalDoc from "@/components/about-us-normal/LegalDoc";
 import Vision from "@/components/about-us-normal/Vision";
 
 export default function AboutUsNormal() {
-return (
-  <div>
-    <div className="place-content-center w-full mobile:h-32 tablet:h-40 h-48 bg-[#3F291B]"></div>
-    <div className="bg-paper">
-      {/* Image and description */}
-      <ImageAndDes />
+  return (
+    <div>
+      <div className="place-content-center w-full mobile:h-32 tablet:h-40 h-48 bg-[#3F291B]"></div>
+      <div className="bg-paper">
+        {/* Image and description */}
+        <ImageAndDes />
 
-      {/* Tam nhin va su menh */}
-      <Vision />
+        {/* Tam nhin va su menh */}
+        <Vision />
 
-      {/* image slide */}
-      <CompanyImageSlider />
+        {/* image slide */}
+        <CompanyImageSlider />
 
         {/* legal doc */}
-        <LegalDoc/>
+        <LegalDoc />
+      </div>
     </div>
-  </div>
-);
+  );
 }

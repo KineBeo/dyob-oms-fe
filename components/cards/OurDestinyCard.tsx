@@ -4,7 +4,7 @@ import { RiCheckboxCircleLine } from "react-icons/ri";
 
 export default function OurDestinyCard() {
     return (
-        <Card className="m-2 w-fit rounded-none">
+        <Card className="w-fit rounded-none">
             <CardHeader className="justify-between px-6">
                 <p className="text-lg font-semibold">NextUI</p>
                     <IoMdGlobe className="text-[#7A0505]"/>

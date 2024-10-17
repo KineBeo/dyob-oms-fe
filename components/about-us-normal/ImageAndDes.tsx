@@ -1,39 +1,35 @@
+import { Divider } from "@nextui-org/react";
+
 export default function ImageAndDes() {
   return (
-    <section className="w-full py-8 px-4 md:py-12">
-      <div className="container mx-auto max-w-6xl">
-        <div className="flex flex-col desktop:flex-row laptop:flex-row items-center">
-          {/* Image container */}
-          <div className="w-full mb-6">
-            <img
-              src="images/aboutusnormal/placeholder.png"
-              alt="Traditional healing"
-              className="w-full h-auto rounded-lg shadow-md"
-            />
-          </div>
+    <div className="w-full max-w-7xl mx-auto px-4 pb-4 pt-12">
+      <div className="w-full mobile:mb-4 tablet:mb-4 mb-6 items-center justify-center flex flex-col">
+        <p className="mobile:text-3xl tablet:text-3xl text-4xl font-robotoslab font-bold text-center p-2 text-[#4A2511]">
+          Giới thiệu
+        </p>
+        <Divider className="w-24 h-1 bg-[#D7A444]" />
+      </div>
 
-          {/* Text content */}
-          <div className="text-center max-w-3xl">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[#582F0E]">
-              Traditional Healing Wisdom
-            </h2>
+      <div className="grid mobile:grid-cols-1 tablet:grid-cols-1 grid-cols-2 gap-4 items-start justify-between">
+        {/* Text content */}
+        <div className="w-full space-y-4">
+          <p className="mobile:text-base tablet:text-base text-lg desktop:text-xl font-robotoflex">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
 
-            <p className="text-gray-700 mb-4 text-sm md:text-base">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-
-            <p className="text-gray-700 mb-6 text-sm md:text-base">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-
-            <button className="bg-[#8B0000] text-white px-6 py-2 rounded-md hover:bg-[#A52A2A] transition-colors text-sm md:text-base">
-              Learn More
-            </button>
-          </div>
+          <p className="mobile:text-base tablet:text-base text-lg desktop:text-xl font-robotoflex">
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        </div>
+        {/* Image container */}
+        <div className="w-full">
+          <img
+            src="images/aboutusnormal/placeholder.png"
+            alt="Traditional healing"
+            className="w-full h-auto rounded-lg shadow-md"
+          />
         </div>
       </div>
-    </section>
+    </div>
   );
 }

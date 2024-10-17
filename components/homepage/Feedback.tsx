@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { FaPlay } from "react-icons/fa";
 interface Testimonial {
@@ -49,12 +50,14 @@ const VideoThumbnail: React.FC<VideoThumbnailProps> = ({
       isMain ? "w-full" : "w-[280px]"
     } group cursor-pointer`}
   >
-    <img
+    <Image
       src={thumbnail}
       alt={title}
       className={`w-full ${
         isMain ? "h-[460px]" : "h-[157px]"
       } object-cover rounded-lg`}
+      width={isMain ? 460 : 157} 
+      height={isMain ? 460 : 157} 
     />
     <div className="absolute inset-0 flex items-center justify-center">
       <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:bg-red-700 transition-colors">
@@ -73,7 +76,7 @@ export default function CustomerFeedback() {
       <h1 className="text-4xl font-bold text-red-800 text-center mb-2">
         PHẢN HỒI KHÁCH HÀNG
       </h1>
-      <div className="w-24 h-1 bg-yellow-500 mx-auto mb-8"></div>
+      <div className="w-24 h-1 bg-[#D7A444] mx-auto mb-8"></div>
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Main video */}
@@ -94,7 +97,9 @@ export default function CustomerFeedback() {
                 thumbnail={testimonial.thumbnail}
                 title={testimonial.title}
               />
-              <p className="flex-1 text-sm">{testimonial.title}</p>
+              <p className="flex-1 text-sm font-robotoflex font-medium">
+                {testimonial.title}
+              </p>
             </div>
           ))}
         </div>

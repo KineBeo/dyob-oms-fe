@@ -32,6 +32,7 @@ const images = [
 ];
 
 export default function AboutUs() {
+  
   return (
     <ReactFullpage
       navigation={false}
@@ -60,27 +61,33 @@ export default function AboutUs() {
                       layout="fill"
                       objectFit="cover"
                       quality={100}
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,..."
                       priority={index === 0} // Ưu tiên load ảnh đầu tiên
                       className="select-none" // Ngăn không cho select ảnh
                     />
                   </div>
                   <h2
-                    className="absolute text-3xl font-semibold font-robotoslab
-                               mobile:text-base mobile:font-normal
-                               right-1/4 bottom-1/4 text-white text-left
-                               text-wrap w-1/4
-                               pointer-events-none" // Thêm pointer-events-none
+                    className=" animate-slideInLeft
+                                absolute text-3xl font-semibold font-robotoslab
+                                text-wrap max-w-xl w-1/4 pointer-events-none
+                                right-1/4 bottom-1/4 text-white text-left
+                               mobile:text-lg mobile:font-medium mobile:text-right mobile:right-8
+                               tablet:text-xl tablet:font-normal
+                               mini-laptop:text-2xl mini-laptop:font-medium
+                              
+                               " // Thêm pointer-events-none
                   >
                     {image.subcaption}
                   </h2>
                   <h2
                     className="absolute text-3xl font-semibold font-robotoslab
-                               mini-laptop:text-2xl mini-laptop:font-medium
-                               tablet:text-xl tablet:font-normal
-                               mobile:text-base mobile:font-normal
+                               text-wrap max-w-xl w-1/4 pointer-events-none
                                left-1/4 top-1/4 text-white text-right
-                               text-wrap max-w-xl w-1/4
-                               pointer-events-none" // Thêm pointer-events-none
+                               mobile:text-lg mobile:font-medium mobile:text-left mobile:left-8
+                               tablet:text-xl tablet:font-normal
+                               mini-laptop:text-2xl mini-laptop:font-medium
+                              "
                   >
                     {image.caption}
                   </h2>
@@ -93,3 +100,4 @@ export default function AboutUs() {
     />
   );
 }
+

@@ -37,7 +37,7 @@ interface MenuItem {
 
 export default function HeroSection() {
   const [isOpen, setIsOpen] = React.useState(false);
-    const [isInvisible, setIsInvisible] = React.useState(false);
+ const [isInvisible] = React.useState(false);
   const router = useRouter();
 
   const menuItems: MenuItem[] = [

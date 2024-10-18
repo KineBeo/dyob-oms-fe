@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import {
   Navbar,
@@ -37,7 +37,8 @@ interface MenuItem {
 
 export default function HeroSection() {
   const [isOpen, setIsOpen] = React.useState(false);
- const [isInvisible] = React.useState(false);
+  const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null);
+  const [isInvisible] = React.useState(false);
   const router = useRouter();
 
   const menuItems: MenuItem[] = [
@@ -112,6 +113,7 @@ export default function HeroSection() {
           className="laptop:hidden desktop:hidden"
         />
       </NavbarContent>
+
       {/* Desktop */}
       <NavbarContent
         className="hidden laptop:flex desktop:flex gap-6"
@@ -119,28 +121,39 @@ export default function HeroSection() {
       >
         {menuItems.map((item, index) =>
           item.hasSubmenu ? (
-            <Dropdown key={index}>
-              <DropdownTrigger>
-                <Button className="bg-white text-text-brown-primary hover:text-[#D7A444] font-medium laptop:text-lg desktop:text-lg">
-                  {item.title}
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu className=" rounded-none">
-                {item.submenu ? (
-                  item.submenu.map((submenuItem, subIndex) => (
-                    <DropdownItem
-                      className="text-text-brown-primary font-bold text-2xl "
-                      key={`${item.title}-submenu-${subIndex}`}
-                      onClick={() => item.href && router.push(submenuItem.href)}
-                    >
-                      {submenuItem.title}
-                    </DropdownItem>
-                  ))
-                ) : (
-                  <></>
-                )}
-              </DropdownMenu>
-            </Dropdown>
+            <div className="relative" key={index}>
+              <Dropdown isOpen={openMenuIndex === index}>
+                <DropdownTrigger>
+                  <Button
+                    className=" bg-[#FBF6EC] text-text-brown-primary hover:text-[#D7A444] font-medium laptop:text-lg desktop:text-lg"
+                    onMouseEnter={() => setOpenMenuIndex(index)}
+                    onMouseLeave={() => setOpenMenuIndex(null)}
+                  >
+                    {item.title}
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  onMouseEnter={() => setOpenMenuIndex(index)}
+                  onMouseLeave={() => setOpenMenuIndex(null)}
+                >
+                  {item.submenu ? (
+                    item.submenu.map((submenuItem, subIndex) => (
+                      <DropdownItem
+                        className="text-text-brown-primary font-bold text-2xl "
+                        key={`${item.title}-submenu-${subIndex}`}
+                        onClick={() =>
+                          item.href && router.push(submenuItem.href)
+                        }
+                      >
+                        {submenuItem.title}
+                      </DropdownItem>
+                    ))
+                  ) : (
+                    <></>
+                  )}
+                </DropdownMenu>
+              </Dropdown>
+            </div>
           ) : (
             <NavbarItem key={index}>
               <Link
@@ -148,7 +161,7 @@ export default function HeroSection() {
                 className="text-text-brown-primary hover:text-[#D7A444] font-medium laptop:text-lg desktop:text-lg"
               >
                 <div className="flex justify-between items-center">
-                  {item.title}
+                  {item.title !== "Giỏ hàng" && item.title}
                 </div>
                 {item.title === "Giỏ hàng" && (
                   <Badge
@@ -158,7 +171,7 @@ export default function HeroSection() {
                     shape="rectangle"
                     size="sm"
                   >
-                    <IoCartOutline size={25} />
+                    <IoCartOutline size={30} className="mb-1" />
                   </Badge>
                 )}
               </Link>
@@ -187,7 +200,7 @@ export default function HeroSection() {
                     {item.submenu?.map((subItem, subIndex) => (
                       <div
                         key={`${subItem.title}-${subIndex}`}
-                       // onClick={() => handleSubMenuClick(subItem.href)}
+                        // onClick={() => handleSubMenuClick(subItem.href)}
                         className="w-full py-2 px-4 text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
                       >
                         <Link
@@ -196,9 +209,7 @@ export default function HeroSection() {
                           href={item.href}
                           size="md"
                         >
-                          <div className="w-full">
-                            {subItem.title}
-                          </div>
+                          <div className="w-full">{subItem.title}</div>
                         </Link>
                       </div>
                     ))}

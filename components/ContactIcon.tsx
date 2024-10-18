@@ -1,6 +1,5 @@
 "use client";
 import {
-  FaEnvelope,
   FaFacebookMessenger,
   FaPhone,
 } from "react-icons/fa";

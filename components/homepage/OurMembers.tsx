@@ -58,8 +58,8 @@ export default function OurMembers() {
       </div>
 
       <section className="relative z-10 py-12">
-        <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-white text-center mb-12">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-2xl font-bold text-white text-center mb-12">
             ĐỘI NGŨ ĐÔNG Y ÔNG BỤT
             <div className="w-24 h-1 bg-[#D7A444] mx-auto mt-2"></div>
           </h2>
@@ -70,17 +70,17 @@ export default function OurMembers() {
               <img
                 src={mainDoctor?.image}
                 alt={mainDoctor?.name}
-                width={800}
-                height={800}
+                width={600}
+                height={600}
               />
             </div>
             {/* Other doctors */}
             <div className="grid grid-rows-3 gap-0">
               <div className=" relative justify-center items-center  ">
-                <h3 className="text-2xl font-bold text-white mobile:text-[#3F291B] tablet:text-[#3F291B] ">
+                <h3 className="text-xl font-bold font-robotoflex text-white mobile:text-[#3F291B] tablet:text-[#3F291B] ">
                   {mainDoctor?.name}
                 </h3>
-                <p className="text-[#D7A444] italic font-normal">
+                <p className="text-[#D7A444] italic font-normal font-robotoflex">
                   {mainDoctor?.role}
                 </p>
               </div>
@@ -89,7 +89,7 @@ export default function OurMembers() {
                   opts={{
                     align: "start",
                   }}
-                  className="relative w-full mini-laptop:max-w-3xl laptop:max-w-[52rem] max-w-7xl "
+                  className="relative w-full mini-laptop:max-w-3xl laptop:max-w-[52rem] max-w-5xl "
                 >
                   <CarouselContent>
                     {otherDoctors.map((doctor, index) => (

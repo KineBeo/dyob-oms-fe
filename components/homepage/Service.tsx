@@ -8,6 +8,7 @@ type Service = {
 // components/ServiceSection.tsx
 import { Card, CardBody, Button } from "@nextui-org/react";
 import Image from "next/image";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
 
 const services: Service[] = [
   {
@@ -19,7 +20,7 @@ const services: Service[] = [
   {
     title: "KÊ ĐƠN BỐC THUỐC",
     description:
-      'Cách kê đơn bốc thuốc ĐỖ MINH ĐƯỜNG tuân theo nguyên tắc "chọn lọc phương cổ y học cổ truyền từ ngàn đời nay, tức là dựa vào tình trạng bệnh cụ thể của bệnh nhân để xây dựng phương thuốc điều trị, rồi kê đơn sau đó mới bốc thuốc cho bệnh nhân.',
+      'Cách kê đơn bốc thuốc tuân theo nguyên tắc "chọn lọc phương cổ y học cổ truyền từ ngàn đời nay, tức là dựa vào tình trạng bệnh cụ thể của bệnh nhân để xây dựng phương thuốc điều trị, rồi kê đơn sau đó mới bốc thuốc cho bệnh nhân.',
     image: "/images/homepage/kedon.jpg",
   },
   {
@@ -31,57 +32,107 @@ const services: Service[] = [
 ];
 const ServiceSection = () => {
   return (
-    <section className="relative px-8 py-8 mx-auto max-w-5xl mb-20">
+    <section className="relative  py-8  mx-auto max-w-4xl desktop:max-w-5xl mb-20">
       {/* Background layers */}
       <div className="absolute inset-0">
-        <div className="h-1/2 bg-white rounded-xl"></div>
-        <div className="h-1/2 bg-[#40241a] rounded-xl"></div>
+        <div className="h-1/3 bg-white rounded-xl"></div>
+        <div className="h-2/3 bg-[#40241a] rounded-xl"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4">
+      <div className="relative z-10 container max-w-4xl mx-auto ">
         {/* Title with decorative line */}
         <div className="text-center mb-16">
-          <h2 className="text-xl md:text-3xl font-bold text-[#40241a] relative inline-block">
-            DỊCH VỤ CỦA NHÀ THUỐC ĐỖ MINH ĐƯỜNG
-            <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-amber-500"></div>
+          <h2 className="text-2xl mobile:text-sm tablet:text-sm mini-laptop:text-sm font-bold text-[#7A0505] relative inline-block">
+            DỊCH VỤ CỦA ĐÔNG Y ÔNG BỤT
+            <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-[#D7A444]"></div>
           </h2>
         </div>
 
-        {/* Services grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Services grid desktop */}
+        <div className="grid mobile:hidden tablet:hidden mini-laptop:grid-cols-3 laptop:grid-cols-3 desktop:grid-cols-3 gap-8 px-2">
           {services.map((service, index) => (
-            <Card
-              key={index}
-              className="bg-white shadow-xl hover:translate-y-[-8px] transition-all duration-300 overflow-hidden"
-              isHoverable
-            >
-              <CardBody className="p-0">
-                <div className="relative h-56 w-full">
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-amber-600 mb-4 text-center">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 text-justify">
-                    {service.description}
-                  </p>
-                </div>
-              </CardBody>
-            </Card>
+            <div key={index}>
+              <Card
+                key={index}
+                className=" bg-transparent border-white border-3 hover:translate-y-[-8px] hover:scale-105 transition-all duration-300 overflow-hidden"
+                isHoverable
+              >
+                <CardBody className="p-0">
+                  <div className="relative h-48 w-full">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+              <div className="p-2">
+                <h3 className="text-base font-bold text-[#D7A444] mb-4 text-center">
+                  {service.title}
+                </h3>
+                <p className="text-xs text-white text-justify">
+                  {service.description}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
 
+        {/* Mobile */}
+        <div className=" laptop:hidden desktop:hidden mini-laptop:hidden  grid grid-rows-1 gap-4 px-8 ">
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className="relative w-full  "
+          >
+            <CarouselContent>
+              {services.map((service, index) => (
+                <CarouselItem
+                  key={index}
+                  className="relative basis-full tablet:basis-1/2 grid grid-rows-1"
+                >
+                  <div key={index}>
+                    <Card
+                      key={index}
+                      className=" bg-transparent border-white border-3 hover:translate-y-[-8px] hover:scale-105 transition-all duration-300 overflow-hidden"
+                      isHoverable
+                    >
+                      <CardBody className="p-0">
+                        <div className="relative h-48 w-full">
+                          <Image
+                            src={service.image}
+                            alt={service.title}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      </CardBody>
+                    </Card>
+                    <div className="p-2">
+                      <h3 className="text-base font-bold text-[#D7A444] mb-4 text-center">
+                        {service.title}
+                      </h3>
+                      <p className="text-xs text-white text-justify">
+                        {service.description}
+                      </p>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className=" mobile:hidden tablet:hidden left-0 " />
+            <CarouselNext className=" mobile:hidden  tablet:hidden right-0 " />
+          </Carousel>
+        </div>
+
         {/* Button */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-6">
           <Button
-            size="lg"
-            className="bg-amber-500 text-white hover:bg-amber-600 transition-colors px-6 py-2 rounded-full font-semibold"
+            size="md"
+            className="px-6 py-2 bg-[#D7A444] text-white font-bold rounded-full hover:bg-opacity-80"
           >
             XEM CHI TIẾT
           </Button>

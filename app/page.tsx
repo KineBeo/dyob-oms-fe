@@ -31,8 +31,8 @@ export default function Home() {
         />
       </div>
       <Solutions />
+      <Service />
       <WhyChoosing />
-      <Service/>  
       <OurMembers />
       <Address />
       <CustomerFeedback />

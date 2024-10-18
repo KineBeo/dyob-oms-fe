@@ -32,7 +32,7 @@ const iconData = [
 export default function Solutions() {
     return (
       <div className="bg-[#FBF6EC]">
-        <section className="max-w-5xl mx-auto px-4 py-12 ">
+        <section className="max-w-4xl desktop:max-w-5xl mx-auto px-4 py-12 ">
           <div className=" flex flex-col laptop:flex-row desktop:flex-row gap-8">
             {/* Left content */}
             <div className="laptop:w-1/3 desktop:w-1/3">
@@ -49,7 +49,7 @@ export default function Solutions() {
                 nghệ sinh học phân tử Pháp xuất cải hoạt chất sinh học có nguồn
                 gốc từ thảo dược thiên nhiệp tốt phát triển người Việt.
               </p>
-              <button className="px-6 py-2 bg-[#7A0505] text-white font-bold rounded-md hover:bg-opacity-80">
+              <button className="px-6 py-2 bg-[#7A0505] text-white font-bold rounded-full hover:bg-opacity-80">
                 XEM THÊM
               </button>
             </div>

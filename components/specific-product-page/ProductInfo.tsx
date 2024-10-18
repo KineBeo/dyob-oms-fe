@@ -4,7 +4,6 @@ import {
   FaStar,
   FaChevronLeft,
   FaChevronRight,
-  FaShoppingCart,
   FaMinus,
   FaPlus,
 } from "react-icons/fa";
@@ -115,9 +114,6 @@ const ProductInfo = () => {
             <button className="bg-[#7A0505] text-white font-bold px-6 py-2 rounded-full  items-center justify-center hover:scale-105 transition">
               Mua ngay
             </button>
-            {/*<button className="border border-[#7A0505] text-[#7A0505] p-2 rounded-full flex items-center justify-center">
-              <FaShoppingCart className="w-5 h-5" />
-            </button>*/}
             <button className="border border-[#7A0505] text-[#7A0505] font-bold px-6 py-2 rounded-full  items-center justify-center hover:scale-105 transition">
               Thêm vào giỏ hàng
             </button>

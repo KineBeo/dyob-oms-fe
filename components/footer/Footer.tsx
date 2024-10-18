@@ -49,9 +49,11 @@ export default function Footer() {
                   Dương cấp ngày 00/00/0000
                 </p>
                 <div className="text-[#FFFFFF] mt-4">
-                  <p className="text-center  font-bold w-28 h-7 bg-[#D7A444]">
-                    Trụ sở chính
-                  </p>
+                  <div className="w-full border-b border-white border-dashed border-opacity-50">
+                    <p className="text-center  font-bold w-28 h-7 bg-[#D7A444]">
+                      Trụ sở chính
+                    </p>
+                  </div>
                   <ul className="mt-4 space-y-4 text-sm">
                     <li className="flex items-start justify-center gap-1.5 ">
                       <a
@@ -92,9 +94,11 @@ export default function Footer() {
                   </ul>
                 </div>
                 <div className="text-[#FFFFFF] mt-8">
-                  <p className="text-center font-bold w-28 h-7 bg-[#D7A444]">
-                    Trụ sở chính
-                  </p>
+                  <div className="w-full border-b border-white border-dashed border-opacity-50">
+                    <p className="text-center  font-bold w-28 h-7 bg-[#D7A444]">
+                      Trụ sở chính
+                    </p>
+                  </div>
                   <ul className="mt-4 space-y-4 text-sm">
                     <li className="flex items-start justify-center gap-1.5 ">
                       <a
@@ -152,17 +156,17 @@ export default function Footer() {
 
                   <div className="mt-6 space-y-4 text-sm font-bold flex flex-col mobile:mt-4">
                     {moreLinks.map((links, index) => (
-                      <Link key={index} 
-                            href={links.href}
-                        className="before:content-['•'] before:text-[#FFFFFF] before:mr-2">
-                        <div
-                          className="text-[#D7A444] transition hover:text-[#F6F4F1] hover:underline"
-                        >
+                      <Link
+                        key={index}
+                        href={links.href}
+                        className="before:content-['•'] before:text-[#FFFFFF] before:mr-2"
+                      >
+                        <div className="text-[#D7A444] transition hover:text-[#F6F4F1] hover:underline">
                           {links.title}
                         </div>
                       </Link>
                     ))}
-                   </div>
+                  </div>
                 </div>
 
                 <div
@@ -177,8 +181,8 @@ export default function Footer() {
                     <p className="text-lg font-bold text-[#F6F4F1]">KẾT NỐI</p>
                   </div>
                   <div className=" bg-[#563624] mt-4 ">
-                    <div className=" p-4 space-y-4 text-sm text-[#F6F4F1]">
-                      <div>
+                    <div className=" px-4  py-2 space-y-4 text-sm text-[#F6F4F1]">
+                      <div className="pb-4 border-white border-dashed border-opacity-50 border-b">
                         <p>Làm việc tất cả các ngày trong tuần</p>
                       </div>
                       <div>
@@ -209,7 +213,7 @@ export default function Footer() {
                         target="_blank"
                         className="text-[#FFFFFF]"
                       >
-                        <div className="bg-[#D7A444] w-8 h-8 flex items-center justify-center">
+                        <div className="bg-[#D7A444] w-8 h-8 flex items-center justify-center hover:bg-black">
                           <FaYoutube className="w-4 h-4 text-[#FFFFFF]" />
                         </div>
                       </a>
@@ -221,7 +225,7 @@ export default function Footer() {
                         target="_blank"
                         className="text-[#FFFFFF]"
                       >
-                        <div className="bg-[#D7A444] w-8 h-8 flex items-center justify-center">
+                        <div className="bg-[#D7A444] w-8 h-8 flex items-center justify-center hover:bg-black">
                           <FaFacebook className="w-4 h-4 text-[#FFFFFF]" />
                         </div>
                       </a>
@@ -233,8 +237,8 @@ export default function Footer() {
                         target="_blank"
                         className="text-[#FFFFFF]"
                       >
-                        <div className="bg-[#D7A444] w-8 h-8 flex items-center justify-center">
-                          <SiTiktok className="w-4 h-4 text-[#FFFFFF]" />
+                        <div className="bg-[#D7A444] w-8 h-8 flex items-center justify-center hover:bg-black">
+                          <SiTiktok className="w-4 h-4 text-[#FFFFFF] " />
                         </div>
                       </a>
                     </div>
@@ -244,7 +248,7 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <div className="mt-12 border-t border-[#D7A444] pt-4 item-center justify-center text-[#FFFFFF] pb-4">
+          <div className="mt-12 border-t border-[#D7A444] pt-4 bg-[#563624] item-center justify-center text-[#FFFFFF] pb-4">
             <div className="text-center">
               &copy; Bản quyền nội dung thuộc về{" "}
               <b className="text-[#D7A444]">Cyslabs</b>

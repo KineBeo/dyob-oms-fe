@@ -3,8 +3,8 @@ import StoreCard from "../cards/StoreCard";
 export default function Address() {
 
 return (
-  <div className="max-w-7xl mx-auto px-4 py-12 w-full">
-    <h1 className="text-4xl font-bold text-center text-red-800 mb-6">
+  <div className="max-w-5xl mx-auto px-4 py-12 w-full">
+    <h1 className="text-3xl font-bold text-center text-red-800 mb-6">
       HỆ THỐNG CƠ SỞ ĐÔNG Y ÔNG BỤT
     </h1>
     <div className="w-24 h-1 bg-[#D7A444] mx-auto mb-8"></div>

@@ -49,10 +49,10 @@ export default function Footer() {
                   Dương cấp ngày 00/00/0000
                 </p>
                 <div className="text-[#FFFFFF] mt-4">
-                  <p className="text-center font-bold w-28 h-8 bg-[#D7A444]">
+                  <p className="text-center  font-bold w-28 h-7 bg-[#D7A444]">
                     Trụ sở chính
                   </p>
-                  <ul className="mt-8 space-y-4 text-sm">
+                  <ul className="mt-4 space-y-4 text-sm">
                     <li className="flex items-start justify-center gap-1.5 ">
                       <a
                         href="#"
@@ -91,11 +91,11 @@ export default function Footer() {
                     </li>
                   </ul>
                 </div>
-                <div className="text-[#FFFFFF] mt-4">
-                  <p className="text-center font-bold w-28 h-8 bg-[#D7A444]">
+                <div className="text-[#FFFFFF] mt-8">
+                  <p className="text-center font-bold w-28 h-7 bg-[#D7A444]">
                     Trụ sở chính
                   </p>
-                  <ul className="mt-8 space-y-4 text-sm">
+                  <ul className="mt-4 space-y-4 text-sm">
                     <li className="flex items-start justify-center gap-1.5 ">
                       <a
                         href="#"

@@ -15,20 +15,20 @@ export default function WhyChoosing() {
       title: "DƯỢC LIỆU SẠCH 100%",
     },
     {
-      image_url: "/images/homepage/whychosing.png",
-      title: "DƯỢC LIỆU SẠCH 100%",
+      image_url: "/images/homepage/ic-whychoose-1.svg",
+      title: "GIÀU KINH NGHIỆM ",
     },
     {
-      image_url: "/images/homepage/whychosing.png",
-      title: "DƯỢC LIỆU SẠCH 100%",
+      image_url: "/images/homepage/ic-whychoose-3.svg",
+      title: "QUY TRÌNH CHUYÊN NGHIỆP",
     },
     {
-      image_url: "/images/homepage/whychosing.png",
-      title: "DƯỢC LIỆU SẠCH 100%",
+      image_url: "/images/homepage/ic-whychoose-4.svg",
+      title: "10 NĂM PHÁT TRIỂN",
     },
     {
-      image_url: "/images/homepage/whychosing.png",
-      title: "DƯỢC LIỆU SẠCH 100%",
+      image_url: "/images/homepage/ic-whychoose-5.svg",
+      title: "GIÁ HỢP LÝ",
     },
   ];
 return (
@@ -78,7 +78,7 @@ return (
           </div>
 
           {/* Desktop view: grid */}
-          <div className="hidden laptop:grid desktop:grid mini-laptop:grid grid-cols-3 desktop:grid-cols-5 laptop:grid-cols-5 gap-4 justify-items-center">
+          <div className="hidden laptop:grid desktop:grid mini-laptop:grid  mini-laptop:grid-cols-5 desktop:grid-cols-5 laptop:grid-cols-5 gap-4 justify-items-center">
             {benefits.map((benefit, index) => (
               <WhyChoosingCard
                 key={index}

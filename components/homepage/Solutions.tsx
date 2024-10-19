@@ -1,7 +1,5 @@
 "use client";
 
-import Button from "../buttons/Button";
-
 const TreatmentIcon = ({ name, icon }: { name: string; icon: string }) => (
   <div className="flex flex-col items-center ">
     <div

@@ -40,7 +40,7 @@ return (
         <div className="h-2/5 bg-white"></div>
       </div>
       <div className="relative z-10 text-center py-8 px-4 justify-items-center  ">
-        <h2 className="text-2xl laptop:text-2xl desktop:text-3xl font-bold text-white mb-4 text-center font-robotoslab">
+        <h2 className="text-2xl desktop:text-3xl font-bold text-white mb-4 text-center font-robotoslab">
           VÌ SAO NÊN CHỌN ĐÔNG Y ÔNG BỤT
         </h2>
         <div className="w-24 h-1 bg-[#D7A444] mx-auto mb-8"></div>

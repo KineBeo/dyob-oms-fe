@@ -1,5 +1,7 @@
 "use client";
 
+import Button from "../buttons/Button";
+
 const TreatmentIcon = ({ name, icon }: { name: string; icon: string }) => (
   <div className="flex flex-col items-center ">
     <div
@@ -32,11 +34,28 @@ const iconData = [
 export default function Solutions() {
     return (
       <div className="bg-[#FBF6EC]">
-        <section className="max-w-4xl desktop:max-w-5xl mx-auto px-4 py-12 ">
+        <section className="max-w-4xl desktop:max-w-5xl mx-auto px-4  ">
+          <div className="grid grid-cols-3 mobile:grid-cols-2 w-full h-fit gap-6 mobile:gap-4 pb-10 place-items-start">
+            <div className=" w-full flex justify-center items-center">
+              <button className="bg-[#D7A444] hover:bg-[#40241A] w-full h-12 rounded-bl-md rounded-br-md text-white font-robotoflex font-bold">
+                Xem thêm
+              </button>
+            </div>
+            <div className=" w-full flex justify-center items-center  ">
+              <button className="bg-[#D7A444] hover:bg-[#40241A]  w-full h-12 rounded-bl-md rounded-br-md text-white font-robotoflex font-bold">
+                Xem thêm
+              </button>
+            </div>
+            <div className=" w-full mobile:col-span-2 flex justify-center items-center ">
+              <button className="bg-[#D7A444] hover:bg-[#40241A] w-full h-12 rounded-bl-md rounded-br-md text-white font-robotoflex font-bold">
+                Xem thêm
+              </button>
+            </div>
+          </div>
           <div className=" flex flex-col laptop:flex-row desktop:flex-row gap-8">
             {/* Left content */}
             <div className="laptop:w-1/3 desktop:w-1/3">
-              <h2 className="text-2xl font-bold text-[#7A0505] mb-4 text-left font-robotoslab">
+              <h2 className="text-2xl desktop:text-3xl font-bold text-[#7A0505] mb-4 text-left font-robotoslab">
                 GIẢI PHÁP ĐIỀU TRỊ
                 <div className="w-24 h-1 bg-[#D7A444] mt-2"></div>
               </h2>

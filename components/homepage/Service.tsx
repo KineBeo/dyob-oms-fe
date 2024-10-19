@@ -36,13 +36,13 @@ const ServiceSection = () => {
       {/* Background layers */}
       <div className="absolute inset-0">
         <div className="h-1/3 bg-white rounded-xl"></div>
-        <div className="h-2/3 bg-[#40241a] rounded-xl"></div>
+        <div className="h-2/3 bg-[#40241A] rounded-xl"></div>
       </div>
 
       <div className="relative z-10 container max-w-4xl mx-auto ">
         {/* Title with decorative line */}
         <div className="text-center mb-16">
-          <h2 className="text-2xl mobile:text-sm tablet:text-sm mini-laptop:text-sm font-bold text-[#7A0505] relative inline-block">
+          <h2 className="text-2xl mobile:text-2xl tablet:text-sm mini-laptop:text-sm font-bold text-[#7A0505] relative inline-block">
             DỊCH VỤ CỦA ĐÔNG Y ÔNG BỤT
             <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-[#D7A444]"></div>
           </h2>

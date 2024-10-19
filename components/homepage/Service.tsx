@@ -32,7 +32,7 @@ const services: Service[] = [
 ];
 const ServiceSection = () => {
   return (
-    <section className="relative  py-8  mx-auto max-w-4xl desktop:max-w-5xl mb-20">
+    <section className="relative  py-6  mx-auto max-w-4xl desktop:max-w-5xl mb-20">
       {/* Background layers */}
       <div className="absolute inset-0">
         <div className="h-1/3 bg-white rounded-xl"></div>
@@ -41,8 +41,8 @@ const ServiceSection = () => {
 
       <div className="relative z-10 container max-w-4xl mx-auto ">
         {/* Title with decorative line */}
-        <div className="text-center mb-16">
-          <h2 className="text-2xl mobile:text-2xl tablet:text-sm mini-laptop:text-sm font-bold text-[#7A0505] relative inline-block">
+        <div className="text-center mb-16 mobile:mb-8 tablet:mb-10 mini-laptop:mb-12">
+          <h2 className="text-2xl mobile:text-xl tablet:text-2xl  mini-laptop:text-lg laptop:text-3xl  font-bold text-[#7A0505] font-robotoslab relative inline-block">
             DỊCH VỤ CỦA ĐÔNG Y ÔNG BỤT
             <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-[#D7A444]"></div>
           </h2>
@@ -72,7 +72,7 @@ const ServiceSection = () => {
                 <h3 className="text-base font-bold text-[#D7A444] mb-4 text-center">
                   {service.title}
                 </h3>
-                <p className="text-xs text-white text-justify">
+                <p className="mini-laptop:text-sm laptop:text-sm desktop:text-base text-white text-justify">
                   {service.description}
                 </p>
               </div>
@@ -115,7 +115,7 @@ const ServiceSection = () => {
                       <h3 className="text-base font-bold text-[#D7A444] mb-4 text-center">
                         {service.title}
                       </h3>
-                      <p className="text-xs text-white text-justify">
+                      <p className="text-sm tablet:text-base text-white text-justify">
                         {service.description}
                       </p>
                     </div>

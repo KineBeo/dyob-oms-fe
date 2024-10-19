@@ -59,14 +59,14 @@ export default function OurMembers() {
 
       <section className="relative z-10 py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-white text-center mb-12">
+          <h2 className="text-2xl font-bold text-white font-robotoslab text-center mb-12">
             ĐỘI NGŨ ĐÔNG Y ÔNG BỤT
             <div className="w-24 h-1 bg-[#D7A444] mx-auto mt-2"></div>
           </h2>
 
           <div className="flex flex-row mobile:flex-col tablet:flex-col gap-8">
             {/* Main doctor */}
-            <div className=" w-fit flex justify-center items-start mx-4 ">
+            <div className=" w-fit flex justify-center items-end mx-4 ">
               <img
                 src={mainDoctor?.image}
                 alt={mainDoctor?.name}
@@ -75,7 +75,7 @@ export default function OurMembers() {
               />
             </div>
             {/* Other doctors */}
-            <div className="grid grid-rows-3 gap-0">
+            <div className="grid grid-rows-3 gap-0 mobile:grid-rows-5 tablet:grid-rows-6">
               <div className=" relative justify-center items-center  ">
                 <h3 className="text-xl font-bold font-robotoflex text-white mobile:text-[#3F291B] tablet:text-[#3F291B] ">
                   {mainDoctor?.name}
@@ -84,7 +84,7 @@ export default function OurMembers() {
                   {mainDoctor?.role}
                 </p>
               </div>
-              <div className=" row-span-2 grid grid-rows-1 gap-4 mt-6 place-self-end ">
+              <div className=" row-span-2 mobile:row-span-4 tablet:row-span-5 grid grid-rows-1 gap-4 mt-6 place-self-end  ">
                 <Carousel
                   opts={{
                     align: "start",

@@ -50,15 +50,15 @@ export default function Solutions() {
               </button>
             </div>
           </div>
-          <div className=" flex flex-col laptop:flex-row desktop:flex-row gap-8">
+          <div className=" flex flex-col laptop:flex-row desktop:flex-row gap-8 pb-4">
             {/* Left content */}
-            <div className="laptop:w-1/3 desktop:w-1/3">
+            <div className="laptop:w-1/3 desktop:w-1/3 ">
               <h2 className="text-2xl desktop:text-3xl font-bold text-[#7A0505] mb-4 text-left font-robotoslab">
                 GIẢI PHÁP ĐIỀU TRỊ
                 <div className="w-24 h-1 bg-[#D7A444] mt-2"></div>
               </h2>
 
-              <p className="text-sm mb-6 font-[450] font-robotoflex">
+              <p className="mobile:text-sm tablet:text-sm mini-laptop:text-sm laptop:text-base desktop:text-base mb-6 text-justify font-robotoflex">
                 Ứng dụng học thuyết của Thần Y Hải Thượng Lãn Ông kết hợp với
                 khoa học hiện đại để chữa Thần kinh Y học hiện đại. Dùng các
                 thiết bị máy móc trị liệu hiện đại để trị liệu khoa thương hàn

@@ -39,18 +39,18 @@ return (
         <div className="h-3/5 bg-[#3F291B]"></div>
         <div className="h-2/5 bg-white"></div>
       </div>
-      <div className="relative z-10 text-center py-8 px-4 justify-items-center  ">
-        <h2 className="text-2xl laptop:text-3xl desktop:text-3xl font-bold text-white mb-4 text-center font-robotoslab">
+      <div className="relative z-10 text-center py-6 px-4 justify-items-center  ">
+        <h2 className="text-2xl desktop:text-3xl font-bold text-white mb-4 text-center font-robotoslab">
           VÌ SAO NÊN CHỌN ĐÔNG Y ÔNG BỤT
         </h2>
-        <div className="w-24 h-1 bg-[#D7A444] mx-auto mb-8"></div>
-        <p className="text-white/80 text-sm laptop:text-base desktop:text-base mb-8 max-w-3xl mx-auto font-robotoflex">
+        <div className="w-24 h-1 bg-[#D7A444] mx-auto  mb-8 mobile:mb-4 tablet:mb-4 mini-laptop:mb-6"></div>
+        <p className="text-white text-sm  laptop:text-base desktop:text-lg mb-4 max-w-3xl mx-auto font-robotoflex">
           Phát triển nền tảng Đông y Hải Thượng Lãn Ông dựa trên công nghệ khoa
           học hiện đại. Xây dựng một hệ sinh thái toàn diện về Đông y 4.0. Giúp
           người Việt chữa lành thân tâm qua hệ thống &quot;Vườn chữa lành Ông
           Bụt&quot;
         </p>
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-4xl desktop:max-w-5xl mx-auto">
           {/* Mobile view: horizontal scrollable */}
           <div className=" laptop:hidden desktop:hidden mini-laptop:hidden  grid grid-rows-1 gap-4 pb-2 ">
             <Carousel

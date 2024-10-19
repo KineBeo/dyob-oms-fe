@@ -4,6 +4,7 @@ import Solutions from "@/components/homepage/Solutions";
 import OurMembers from "@/components/homepage/OurMembers";
 import Address from "@/components/homepage/Address";
 import CustomerFeedback from "@/components/homepage/Feedback";
+import Service from "@/components/homepage/Service";
 export default function Home() {
   
 
@@ -29,8 +30,9 @@ export default function Home() {
           alt="Herosection"
         />
       </div>
-      <WhyChoosing />
       <Solutions />
+      <Service />
+      <WhyChoosing />
       <OurMembers />
       <Address />
       <CustomerFeedback />

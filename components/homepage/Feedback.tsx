@@ -72,8 +72,8 @@ export default function CustomerFeedback() {
   const sideTestimonials = testimonials.slice(1);
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <h1 className="text-4xl font-bold text-red-800 text-center mb-2">
+    <div className="container mx-auto px-4 py-8 max-w-4xl desktop:max-w-5xl">
+      <h1 className="text-2xl desktop:text-3xl font-bold font-robotoslab  text-[#7A0505] text-center mb-2">
         PHẢN HỒI KHÁCH HÀNG
       </h1>
       <div className="w-24 h-1 bg-[#D7A444] mx-auto mb-8"></div>
@@ -97,7 +97,7 @@ export default function CustomerFeedback() {
                 thumbnail={testimonial.thumbnail}
                 title={testimonial.title}
               />
-              <p className="flex-1 text-sm font-robotoflex font-medium">
+              <p className="basis-1/2 text-sm  font-robotoflex font-medium text-left">
                 {testimonial.title}
               </p>
             </div>

@@ -10,7 +10,7 @@ interface ProductCardProps {
 
 export default function ProductCard(props: ProductCardProps) {
     return (
-        <Card className="mobile:m-2 m-4 p-0 h-fit w-fit shadow-xl">
+        <Card className="p-0 w-fit shadow-xl">
             <CardHeader className="py-8 px-4 flex-col items-center bg-[#FBF6EC]">
                 <Image
                     alt="Card background"

@@ -6,19 +6,14 @@ const MoreDetails = () => {
           Chi tiết sản phẩm
         </h2>
       </div>
-      <div className="flex flex-col md:flex-row gap-8 px-6 items-center ">
-        <div className="md:w-3/5">
+      <div className="flex flex-col md:flex-row gap-8 px-6 items-center">
+        <div className="md:w-3/5 mt-4">
           <section className="mb-8">
             <h3 className="text-xl font-semibold text-[#7A0505] mb-3 pt-2">
-              An vị khang Ông bụt là ...
+              An Vị Khang Ông Bụt là ...
             </h3>
             <p className="text-gray-700">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry&apos;s standard dummy
-              text ever since the 1500s, when an unknown printer took a galley
-              of type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting,
+              Sản phẩm gồm các thành phần: thục địa, nghệ vàng, bạch truật, hoàng kỳ, cao phụ tử, quế, mộc hương,...
             </p>
           </section>
 
@@ -27,12 +22,12 @@ const MoreDetails = () => {
               Công dụng
             </h3>
             <p className="text-gray-700">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry&apos;s standard dummy
-              text ever since the 1500s, when an unknown printer took a galley
-              of type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting,
+              Giúp tăng cường khí huyết tuyến tuỵ qua đó dạ dày có nhiều năng lượng hơn cho việc tiêu hoá thức ăn. 
+              Không ứ trệ, không đầy hơi, tiêu hoá nhanh.<br></br>
+            	Tạo môi trường thuận lợi cho hệ vi sinh có lợi trong dạ dày, 
+              giảm hoặc triệt tiêu vi khuẩn HP là nguyên nhân chính gây viêm loét dạ dày.<br></br>
+            	Tăng cường làm mới niêm mạc dạ dày, tiêu diệt vi khuẩn HP, làm sạch môi trường
+              dạ dày giúp tiêu hoá hiệu quả, tăng sức đề kháng cơ thể.
             </p>
           </section>
 
@@ -41,12 +36,9 @@ const MoreDetails = () => {
               Cách dùng
             </h3>
             <p className="text-gray-700">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry&apos;s standard dummy
-              text ever since the 1500s, when an unknown printer took a galley
-              of type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting,
+            Ngày uống 2 lần sáng và tối, liều lượng 3-5ml/lần. <br></br>
+            Uống trước các bữa ăn 15-20 phút.
+
             </p>
           </section>
         </div>

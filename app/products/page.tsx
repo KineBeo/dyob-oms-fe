@@ -7,6 +7,11 @@ import { LuBrain } from "react-icons/lu";
 import { LuBone } from "react-icons/lu";
 import { GiStomach } from "react-icons/gi";
 
+interface FilterCategory {
+    icon: React.ReactNode;
+    name: string;
+    action: () => void;
+} 
 
 const filterCategories = [
     { icon: <LuBrain />, name: "Thần kinh", action: () => console.log("Bộ lọc filter applied") },
@@ -18,12 +23,20 @@ const filterCategories = [
 ];
 
 export default function Products() {
-    const [activeFilter, setActiveFilter] = useState(null);
+    // const [activeFilter, setActiveFilter] = useState(null);
 
-    const handleFilterClick = (filter: { name: any; action: any; }) => {
+    // const handleFilterClick = (filter: { name: any; action: any; }) => {
+    //     setActiveFilter(activeFilter === filter.name ? null : filter.name);
+    //     filter.action(); // Execute the specific action for this filter
+    // };
+
+    const [activeFilter, setActiveFilter] = useState<string | null>(null);
+
+    const handleFilterClick = (filter: FilterCategory) => {
         setActiveFilter(activeFilter === filter.name ? null : filter.name);
-        filter.action(); // Execute the specific action for this filter
+        filter.action();
     };
+
 
     return (
         <>

@@ -1,5 +1,4 @@
 "use client"
-import { Button } from "@nextui-org/react";
 import { useState } from "react";
 import {
   FaStar,

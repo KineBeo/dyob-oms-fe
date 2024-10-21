@@ -1,6 +1,7 @@
 'use client';
 import { useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
+import ProductCard from "../cards/ProductCard";
 
 interface Product {
   image_url: string;
@@ -49,20 +50,6 @@ const otherProducts: Product[] = [
     price: "200 000d",
   },
 ];
-
-const ProductCard: React.FC<ProductCardProps> = ({
-  image_url,
-  title,
-  price,
-}) => (
-  <div className="flex-shrink-0 w-48 bg-white rounded-lg overflow-hidden shadow-md">
-    <img src={image_url} alt={title} className="w-full h-48 object-cover" />
-    <div className="p-4">
-      <h3 className="text-lg font-semibold text-[#3F291B]">{title}</h3>
-      <p className="text-sm text-gray-600 mt-2">{price}</p>
-    </div>
-  </div>
-);
 
 const OtherProducts: React.FC = () => {
   // We will use React useRef hook to reference the wrapping div:

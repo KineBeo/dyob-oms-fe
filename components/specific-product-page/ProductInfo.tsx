@@ -1,4 +1,5 @@
 "use client"
+import { Button } from "@nextui-org/react";
 import { useState } from "react";
 import {
   FaStar,
@@ -112,12 +113,12 @@ const ProductInfo = () => {
           </div>
 
           <div className="grid grid-flow-col gap-4">
-            <button className="bg-[#7A0505] text-white font-bold px-6 py-2 rounded-full  items-center justify-center ">
+            <Button className="bg-[#7A0505] text-white font-bold px-6 py-2 rounded-full  items-center justify-center ">
               Mua ngay
-            </button>
-            <button className="border border-[#7A0505] text-[#7A0505] p-2 rounded-full flex items-center justify-center">
+            </Button>
+            <Button className="border border-[#7A0505] text-[#7A0505] p-2 rounded-full flex items-center justify-center">
               <FaShoppingCart className="w-5 h-5" />
-            </button>
+            </Button>
           </div>
         </div>
       </div>

@@ -1,53 +1,41 @@
 "use client";
 import { useEffect, useState } from 'react';
 import StrapiAPI from '@/utils/globalApi';
+import { useRouter } from 'next/router';
 
-export default function SpecificProduct({ params }: { params: { slug: string } }) {
-    const slug = params.slug;
+export default function SpecificProduct() {
+
+    const route = useRouter();
+    const { slug } = route.query;
 
     interface Product {
-        [x: string]: any;
-        // Add other properties of the product here
+        name: string;
+        description: string;
+        // Add other properties as needed
     }
 
     const [product, setProduct] = useState<Product | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                console.log('Fetching product...');
-                const data = await StrapiAPI.getOneProduct(slug); // Resolve the Promise
-                console.log(data);
-                setProduct(data); // Set the fetched product to state
-                setLoading(false);
-            } catch (err) {
-                setError('Failed to load product');
-                setLoading(false);
-            }
-        };
-
-        fetchProduct();
+        StrapiAPI.getOneProduct(String(slug)).then((res: any) => {
+            setProduct(res?.data);
+        }).catch((error) => {
+            console.error("Error fetching product:", error);
+        });
     }, [slug]);
 
-    if (loading) {
+    if (!product) {
         return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>{error}</div>;
     }
 
     return (
         <div>
-            {product ? (
-                <>
-                    <p>Name: {product.data[0]?.Name}</p>
-                    <p>Price: {product.data[0]?.Price}</p>
-                </>
-            ) : (
-                <p>No product found</p>
+            <h1>Product: {slug}</h1>
+            {product && (
+                <div>
+                    <h2>{product.name}</h2>
+                    <p>{product.description}</p>
+                </div>
             )}
         </div>
     );

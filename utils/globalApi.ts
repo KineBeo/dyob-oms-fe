@@ -1,5 +1,4 @@
 import { default as axios } from "axios";
-import useSWR from "swr";
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_STRAPI_API_URL,
@@ -52,6 +51,9 @@ const getAboutUs = async () => {
 const getOneProduct = async (slug: string) => {
   const response = await axiosClient
     .get(`/products?filters[slug][$eq]=${slug}&populate=*`)
+    .then((res) => {
+      console.log("Product data:", res.data);
+    })
     .catch((error) => {
       console.error("Error fetching product data:", error);
     });

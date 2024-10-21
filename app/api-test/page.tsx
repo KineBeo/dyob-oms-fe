@@ -10,7 +10,7 @@ export default function Affiliate() {
             <Button onClick={async () => await Strapi.getHomepage()}>Get homepage</Button>
             <Button onClick={async () => await Strapi.getAffiliate()}>Get affiliate</Button>
             <Button onClick={async () => await Strapi.getAboutUsNormal()}>Get about us normal</Button>
-            <Button onClick={async () => await Strapi.getAboutUs()}>Get about us</Button>
+            <Button onClick={async () => await Strapi.getOneProduct('an-vi-khang-ong-but')}>Product an vi khang ong but</Button>
         </div>
     )
 }

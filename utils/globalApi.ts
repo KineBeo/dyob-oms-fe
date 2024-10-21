@@ -1,8 +1,19 @@
 import { default as axios } from "axios";
+import useSWR from "swr";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:1337/api",
+  baseURL: process.env.NEXT_PUBLIC_STRAPI_API_URL,
+  headers: {
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+  },
 });
+
+const fetcher = (url: string) =>
+  fetch(url, {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+    },
+  }).then((res) => res.json());
 
 const getHomepage = async () => {
   console.log("getHomepage");
@@ -38,11 +49,22 @@ const getAboutUs = async () => {
   return response;
 };
 
+const getOneProduct = async (slug: string) => {
+  const response = await axiosClient
+    .get(`/products?filters[slug][$eq]=${slug}&populate=*`)
+    .catch((error) => {
+      console.error("Error fetching product data:", error);
+    });
+
+  return response;
+};
+
 const StrapiAPI = {
   getHomepage,
   getAffiliate,
   getAboutUsNormal,
   getAboutUs,
+  getOneProduct,
 };
 
 export default StrapiAPI;

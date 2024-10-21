@@ -1,5 +1,8 @@
+"use client";
+
 import { Card, CardHeader, CardBody, CardFooter, Button } from "@nextui-org/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { IoCartOutline } from "react-icons/io5";
 
 interface ProductCardProps {
@@ -9,21 +12,25 @@ interface ProductCardProps {
 }
 
 export default function ProductCard(props: ProductCardProps) {
+    const router = useRouter();
     return (
-        <Card className="mobile:m-2 m-4 p-0 h-fit w-fit shadow-xl">
-            <CardHeader className="py-8 px-4 flex-col items-center bg-[#FBF6EC]">
-                <Image
-                    alt="Card background"
-                    className="rounded-xl"
-                    src={props.image_url}
-                    width={320}
-                    height={195}
-                />
-            </CardHeader>
-            <CardBody className="pt-2 items-left">
-                <p className="font-bold text-lg text-[#7A0505]">{props.title}</p>
-                <p className="text-sm font-bold">{props.price}</p>
-            </CardBody>
+        <Card className="p-0 w-fit shadow-xl hover:shadow-2xl cursor-pointer">
+            <div onClick={() => router.push("/specific-product")}>
+                <CardHeader className="py-8 px-4 flex-col items-center bg-[#FBF6EC]">
+                    <Image
+                        alt="Card background"
+                        className="rounded-xl"
+                        src={props.image_url}
+                        width={320}
+                        height={195}
+                    />
+                </CardHeader>
+                <CardBody className="pt-2 items-left">
+                    <p className="font-bold text-lg text-[#7A0505]">{props.title}</p>
+                    <p className="text-sm font-bold">{props.price}</p>
+                </CardBody>
+            </div>
+            
 
             <CardFooter className="px-4 pt-0 flex-row gap-4 items-center justify-center">
                 <Button className="w-3/5 rounded-full font-bold text-white bg-[#7A0505]" size="sm">

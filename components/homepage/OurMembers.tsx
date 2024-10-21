@@ -59,7 +59,9 @@ export default function OurMembers() {
 
       <section className="relative z-10 py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-white font-robotoslab text-center mb-12">
+          <h2 className="mobile:text-2xl 
+                    tablet:text-2xl
+                    mini-laptop:text-2xl text-3xl font-bold text-white font-robotoslab text-center mb-12">
             ĐỘI NGŨ ĐÔNG Y ÔNG BỤT
             <div className="w-24 h-1 bg-[#D7A444] mx-auto mt-2"></div>
           </h2>

@@ -42,7 +42,9 @@ const ServiceSection = () => {
       <div className="relative z-10 container max-w-4xl mx-auto ">
         {/* Title with decorative line */}
         <div className="text-center mb-16 mobile:mb-8 tablet:mb-10 mini-laptop:mb-12">
-          <h2 className="text-2xl mobile:text-xl tablet:text-2xl  mini-laptop:text-lg laptop:text-3xl  font-bold text-[#7A0505] font-robotoslab relative inline-block">
+          <h2 className="mobile:text-2xl 
+                    tablet:text-2xl
+                    mini-laptop:text-2xl text-3xl font-bold text-[#7A0505] font-robotoslab relative inline-block">
             DỊCH VỤ CỦA ĐÔNG Y ÔNG BỤT
             <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-[#D7A444]"></div>
           </h2>

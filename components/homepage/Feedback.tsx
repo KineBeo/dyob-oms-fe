@@ -1,107 +1,42 @@
-import Image from "next/image";
 import React from "react";
-import { FaPlay } from "react-icons/fa";
-interface Testimonial {
-  id: number;
-  thumbnail: string;
-  title: string;
+import { Card, CardBody } from "@nextui-org/react";
+
+const SideVideos = () => {
+  return (
+    <Card className="h-fit shadow-lg border border-black">
+    <CardBody className="grid grid-cols-2 gap-2">
+      <img src="/images/herosection.png" alt="no" className="w-full h-full object-cover" />
+        <p className="text-md font-medium h-full">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.</p>
+    </CardBody>
+  </Card>
+  )
 }
-
-interface VideoThumbnailProps {
-  isMain?: boolean;
-  thumbnail: string;
-  title: string;
-}
-
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    thumbnail: "/images/homepage/feedback1.png",
-    title:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.",
-  },
-  {
-    id: 2,
-    thumbnail: "/images/homepage/feedback1.png",
-    title:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.",
-  },
-  {
-    id: 3,
-    thumbnail: "/images/homepage/feedback1.png",
-    title:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.",
-  },
-  {
-    id: 4,
-    thumbnail: "/images/homepage/feedback1.png",
-    title:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.",
-  },
-];
-
-const VideoThumbnail: React.FC<VideoThumbnailProps> = ({
-  isMain = false,
-  thumbnail,
-  title,
-}) => (
-  <div
-    className={`relative ${
-      isMain ? "w-full" : "w-[280px]"
-    } group cursor-pointer`}
-  >
-    <Image
-      src={thumbnail}
-      alt={title}
-      className={`w-full ${
-        isMain ? "h-[460px]" : "h-[157px]"
-      } object-cover rounded-lg`}
-      width={isMain ? 460 : 157} 
-      height={isMain ? 460 : 157} 
-    />
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:bg-red-700 transition-colors">
-        <FaPlay className="w-10 h-10 text-white" />
-      </div>
-    </div>
-  </div>
-);
 
 export default function CustomerFeedback() {
-  const mainTestimonial = testimonials[0];
-  const sideTestimonials = testimonials.slice(1);
-
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl desktop:max-w-5xl">
-      <h1 className="text-2xl desktop:text-3xl font-bold font-robotoslab  text-[#7A0505] text-center mb-2">
+    <div className="mx-auto px-4 py-8 max-w-4xl desktop:max-w-5xl">
+      <h1 className="mobile:text-2xl 
+                    tablet:text-2xl
+                    mini-laptop:text-2xl text-3xl font-bold font-robotoslab text-[#7A0505] text-center mb-2">
         PHẢN HỒI KHÁCH HÀNG
       </h1>
       <div className="w-24 h-1 bg-[#D7A444] mx-auto mb-8"></div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Main video */}
-        <div className="lg:w-3/5">
-          <VideoThumbnail
-            isMain={true}
-            thumbnail={mainTestimonial.thumbnail}
-            title={mainTestimonial.title}
-          />
-          <h2 className="mt-4 text-lg font-medium">{mainTestimonial.title}</h2>
+      <div className="w-full grid grid-cols-3 mobile:flex-col mobile:flex tablet:flex tablet:flex-col gap-4">
+        <div className="col-span-2">
+          <Card className="w-full h-full">
+            <CardBody>
+              <img src="/images/herosection.png" alt="no" className="w-full h-full object-cover mb-4" />
+              <p className="mobile:text-md text-lg font-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.</p>
+            </CardBody>
+          </Card>
         </div>
 
-        {/* Side videos */}
-        <div className="lg:w-2/5 space-y-6">
-          {sideTestimonials.map((testimonial) => (
-            <div key={testimonial.id} className="flex gap-4">
-              <VideoThumbnail
-                thumbnail={testimonial.thumbnail}
-                title={testimonial.title}
-              />
-              <p className="basis-1/2 text-sm  font-robotoflex font-medium text-left">
-                {testimonial.title}
-              </p>
-            </div>
-          ))}
+        <div className="w-full grid grid-rows-4 tablet:grid-cols-2 tablet:grid-rows-2 gap-4">
+          <SideVideos />
+          <SideVideos />
+          <SideVideos />
+          <SideVideos />
         </div>
       </div>
     </div>

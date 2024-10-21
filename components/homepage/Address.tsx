@@ -1,10 +1,12 @@
 import StoreCard from "../cards/StoreCard";
 
 export default function Address() {
-
+  
 return (
   <div className="max-w-4xl desktop:max-w-5xl mx-auto px-4 py-6 w-full">
-    <h1 className="text-2xl desktop:text-3xl font-bold text-center font-robotoslab text-[#7A0505] mb-2">
+    <h1 className="mobile:text-2xl 
+                    tablet:text-2xl
+                    mini-laptop:text-2xl text-3xl font-bold text-center font-robotoslab text-[#7A0505] mb-2">
       HỆ THỐNG CƠ SỞ ĐÔNG Y ÔNG BỤT
     </h1>
     <div className="w-24 h-1 bg-[#D7A444] mx-auto mb-8 mobile:mb-4 tablet:mb-4 mini-laptop:mb-6"></div>

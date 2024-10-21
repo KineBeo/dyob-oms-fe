@@ -53,7 +53,9 @@ export default function Solutions() {
           <div className=" flex flex-col laptop:flex-row desktop:flex-row gap-8 pb-4">
             {/* Left content */}
             <div className="laptop:w-1/3 desktop:w-1/3 ">
-              <h2 className="text-2xl desktop:text-3xl font-bold text-[#7A0505] mb-4 text-left font-robotoslab">
+              <h2 className="mobile:text-2xl 
+                    tablet:text-2xl
+                    mini-laptop:text-2xl text-3xl font-bold text-[#7A0505] mb-4 text-left font-robotoslab">
                 GIẢI PHÁP ĐIỀU TRỊ
                 <div className="w-24 h-1 bg-[#D7A444] mt-2"></div>
               </h2>

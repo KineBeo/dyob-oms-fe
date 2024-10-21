@@ -11,39 +11,39 @@ interface Product {
 
 const otherProducts: Product[] = [
   {
-    image_url: "/images/product.png",
-    title: "An vị khang",
-    price: "200 000d",
+    image_url: "/images/otherproducts/Bai-gout.png",
+    title: "Bài Gout Ông Bụt",
+    price: "200.000đ",
   },
   {
-    image_url: "/images/product.png",
-    title: "An vị khang",
-    price: "200 000d",
+    image_url: "/images/otherproducts/Tieu-khat-phuong.png",
+    title: "Tiêu Khát Phương Ông Bụt",
+    price: "200.000đ",
   },
   {
-    image_url: "/images/product.png",
-    title: "An vị khang",
-    price: "200 000d",
+    image_url: "/images/otherproducts/Noi-tiet-nu.png",
+    title: "Nội Tiết Nữ Ông Bụt",
+    price: "200.000đ",
   },
   {
-    image_url: "/images/product.png",
-    title: "An vị khang",
-    price: "200 000d",
+    image_url: "/images/otherproducts/Cam-mao-tieu-giao-tan.png",
+    title: "Cảm Mạo Tiêu Giao Tán Ông Bụt",
+    price: "200.000đ",
   },
   {
-    image_url: "/images/product.png",
-    title: "An vị khang",
-    price: "200 000d",
+    image_url: "/images/otherproducts/Hoa-huyet-duong-nao.png",
+    title: "Hỏa Huyết Dưỡng Não Ông Bụt",
+    price: "200.000đ",
   },
   {
-    image_url: "/images/product.png",
-    title: "An vị khang",
-    price: "200 000d",
+    image_url: "/images/otherproducts/Ich-tam-phuong.png",
+    title: "Ích Tâm Phương Ông Bụt",
+    price: "200.000đ",
   },
   {
-    image_url: "/images/product.png",
-    title: "An vị khang",
-    price: "200 000d",
+    image_url: "/images/otherproducts/An-xoang.png",
+    title: "An Xoang Ông Bụt",
+    price: "200.000đ",
   },
 ];
 

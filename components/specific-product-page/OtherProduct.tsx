@@ -9,10 +9,6 @@ interface Product {
   price: string;
 }
 
-interface ProductCardProps extends Product {
-  key?: number;
-}
-
 const otherProducts: Product[] = [
   {
     image_url: "/images/product.png",

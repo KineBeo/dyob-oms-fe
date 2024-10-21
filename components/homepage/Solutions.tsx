@@ -32,7 +32,7 @@ const iconData = [
 export default function Solutions() {
     return (
       <div className="bg-[#FBF6EC]">
-        <section className="max-w-4xl desktop:max-w-5xl mx-auto px-4  ">
+        <section className="max-w-4xl desktop:max-w-5xl mx-auto px-4 pt-4">
           <div className="grid grid-cols-3 mobile:grid-cols-2 w-full h-fit gap-6 mobile:gap-4 pb-10 place-items-start">
             <div className=" w-full flex justify-center items-center">
               <button className="bg-[#D7A444] hover:bg-[#40241A] w-full h-12 rounded-bl-md rounded-br-md text-white font-robotoflex font-bold">
@@ -58,7 +58,7 @@ export default function Solutions() {
                 <div className="w-24 h-1 bg-[#D7A444] mt-2"></div>
               </h2>
 
-              <p className="mobile:text-sm tablet:text-sm mini-laptop:text-sm laptop:text-base desktop:text-base mb-6 text-justify font-robotoflex">
+              <p className="mobile:text-sm tablet:text-sm mini-laptop:text-sm laptop:text-base desktop:text-base mb-6 font-robotoflex">
                 Ứng dụng học thuyết của Thần Y Hải Thượng Lãn Ông kết hợp với
                 khoa học hiện đại để chữa Thần kinh Y học hiện đại. Dùng các
                 thiết bị máy móc trị liệu hiện đại để trị liệu khoa thương hàn

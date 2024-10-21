@@ -88,6 +88,7 @@ export default function OurMembers() {
                 <Carousel
                   opts={{
                     align: "start",
+                    loop: true,
                   }}
                   className="relative w-full mini-laptop:max-w-3xl laptop:max-w-[52rem] max-w-5xl "
                 >
@@ -108,8 +109,8 @@ export default function OurMembers() {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious className=" mobile:hidden tablet:hidden left-0 hover:bg-[#D7A444] hover:text-white " />
-                  <CarouselNext className=" mobile:hidden  tablet:hidden right-0 hover:bg-[#D7A444] hover:text-white " />
+                  <CarouselPrevious className="left-0 hover:bg-[#D7A444] hover:text-white active:bg-[#C2943D] active:text-white" />
+                  <CarouselNext className="right-0 hover:bg-[#D7A444] hover:text-white active:bg-[#C2943D] active:text-white" />
                 </Carousel>
               </div>
             </div>

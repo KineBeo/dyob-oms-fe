@@ -49,7 +49,7 @@ const ServiceSection = () => {
         </div>
 
         {/* Services grid desktop */}
-        <div className="grid mobile:hidden tablet:hidden mini-laptop:grid-cols-3 laptop:grid-cols-3 desktop:grid-cols-3 gap-8 px-2">
+        <div className="grid mobile:hidden tablet:hidden mini-laptop:grid-cols-3 laptop:grid-cols-3 desktop:grid-cols-3 mini-laptop:gap-4 gap-8 px-2">
           {services.map((service, index) => (
             <div key={index}>
               <Card
@@ -81,12 +81,13 @@ const ServiceSection = () => {
         </div>
 
         {/* Mobile */}
-        <div className=" laptop:hidden desktop:hidden mini-laptop:hidden  grid grid-rows-1 gap-4 px-8 ">
+        <div className=" laptop:hidden desktop:hidden mini-laptop:hidden px-16 justify-center items-center">
           <Carousel
             opts={{
               align: "start",
+              loop: true,
             }}
-            className="relative w-full  "
+            className="relative w-full"
           >
             <CarouselContent>
               {services.map((service, index) => (
@@ -123,8 +124,8 @@ const ServiceSection = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className=" mobile:hidden tablet:hidden left-0 " />
-            <CarouselNext className=" mobile:hidden  tablet:hidden right-0 " />
+            <CarouselPrevious className="size-6 active:bg-[#D7A444] active:text-white" />
+            <CarouselNext className="size-6 active:bg-[#D7A444] active:text-white"  />
           </Carousel>
         </div>
 

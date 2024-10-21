@@ -56,14 +56,15 @@ return (
             <Carousel
               opts={{
                 align: "start",
+                loop: true,
               }}
-              className="relative w-full  "
+              className="relative w-full "
             >
               <CarouselContent>
                 {benefits.map((benefit, index) => (
                   <CarouselItem
                     key={index}
-                    className="relative basis-1/3 mobile:basis-1/2 tablet:basis-1/2 grid grid-rows-1"
+                    className="relative mobile:basis-1/2 tablet:basis-1/3 grid"
                   >
                     <WhyChoosingCard
                       image_url={benefit.image_url}
@@ -72,13 +73,11 @@ return (
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className=" mobile:hidden tablet:hidden left-0 " />
-              <CarouselNext className=" mobile:hidden  tablet:hidden right-0 " />
             </Carousel>
           </div>
 
           {/* Desktop view: grid */}
-          <div className="hidden laptop:grid desktop:grid mini-laptop:grid  mini-laptop:grid-cols-5 desktop:grid-cols-5 laptop:grid-cols-5 gap-4 justify-items-center">
+          <div className="mobile:hidden tablet:hidden grid grid-cols-5 gap-4 justify-items-center">
             {benefits.map((benefit, index) => (
               <WhyChoosingCard
                 key={index}

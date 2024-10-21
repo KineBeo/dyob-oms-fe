@@ -1,6 +1,6 @@
 'use client'
-import React, { useEffect } from 'react';
-import { Card, Button } from '@nextui-org/react';
+import React from 'react';
+import { Button } from '@nextui-org/react';
 import Strapi from '@/utils/globalApi';
 
 export default function Affiliate() {

@@ -7,7 +7,7 @@ interface WhyChoosingCardProps {
 export default function WhyChoosingCard(props: WhyChoosingCardProps) {
     return (
       <Card 
-      className="m-2 bg-[#F0E0CA] hover:scale-110 w-full h-full mobile:flex-shrink-0 mobile:snap-center mobile:w-fit">
+      className="bg-[#F0E0CA] hover:scale-110 w-full h-full mobile:flex-shrink-0 mobile:snap-center">
         <CardHeader className="p-8 pb-4 flex-col items-center">
           <Image
             alt="icon card"

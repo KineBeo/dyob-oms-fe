@@ -1,109 +1,90 @@
-import Image from "next/image";
+"use client"
 import React from "react";
-import { FaPlay } from "react-icons/fa";
-interface Testimonial {
-  id: number;
-  thumbnail: string;
-  title: string;
+import { Card, CardBody } from "@nextui-org/react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
+
+const SideVideos = () => {
+  return (
+    <Card className="h-fit shadow-xl">
+    <CardBody className="gap-2">
+        <YouTubeEmbed className="" videoId="2YHd-5pIGRg" title="Small video" />
+      <p className="mobile:text-base tablet:text-md text-lg font-medium h-full font-robotoflex">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.</p>
+    </CardBody>
+  </Card>
+  )
 }
 
-interface VideoThumbnailProps {
-  isMain?: boolean;
-  thumbnail: string;
-  title: string;
+interface YouTubeEmbedProps {
+  videoId: string;
+  title?: string;
+  className?: string;
 }
 
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    thumbnail: "/images/homepage/feedback1.png",
-    title:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.",
-  },
-  {
-    id: 2,
-    thumbnail: "/images/homepage/feedback1.png",
-    title:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.",
-  },
-  {
-    id: 3,
-    thumbnail: "/images/homepage/feedback1.png",
-    title:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.",
-  },
-  {
-    id: 4,
-    thumbnail: "/images/homepage/feedback1.png",
-    title:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.",
-  },
-];
-
-const VideoThumbnail: React.FC<VideoThumbnailProps> = ({
-  isMain = false,
-  thumbnail,
-  title,
-}) => (
-  <div
-    className={`relative ${
-      isMain ? "w-full" : "w-[280px]"
-    } group cursor-pointer`}
-  >
-    <Image
-      src={thumbnail}
-      alt={title}
-      className={`w-full ${
-        isMain ? "h-[460px]" : "h-[157px]"
-      } object-cover rounded-lg`}
-      width={isMain ? 460 : 157} 
-      height={isMain ? 460 : 157} 
-    />
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:bg-red-700 transition-colors">
-        <FaPlay className="w-10 h-10 text-white" />
+const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({
+  videoId,
+  title = 'YouTube video player',
+  className = '',
+}) => {
+  return (
+    <div className={`w-full ${className}`}>
+      <div className="relative w-full pt-[56.25%]">
+        <iframe
+          className="absolute inset-0 w-full h-full"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title={title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default function CustomerFeedback() {
-  const mainTestimonial = testimonials[0];
-  const sideTestimonials = testimonials.slice(1);
-
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl desktop:max-w-5xl">
-      <h1 className="text-2xl desktop:text-3xl font-bold font-robotoslab  text-[#7A0505] text-center mb-2">
+    <div className="mx-auto px-4 py-8 tablet:max-w-lg mini-laptop:max-w-2xl max-w-4xl desktop:max-w-5xl ">
+      <h1 className="mobile:text-2xl 
+                    tablet:text-2xl
+                    mini-laptop:text-2xl text-3xl font-bold font-robotoslab text-[#7A0505] text-center mb-2">
         PHẢN HỒI KHÁCH HÀNG
       </h1>
       <div className="w-24 h-1 bg-[#D7A444] mx-auto mb-8"></div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Main video */}
-        <div className="lg:w-3/5">
-          <VideoThumbnail
-            isMain={true}
-            thumbnail={mainTestimonial.thumbnail}
-            title={mainTestimonial.title}
-          />
-          <h2 className="mt-4 text-lg font-medium">{mainTestimonial.title}</h2>
+      {/* <div className="w-full grid grid-cols-5 mobile:flex-col mobile:flex tablet:flex tablet:flex-col gap-4">
+        <div className="col-span-3">
+          <Card className="w-full h-full">
+            <CardBody className="gap-4">
+              <YouTubeEmbed videoId="0seqrj6zvWw" title="Big video" />
+              <p className="mobile:text-md text-lg font-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.</p>
+            </CardBody>
+          </Card>
         </div>
 
-        {/* Side videos */}
-        <div className="lg:w-2/5 space-y-6">
-          {sideTestimonials.map((testimonial) => (
-            <div key={testimonial.id} className="flex gap-4">
-              <VideoThumbnail
-                thumbnail={testimonial.thumbnail}
-                title={testimonial.title}
-              />
-              <p className="basis-1/2 text-sm  font-robotoflex font-medium text-left">
-                {testimonial.title}
-              </p>
-            </div>
-          ))}
+        <div className="w-full grid grid-rows-3 col-span-2 tablet:grid-cols-2 tablet:grid-rows-2 gap-4">
+          <SideVideos />
+          <SideVideos />
+          <SideVideos />
         </div>
-      </div>
+      </div> */}
+
+      <Carousel 
+        opts={{
+          align: "center",
+          loop: true,
+        }}
+        className="w-full">
+        <CarouselContent>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <CarouselItem key={index} className="mobile:basis-full tablet:basis-full basis-1/2">
+              <div className="">
+                <SideVideos />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="mobile:ml-12 tablet:ml-10 ml-8 hover:bg-[#D7A444] hover:text-white active:bg-[#C2943D] active:text-white" />
+        <CarouselNext className="mobile:mr-12 tablet:mr-10 ml-8 mr-8 hover:bg-[#D7A444] hover:text-white active:bg-[#C2943D] active:text-white" />
+      </Carousel>
     </div>
   );
 }

@@ -64,7 +64,7 @@ export default function HeroSection() {
       href: "/affiliate",
       hasSubmenu: true,
       submenu: [
-         {
+        {
           title: "Đăng nhập",
           href: "/affiliate/login",
         },
@@ -78,8 +78,9 @@ export default function HeroSection() {
   ];
   return (
     <Navbar
+      isMenuOpen={isOpen}
       onMenuOpenChange={setIsOpen}
-      className="py-1 px-0 bg-navbar-background mini-laptop:border-b-8 laptop:border-b-8 desktop:border-b-8 border-[#D7A444]"
+      className="border-[#D7A444] bg-navbar-background px-0 py-1 desktop:border-b-8 laptop:border-b-8 mini-laptop:border-b-8"
       maxWidth="xl"
       shouldHideOnScroll
     >
@@ -96,27 +97,27 @@ export default function HeroSection() {
               height={48}
               priority
               loading="eager"
-              className="h-auto w-auto mobile:h-14 mobile:w-14 hover:scale-110 transition"
+              className="w-auto mobile:w-14 h-auto mobile:h-14 hover:scale-110 transition"
             />
           </div>
           <div className="ml-2">
-            <div className="mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg text-text-brown-primary">
+            <div className="text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg">
               Quán tâm an bệnh
             </div>
-            <div className="mobile:text-md tablet:text-lg mini-laptop:text-lg laptop:text-xl desktop:text-xl font-semibold text-text-brown-primary">
+            <div className="font-semibold text-text-brown-primary mobile:text-md tablet:text-lg mini-laptop:text-lg laptop:text-xl desktop:text-xl">
               Đông Y Ông Bụt
             </div>
           </div>
         </NavbarBrand>
         <NavbarMenuToggle
           aria-label={isOpen ? "Close menu" : "Open menu"}
-          className="laptop:hidden desktop:hidden"
+          className="desktop:hidden laptop:hidden"
         />
       </NavbarContent>
 
       {/* Desktop */}
       <NavbarContent
-        className="hidden laptop:flex desktop:flex gap-6"
+        className="desktop:flex laptop:flex gap-6 hidden"
         justify="end"
       >
         {menuItems.map((item, index) =>
@@ -125,7 +126,7 @@ export default function HeroSection() {
               <Dropdown isOpen={openMenuIndex === index}>
                 <DropdownTrigger>
                   <Button
-                    className=" bg-[#FBF6EC] text-text-brown-primary hover:text-[#D7A444] font-medium laptop:text-lg desktop:text-lg"
+                    className="bg-[#FBF6EC] font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444]"
                     onMouseEnter={() => setOpenMenuIndex(index)}
                     onMouseLeave={() => setOpenMenuIndex(null)}
                   >
@@ -139,7 +140,7 @@ export default function HeroSection() {
                   {item.submenu ? (
                     item.submenu.map((submenuItem, subIndex) => (
                       <DropdownItem
-                        className="text-text-brown-primary font-bold text-2xl "
+                        className="font-bold text-2xl text-text-brown-primary"
                         key={`${item.title}-submenu-${subIndex}`}
                         onClick={() =>
                           item.href && router.push(submenuItem.href)
@@ -157,8 +158,10 @@ export default function HeroSection() {
           ) : (
             <NavbarItem key={index}>
               <Link
-                href={item.href}
-                className="text-text-brown-primary hover:text-[#D7A444] font-medium laptop:text-lg desktop:text-lg"
+                onClick={() =>
+                  item.href && router.push(item.href)
+                }
+                className="font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444]"
               >
                 <div className="flex justify-between items-center">
                   {item.title !== "Giỏ hàng" && item.title}
@@ -181,7 +184,7 @@ export default function HeroSection() {
       </NavbarContent>
 
       {/* Mobile */}
-      <NavbarMenu className="w-full pt-6 bg-navbar-background">
+      <NavbarMenu className="bg-navbar-background pt-6 w-full">
         {menuItems.map((item, index) =>
           item.hasSubmenu ? (
             <NavbarMenuItem key={`${item.title}-${index}`}>
@@ -190,7 +193,7 @@ export default function HeroSection() {
                   key={item.title}
                   aria-label={item.title}
                   title={
-                    <span className="font-semibold text-text-brown-primary w-fit ">
+                    <span className="w-fit font-semibold text-text-brown-primary">
                       {item.title}
                       <Divider className="bg-[#D7A444]" />
                     </span>
@@ -201,13 +204,16 @@ export default function HeroSection() {
                       <div
                         key={`${subItem.title}-${subIndex}`}
                         // onClick={() => handleSubMenuClick(subItem.href)}
-                        className="w-full py-2 px-4 text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
+                        className="px-4 py-2 w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
                       >
                         <Link
                           color="foreground"
                           className="w-full font-semibold text-text-brown-primary"
-                          href={item.href}
                           size="md"
+                          onClick={() => {
+                            setIsOpen(false);
+                            router.push(item.href);
+                          }}
                         >
                           <div className="w-full">{subItem.title}</div>
                         </Link>
@@ -223,11 +229,13 @@ export default function HeroSection() {
               <Link
                 color="foreground"
                 className="w-full font-semibold text-text-brown-primary"
-                href={item.href}
                 size="lg"
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  setIsOpen(false);
+                  item.href && router.push(item.href);
+                }}
               >
-                <div className="w-full flex items-center justify-between">
+                <div className="flex justify-between items-center w-full">
                   {item.title}
                   {item.title === "Giỏ hàng" && (
                     <Badge
@@ -242,11 +250,11 @@ export default function HeroSection() {
                   )}
                 </div>
               </Link>
-              <Divider className=" bg-[#D7A444]" />
+              <Divider className="bg-[#D7A444]" />
             </NavbarMenuItem>
           )
         )}
       </NavbarMenu>
-    </Navbar>
+    </Navbar >
   );
 }

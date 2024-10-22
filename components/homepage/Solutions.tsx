@@ -32,7 +32,7 @@ const iconData = [
 export default function Solutions() {
     return (
       <div className="bg-[#FBF6EC]">
-        <section className="max-w-4xl desktop:max-w-5xl mx-auto px-4  ">
+        <section className="tablet:max-w-lg mini-laptop:max-w-2xl max-w-4xl desktop:max-w-5xl mx-auto px-4 pt-4">
           <div className="grid grid-cols-3 mobile:grid-cols-2 w-full h-fit gap-6 mobile:gap-4 pb-10 place-items-start">
             <div className=" w-full flex justify-center items-center">
               <button className="bg-[#D7A444] hover:bg-[#40241A] w-full h-12 rounded-bl-md rounded-br-md text-white font-robotoflex font-bold">
@@ -53,12 +53,14 @@ export default function Solutions() {
           <div className=" flex flex-col laptop:flex-row desktop:flex-row gap-8 pb-4">
             {/* Left content */}
             <div className="laptop:w-1/3 desktop:w-1/3 ">
-              <h2 className="text-2xl desktop:text-3xl font-bold text-[#7A0505] mb-4 text-left font-robotoslab">
+              <h2 className="mobile:text-2xl 
+                    tablet:text-2xl
+                    mini-laptop:text-2xl text-3xl font-bold text-[#7A0505] mb-4 text-left font-robotoslab">
                 GIẢI PHÁP ĐIỀU TRỊ
                 <div className="w-24 h-1 bg-[#D7A444] mt-2"></div>
               </h2>
 
-              <p className="mobile:text-sm tablet:text-sm mini-laptop:text-sm laptop:text-base desktop:text-base mb-6 text-justify font-robotoflex">
+              <p className="mobile:text-sm tablet:text-sm mini-laptop:text-sm laptop:text-base desktop:text-base mb-6 font-robotoflex">
                 Ứng dụng học thuyết của Thần Y Hải Thượng Lãn Ông kết hợp với
                 khoa học hiện đại để chữa Thần kinh Y học hiện đại. Dùng các
                 thiết bị máy móc trị liệu hiện đại để trị liệu khoa thương hàn
@@ -73,7 +75,7 @@ export default function Solutions() {
 
             {/* Right content - Icons grid */}
             <div className="laptop:w-3/5 desktop:w-3/5">
-              <div className="grid grid-cols-4 mobile:grid-cols-2 mobile:gap-y-6 tablet:grid-cols-3 gap-y-2">
+              <div className="grid grid-cols-4 mobile:grid-cols-2 mobile:gap-y-6 gap-y-2">
                 {iconData.map((item) => (
                   <TreatmentIcon
                     key={item.id}

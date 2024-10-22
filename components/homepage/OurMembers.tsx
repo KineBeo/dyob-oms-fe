@@ -58,15 +58,17 @@ export default function OurMembers() {
       </div>
 
       <section className="relative z-10 py-12">
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-white font-robotoslab text-center mb-12">
+        <div className="tablet:max-w-lg mini-laptop:max-w-2xl max-w-4xl desktop:max-w-5xl mx-auto px-4">
+          <h2 className="mobile:text-2xl 
+                    tablet:text-2xl
+                    mini-laptop:text-2xl text-3xl font-bold text-white font-robotoslab text-center mb-12">
             ĐỘI NGŨ ĐÔNG Y ÔNG BỤT
             <div className="w-24 h-1 bg-[#D7A444] mx-auto mt-2"></div>
           </h2>
 
-          <div className="flex flex-row mobile:flex-col tablet:flex-col gap-8">
+          <div className="flex flex-row mobile:flex-col tablet:flex-col gap-8 mobile:justify-center mobile:items-center">
             {/* Main doctor */}
-            <div className=" w-fit flex justify-center items-end mx-4 ">
+            <div className=" w-fit flex justify-center mx-4 ">
               <img
                 src={mainDoctor?.image}
                 alt={mainDoctor?.name}
@@ -88,6 +90,7 @@ export default function OurMembers() {
                 <Carousel
                   opts={{
                     align: "start",
+                    loop: true,
                   }}
                   className="relative w-full mini-laptop:max-w-3xl laptop:max-w-[52rem] max-w-5xl "
                 >
@@ -108,8 +111,8 @@ export default function OurMembers() {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious className=" mobile:hidden tablet:hidden left-0 hover:bg-[#D7A444] hover:text-white " />
-                  <CarouselNext className=" mobile:hidden  tablet:hidden right-0 hover:bg-[#D7A444] hover:text-white " />
+                  <CarouselPrevious className="left-0 hover:bg-[#D7A444] hover:text-white active:bg-[#C2943D] active:text-white" />
+                  <CarouselNext className="right-0 hover:bg-[#D7A444] hover:text-white active:bg-[#C2943D] active:text-white" />
                 </Carousel>
               </div>
             </div>

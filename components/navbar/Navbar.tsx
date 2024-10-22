@@ -206,7 +206,7 @@ export default function HeroSection() {
                         <Link
                           color="foreground"
                           className="w-full font-semibold text-text-brown-primary"
-                          href={item.href}
+                          href={subItem.href}
                           size="md"
                         >
                           <div className="w-full">{subItem.title}</div>

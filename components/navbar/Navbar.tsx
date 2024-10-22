@@ -212,7 +212,9 @@ export default function HeroSection() {
                           size="md"
                           onClick={() => {
                             setIsOpen(false);
-                            router.push(item.href);
+                            if (item.href) {
+                              router.push(item.href);
+                            }
                           }}
                         >
                           <div className="w-full">{subItem.title}</div>
@@ -232,7 +234,9 @@ export default function HeroSection() {
                 size="lg"
                 onClick={() => {
                   setIsOpen(false);
-                  item.href && router.push(item.href);
+                  if (item.href) {
+                    router.push(item.href);
+                  }
                 }}
               >
                 <div className="flex justify-between items-center w-full">

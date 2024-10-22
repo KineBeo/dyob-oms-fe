@@ -44,15 +44,15 @@ return (
           VÌ SAO NÊN CHỌN ĐÔNG Y ÔNG BỤT
         </h2>
         <div className="w-24 h-1 bg-[#D7A444] mx-auto  mb-8 mobile:mb-4 tablet:mb-4 mini-laptop:mb-6"></div>
-        <p className="text-white text-sm  laptop:text-base desktop:text-lg mb-4 max-w-3xl mx-auto font-robotoflex">
+        <p className="text-white text-sm  laptop:text-base desktop:text-lg mb-4 mx-auto tablet:max-w-lg mini-laptop:max-w-2xl max-w-4xl desktop:max-w-5xl font-robotoflex">
           Phát triển nền tảng Đông y Hải Thượng Lãn Ông dựa trên công nghệ khoa
           học hiện đại. Xây dựng một hệ sinh thái toàn diện về Đông y 4.0. Giúp
           người Việt chữa lành thân tâm qua hệ thống &quot;Vườn chữa lành Ông
           Bụt&quot;
         </p>
-        <div className="max-w-4xl desktop:max-w-5xl mx-auto">
+        <div className="mx-auto tablet:max-w-lg mini-laptop:max-w-3xl max-w-4xl desktop:max-w-5xl">
           {/* Mobile view: horizontal scrollable */}
-          <div className=" laptop:hidden desktop:hidden mini-laptop:hidden  grid grid-rows-1 gap-4 pb-2 ">
+          <div className="laptop:hidden desktop:hidden mini-laptop:hidden  grid grid-rows-1 gap-4 pb-2 ">
             <Carousel
               opts={{
                 align: "start",

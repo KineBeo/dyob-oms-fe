@@ -32,7 +32,7 @@ const iconData = [
 export default function Solutions() {
     return (
       <div className="bg-[#FBF6EC]">
-        <section className="max-w-4xl desktop:max-w-5xl mx-auto px-4 pt-4">
+        <section className="tablet:max-w-lg mini-laptop:max-w-2xl max-w-4xl desktop:max-w-5xl mx-auto px-4 pt-4">
           <div className="grid grid-cols-3 mobile:grid-cols-2 w-full h-fit gap-6 mobile:gap-4 pb-10 place-items-start">
             <div className=" w-full flex justify-center items-center">
               <button className="bg-[#D7A444] hover:bg-[#40241A] w-full h-12 rounded-bl-md rounded-br-md text-white font-robotoflex font-bold">
@@ -75,7 +75,7 @@ export default function Solutions() {
 
             {/* Right content - Icons grid */}
             <div className="laptop:w-3/5 desktop:w-3/5">
-              <div className="grid grid-cols-4 mobile:grid-cols-2 mobile:gap-y-6 tablet:grid-cols-3 gap-y-2">
+              <div className="grid grid-cols-4 mobile:grid-cols-2 mobile:gap-y-6 gap-y-2">
                 {iconData.map((item) => (
                   <TreatmentIcon
                     key={item.id}

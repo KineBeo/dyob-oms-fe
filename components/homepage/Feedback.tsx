@@ -2,7 +2,6 @@
 import React from "react";
 import { Card, CardBody } from "@nextui-org/react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
-import Autoplay from "embla-carousel-autoplay"
 
 const SideVideos = () => {
   return (
@@ -73,11 +72,6 @@ export default function CustomerFeedback() {
           align: "center",
           loop: true,
         }}
-        plugins={[
-          Autoplay({
-            delay: 4000,
-          }),
-        ]}
         className="w-full">
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
@@ -88,8 +82,8 @@ export default function CustomerFeedback() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="mobile:hidden tablet:hidden ml-8" />
-        <CarouselNext className="mobile:hidden tablet:hidden mr-8" />
+        <CarouselPrevious className="mobile:ml-12 tablet:ml-10 ml-8 hover:bg-[#D7A444] hover:text-white active:bg-[#C2943D] active:text-white" />
+        <CarouselNext className="mobile:mr-12 tablet:mr-10 ml-8 mr-8 hover:bg-[#D7A444] hover:text-white active:bg-[#C2943D] active:text-white" />
       </Carousel>
     </div>
   );

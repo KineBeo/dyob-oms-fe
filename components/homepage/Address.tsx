@@ -18,10 +18,10 @@ return (
     </p>
 
     <div className="grid md:grid-cols-2 mobile:gap-y-6 tablet:gap-y-6 gap-8">
-      <StoreCard image_url="/images/homepage/address.png" location="Hà Nội" />
+      <StoreCard image_url="/images/homepage/address.png" location="Đông Y Ông Bụt - Hà Nội" />
       <StoreCard
         image_url="/images/homepage/address.png"
-        location="Hồ Chí Minh"
+        location="Đông Y Ông Bụt - Hồ Chí Minh"
       />
     </div>
   </div>

@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 import ProductCard from "../cards/ProductCard";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
 
 interface Product {
   image_url: string;
@@ -32,7 +33,7 @@ const otherProducts: Product[] = [
   },
   {
     image_url: "/images/otherproducts/Hoa-huyet-duong-nao.png",
-    title: "Hỏa Huyết Dưỡng Não Ông Bụt",
+    title: "Hòa Huyết Dưỡng Não Ông Bụt",
     price: "200.000đ",
   },
   {
@@ -48,32 +49,38 @@ const otherProducts: Product[] = [
 ];
 
 const OtherProducts: React.FC = () => {
-  // We will use React useRef hook to reference the wrapping div:
-  const ref =
-    useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
-  const { events } = useDraggable(ref); // Now we pass the reference to the useDraggable hook:
-
   return (
     <div className="max-w-7xl mx-auto pt-6">
       <div className="bg-[#f9f3ea] p-4 drop-shadow-md">
         <h2 className="text-2xl font-bold text-[#3F291B]">Sản phẩm khác</h2>
       </div>
-      <div
-        className="py-10 flex space-x-5 overflow-x-scroll scrollbar-hide"
-        {...events}
-        ref={ref} // add reference and events to the wrapping div
-      >
-        {otherProducts.map((otherProduct, index) => (
-          <ProductCard
-            key={index}
-            image_url={otherProduct.image_url}
-            title={otherProduct.title}
-            price={otherProduct.price}
-          />
-        ))}
+
+      <div>
+        <Carousel
+          opts={{
+            align: "start",
+          }}
+          className="w-full py-6"
+        >
+          <CarouselContent>
+            {otherProducts.map((otherProduct, index) => (
+              <CarouselItem key={index} className="mobile:basis-1/2 tablet:basis-1/3 basis-1/4 desktop:basis-1/5">
+                  <ProductCard key={index}
+                    image_url={otherProduct.image_url}
+                    title={otherProduct.title}
+                    price={otherProduct.price}
+                  />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-0"/>
+          <CarouselNext className="right-0"/>
+        </Carousel>
       </div>
+      
     </div>
   );
 };
 
 export default OtherProducts;
+

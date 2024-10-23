@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@nextui-org/react";
+
 const TreatmentIcon = ({ name, icon }: { name: string; icon: string }) => (
   <div className="flex flex-col items-center ">
     <div
@@ -68,13 +70,13 @@ export default function Solutions() {
                 nghệ sinh học phân tử Pháp xuất cải hoạt chất sinh học có nguồn
                 gốc từ thảo dược thiên nhiệp tốt phát triển người Việt.
               </p>
-              <button className="px-6 py-2 bg-[#7A0505] text-white font-bold rounded-full hover:bg-opacity-80">
+              <Button variant="bordered" className="px-6 py-2 border border-[#D7A444] bg-none text-[#D7A444] font-bold rounded-full hover:text-white hover:bg-[#D7A444] transition-all">
                 XEM THÊM
-              </button>
+              </Button>
             </div>
 
             {/* Right content - Icons grid */}
-            <div className="laptop:w-3/5 desktop:w-3/5">
+            <div className="laptop:w-3/5 desktop:w-3/5 place-content-center">
               <div className="grid grid-cols-4 mobile:grid-cols-2 mobile:gap-y-6 gap-y-2">
                 {iconData.map((item) => (
                   <TreatmentIcon

@@ -68,7 +68,7 @@ export default function OurMembers() {
 
           <div className="flex flex-row mobile:flex-col tablet:flex-col gap-8 mobile:justify-center mobile:items-center">
             {/* Main doctor */}
-            <div className=" w-fit flex justify-center mx-4 ">
+            <div className=" w-fit flex justify-center ">
               <img
                 src={mainDoctor?.image}
                 alt={mainDoctor?.name}
@@ -78,7 +78,7 @@ export default function OurMembers() {
             </div>
             {/* Other doctors */}
             <div className="grid grid-rows-3 gap-0 mobile:grid-rows-5 tablet:grid-rows-6">
-              <div className=" relative justify-center items-center  ">
+              <div className=" relative justify-center items-center">
                 <h3 className="text-xl font-bold font-robotoflex text-white mobile:text-[#3F291B] tablet:text-[#3F291B] ">
                   {mainDoctor?.name}
                 </h3>
@@ -86,7 +86,7 @@ export default function OurMembers() {
                   {mainDoctor?.role}
                 </p>
               </div>
-              <div className=" row-span-2 mobile:row-span-4 tablet:row-span-5 grid grid-rows-1 gap-4 mt-6 place-self-end  ">
+              <div className="row-span-2 mobile:row-span-4 tablet:row-span-5 grid grid-rows-1 gap-4 place-self-end">
                 <Carousel
                   opts={{
                     align: "start",
@@ -105,7 +105,7 @@ export default function OurMembers() {
                           alt={doctor.name}
                           className="w-full h-auto"
                         />
-                        <div className="absolute bottom-0 left-0 right-0  text-[#3F291B] font-bold text-lg text-center py-2">
+                        <div className="absolute bottom-0 left-0 right-0  text-white font-bold text-lg text-center py-2">
                           {doctor.name}
                         </div>
                       </CarouselItem>

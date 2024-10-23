@@ -188,7 +188,7 @@ export default function HeroSection() {
         {menuItems.map((item, index) =>
           item.hasSubmenu ? (
             <NavbarMenuItem key={`${item.title}-${index}`}>
-              <Accordion className="px-0">
+              <Accordion isCompact className="px-0">
                 <AccordionItem
                   key={item.title}
                   aria-label={item.title}
@@ -199,12 +199,12 @@ export default function HeroSection() {
                     </span>
                   }
                 >
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 ml-4">
                     {item.submenu?.map((subItem, subIndex) => (
                       <div
                         key={`${subItem.title}-${subIndex}`}
                         // onClick={() => handleSubMenuClick(subItem.href)}
-                        className="px-4 py-2 w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
+                        className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
                       >
                         <Link
                           color="foreground"
@@ -212,8 +212,8 @@ export default function HeroSection() {
                           size="md"
                           onClick={() => {
                             setIsOpen(false);
-                            if (item.href) {
-                              router.push(item.href);
+                            if (subItem.href) {
+                              router.push(subItem.href);
                             }
                           }}
                         >
@@ -222,7 +222,6 @@ export default function HeroSection() {
                       </div>
                     ))}
                   </div>
-                  <Divider className="bg-[#D7A444]" />
                 </AccordionItem>
               </Accordion>
             </NavbarMenuItem>
@@ -231,7 +230,7 @@ export default function HeroSection() {
               <Link
                 color="foreground"
                 className="w-full font-semibold text-text-brown-primary"
-                size="lg"
+                size="md"
                 onClick={() => {
                   setIsOpen(false);
                   if (item.href) {

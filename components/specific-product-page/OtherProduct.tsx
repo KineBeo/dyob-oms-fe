@@ -1,6 +1,5 @@
 'use client';
-import { useRef } from "react";
-import { useDraggable } from "react-use-draggable-scroll";
+
 import ProductCard from "../cards/ProductCard";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
 

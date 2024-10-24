@@ -1,17 +1,20 @@
 "use client"
 
-import ProductCard from "@/components/cards/ProductCard"; 
+import ProductCard from "@/components/cards/ProductCard";
 import { Button } from "@nextui-org/react";
 import React, { useState } from 'react';
 import { LuBrain } from "react-icons/lu";
 import { LuBone } from "react-icons/lu";
 import { GiStomach } from "react-icons/gi";
+import * as strapi from '../../utils/globalApi';
+import useSWR from 'swr';
+import { ProductResponse } from "@/utils/api/Product.interface";
 
 interface FilterCategory {
     icon: React.ReactNode;
     name: string;
     action: () => void;
-} 
+}
 
 const filterCategories = [
     { icon: <LuBrain />, name: "Thần kinh", action: () => console.log("Bộ lọc filter applied") },
@@ -30,6 +33,17 @@ export default function Products() {
     //     filter.action(); // Execute the specific action for this filter
     // };
 
+    const { data, isLoading, error } = useSWR('products', async () => {
+        const response: ProductResponse = await strapi.getAllProducts();
+        return response;
+    }, {
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false
+    });
+
+
+
+
     const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
     const handleFilterClick = (filter: FilterCategory) => {
@@ -37,20 +51,22 @@ export default function Products() {
         filter.action();
     };
 
+    if (isLoading) return <div>Loading...</div>
+    if (error) return <div>Error...</div>
 
     return (
         <>
-            <div className="bg-[#4A2511] h-32 flex justify-center items-center text-white text-lg">
+            <div className="flex justify-center items-center bg-[#4A2511] h-32 text-lg text-white">
                 San pham Dong y ong but
             </div>
 
             <div className="bg-paper px-4">
-                <div className="py-4 flex justify-center">
-                    <div className="w-full mini-laptop:max-w-2xl laptop:max-w-[52rem] max-w-6xl">
-                        <p className="font-robotoslab mobile:text-lg tablet:text-xl text-2xl font-bold uppercase text-[#4A2511]">
+                <div className="flex justify-center py-4">
+                    <div className="w-full max-w-6xl laptop:max-w-[52rem] mini-laptop:max-w-2xl">
+                        <p className="font-bold font-robotoslab text-[#4A2511] text-2xl mobile:text-lg tablet:text-xl uppercase">
                             Danh mục
                         </p>
-                        
+
                         <div className="flex flex-wrap gap-2 py-2">
                             {filterCategories.map((filter, index) => (
                                 <Button
@@ -66,26 +82,28 @@ export default function Products() {
                     </div>
                 </div>
 
-                <div className="py-4 flex justify-center">
-                    <div className="w-full mini-laptop:max-w-2xl laptop:max-w-[52rem] max-w-6xl">
-                        <p className="font-robotoslab mobile:text-lg tablet:text-xl text-2xl font-bold uppercase text-[#4A2511]">
+                <div className="flex justify-center py-4">
+                    <div className="w-full max-w-6xl laptop:max-w-[52rem] mini-laptop:max-w-2xl">
+                        <p className="font-bold font-robotoslab text-[#4A2511] text-2xl mobile:text-lg tablet:text-xl uppercase">
                             Danh sách sản phẩm
                         </p>
-                        
-                        <div className="grid mobile:grid-cols-2 grid-cols-3 laptop:grid-cols-4 desktop:grid-cols-5 gap-6 py-4">
-                            <ProductCard image_url="/images/product.png" title="An vị khang Ông Bụt" price="200.000đ" />
-                            <ProductCard image_url="/images/product.png" title="An khang Ông Bụt" price="200.000đ" />
-                            <ProductCard image_url="/images/product.png" title="vị khang Ông Bụt" price="200.000đ" />
-                            <ProductCard image_url="/images/product.png" title="khang Ông Bụt" price="200.000đ" />
-                            <ProductCard image_url="/images/product.png" title="Ông Bụt" price="200.000đ" />
-                            <ProductCard image_url="/images/product.png" title="A vị khang Ông Bụt" price="200.000đ" />
-                            <ProductCard image_url="/images/product.png" title="hang Ông Bụt" price="200.000đ" />
+
+                        <div className="gap-6 grid grid-cols-3 desktop:grid-cols-5 laptop:grid-cols-4 mobile:grid-cols-2 py-4">
+                            {data?.data.map((product) => (
+                                <ProductCard
+                                    key={product.id}
+                                    image_url={product.Main_image.url}
+                                    title={product.Name}
+                                    price={product.Price}
+                                    slug={product.slug}
+                                />
+                            ))}
                         </div>
 
                     </div>
                 </div>
             </div>
         </>
-        
+
     )
 }

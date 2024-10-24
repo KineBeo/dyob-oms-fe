@@ -1,4 +1,5 @@
 import { default as axios } from "axios";
+import { ProductResponse } from "./api/Product.interface";
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_STRAPI_API_URL,
@@ -7,14 +8,7 @@ const axiosClient = axios.create({
   },
 });
 
-const fetcher = (url: string) =>
-  fetch(url, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-    },
-  }).then((res) => res.json());
-
-const getHomepage = async () => {
+export const getHomepage = async () => {
   console.log("getHomepage");
   const response = await axiosClient
     .get("homepage?populate=*")
@@ -25,7 +19,7 @@ const getHomepage = async () => {
   return response;
 };
 
-const getAffiliate = async () => {
+export const getAffiliate = async () => {
   const response = await axiosClient
     .get("affiliate?populate=*")
     .catch((error) => {
@@ -34,7 +28,7 @@ const getAffiliate = async () => {
   return response;
 };
 
-const getAboutUsNormal = async () => {
+export const getAboutUsNormal = async () => {
   const response = await axiosClient
     .get("about-us-normal?populate=*")
     .catch((error) => {
@@ -43,16 +37,16 @@ const getAboutUsNormal = async () => {
   return response;
 };
 
-const getAboutUs = async () => {
+export const getAboutUs = async () => {
   const response = await axiosClient.get("about-us?populate=*");
   return response;
 };
 
-const getOneProduct = async (slug: string) => {
-  const response = await axiosClient
+export const getOneProduct = async (slug: string) => {
+  const response: ProductResponse = await axiosClient
     .get(`/products?filters[slug][$eq]=${slug}&populate=*`)
     .then((res) => {
-      console.log("Product data:", res.data);
+      return res.data;
     })
     .catch((error) => {
       console.error("Error fetching product data:", error);
@@ -61,12 +55,15 @@ const getOneProduct = async (slug: string) => {
   return response;
 };
 
-const StrapiAPI = {
-  getHomepage,
-  getAffiliate,
-  getAboutUsNormal,
-  getAboutUs,
-  getOneProduct,
-};
+export const getAllProducts = async () => {
+  const response: ProductResponse = await axiosClient
+    .get("products?populate=*")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching all products data:", error);
+    });
 
-export default StrapiAPI;
+  return response;
+};

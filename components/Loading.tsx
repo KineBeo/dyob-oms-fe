@@ -7,8 +7,8 @@ const Loading = () => {
 
       <style jsx>{`
         .loader {
-          border: 12px solid #f3f3f3; /* Light grey */
-          border-top: 12px solid #3498db; /* Blue */
+          border: 12px solid #d7a444; /* Light grey */
+          border-top: 12px solid #3f291b; 
           border-radius: 50%;
           width: 80px;
           height: 80px;

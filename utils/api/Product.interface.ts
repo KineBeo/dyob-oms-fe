@@ -22,6 +22,7 @@ interface Product {
   Product_details_title: string | null;
   Sub_images: null | any[]; // Replace 'any' with proper type if sub_images structure is known
   slug: string;
+  filter: string;
 }
 
 // Main response interface
@@ -29,4 +30,4 @@ interface ProductResponse {
   data: Product[];
 }
 
-export type { ProductResponse };
+export type { Product, ProductResponse };

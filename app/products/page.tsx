@@ -2,60 +2,63 @@
 
 import ProductCard from "@/components/cards/ProductCard";
 import { Button } from "@nextui-org/react";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LuBrain } from "react-icons/lu";
 import { LuBone } from "react-icons/lu";
 import { GiStomach } from "react-icons/gi";
 import * as strapi from '../../utils/globalApi';
 import useSWR from 'swr';
-import { ProductResponse } from "@/utils/api/Product.interface";
+import { Product, ProductResponse } from "@/utils/api/Product.interface";
 import Loading from "@/components/Loading";
 
 interface FilterCategory {
     icon: React.ReactNode;
     name: string;
-    action: () => void;
+    filter: string; // Added filter property to match with product filter
 }
 
-const filterCategories = [
-    { icon: <LuBrain />, name: "Thần kinh", action: () => console.log("Bộ lọc filter applied") },
-    { icon: <LuBone />, name: "Xương khớp", action: () => console.log("Sẵn hàng filter applied") },
-    { icon: <GiStomach />, name: "Tiêu hóa", action: () => console.log("Giá filter applied") },
-    { icon: <LuBrain />, name: "Thần kin", action: () => console.log("Bộ lọc filter applied") },
-    { icon: <LuBone />, name: "Xương khớ", action: () => console.log("Sẵn hàng filter applied") },
-    { icon: <GiStomach />, name: "Tiêu hó", action: () => console.log("Giá filter applied") },
+const filterCategories: FilterCategory[] = [
+    { icon: <LuBrain />, name: "Thần kinh", filter: "than-kinh" },
+    { icon: <LuBone />, name: "Xương khớp", filter: "xuong-khop" },
+    { icon: <GiStomach />, name: "Tiêu hóa", filter: "tieu-hoa" },
 ];
 
 export default function Products() {
-    // const [activeFilter, setActiveFilter] = useState(null);
-
-    // const handleFilterClick = (filter: { name: any; action: any; }) => {
-    //     setActiveFilter(activeFilter === filter.name ? null : filter.name);
-    //     filter.action(); // Execute the specific action for this filter
-    // };
     const [activeFilter, setActiveFilter] = useState<string | null>(null);
-
-    const handleFilterClick = (filter: FilterCategory) => {
-        setActiveFilter(activeFilter === filter.name ? null : filter.name);
-        filter.action();
-    };
+    const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
 
     const { data, isLoading, error } = useSWR('products', async () => {
         const response: ProductResponse = await strapi.getAllProducts();
-        console.log(response)
         return response;
     }, {
         revalidateOnFocus: false,
         revalidateOnReconnect: false
     });
+
+    useEffect(() => {
+        if (data?.data) {
+            if (activeFilter) {
+                const filtered = data.data.filter(product => {
+                    if (product.filter) {
+                        return product.filter === activeFilter;
+                    }
+                    return false;
+                }
+                );
+                setDisplayedProducts(filtered);
+            } else {
+                setDisplayedProducts(data.data);
+            }
+        }
+    }, [data, activeFilter]);
+
+    const handleFilterClick = (filter: FilterCategory) => {
+        setActiveFilter(activeFilter === filter.name ? null : filter.name);
+    };
+
     if (isLoading) return <Loading />
     if (error) return <div>Error...</div>
-
-    const products = data?.data;
-    if (!products) return <div>No products found</div>
-
-
-
+    if (!data?.data) return (<div>No products found</div>);
 
     return (
         <>
@@ -88,11 +91,11 @@ export default function Products() {
                 <div className="flex justify-center py-4">
                     <div className="w-full max-w-6xl laptop:max-w-[52rem] mini-laptop:max-w-2xl">
                         <p className="font-bold font-robotoslab text-[#4A2511] text-2xl mobile:text-lg tablet:text-xl uppercase">
-                            Danh sách sản phẩm
+                            Danh sách sản phẩm {activeFilter && `- ${filterCategories.find(f => f.name === activeFilter)?.name}`}
                         </p>
 
                         <div className="gap-6 grid grid-cols-3 desktop:grid-cols-5 laptop:grid-cols-4 mobile:grid-cols-2 py-4">
-                            {products?.map((product) => (
+                            {displayedProducts.map((product) => (
                                 <ProductCard
                                     key={product.id}
                                     image_url={product.Main_image.url}
@@ -103,10 +106,14 @@ export default function Products() {
                             ))}
                         </div>
 
+                        {displayedProducts.length === 0 && (
+                            <div className="py-8 text-center text-gray-500">
+                                No products found for this category
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
         </>
-
     )
 }

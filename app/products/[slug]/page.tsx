@@ -14,6 +14,7 @@ export default function SpecificProduct() {
     // Fetch the product data
     const { data, isLoading, error } = useSWR('product/' + slug, async () => {
         const response: ProductResponse = await strapi.getOneProduct(slug);
+        console.log(response);
         return response;
     });
 
@@ -27,7 +28,7 @@ export default function SpecificProduct() {
     return (
         <div>
             <ProductInfo images={[product.Main_image.url, product.Main_image.url, product.Main_image.url]} name={product.Name} price={product.Price} />
-            <MoreDetails />
+            <MoreDetails markdown={product.Product_details} image={product.Main_image.url} />
             <OtherProducts />
         </div>
     );

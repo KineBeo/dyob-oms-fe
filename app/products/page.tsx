@@ -35,13 +35,14 @@ export default function Products() {
 
     const { data, isLoading, error } = useSWR('products', async () => {
         const response: ProductResponse = await strapi.getAllProducts();
+        console.log(response)
         return response;
     }, {
         revalidateOnFocus: false,
         revalidateOnReconnect: false
     });
 
-
+    const products = data?.data;
 
 
     const [activeFilter, setActiveFilter] = useState<string | null>(null);
@@ -53,6 +54,8 @@ export default function Products() {
 
     if (isLoading) return <div>Loading...</div>
     if (error) return <div>Error...</div>
+
+    if (!products) return <div>No products found</div>
 
     return (
         <>
@@ -89,7 +92,7 @@ export default function Products() {
                         </p>
 
                         <div className="gap-6 grid grid-cols-3 desktop:grid-cols-5 laptop:grid-cols-4 mobile:grid-cols-2 py-4">
-                            {data?.data.map((product) => (
+                            {products?.map((product) => (
                                 <ProductCard
                                     key={product.id}
                                     image_url={product.Main_image.url}

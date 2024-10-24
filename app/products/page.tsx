@@ -9,6 +9,7 @@ import { GiStomach } from "react-icons/gi";
 import * as strapi from '../../utils/globalApi';
 import useSWR from 'swr';
 import { ProductResponse } from "@/utils/api/Product.interface";
+import Loading from "@/components/Loading";
 
 interface FilterCategory {
     icon: React.ReactNode;
@@ -32,6 +33,12 @@ export default function Products() {
     //     setActiveFilter(activeFilter === filter.name ? null : filter.name);
     //     filter.action(); // Execute the specific action for this filter
     // };
+    const [activeFilter, setActiveFilter] = useState<string | null>(null);
+
+    const handleFilterClick = (filter: FilterCategory) => {
+        setActiveFilter(activeFilter === filter.name ? null : filter.name);
+        filter.action();
+    };
 
     const { data, isLoading, error } = useSWR('products', async () => {
         const response: ProductResponse = await strapi.getAllProducts();
@@ -41,21 +48,14 @@ export default function Products() {
         revalidateOnFocus: false,
         revalidateOnReconnect: false
     });
-
-    const products = data?.data;
-
-
-    const [activeFilter, setActiveFilter] = useState<string | null>(null);
-
-    const handleFilterClick = (filter: FilterCategory) => {
-        setActiveFilter(activeFilter === filter.name ? null : filter.name);
-        filter.action();
-    };
-
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Loading />
     if (error) return <div>Error...</div>
 
+    const products = data?.data;
     if (!products) return <div>No products found</div>
+
+
+
 
     return (
         <>

@@ -5,11 +5,13 @@ import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from 'react';
 import { LuBrain } from "react-icons/lu";
 import { LuBone } from "react-icons/lu";
-import { GiStomach } from "react-icons/gi";
+import { GiKidneys, GiLiver, GiStomach } from "react-icons/gi";
 import * as strapi from '../../utils/globalApi';
 import useSWR from 'swr';
 import { Product, ProductResponse } from "@/utils/api/Product.interface";
 import Loading from "@/components/Loading";
+import { FaHeartPulse } from "react-icons/fa6";
+import { PiMaskSadFill } from "react-icons/pi";
 
 interface FilterCategory {
     icon: React.ReactNode;
@@ -18,9 +20,13 @@ interface FilterCategory {
 }
 
 const filterCategories: FilterCategory[] = [
-    { icon: <LuBrain />, name: "Thần kinh", filter: "than-kinh" },
-    { icon: <LuBone />, name: "Xương khớp", filter: "xuong-khop" },
-    { icon: <GiStomach />, name: "Tiêu hóa", filter: "tieu-hoa" },
+  { icon: <LuBrain />, name: "Thần kinh", filter: "than-kinh" },
+  { icon: <LuBone />, name: "Xương khớp", filter: "xuong-khop" },
+  { icon: <GiStomach />, name: "Tiêu hóa", filter: "tieu-hoa" },
+  { icon: <FaHeartPulse />, name: "Tim mạch", filter: "tim-mach" },
+  { icon: <PiMaskSadFill />, name: "Trầm cảm", filter: "tram-cam" },
+  { icon: <GiKidneys />, name: "Thận tiết niệu", filter: "than-tiet-nieu"},
+  { icon: <GiLiver/>, name: "Nội tiết", filter: "noi-tiet"},
 ];
 
 export default function Products() {

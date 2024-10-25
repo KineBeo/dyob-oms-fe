@@ -2,7 +2,6 @@
 
 import React from "react";
 import ReactFullpage from "@fullpage/react-fullpage";
-import Image from "next/image";
 import * as strapi from "../../utils/globalApi";
 import useSWR from "swr";
 interface ImageAndText {

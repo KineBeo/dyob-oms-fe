@@ -6,15 +6,6 @@ import Vision from "@/components/about-us-normal/Vision";
 import * as strapi from "../../utils/globalApi";
 import useSWR from "swr";
 
-interface ImageAndDesInterface {
-  Introduction_title: String;
-  Introduction_description: String;
-  Vision_title_mission: String;
-  Company_image_title: String;
-  Company_image: { url: string }[];
-  Legal_documents_title: String[];
-  Legal_documents: String[];
-}
 
 
 export default function AboutUsNormal() {
@@ -26,14 +17,19 @@ export default function AboutUsNormal() {
     if (error) return <div>Failed to load</div>;
     if (isLoading) return <div>Loading...</div>;
 
+    // const {
+    //   Introduction_title,
+    //   Introduction_description,
+    //   Vision_title_mission,
+    //   Company_image_title,
+    //   Company_image = [],
+    //   Legal_documents_title,
+    //   Legal_documents,
+    // } = data || {};
     const {
       Introduction_title,
       Introduction_description,
-      Vision_title_mission,
-      Company_image_title,
       Company_image = [],
-      Legal_documents_title,
-      Legal_documents,
     } = data || {};
 
     // Ensure images have the correct structure

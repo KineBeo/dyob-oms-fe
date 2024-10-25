@@ -29,7 +29,7 @@ export default function ProductCard(props: ProductCardProps) {
                 <CardBody className="items-left pt-2 h-full">
                     <div className="flex flex-col justify-between">
                         <CardTitle className="line-clamp-1 font-bold text-[#7A0505] text-lg">{props.title}</CardTitle>
-                        <CardDescription className="font-bold text-sm">{Number(props.price.replace(/[^0-9.-]+/g, "")).toLocaleString('vi-VN')}</CardDescription>
+                        <CardDescription className="font-bold text-sm">{Number(props.price.replace(/[^0-9.-]+/g, "")).toLocaleString('vi-VN')}đ</CardDescription>
                     </div>
                 </CardBody>
             </div>

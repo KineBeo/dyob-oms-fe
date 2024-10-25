@@ -69,7 +69,7 @@ const ProductInfo = (productInfo: ProductInfoProps) => {
         </div>
 
         <div className="mb-6">
-          <h2 className="mb-4 font-bold text-3xl">{Number(productInfo.price.replace(/[^0-9.-]+/g, "")).toLocaleString('vi-VN')}</h2>
+          <h2 className="mb-4 font-bold text-3xl">{Number(productInfo.price.replace(/[^0-9.-]+/g, "")).toLocaleString('vi-VN')}đ</h2>
           <div className="flex gap-4 mb-4">
             {/* {sizes.map((size) => (
               <button

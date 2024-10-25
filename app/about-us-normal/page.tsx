@@ -33,7 +33,7 @@ export default function AboutUsNormal() {
     } = data || {};
 
     // Ensure images have the correct structure
-    const images = Company_image.map((img: { url: any; }) => ({
+    const images = Company_image.map((img: { url: string; }) => ({
       src: img.url,
     }));
 

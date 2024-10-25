@@ -1,8 +1,8 @@
 import { Divider } from "@nextui-org/react";
 
 interface ImageAndDesProps {
-  introTitle: String;
-  introDescript: String;
+  introTitle: string;
+  introDescript: string;
 }
 
 export default function ImageAndDes(props: ImageAndDesProps) {

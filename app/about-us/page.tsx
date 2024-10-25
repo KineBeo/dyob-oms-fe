@@ -5,8 +5,8 @@ import ReactFullpage from "@fullpage/react-fullpage";
 import * as strapi from "../../utils/globalApi";
 import useSWR from "swr";
 interface ImageAndText {
-  First_short_text: String;
-  Last_short_text: String;
+  First_short_text: string;
+  Last_short_text: string;
   Image: {
     url: string;
   } ;

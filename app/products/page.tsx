@@ -53,7 +53,7 @@ export default function Products() {
     }, [data, activeFilter]);
 
     const handleFilterClick = (filter: FilterCategory) => {
-        setActiveFilter(activeFilter === filter.name ? null : filter.name);
+        setActiveFilter(activeFilter === filter.filter ? null : filter.filter);
     };
 
     if (isLoading) return <Loading />
@@ -79,7 +79,7 @@ export default function Products() {
                                     key={index}
                                     startContent={filter.icon}
                                     onPress={() => handleFilterClick(filter)}
-                                    className={`text-sm font-robotoflex font-medium ${activeFilter === filter.name ? 'bg-[#4A2511] text-white' : ''}`}
+                                    className={`text-sm font-robotoflex font-medium ${activeFilter === filter.filter ? 'bg-[#4A2511] text-white' : ''}`}
                                 >
                                     {filter.name}
                                 </Button>
@@ -91,7 +91,7 @@ export default function Products() {
                 <div className="flex justify-center py-4">
                     <div className="w-full max-w-6xl laptop:max-w-[52rem] mini-laptop:max-w-2xl">
                         <p className="font-bold font-robotoslab text-[#4A2511] text-2xl mobile:text-lg tablet:text-xl uppercase">
-                            Danh sách sản phẩm {activeFilter && `- ${filterCategories.find(f => f.name === activeFilter)?.name}`}
+                            Danh sách sản phẩm {activeFilter && `- ${filterCategories.find(f => f.filter === activeFilter)?.name}`}
                         </p>
 
                         <div className="gap-6 grid grid-cols-3 desktop:grid-cols-5 laptop:grid-cols-4 mobile:grid-cols-2 py-4">

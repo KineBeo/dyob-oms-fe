@@ -2,24 +2,21 @@
 import { Divider } from "@nextui-org/react";
 import React, { useState } from "react";
 
-const images = [
-  {
-    src: "images/aboutusnormal/company.png",
-    alt: "Modern office space with plants and computers",
-  },
-  {
-    src: "images/aboutusnormal/company.png",
-    alt: "Meeting room",
-  },
-  {
-    src: "images/aboutusnormal/company.png",
-    alt: "Collaborative workspace",
-  },
-];
+interface Image {
+  src: string;
+  alt?: string; // Optional alt text for accessibility
+}
 
-export default function CompanyImageSlider() {
+interface CompanyImageSliderProps {
+  images: Image[];
+}
+
+
+export default function CompanyImageSlider({ images }: CompanyImageSliderProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
-
+  if (!images || images.length === 0) {
+    return <div>No images available</div>; // Handle case where there are no images
+  }
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-4">
       <div className="w-full mobile:mb-4 tablet:mb-4 mb-6 items-center justify-center flex flex-col">
@@ -33,8 +30,8 @@ export default function CompanyImageSlider() {
           {/* Main Image */}
           <div className="relative pb-[56.25%]">
             <img
-              src={images[currentSlide].src}
-              alt={images[currentSlide].alt}
+              src={images[currentSlide]?.src || ""}
+              alt={images[currentSlide]?.alt || "Company image"}
               className="absolute top-0 left-0 w-full h-full object-cover"
             />
           </div>
@@ -67,15 +64,15 @@ export default function CompanyImageSlider() {
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all ${currentSlide === index ? "bg-white w-4" : "bg-white/60"
-                  }`}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  currentSlide === index ? "bg-white w-4" : "bg-white/60"
+                }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
         </div>
       </div>
-
     </div>
   );
 }

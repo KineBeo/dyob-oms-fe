@@ -4,6 +4,7 @@ import React from "react";
 import ReactFullpage from "@fullpage/react-fullpage";
 import * as strapi from "../../utils/globalApi";
 import useSWR from "swr";
+import Loading from "@/components/Loading";
 interface ImageAndText {
   First_short_text: string;
   Last_short_text: string;
@@ -20,7 +21,7 @@ export default function AboutUs( ) {
    });
 
    if (error) return <div>Failed to load</div>;
-   if (isLoading) return <div>Loading...</div>;
+   if (isLoading) return <Loading/>;
   // return  <pre>{JSON.stringify(data.slide, null, 2)}</pre>;
    const images : ImageAndText[] = data.slide
   return (

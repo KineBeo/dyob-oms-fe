@@ -4,6 +4,7 @@ import ImageAndDes from "@/components/about-us-normal/ImageAndDes";
 import LegalDoc from "@/components/about-us-normal/LegalDoc";
 import Vision from "@/components/about-us-normal/Vision";
 import * as strapi from "../../utils/globalApi";
+import Loading from "../../components/Loading";
 import useSWR from "swr";
 
 
@@ -15,7 +16,7 @@ export default function AboutUsNormal() {
     });
 
     if (error) return <div>Failed to load</div>;
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <Loading/>
 
     // const {
     //   Introduction_title,

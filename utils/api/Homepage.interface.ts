@@ -19,6 +19,7 @@ interface Card {
   Description: string;
   Image?: Image;
   Icon?: Image;
+  googlemap_url?: string;
 }
 
 interface Employee {

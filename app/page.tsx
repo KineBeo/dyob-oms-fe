@@ -84,6 +84,7 @@ export default function Home() {
         return {
           image_url: card.Image?.provider_metadata.public_id || '',
           location: card.Location,
+          google_maps_url: card.googlemap_url || '#'
         }
       }) || []} />
       <CustomerFeedback videos={homepageData?.Review?.map((video) => ({

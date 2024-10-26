@@ -6,6 +6,7 @@ interface AddressProps {
   cards: {
     image_url: string;
     location: string;
+    google_maps_url?: string;
   }[];
 }
 
@@ -23,8 +24,8 @@ export default function Address({ title, description, cards }: AddressProps) {
       </p>
 
       <div className="gap-8 mobile:gap-y-6 tablet:gap-y-6 grid md:grid-cols-2">
-        {cards.map((card) => (
-          <StoreCard image_url={card.image_url} location={card.location} />
+        {cards.map((card, index) => (
+          <StoreCard key={index} image_url={card.image_url} location={card.location} google_maps_url={card.google_maps_url || '#'} />
         ))}
       </div>
     </div>

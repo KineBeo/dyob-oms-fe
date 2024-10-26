@@ -20,13 +20,13 @@ interface FilterCategory {
 }
 
 const filterCategories: FilterCategory[] = [
-  { icon: <LuBrain />, name: "Thần kinh", filter: "than-kinh" },
-  { icon: <LuBone />, name: "Xương khớp", filter: "xuong-khop" },
-  { icon: <GiStomach />, name: "Tiêu hóa", filter: "tieu-hoa" },
-  { icon: <FaHeartPulse />, name: "Tim mạch", filter: "tim-mach" },
-  { icon: <PiMaskSadFill />, name: "Trầm cảm", filter: "tram-cam" },
-  { icon: <GiKidneys />, name: "Thận tiết niệu", filter: "than-tiet-nieu"},
-  { icon: <GiLiver/>, name: "Nội tiết", filter: "noi-tiet"},
+    { icon: <LuBrain />, name: "Thần kinh", filter: "than-kinh" },
+    { icon: <LuBone />, name: "Xương khớp", filter: "xuong-khop" },
+    { icon: <GiStomach />, name: "Tiêu hóa", filter: "tieu-hoa" },
+    { icon: <FaHeartPulse />, name: "Tim mạch", filter: "tim-mach" },
+    { icon: <PiMaskSadFill />, name: "Trầm cảm", filter: "tram-cam" },
+    { icon: <GiKidneys />, name: "Thận tiết niệu", filter: "than-tiet-nieu" },
+    { icon: <GiLiver />, name: "Nội tiết", filter: "noi-tiet" },
 ];
 
 export default function Products() {
@@ -101,7 +101,7 @@ export default function Products() {
                         </p>
 
                         <div className="gap-6 grid grid-cols-3 desktop:grid-cols-5 laptop:grid-cols-4 mobile:grid-cols-2 py-4">
-                            {displayedProducts.map((product) => (
+                            {Array.isArray(displayedProducts) && displayedProducts.map((product) => (
                                 <ProductCard
                                     key={product.id}
                                     image_url={product.Main_image.url}

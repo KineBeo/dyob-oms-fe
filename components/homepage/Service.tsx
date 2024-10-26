@@ -1,67 +1,50 @@
-// types/service.ts
-type Service = {
+// components/ServiceSection.tsx
+import { Card, CardBody, Button } from "@nextui-org/react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
+import { CldImage } from "next-cloudinary";
+
+interface ServiceCardProps {
   title: string;
   description: string;
   image: string;
-};
+}
+interface ServiceSectionProps {
+  title: string;
+  services: ServiceCardProps[];
+}
 
-// components/ServiceSection.tsx
-import { Card, CardBody, Button } from "@nextui-org/react";
-import Image from "next/image";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
+const ServiceSection = ({ title, services }: ServiceSectionProps) => {
+  console.log({ title, services });
 
-const services: Service[] = [
-  {
-    title: "BẮT MẠCH THĂM KHÁM",
-    description:
-      "Chẩn đoán mạch học trong Y Học Cổ Truyền chính là kỹ thuật định hướng giúp đánh giá tình trạng sức khỏe tổng quát và những rối loạn của tạng phủ bên trong cơ thể. Bắt mạch khám bệnh là một trong những bước đầu tiên trong chẩn đoán bệnh của Y Học Cổ Truyền.",
-    image: "/images/homepage/thamkham.jpg",
-  },
-  {
-    title: "KÊ ĐƠN BỐC THUỐC",
-    description:
-      'Cách kê đơn bốc thuốc tuân theo nguyên tắc "chọn lọc phương cổ y học cổ truyền từ ngàn đời nay, tức là dựa vào tình trạng bệnh cụ thể của bệnh nhân để xây dựng phương thuốc điều trị, rồi kê đơn sau đó mới bốc thuốc cho bệnh nhân.',
-    image: "/images/homepage/kedon.jpg",
-  },
-  {
-    title: "CHÂM CỨU BẤM HUYỆT",
-    description:
-      "Châm cứu bấm huyệt là phương pháp chữa bệnh không dùng thuốc có tác dụng giảm đau. Những người mắc các bệnh lý mãn tính như đau đầu, đau nhức xương khớp,... việc dùng thuốc kết hợp châm cứu bấm huyệt sẽ mang lại hiệu quả tuyệt vời, rút ngắn thời gian điều trị",
-    image: "/images/homepage/chamcuu.jpg",
-  },
-];
-const ServiceSection = () => {
   return (
-    <section className="relative  py-6  mx-auto max-w-4xl desktop:max-w-5xl mb-20">
+    <section className="relative mx-auto mb-20 py-6 max-w-4xl desktop:max-w-5xl">
       {/* Background layers */}
       <div className="absolute inset-0">
-        <div className="h-1/3 bg-white rounded-xl"></div>
-        <div className="h-2/3 bg-[#40241A] rounded-xl"></div>
+        <div className="bg-white rounded-xl h-1/3"></div>
+        <div className="bg-[#40241A] rounded-xl h-2/3"></div>
       </div>
 
-      <div className="relative z-10 container max-w-4xl mx-auto ">
+      <div className="relative z-10 mx-auto max-w-4xl container">
         {/* Title with decorative line */}
-        <div className="text-center mb-16 mobile:mb-8 tablet:mb-10 mini-laptop:mb-12">
-          <h2 className="mobile:text-2xl 
-                    tablet:text-2xl
-                    mini-laptop:text-2xl text-3xl font-bold text-[#7A0505] font-robotoslab relative inline-block">
-            DỊCH VỤ CỦA ĐÔNG Y ÔNG BỤT
-            <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-[#D7A444]"></div>
+        <div className="mini-laptop:mb-12 mb-16 mobile:mb-8 tablet:mb-10 text-center">
+          <h2 className="inline-block relative font-bold font-robotoslab text-[#7A0505] text-3xl mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">
+            {title}
+            <div className="-bottom-4 left-1/2 absolute bg-[#D7A444] w-24 h-1 transform -translate-x-1/2"></div>
           </h2>
         </div>
 
         {/* Services grid desktop */}
-        <div className="grid mobile:hidden tablet:hidden mini-laptop:grid-cols-3 laptop:grid-cols-3 desktop:grid-cols-3 mini-laptop:gap-4 gap-8 px-2">
+        <div className="gap-8 mini-laptop:gap-4 mobile:hidden tablet:hidden grid desktop:grid-cols-3 laptop:grid-cols-3 mini-laptop:grid-cols-3 px-2">
           {services.map((service, index) => (
             <div key={index}>
               <Card
                 key={index}
-                className=" bg-transparent border-white border-3 hover:translate-y-[-8px] hover:scale-105 transition-all duration-300 overflow-hidden"
+                className="border-3 border-white bg-transparent hover:translate-y-[-8px] hover:scale-105 transition-all duration-300 overflow-hidden"
                 isHoverable
               >
                 <CardBody className="p-0">
-                  <div className="relative h-48 w-full">
-                    <Image
+                  <div className="relative w-full h-48">
+                    <CldImage
                       src={service.image}
                       alt={service.title}
                       fill
@@ -71,10 +54,10 @@ const ServiceSection = () => {
                 </CardBody>
               </Card>
               <div className="p-2">
-                <h3 className="text-base font-bold text-[#D7A444] mb-4 text-center">
+                <h3 className="mb-4 font-bold text-[#D7A444] text-base text-center">
                   {service.title}
                 </h3>
-                <p className="mini-laptop:text-sm laptop:text-sm desktop:text-base text-white text-justify">
+                <p className="text-justify text-white desktop:text-base mini-laptop:text-sm laptop:text-sm">
                   {service.description}
                 </p>
               </div>
@@ -83,7 +66,7 @@ const ServiceSection = () => {
         </div>
 
         {/* Mobile */}
-        <div className=" laptop:hidden desktop:hidden mini-laptop:hidden px-16 justify-center items-center">
+        <div className="justify-center items-center desktop:hidden laptop:hidden mini-laptop:hidden px-16">
           <Carousel
             opts={{
               align: "start",
@@ -100,12 +83,12 @@ const ServiceSection = () => {
                   <div key={index}>
                     <Card
                       key={index}
-                      className=" bg-transparent border-white border-3 hover:translate-y-[-8px] hover:scale-105 transition-all duration-300 overflow-hidden"
+                      className="border-3 border-white bg-transparent hover:translate-y-[-8px] hover:scale-105 transition-all duration-300 overflow-hidden"
                       isHoverable
                     >
                       <CardBody className="p-0">
-                        <div className="relative h-48 w-full">
-                          <Image
+                        <div className="relative w-full h-48">
+                          <CldImage
                             src={service.image}
                             alt={service.title}
                             fill
@@ -115,10 +98,10 @@ const ServiceSection = () => {
                       </CardBody>
                     </Card>
                     <div className="p-2">
-                      <h3 className="text-base font-bold text-[#D7A444] mb-4 text-center">
+                      <h3 className="mb-4 font-bold text-[#D7A444] text-base text-center">
                         {service.title}
                       </h3>
-                      <p className="text-sm tablet:text-base text-white text-justify">
+                      <p className="text-justify text-sm text-white tablet:text-base">
                         {service.description}
                       </p>
                     </div>
@@ -126,16 +109,16 @@ const ServiceSection = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="size-6 active:bg-[#D7A444] active:text-white" />
-            <CarouselNext className="size-6 active:bg-[#D7A444] active:text-white"  />
+            <CarouselPrevious className="active:bg-[#D7A444] active:text-white size-6" />
+            <CarouselNext className="active:bg-[#D7A444] active:text-white size-6" />
           </Carousel>
         </div>
 
         {/* Button */}
-        <div className="text-center mt-6">
+        <div className="mt-6 text-center">
           <Button
             size="md"
-            className="px-6 py-2 bg-[#D7A444] text-white font-bold rounded-full hover:bg-opacity-80"
+            className="bg-[#D7A444] hover:bg-opacity-80 px-6 py-2 rounded-full font-bold text-white"
           >
             XEM CHI TIẾT
           </Button>

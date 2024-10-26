@@ -7,9 +7,15 @@ interface Image {
   };
 }
 
+interface YoutubeVideo {
+  Title: string;
+  view_url: string;
+}
+
 interface Card {
   id: number;
   Title: string;
+  Location: string;
   Description: string;
   Image?: Image;
   Icon?: Image;
@@ -37,6 +43,8 @@ interface Data {
   Hero_section_image: Image;
   Employees: Employee[];
   services_content: Card[];
+  Location_card: Card[];
+  Review: YoutubeVideo[];
 }
 
 interface HomepageRespone {

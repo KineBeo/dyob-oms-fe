@@ -80,8 +80,16 @@ export default function Home() {
           height: employee.Image.height
         }
       }) || []} />
-      <Address />
-      <CustomerFeedback />
+      <Address title={homepageData?.Location_title || ''} description={homepageData?.Location_description || ''} cards={homepageData?.Location_card?.map((card) => {
+        return {
+          image_url: card.Image?.provider_metadata.public_id || '',
+          location: card.Location,
+        }
+      }) || []} />
+      <CustomerFeedback videos={homepageData?.Review?.map((video) => ({
+        videoId: video.view_url,
+        title: video.Title
+      })) || []} />
     </div>
   );
 }

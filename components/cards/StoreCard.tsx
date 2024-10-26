@@ -2,6 +2,7 @@ import { Card, CardBody, CardFooter, Button } from "@nextui-org/react";
 import Image from "next/image";
 import { FaLocationDot } from "react-icons/fa6";
 import { BiDetail } from "react-icons/bi";
+import { CldImage } from "next-cloudinary";
 
 interface StoreCardProps {
     image_url: string,
@@ -10,23 +11,24 @@ interface StoreCardProps {
 
 export default function StoreCard(props: StoreCardProps) {
     return (
-        <Card className="py-0 bg-[#D7A444] h-full hover:scale-105 transition">
-            <CardBody className="items-center justify-center p-0">
-                <Image
+        <Card className="bg-[#D7A444] py-0 h-full hover:scale-105 transition">
+            <CardBody className="justify-center items-center p-0">
+                <CldImage
                     alt="Store"
-                    className="w-full h-full object-fill rounded-xl"
+                    className="rounded-xl w-full h-full object-fill"
                     src={props.image_url}
+                    crop={"auto"}
                     width={500}
-                    height={500}
+                    height={300}
                 />
-                <h2 className="font-semibold text-large text-white p-2">{props.location}</h2>
+                <h2 className="p-2 font-semibold text-large text-white">{props.location}</h2>
             </CardBody>
 
-            <CardFooter className="pb-2 pt-0 flex-row gap-2 items-center justify-center">
-                <Button className="w-2/5 tablet: rounded-full text-[14px] font-bold text-[#D7A444] bg-white desktop:text-[18px]" size="md" startContent={<FaLocationDot />} aria-label="Find location">
+            <CardFooter className="flex-row justify-center items-center gap-2 pt-0 pb-2">
+                <Button className="w-2/5 tablet: bg-white rounded-full font-bold text-[#D7A444] text-[14px] desktop:text-[18px]" size="md" startContent={<FaLocationDot />} aria-label="Find location">
                     Tìm đường
                 </Button>
-                <Button className="w-2/5 rounded-full text-[14px] font-bold text-[#D7A444] bg-white desktop:text-[18px]" size="md" startContent={<BiDetail />} aria-label="More details">
+                <Button className="bg-white rounded-full w-2/5 font-bold text-[#D7A444] text-[14px] desktop:text-[18px]" size="md" startContent={<BiDetail />} aria-label="More details">
                     Chi tiết
                 </Button>
             </CardFooter>

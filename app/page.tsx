@@ -5,6 +5,7 @@ import OurMembers from "@/components/homepage/OurMembers";
 import Address from "@/components/homepage/Address";
 import CustomerFeedback from "@/components/homepage/Feedback";
 import Service from "@/components/homepage/Service";
+import Articles from "@/components/homepage/Articles";
 export default function Home() {
   
 
@@ -35,6 +36,7 @@ export default function Home() {
       <WhyChoosing />
       <OurMembers />
       <Address />
+      <Articles/>
       <CustomerFeedback />
     </div>
   );

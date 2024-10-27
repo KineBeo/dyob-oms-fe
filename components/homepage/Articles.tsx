@@ -51,7 +51,7 @@ export default function Articles(){
   };
 
   return (
-    <div className="max-w-4xl desktop:max-w-5xl mx-auto px-4 py-8">
+    <div className="max-w-5xl desktop:max-w-5xl mx-auto px-4 py-8">
       <div className="relative">
         {/* Main Content */}
         <div className="grid mini-laptop:grid-cols-12 laptop:grid-cols-12 desktop:grid-cols-12 gap-8 items-center">

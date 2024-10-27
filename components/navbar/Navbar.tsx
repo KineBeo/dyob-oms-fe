@@ -161,7 +161,7 @@ export default function HeroSection() {
                 onClick={() =>
                   item.href && router.push(item.href)
                 }
-                className="font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444]"
+                className="font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] cursor-pointer"
               >
                 <div className="flex justify-between items-center">
                   {item.title !== "Giỏ hàng" && item.title}

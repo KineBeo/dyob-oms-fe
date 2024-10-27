@@ -19,7 +19,6 @@ export const getHomepage = async () => {
     .catch((error) => {
       console.error("Error fetching homepage data:", error);
     });
-  console.log(response);
   return response;
 };
 

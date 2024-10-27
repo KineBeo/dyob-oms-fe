@@ -13,7 +13,7 @@ import { CldImage } from 'next-cloudinary';
 
 export default function Home() {
 
-  const { data, error } = useSWR('products', async () => {
+  const { data, error } = useSWR('homepage', async () => {
     const response: HomepageRespone = await strapi.getHomepage();
     return response;
   });
@@ -22,8 +22,6 @@ export default function Home() {
   if (error) return <div>Error loading homepage data</div>;
 
   const homepageData = data?.data;
-
-  console.log(homepageData);
 
   return (
     <div>

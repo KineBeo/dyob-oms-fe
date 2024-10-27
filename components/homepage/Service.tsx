@@ -14,8 +14,6 @@ interface ServiceSectionProps {
 }
 
 const ServiceSection = ({ title, services }: ServiceSectionProps) => {
-  console.log({ title, services });
-
   return (
     <section className="relative mx-auto mb-20 py-6 max-w-4xl desktop:max-w-5xl">
       {/* Background layers */}

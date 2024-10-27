@@ -19,7 +19,7 @@ export default function Home() {
     return response;
   });
 
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
   if (error) return <div>Error loading homepage data</div>;
 
   const homepageData = data?.data;
@@ -31,7 +31,7 @@ export default function Home() {
       {/* Hero section  */}
       <div className="mobile:hidden tablet:hidden w-full h-full">
         <CldImage
-          src="herosection_homepage_e9cc4d5226"
+          src={homepageData?.Hero_section_image?.provider_metadata.public_id || ''}
           width={1920}
           height={698}
           alt="Herosection"

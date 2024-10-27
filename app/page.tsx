@@ -8,13 +8,12 @@ import CustomerFeedback from "@/components/homepage/Feedback";
 import Service from "@/components/homepage/Service";
 import * as strapi from '@/utils/globalApi';
 import useSWR from "swr";
-import Loading from "@/components/Loading";
 import { CldImage } from 'next-cloudinary';
 
 
 export default function Home() {
 
-  const { data, isLoading, error } = useSWR('products', async () => {
+  const { data, error } = useSWR('products', async () => {
     const response: HomepageRespone = await strapi.getHomepage();
     return response;
   });
@@ -41,7 +40,6 @@ export default function Home() {
       <div className="mobile:block tablet:block relative hidden w-full">
         <Image
           src="/images/homepage/herosection_mini.jpg"
-          objectFit="cover"
           width={618}
           height={644}
           style={{ height: "100%", width: "100%" }}

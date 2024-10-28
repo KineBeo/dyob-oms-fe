@@ -3,9 +3,22 @@ interface AuthInputProps {
     label: string;
     type: string;
     placeholder: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    error?: string;
 }
 
-export default function AuthInput({ id, label, type, placeholder }: AuthInputProps) {
+export default function AuthInput({
+    id,
+    label,
+    type,
+    placeholder,
+    value,
+    onChange,
+    error
+}: AuthInputProps) {
+    const inputType = type === "phone" ? "tel" : type;
+
     return (
         <div className="mb-4">
             <label htmlFor={id} className="block font-medium text-black text-sm">
@@ -14,13 +27,19 @@ export default function AuthInput({ id, label, type, placeholder }: AuthInputPro
             </label>
             <div className="relative flex mt-1">
                 <input
-                    type={type}
+                    type={inputType}
                     id={id}
-                    className="border-[#7A0505] bg-[#EDEFFE] shadow-sm p-4 pr-4 border w-full text-sm"
+                    value={value}
+                    onChange={onChange}
+                    className={`border-[#7A0505] bg-[#EDEFFE] shadow-sm p-4 pr-4 border w-full text-sm ${error ? 'border-red-500' : ''
+                        }`}
                     placeholder={placeholder}
                     pattern={type === "tel" ? "[0-9]{10}" : undefined}
                 />
             </div>
+            {error && (
+                <p className="mt-1 text-red-500 text-sm">{error}</p>
+            )}
         </div>
     );
 }

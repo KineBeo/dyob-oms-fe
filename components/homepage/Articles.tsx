@@ -8,8 +8,10 @@ import * as strapi from "@/utils/globalApi";
 import Loading from "../Loading";
 import { useRouter } from "next/navigation";
 import { type CarouselApi } from "../ui/carousel";
-
-export default function Articles() {
+interface ArticlesProps {
+  homepageLoaded: boolean;
+}
+const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
 
@@ -38,19 +40,18 @@ export default function Articles() {
   };
 
   const { data, isLoading, error } = useSWR(
-    "articles",
+    
+    homepageLoaded ? "articles" : null,
     async () => {
       const response: ArticleResponse = await strapi.getAllArticles();
       return response;
     },
-    {
-      revalidateOnFocus: false,
-    }
+   
   );
+  if (!homepageLoaded) return null;
   const router = useRouter();
   if (error) return <div>Error loading homepage data</div>;
   if (isLoading) return <Loading />;
-
 
   return (
     <div className="max-w-5xl desktop:max-w-5xl mx-auto px-4 py-8">
@@ -165,4 +166,5 @@ export default function Articles() {
       </div>
     </div>
   );
-}
+};
+export default Articles;

@@ -6,9 +6,6 @@ interface AuthInputProps {
 }
 
 export default function AuthInput({ id, label, type, placeholder }: AuthInputProps) {
-
-    const inputType = type === "phone" ? "tel" : type;
-
     return (
         <div className="mb-4">
             <label htmlFor={id} className="block font-medium text-black text-sm">

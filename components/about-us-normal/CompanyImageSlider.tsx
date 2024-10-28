@@ -1,24 +1,61 @@
 "use client";
+import React, { useState, useCallback, useEffect } from "react";
 import { Divider } from "@nextui-org/react";
-import React, { useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-const images = [
-  {
-    src: "images/aboutusnormal/company.png",
-    alt: "Modern office space with plants and computers",
-  },
-  {
-    src: "images/aboutusnormal/company.png",
-    alt: "Meeting room",
-  },
-  {
-    src: "images/aboutusnormal/company.png",
-    alt: "Collaborative workspace",
-  },
-];
 
-export default function CompanyImageSlider() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+interface Image {
+  src: string;
+  alt?: string;
+}
+
+interface CompanyImageSliderProps {
+  images: Image[];
+}
+
+export default function CompanyImageSlider({
+  images,
+}: CompanyImageSliderProps) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      if (emblaApi) emblaApi.scrollTo(index);
+    },
+    [emblaApi]
+  );
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    setScrollSnaps(emblaApi.scrollSnapList());
+    onSelect();
+
+    emblaApi.on("select", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
+  if (!images || images.length === 0) {
+    return <div>No images available</div>;
+  }
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-4">
@@ -28,54 +65,56 @@ export default function CompanyImageSlider() {
         </p>
         <Divider className="w-24 h-1 bg-[#D7A444]" />
       </div>
+
       <div className="laptop:px-8 desktop:px-12">
         <div className="relative overflow-hidden rounded-lg shadow-lg">
-          {/* Main Image */}
-          <div className="relative pb-[56.25%]">
-            <img
-              src={images[currentSlide].src}
-              alt={images[currentSlide].alt}
-              className="absolute top-0 left-0 w-full h-full object-cover"
-            />
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex">
+              {images.map((image, index) => (
+                <div key={index} className="relative flex-[0_0_100%] min-w-0">
+                  <div className="relative pb-[56.25%]">
+                    <img
+                      src={image.src}
+                      alt={image.alt || "Company image"}
+                      className="absolute top-0 left-0 w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Navigation Buttons */}
           <button
-            onClick={() =>
-              setCurrentSlide(
-                (current) => (current - 1 + images.length) % images.length
-              )
-            }
+            onClick={scrollPrev}
             className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full shadow-md transition-all"
             aria-label="Previous image"
           >
-            ←
+            <IoIosArrowBack className="w-5 h-5 md:w-6 md:h-6" />
           </button>
           <button
-            onClick={() =>
-              setCurrentSlide((current) => (current + 1) % images.length)
-            }
+            onClick={scrollNext}
             className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full shadow-md transition-all"
             aria-label="Next image"
           >
-            →
+            <IoIosArrowForward className="w-5 h-5 md:w-6 md:h-6" />
           </button>
 
           {/* Dots Navigation */}
           <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-            {images.map((_, index) => (
+            {scrollSnaps.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all ${currentSlide === index ? "bg-white w-4" : "bg-white/60"
-                  }`}
+                onClick={() => scrollTo(index)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  selectedIndex === index ? "bg-white w-4" : "bg-white/60"
+                }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
         </div>
       </div>
-
     </div>
   );
 }

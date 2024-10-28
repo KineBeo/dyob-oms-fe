@@ -41,8 +41,8 @@ export const getAboutUsNormal = async () => {
 };
 
 export const getAboutUs = async () => {
-  const response = await axiosClient.get("about-us?populate=*");
-  return response;
+  const response = await axiosClient.get("about-us?populate[slide][populate]=Image");
+  return response.data;
 };
 
 export const getOneProduct = async (slug: string) => {

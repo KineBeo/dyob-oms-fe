@@ -21,3 +21,11 @@ export interface ApiError {
   statusCode: number;
   error: string;
 }
+
+export interface ApiErrorResponse {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}

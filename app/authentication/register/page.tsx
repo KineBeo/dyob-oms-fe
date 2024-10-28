@@ -5,6 +5,7 @@ import Image from "next/image";
 import api from '@/utils/auth/authApi';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast'
+import { ApiErrorResponse } from '@/interfaces/auth';
 interface FormData {
     fullname: string;
     phone_number: string;
@@ -85,7 +86,6 @@ export default function Register() {
             [id]: value
         }));
     };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -109,9 +109,23 @@ export default function Register() {
             toast.success('Đăng ký thành công! Vui lòng đăng nhập để tiếp tục');
             router.push('/authentication/login');
 
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Registration error:', error);
-            const errorMessage = error.response?.data?.message || 'Đã có lỗi xảy ra';
+
+
+            const isApiError = (error: unknown): error is ApiErrorResponse => {
+                return (
+                    typeof error === 'object' &&
+                    error !== null &&
+                    'response' in error &&
+                    typeof (error as ApiErrorResponse).response === 'object'
+                );
+            };
+
+            const errorMessage = isApiError(error)
+                ? error.response?.data?.message || 'Đã có lỗi xảy ra'
+                : 'Đã có lỗi xảy ra';
+
             setErrors(prev => ({ ...prev, general: errorMessage }));
         } finally {
             setIsSubmitting(false);

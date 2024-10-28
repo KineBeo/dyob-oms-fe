@@ -5,6 +5,7 @@ import Image from "next/image";
 import api from '@/utils/auth/authApi';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
+import { ApiErrorResponse } from '@/interfaces/auth';
 
 interface FormData {
     email: string;
@@ -79,9 +80,23 @@ export default function Login() {
             toast.success('Đăng nhập thành công!');
             router.push('/'); // Or wherever you want to redirect after login
 
-        } catch (error: any) {
-            console.error('Login error:', error);
-            const errorMessage = error.response?.data?.message || 'Email hoặc mật khẩu không chính xác';
+        } catch (error: unknown) {
+            console.error('Registration error:', error);
+
+
+            const isApiError = (error: unknown): error is ApiErrorResponse => {
+                return (
+                    typeof error === 'object' &&
+                    error !== null &&
+                    'response' in error &&
+                    typeof (error as ApiErrorResponse).response === 'object'
+                );
+            };
+
+            const errorMessage = isApiError(error)
+                ? error.response?.data?.message || 'Đã có lỗi xảy ra'
+                : 'Đã có lỗi xảy ra';
+
             setErrors(prev => ({ ...prev, general: errorMessage }));
         } finally {
             setIsSubmitting(false);

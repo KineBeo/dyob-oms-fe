@@ -9,6 +9,7 @@ import Service from "@/components/homepage/Service";
 import * as strapi from '@/utils/globalApi';
 import useSWR from "swr";
 import { CldImage } from 'next-cloudinary';
+import Articles from "@/components/homepage/Articles";
 
 
 export default function Home() {
@@ -83,6 +84,7 @@ export default function Home() {
           google_maps_url: card.googlemap_url || '#'
         }
       }) || []} />
+      <Articles/>
       <CustomerFeedback videos={homepageData?.Review?.map((video) => ({
         videoId: video.view_url,
         title: video.Title

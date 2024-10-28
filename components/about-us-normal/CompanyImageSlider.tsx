@@ -21,10 +21,6 @@ export default function CompanyImageSlider({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
-  if (!images || images.length === 0) {
-    return <div>No images available</div>;
-  }
-
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
   }, [emblaApi]);
@@ -34,7 +30,9 @@ export default function CompanyImageSlider({
   }, [emblaApi]);
 
   const scrollTo = useCallback(
-    (index: number) => emblaApi && emblaApi.scrollTo(index),
+    (index: number) => {
+      if (emblaApi) emblaApi.scrollTo(index);
+    },
     [emblaApi]
   );
 
@@ -46,18 +44,18 @@ export default function CompanyImageSlider({
   useEffect(() => {
     if (!emblaApi) return;
 
-    // Set initial state
     setScrollSnaps(emblaApi.scrollSnapList());
     onSelect();
 
-    // Setup listeners
     emblaApi.on("select", onSelect);
-
-    // Cleanup
     return () => {
       emblaApi.off("select", onSelect);
     };
   }, [emblaApi, onSelect]);
+
+  if (!images || images.length === 0) {
+    return <div>No images available</div>;
+  }
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-4">

@@ -70,3 +70,26 @@ export const getAllProducts = async () => {
 
   return response;
 };
+export const getAllArticles = async () => {
+  const response: ArticleResponse = await axiosClient
+    .get("articles?populate=*")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching all products data:", error);
+    });
+  return response;
+};
+export const getOneArticle = async (seoUrl: string) => {
+  const response: ArticleResponse = await axiosClient
+    .get(`/articles?filters[seoUrl][$eq]=${seoUrl}&populate=*`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching article data:", error);
+    });
+
+  return response;
+};

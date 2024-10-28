@@ -48,8 +48,8 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
     },
    
   );
-  if (!homepageLoaded) return null;
   const router = useRouter();
+  if (!homepageLoaded) return null;
   if (error) return <div>Error loading homepage data</div>;
   if (isLoading) return <Loading />;
 

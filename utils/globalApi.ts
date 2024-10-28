@@ -1,5 +1,5 @@
 import { default as axios } from "axios";
-import { ProductResponse } from "./api/Product.interface";
+import { CategoriesResponse, ProductResponse } from "./api/Product.interface";
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_STRAPI_API_URL,
@@ -41,13 +41,17 @@ export const getAboutUsNormal = async () => {
 };
 
 export const getAboutUs = async () => {
-  const response = await axiosClient.get("about-us?populate[slide][populate]=Image");
+  const response = await axiosClient.get(
+    "about-us?populate[slide][populate]=Image"
+  );
   return response.data;
 };
 
 export const getOneProduct = async (slug: string) => {
   const response: ProductResponse = await axiosClient
-    .get(`/products?filters[slug][$eq]=${slug}&populate=*`)
+    .get(
+      `https://dyob-cms.onrender.com/api/products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name,slug&filters[slug][$eq]=${slug}`
+    )
     .then((res) => {
       return res.data;
     })
@@ -60,7 +64,9 @@ export const getOneProduct = async (slug: string) => {
 
 export const getAllProducts = async () => {
   const response: ProductResponse = await axiosClient
-    .get("products?populate=*")
+    .get(
+      "https://dyob-cms.onrender.com/api/products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name,slug"
+    )
     .then((res) => {
       return res.data;
     })
@@ -69,4 +75,19 @@ export const getAllProducts = async () => {
     });
 
   return response;
+};
+
+export const getAllCategories = async () => {
+  const response = await axiosClient
+    .get("categories?fields=name,slug")
+    .catch((error) => {
+      console.error("Error fetching all categories data:", error);
+      return null;
+    });
+
+  if (!response) {
+    throw new Error("Failed to fetch categories");
+  }
+
+  return response.data as CategoriesResponse;
 };

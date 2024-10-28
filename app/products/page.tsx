@@ -1,36 +1,15 @@
 "use client"
 
 import ProductCard from "@/components/cards/ProductCard";
-import { Button } from "@nextui-org/react";
+import { Checkbox } from "@nextui-org/react";
 import React, { useState, useEffect } from 'react';
-import { LuBrain } from "react-icons/lu";
-import { LuBone } from "react-icons/lu";
-import { GiKidneys, GiLiver, GiStomach } from "react-icons/gi";
 import * as strapi from '../../utils/globalApi';
 import useSWR from 'swr';
-import { Product, ProductResponse } from "@/utils/api/Product.interface";
+import { CategoriesResponse, FilterCategory, Product, ProductResponse } from "@/utils/api/Product.interface";
 import Loading from "@/components/Loading";
-import { FaHeartPulse } from "react-icons/fa6";
-import { PiMaskSadFill } from "react-icons/pi";
-
-interface FilterCategory {
-    icon: React.ReactNode;
-    name: string;
-    filter: string; // Added filter property to match with product filter
-}
-
-const filterCategories: FilterCategory[] = [
-    { icon: <LuBrain />, name: "Thần kinh", filter: "than-kinh" },
-    { icon: <LuBone />, name: "Xương khớp", filter: "xuong-khop" },
-    { icon: <GiStomach />, name: "Tiêu hóa", filter: "tieu-hoa" },
-    { icon: <FaHeartPulse />, name: "Tim mạch", filter: "tim-mach" },
-    { icon: <PiMaskSadFill />, name: "Trầm cảm", filter: "tram-cam" },
-    { icon: <GiKidneys />, name: "Thận tiết niệu", filter: "than-tiet-nieu" },
-    { icon: <GiLiver />, name: "Nội tiết", filter: "noi-tiet" },
-];
 
 export default function Products() {
-    const [activeFilter, setActiveFilter] = useState<string | null>(null);
+    const [selectedFilters, setSelectedFilters] = useState<Set<number>>(new Set());
     const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
 
     const { data, isLoading, error } = useSWR('products', async () => {
@@ -41,25 +20,47 @@ export default function Products() {
         revalidateOnReconnect: false
     });
 
+    const { data: categories } = useSWR('categories', async () => {
+        const response: CategoriesResponse = await strapi.getAllCategories();
+        return response;
+    }, {
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false
+    });
+
+    const filterCategories: FilterCategory[] = categories?.data || [];
+    console.log(filterCategories);
+
     useEffect(() => {
         if (data?.data) {
-            if (activeFilter) {
-                const filtered = data.data.filter(product => {
-                    if (product.filter) {
-                        return product.filter === activeFilter;
-                    }
-                    return false;
-                }
+            if (selectedFilters.size > 0) {
+                const filtered = data.data.filter(product =>
+                    product.category.id && selectedFilters.has(product.category.id)
                 );
                 setDisplayedProducts(filtered);
             } else {
                 setDisplayedProducts(data.data);
             }
         }
-    }, [data, activeFilter]);
+    }, [data, selectedFilters]);
 
-    const handleFilterClick = (filter: FilterCategory) => {
-        setActiveFilter(activeFilter === filter.filter ? null : filter.filter);
+    const handleFilterChange = (filter: number, isSelected: boolean) => {
+        setSelectedFilters(prev => {
+            const newFilters = new Set(prev);
+            if (isSelected) {
+                newFilters.add(filter);
+            } else {
+                newFilters.delete(filter);
+            }
+            return newFilters;
+        });
+    };
+
+    const getSelectedCategoriesNames = () => {
+        return Array.from(selectedFilters)
+            .map(filter => filterCategories.find(f => f.id === filter)?.name)
+            .filter(Boolean)
+            .join(', ');
     };
 
     if (isLoading) return <Loading />
@@ -67,44 +68,74 @@ export default function Products() {
     if (!data?.data) return (<div>No products found</div>);
 
     return (
-        <>
+        <div className="min-h-screen">
+            {/* Header Banner */}
             <div className="flex justify-center items-center bg-[#4A2511] h-32 text-lg text-white">
                 San pham Dong y ong but
             </div>
 
-            <div className="bg-paper px-4">
-                <div className="flex justify-center py-4">
-                    <div className="w-full max-w-6xl laptop:max-w-[52rem] mini-laptop:max-w-2xl">
-                        <p className="font-bold font-robotoslab text-[#4A2511] text-2xl mobile:text-lg tablet:text-xl uppercase">
-                            Danh mục
-                        </p>
+            {/* Main Content */}
+            <div className="flex justify-center bg-paper px-4 py-8">
+                <div className="flex tablet:flex-row mobile:flex-col gap-8 w-full max-w-7xl">
+                    {/* Left Sidebar - Filters */}
+                    <div className="mobile:w-full tablet:w-64">
+                        <div className="top-4 sticky">
+                            <p className="mb-4 font-bold font-robotoslab text-[#4A2511] text-xl mobile:text-lg uppercase">
+                                Danh mục
+                            </p>
+                            <div className="flex flex-col gap-2">
+                                {Array.isArray(filterCategories) && filterCategories.map((filter) => (
+                                    <Checkbox
+                                        key={filter.id}
+                                        isSelected={selectedFilters.has(filter.id)}
+                                        onValueChange={(isSelected) =>
+                                            handleFilterChange(filter.id, isSelected)
+                                        }
+                                        className="w-full"
+                                        classNames={{
+                                            label: "w-full text-sm font-robotoflex font-medium flex items-center gap-2",
+                                            wrapper: "before:border-[#4A2511]",
+                                        }}
+                                    >
+                                        <div className="flex items-center gap-2 w-full">
+                                            {filter.name}
+                                        </div>
+                                    </Checkbox>
+                                ))}
+                            </div>
 
-                        <div className="flex flex-wrap gap-2 py-2">
-                            {filterCategories.map((filter, index) => (
-                                <Button
-                                    key={index}
-                                    startContent={filter.icon}
-                                    onPress={() => handleFilterClick(filter)}
-                                    className={`text-sm font-robotoflex font-medium ${activeFilter === filter.filter ? 'bg-[#4A2511] text-white' : ''}`}
+                            {selectedFilters.size > 0 && (
+                                <button
+                                    onClick={() => setSelectedFilters(new Set())}
+                                    className="mt-4 text-[#4A2511] text-sm hover:text-[#4A2511]/70 underline"
                                 >
-                                    {filter.name}
-                                </Button>
-                            ))}
+                                    Xóa bộ lọc
+                                </button>
+                            )}
                         </div>
                     </div>
-                </div>
 
-                <div className="flex justify-center py-4">
-                    <div className="w-full max-w-6xl laptop:max-w-[52rem] mini-laptop:max-w-2xl">
-                        <p className="font-bold font-robotoslab text-[#4A2511] text-2xl mobile:text-lg tablet:text-xl uppercase">
-                            Danh sách sản phẩm {activeFilter && `- ${filterCategories.find(f => f.filter === activeFilter)?.name}`}
-                        </p>
+                    {/* Right Content - Products */}
+                    <div className="flex-1">
+                        <div className="flex justify-between items-center mb-6">
+                            <p className="font-bold font-robotoslab text-[#4A2511] text-2xl mobile:text-lg tablet:text-xl uppercase">
+                                Danh sách sản phẩm
+                                {selectedFilters.size > 0 && (
+                                    <span className="ml-2 font-normal text-sm">
+                                        ({getSelectedCategoriesNames()})
+                                    </span>
+                                )}
+                            </p>
+                            <span className="text-gray-600 text-sm">
+                                {displayedProducts.length} sản phẩm
+                            </span>
+                        </div>
 
-                        <div className="gap-6 grid grid-cols-3 desktop:grid-cols-5 laptop:grid-cols-4 mobile:grid-cols-2 py-4">
+                        <div className="gap-6 grid grid-cols-4 laptop:grid-cols-3 mobile:grid-cols-2 tablet:grid-cols-2">
                             {Array.isArray(displayedProducts) && displayedProducts.map((product) => (
                                 <ProductCard
                                     key={product.id}
-                                    image_url={product.Main_image.url}
+                                    image_url={product.Main_image.provider_metadata.public_id}
                                     title={product.Name}
                                     price={product.Price}
                                     slug={product.slug}
@@ -114,12 +145,12 @@ export default function Products() {
 
                         {displayedProducts.length === 0 && (
                             <div className="py-8 text-center text-gray-500">
-                                No products found for this category
+                                Không tìm thấy sản phẩm nào cho danh mục này
                             </div>
                         )}
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }

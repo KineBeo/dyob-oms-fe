@@ -4,6 +4,7 @@ import { Card, CardHeader, CardBody, CardFooter, Button } from "@nextui-org/reac
 import { useRouter } from "next/navigation";
 import { IoCartOutline } from "react-icons/io5";
 import { CardDescription, CardTitle } from "../ui/card";
+import { CldImage } from "next-cloudinary";
 
 interface ProductCardProps {
     image_url: string,
@@ -18,7 +19,7 @@ export default function ProductCard(props: ProductCardProps) {
         <Card className="shadow-xl hover:shadow-2xl p-0 w-fit h-full cursor-pointer">
             <div onClick={() => router.push(`/products/${props.slug}`)}>
                 <CardHeader className="flex-col items-center bg-[#FBF6EC] px-4 py-8">
-                    <img
+                    <CldImage
                         alt="Card background"
                         className="rounded-xl"
                         src={props.image_url}

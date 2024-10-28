@@ -1,4 +1,5 @@
 "use client"
+import { CldImage } from "next-cloudinary";
 import { useState } from "react";
 import {
   FaStar,
@@ -29,8 +30,10 @@ const ProductInfo = (productInfo: ProductInfoProps) => {
       {/* Left side - Image gallery */}
       <div className="md:w-1/2">
         <div className="mb-4">
-          <img
+          <CldImage
             src={productInfo.images[0]}
+            width={500}
+            height={500}
             alt="Product"
             className="rounded-lg w-full h-full"
           />
@@ -38,9 +41,11 @@ const ProductInfo = (productInfo: ProductInfoProps) => {
         <div className="relative">
           <div className="flex justify-center gap-4 overflow-hidden">
             {productInfo.images.map((src, index) => (
-              <img
+              <CldImage
                 key={index}
                 src={src}
+                width={100}
+                height={100}
                 alt={`Thumbnail ${index + 1}`}
                 className="border rounded-lg w-24 h-24 cursor-pointer"
               />

@@ -14,7 +14,9 @@ interface MainImage {
 interface Product {
   id: number;
   Main_image: {
-    url: string;
+    provider_metadata: {
+      public_id: string;
+    };
   };
   Name: string;
   Price: string; // Using string since the price comes as a string from API
@@ -22,7 +24,9 @@ interface Product {
   Product_details_title: string | null;
   Sub_images: null | any[]; // Replace 'any' with proper type if sub_images structure is known
   slug: string;
-  filter: string;
+  category: {
+    id: number;
+  };
 }
 
 // Main response interface
@@ -30,4 +34,15 @@ interface ProductResponse {
   data: Product[];
 }
 
-export type { Product, ProductResponse };
+interface FilterCategory {
+  name: string;
+  filter: string;
+  id: number;
+  documentId: string;
+}
+
+interface CategoriesResponse {
+  data: FilterCategory[];
+}
+
+export type { Product, ProductResponse, FilterCategory, CategoriesResponse };

@@ -1,7 +1,6 @@
 "use client"
 
 import ProductCard from "@/components/cards/ProductCard";
-import { Checkbox } from "@nextui-org/react";
 import React, { useState, useEffect } from 'react';
 import * as strapi from '../../utils/globalApi';
 import useSWR from 'swr';
@@ -29,7 +28,6 @@ export default function Products() {
     });
 
     const filterCategories: FilterCategory[] = categories?.data || [];
-    console.log(filterCategories);
 
     useEffect(() => {
         if (data?.data) {
@@ -44,16 +42,18 @@ export default function Products() {
         }
     }, [data, selectedFilters]);
 
-    const handleFilterChange = (filter: number, isSelected: boolean) => {
+    const handleFilterClick = (filterId: number) => {
         setSelectedFilters(prev => {
             const newFilters = new Set(prev);
-            if (isSelected) {
-                newFilters.add(filter);
+            if (newFilters.has(filterId)) {
+                newFilters.delete(filterId);
             } else {
-                newFilters.delete(filter);
+                newFilters.add(filterId);
             }
             return newFilters;
         });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const getSelectedCategoriesNames = () => {
@@ -68,39 +68,33 @@ export default function Products() {
     if (!data?.data) return (<div>No products found</div>);
 
     return (
-        <div className="min-h-screen">
+        <div className="flex flex-col bg-paper min-h-screen">
             {/* Header Banner */}
             <div className="flex justify-center items-center bg-[#4A2511] h-32 text-lg text-white">
                 San pham Dong y ong but
             </div>
 
             {/* Main Content */}
-            <div className="flex justify-center bg-paper px-4 py-8">
+            <div className="flex flex-1 justify-center px-4 py-8">
                 <div className="flex tablet:flex-row mobile:flex-col gap-8 w-full max-w-7xl">
                     {/* Left Sidebar - Filters */}
-                    <div className="mobile:w-full tablet:w-64">
+                    <div className="w-1/6 mobile:w-full tablet:w-64">
                         <div className="top-4 sticky">
                             <p className="mb-4 font-bold font-robotoslab text-[#4A2511] text-xl mobile:text-lg uppercase">
                                 Danh mục
                             </p>
                             <div className="flex flex-col gap-2">
                                 {Array.isArray(filterCategories) && filterCategories.map((filter) => (
-                                    <Checkbox
+                                    <button
                                         key={filter.id}
-                                        isSelected={selectedFilters.has(filter.id)}
-                                        onValueChange={(isSelected) =>
-                                            handleFilterChange(filter.id, isSelected)
-                                        }
-                                        className="w-full"
-                                        classNames={{
-                                            label: "w-full text-sm font-robotoflex font-medium flex items-center gap-2",
-                                            wrapper: "before:border-[#4A2511]",
-                                        }}
+                                        onClick={() => handleFilterClick(filter.id)}
+                                        className={` p-2 text-left rounded transition-colors duration-200 text-sm font-robotoflex font-medium ${selectedFilters.has(filter.id)
+                                            ? 'bg-[#4A2511] text-white'
+                                            : 'bg-[#dad9da] text-[#4A2511] hover:bg-[#4A2511]/10'
+                                            }`}
                                     >
-                                        <div className="flex items-center gap-2 w-full">
-                                            {filter.name}
-                                        </div>
-                                    </Checkbox>
+                                        {filter.name}
+                                    </button>
                                 ))}
                             </div>
 

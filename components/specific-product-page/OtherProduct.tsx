@@ -39,7 +39,7 @@ const OtherProducts: React.FC = () => {
             {otherProducts?.map((otherProduct, index) => (
               <CarouselItem key={index} className="mobile:basis-1/2 tablet:basis-1/3 desktop:basis-1/5 basis-1/4">
                 <ProductCard key={index}
-                  image_url={otherProduct.Main_image.url}
+                  image_url={otherProduct.Main_image.provider_metadata.public_id}
                   title={otherProduct.Name}
                   price={otherProduct.Price}
                   slug={otherProduct.slug}

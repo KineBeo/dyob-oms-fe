@@ -1,4 +1,5 @@
 import Markdown from "markdown-to-jsx";
+import { CldImage } from "next-cloudinary";
 
 interface MoreDestailsProps {
   markdown: string,
@@ -52,8 +53,10 @@ const MoreDetails = (props: MoreDestailsProps) => {
         </div>
 
         <div className="md:w-2/5">
-          <img
+          <CldImage
             src={props.image}
+            width={500}
+            height={500}
             alt="An vị khang Ông bụt"
             className="shadow-lg rounded-lg w-full object-cover"
           />

@@ -84,7 +84,7 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
                             className="object-fill w-full h-full rounded-xl"
                           />
                           <div className="right-0 bottom-0 left-0 absolute py-2">
-                            <p className="font-bold text-center text-base text-white font-robotoslab uppercase">
+                            <p className="font-bold text-center text-base text-[#3F291B] font-robotoslab uppercase">
                               {doctor.name}
                             </p>
                           </div>

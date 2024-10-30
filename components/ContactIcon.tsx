@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaFacebookMessenger, FaPhone, FaRobot } from "react-icons/fa";
+import { FaFacebookMessenger, FaPhone} from "react-icons/fa";
 import { SiZalo } from "react-icons/si";
 import Link from "next/link";
 
@@ -25,6 +25,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
           "https://files.bpcontent.cloud/2024/10/29/15/20241029152141-PN38Y243.js";
         script2.async = true;
 
+    
         script1.onload = () => {
           script2.onload = () => setScriptsLoaded(true);
           document.body.appendChild(script2);
@@ -45,7 +46,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   if (!isOpen || !scriptsLoaded) return null;
 
   return (
-    <div className="fixed right-20 bottom-20 z-50">
+    <div className="fixed right-20 bottom-60 z-50">
       <div id="webchat" className="w-[400px] h-[600px]" />
       <button
         onClick={onClose}
@@ -92,18 +93,13 @@ const ContactIcons = () => {
         }
       `}</style>
 
-      <div className="fixed right-4 bottom-4 flex flex-col gap-3 z-50">
-        <button
-          onClick={() => setIsChatbotOpen(!isChatbotOpen)}
-          className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all mobile:w-10 mobile:h-10"
-          aria-label="Chat"
-        >
-          <FaRobot className="text-white text-2xl" />
-        </button>
+      <div className="fixed left-4 bottom-4 flex flex-col gap-3 z-50">
+      
+        <Chatbot isOpen={isChatbotOpen} onClose={() => setIsChatbotOpen(false)} />
 
         <Link
           href="mailto:contact@example.com"
-          className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all mobile:w-10 mobile:h-10"
+          className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all"
           aria-label="Email"
         >
           <SiZalo className="text-white text-2xl" />
@@ -129,8 +125,6 @@ const ContactIcons = () => {
           </div>
         </div>
       </div>
-
-      <Chatbot isOpen={isChatbotOpen} onClose={() => setIsChatbotOpen(false)} />
     </>
   );
 };

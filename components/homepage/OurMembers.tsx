@@ -74,17 +74,22 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
                         key={index}
                         className="relative basis-1/3 mobile:basis-1/2 tablet:basis-1/2 grid grid-rows-1"
                       >
-                        <CldImage
-                          src={doctor.image}
-                          alt={doctor.name}
-                          width={600}
-                          height={800}
+                        <div className="w-full h-full">
+                          <CldImage
+                            src={doctor.image}
+                            alt={doctor.name}
+                            width={800}
+                            height={800}
 
-                          className=""
-                        />
-                        <div className="right-0 bottom-0 left-0 absolute py-2 font-bold text-center text-lg text-white">
-                          {doctor.name}
+                            className="object-fill w-full h-full rounded-xl"
+                          />
+                          <div className="right-0 bottom-0 left-0 absolute py-2">
+                            <p className="font-bold text-center text-base text-white font-robotoslab uppercase">
+                              {doctor.name}
+                            </p>
+                          </div>
                         </div>
+
                       </CarouselItem>
                     ))}
                   </CarouselContent>

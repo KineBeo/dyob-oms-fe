@@ -22,6 +22,8 @@ import {
   AccordionItem,
 } from "@nextui-org/react";
 import { IoCartOutline } from "react-icons/io5";
+import { FaRegUserCircle } from "react-icons/fa";
+
 
 interface SubLink {
   title: string;
@@ -33,7 +35,6 @@ interface MenuItem {
   hasSubmenu?: boolean;
   submenu?: SubLink[];
 }
-
 
 export default function HeroSection() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -73,9 +74,9 @@ export default function HeroSection() {
           href: "/affiliate",
         },
       ]
-    },
-    { title: "Giỏ hàng", href: "/cart" },
+    }
   ];
+
   return (
     <Navbar
       isMenuOpen={isOpen}
@@ -93,19 +94,19 @@ export default function HeroSection() {
             <Image
               src="/images/logo-image.png"
               alt="Đông Y Ông Bụt Logo"
-              width={48}
-              height={48}
+              width={50}
+              height={50}
               priority
               loading="eager"
               className="w-auto mobile:w-14 h-auto mobile:h-14 hover:scale-110 transition"
             />
           </div>
           <div className="ml-2">
-            <div className="text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg">
-              Quán tâm an bệnh
-            </div>
             <div className="font-semibold text-text-brown-primary mobile:text-md tablet:text-lg mini-laptop:text-lg laptop:text-xl desktop:text-xl">
               Đông Y Ông Bụt
+            </div>
+            <div className="text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg">
+              Quán tâm an bệnh
             </div>
           </div>
         </NavbarBrand>
@@ -164,23 +165,58 @@ export default function HeroSection() {
                 className="font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] cursor-pointer"
               >
                 <div className="flex justify-between items-center">
-                  {item.title !== "Giỏ hàng" && item.title}
+                  {item.title}
                 </div>
-                {item.title === "Giỏ hàng" && (
-                  <Badge
-                    color="danger"
-                    content={40}
-                    isInvisible={isInvisible}
-                    shape="rectangle"
-                    size="sm"
-                  >
-                    <IoCartOutline size={30} className="mb-1" />
-                  </Badge>
-                )}
               </Link>
             </NavbarItem>
           )
         )}
+
+        <div className="relative">
+          <Dropdown isOpen={openMenuIndex === menuItems.length}>
+            <DropdownTrigger>
+              <Button
+                className="bg-[#FBF6EC] font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444]"
+                onMouseEnter={() => setOpenMenuIndex(menuItems.length)}
+                onMouseLeave={() => setOpenMenuIndex(null)}
+                isIconOnly={true}
+                startContent={<FaRegUserCircle size={24} />}
+              >
+
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              onMouseEnter={() => setOpenMenuIndex(menuItems.length)}
+              onMouseLeave={() => setOpenMenuIndex(null)}
+            >
+              <DropdownItem
+                className="font-bold text-2xl text-text-brown-primary"
+                onClick={() => router.push("/authentication/login")}
+              >
+                Đăng nhập
+              </DropdownItem>
+              <DropdownItem
+                className="font-bold text-2xl text-text-brown-primary"
+                onClick={() => router.push("/authentication/register")}
+              >
+                Đăng ký
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+        <NavbarItem onClick={() => router.push('/cart')}>
+
+          <Badge
+            color="danger"
+            content={40}
+            size="sm"
+          >
+            <Button radius="full" isIconOnly className="bg-[#FBF6EC] font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] hover:scale-110" >
+              <IoCartOutline size={30} />
+            </Button>
+          </Badge>
+
+        </NavbarItem>
       </NavbarContent>
 
       {/* Mobile */}
@@ -193,7 +229,7 @@ export default function HeroSection() {
                   key={item.title}
                   aria-label={item.title}
                   title={
-                    <span className="w-fit font-semibold text-text-brown-primary">
+                    <span className="w-fit font-medium text-text-brown-primary">
                       {item.title}
                       <Divider className="bg-[#D7A444]" />
                     </span>
@@ -203,12 +239,11 @@ export default function HeroSection() {
                     {item.submenu?.map((subItem, subIndex) => (
                       <div
                         key={`${subItem.title}-${subIndex}`}
-                        // onClick={() => handleSubMenuClick(subItem.href)}
                         className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
                       >
                         <Link
                           color="foreground"
-                          className="w-full font-semibold text-text-brown-primary"
+                          className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
                           size="md"
                           onClick={() => {
                             setIsOpen(false);
@@ -229,7 +264,7 @@ export default function HeroSection() {
             <NavbarMenuItem key={`${item.title}-${index}`}>
               <Link
                 color="foreground"
-                className="w-full font-semibold text-text-brown-primary"
+                className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
                 size="md"
                 onClick={() => {
                   setIsOpen(false);
@@ -240,24 +275,83 @@ export default function HeroSection() {
               >
                 <div className="flex justify-between items-center w-full">
                   {item.title}
-                  {item.title === "Giỏ hàng" && (
-                    <Badge
-                      color="danger"
-                      content={40}
-                      isInvisible={isInvisible}
-                      shape="rectangle"
-                      size="sm"
-                    >
-                      <IoCartOutline size={25} />
-                    </Badge>
-                  )}
                 </div>
               </Link>
               <Divider className="bg-[#D7A444]" />
             </NavbarMenuItem>
           )
         )}
+        <NavbarMenuItem>
+          <Accordion isCompact className="px-0">
+            <AccordionItem
+              key="auth"
+              aria-label="Authentication"
+              title={
+                <span className="w-fit font-medium text-text-brown-primary">
+                  <div className="flex items-center gap-2">
+
+                    Tài khoản
+                  </div>
+                  <Divider className="bg-[#D7A444]" />
+                </span>
+              }
+            >
+              <div className="flex flex-col gap-2 ml-4">
+                <div
+                  className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
+                >
+                  <Link
+                    color="foreground"
+                    className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                    size="md"
+                    onClick={() => {
+                      setIsOpen(false);
+                      router.push("/authentication/login");
+                    }}
+                  >
+                    <div className="w-full">Đăng nhập</div>
+                  </Link>
+                </div>
+                <div
+                  className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
+                >
+                  <Link
+                    color="foreground"
+                    className="w-full font-semibold text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                    size="md"
+                    onClick={() => {
+                      setIsOpen(false);
+                      router.push("/authentication/register");
+                    }}
+                  >
+                    <div className="w-full">Đăng ký</div>
+                  </Link>
+                </div>
+              </div>
+            </AccordionItem>
+          </Accordion>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
+            href="/cart"
+            className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+          >
+            <div className="flex justify-between items-center w-full">
+              Giỏ hàng
+              <Badge
+                color="danger"
+                content={40}
+                isInvisible={isInvisible}
+                shape="circle"
+                size="sm"
+              >
+                <IoCartOutline size={25} />
+              </Badge>
+            </div>
+          </Link>
+          <Divider className="bg-[#D7A444]" />
+        </NavbarMenuItem>
       </NavbarMenu>
-    </Navbar >
+    </Navbar>
   );
 }

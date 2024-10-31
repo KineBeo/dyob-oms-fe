@@ -104,7 +104,7 @@ export default function Login() {
     };
 
     return (
-        <div className="relative">
+        <div className="relative h-[70vh]">
             <div className="z-0 absolute inset-0">
                 <Image
                     src="/images/productbg.png"

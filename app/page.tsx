@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero section  */}
-      <div className="mobile:hidden tablet:hidden w-full h-full">
+      <div className="flex justify-center mobile:hidden tablet:hidden w-full h-full">
         <CldImage
           src={
             homepageData?.Hero_section_image?.provider_metadata.public_id || ""

@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import ContactIcons from "@/components/ContactIcon";
 import { Toaster } from "react-hot-toast";
+import ChatbaseBot from "@/components/ChatbaseBot";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,7 +36,8 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
-        <ContactIcons />
+        <ChatbaseBot />
+        {/* <ContactIcons /> */}
         <Footer />
         <Toaster
           position="top-center"

@@ -50,7 +50,7 @@ export const getAboutUs = async () => {
 export const getOneProduct = async (slug: string) => {
   const response: ProductResponse = await axiosClient
     .get(
-      `https://dyob-cms.onrender.com/api/products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name,slug&filters[slug][$eq]=${slug}`
+      `products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name&filters[slug][$eq]=${slug}`
     )
     .then((res) => {
       return res.data;
@@ -65,7 +65,7 @@ export const getOneProduct = async (slug: string) => {
 export const getAllProducts = async () => {
   const response: ProductResponse = await axiosClient
     .get(
-      "https://dyob-cms.onrender.com/api/products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name,slug"
+      "products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name"
     )
     .then((res) => {
       return res.data;
@@ -79,7 +79,7 @@ export const getAllProducts = async () => {
 
 export const getAllCategories = async () => {
   const response = await axiosClient
-    .get("categories?fields=name,slug")
+    .get("categories?fields=name")
     .catch((error) => {
       console.error("Error fetching all categories data:", error);
       return null;

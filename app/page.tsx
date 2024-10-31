@@ -32,8 +32,8 @@ export default function Home() {
           src={
             homepageData?.Hero_section_image?.provider_metadata.public_id || ""
           }
-          width={window.innerWidth}
-          height={window.innerHeight}
+          width={typeof window !== 'undefined' ? window.innerWidth : 0}
+          height={typeof window !== 'undefined' ? window.innerHeight : 0}
           alt="Herosection"
         />
       </div>

@@ -6,6 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Card } from "@nextui-org/react";
 import { CldImage } from "next-cloudinary";
 
 interface TeamMember {
@@ -72,19 +73,28 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
                     {otherDoctors.map((doctor, index) => (
                       <CarouselItem
                         key={index}
-                        className="relative basis-1/3 mobile:basis-1/2 tablet:basis-1/2 grid grid-rows-1"
+                        className="relative basis-1/3 mobile:basis-1/2 tablet:basis-1/2"
                       >
-                        <CldImage
-                          src={doctor.image}
-                          alt={doctor.name}
-                          width={600}
-                          height={800}
+                        <Card className="w-full h-full rounded-xl">
+                          <CldImage
+                            src={doctor.image}
+                            alt={doctor.name}
+                            width={800}
+                            height={600}
 
-                          className=""
-                        />
-                        <div className="right-0 bottom-0 left-0 absolute py-2 font-bold text-center text-lg text-white">
-                          {doctor.name}
-                        </div>
+                            className="object-fill w-full h-full rounded-xl"
+                          />
+
+                          {/* Gradient overlay */}
+                          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent rounded-xl" />
+
+                          <div className="right-0 bottom-0 left-0 absolute py-2">
+                            <p className="font-bold text-center text-base text-white font-robotoslab uppercase">
+                              {doctor.name}
+                            </p>
+                          </div>
+                        </Card>
+
                       </CarouselItem>
                     ))}
                   </CarouselContent>

@@ -22,15 +22,21 @@ const Chatbot: React.FC<ChatbotProps> = () => {
   useEffect(() => {
     const loadChatlingScript = () => {
       if (!scriptsLoaded) {
+        const chatbotId = process.env.NEXT_PUBLIC_BOTCHAT_CHATLING_ID;
         // Configure Chatling
-        window.chtlConfig = { chatbotId: "3324568477" };
+        if (!chatbotId) {
+          throw new Error(
+            "Environment variable NEXT_PUBLIC_BOTCHAT_CHATLING_ID is not set"
+          );
+        }
+        window.chtlConfig = { chatbotId: chatbotId };
 
         const script = document.createElement("script");
         script.src = "https://chatling.ai/js/embed.js";
         script.async = true;
         script.type = "text/javascript";
         script.id = "chatling-embed-script";
-        script.dataset.id = "3324568477";
+        script.dataset.id = chatbotId;
 
         script.onload = () => setScriptsLoaded(true);
         document.body.appendChild(script);

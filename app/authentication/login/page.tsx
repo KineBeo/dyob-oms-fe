@@ -6,7 +6,9 @@ import api from '@/utils/auth/authApi';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { ApiErrorResponse } from '@/interfaces/auth';
-
+import { loginStart, loginSuccess, loginFailure } from '@/redux/features/auth/authSlice';
+import { RootState } from '@/store/store';
+import { useDispatch, useSelector } from 'react-redux';
 interface FormData {
     email: string;
     password: string;
@@ -20,6 +22,8 @@ interface FormErrors {
 
 export default function Login() {
     const router = useRouter();
+    const dispatch = useDispatch();
+    const { loading, error } = useSelector((state: RootState) => state.auth);
     const [formData, setFormData] = useState<FormData>({
         email: '',
         password: ''
@@ -63,6 +67,7 @@ export default function Login() {
             return;
         }
 
+        dispatch(loginStart());
         setIsSubmitting(true);
 
         try {
@@ -71,18 +76,25 @@ export default function Login() {
                 password: formData.password
             });
 
-            // Assuming the API returns a token
-            const { token } = response.data;
+            // The API response contains user, access_token, and refresh_token
+            const { user, access_token, refresh_token } = response.data;
 
-            // Store the token (you might want to use a more secure method)
-            localStorage.setItem('authToken', token);
+            // Dispatch loginSuccess with the correct payload structure
+            dispatch(loginSuccess({
+                user,
+                access_token,
+                refresh_token
+            }));
+
+            // Store tokens (consider using a more secure method)
+            localStorage.setItem('accessToken', access_token);
+            localStorage.setItem('refreshToken', refresh_token);
 
             toast.success('Đăng nhập thành công!');
-            router.push('/'); // Or wherever you want to redirect after login
+            router.push('/');
 
         } catch (error: unknown) {
-            console.error('Registration error:', error);
-
+            console.error('Login error:', error);
 
             const isApiError = (error: unknown): error is ApiErrorResponse => {
                 return (
@@ -97,6 +109,7 @@ export default function Login() {
                 ? error.response?.data?.message || 'Đã có lỗi xảy ra'
                 : 'Đã có lỗi xảy ra';
 
+            dispatch(loginFailure(errorMessage));
             setErrors(prev => ({ ...prev, general: errorMessage }));
         } finally {
             setIsSubmitting(false);
@@ -151,10 +164,10 @@ export default function Login() {
                             <div className="flex flex-col space-y-4">
                                 <button
                                     type="submit"
-                                    disabled={isSubmitting}
-                                    className={`laptop:hover:scale-105 desktop:hover:scale-105 bg-[#8B0000] px-8 py-3 w-full font-medium text-white transition ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    disabled={loading}
+                                    className={`laptop:hover:scale-105 desktop:hover:scale-105 bg-[#8B0000] px-8 py-3 w-full font-medium text-white transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
-                                    {isSubmitting ? 'Đang xử lý...' : 'Đăng nhập'}
+                                    {loading ? 'Đang xử lý...' : 'Đăng nhập'}
                                 </button>
                                 <div className="text-center">
                                     <button

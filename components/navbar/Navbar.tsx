@@ -20,10 +20,14 @@ import {
   Badge,
   Accordion,
   AccordionItem,
+  User,
+  Avatar,
 } from "@nextui-org/react";
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegUserCircle } from "react-icons/fa";
-
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/features/auth/authSlice";
+import { RootState } from "@/store/store";
 
 interface SubLink {
   title: string;
@@ -41,6 +45,17 @@ export default function HeroSection() {
   const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null);
   const [isInvisible] = React.useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  // Get auth state from Redux
+  const { user, isAuthenticated } = useSelector(
+    (state: RootState) => state.auth
+  );
+
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push("/");
+  };
 
   const menuItems: MenuItem[] = [
     { title: "Trang chủ", href: "/" },
@@ -73,9 +88,194 @@ export default function HeroSection() {
           title: "Tìm hiểu thêm",
           href: "/affiliate",
         },
-      ]
-    }
+      ],
+    },
   ];
+
+  const renderAuthButton = () => {
+    if (isAuthenticated && user) {
+      return (
+        <Dropdown>
+          <DropdownTrigger>
+            <Button
+              className="bg-[#FBF6EC] font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444]"
+              isIconOnly={true}
+            >
+              <Avatar
+                className=""
+                classNames={{
+                  base: "bg-gradient-to-br from-[#FBF6EC] to-[#D7A444]",
+                }}
+                name={user.fullname.split(" ").pop()}
+              />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="User Actions">
+            <DropdownItem
+              key="profile"
+              className="font-bold text-xl text-text-brown-primary"
+              onClick={() => router.push("/affiliate-dashboard")}
+            >
+              Tài khoản của tôi
+            </DropdownItem>
+            <DropdownItem
+              key="orders"
+              className="font-bold text-xl text-text-brown-primary"
+              onClick={() => router.push("/orders")}
+            >
+              Đơn hàng
+            </DropdownItem>
+            <DropdownItem
+              key="logout"
+              className="font-bold text-xl text-red-500"
+              onClick={handleLogout}
+            >
+              Đăng xuất
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      );
+    }
+    return (
+      <Dropdown isOpen={openMenuIndex === menuItems.length}>
+        <DropdownTrigger>
+          <Button
+            className="bg-[#FBF6EC] font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444]"
+            onMouseEnter={() => setOpenMenuIndex(menuItems.length)}
+            onMouseLeave={() => setOpenMenuIndex(null)}
+            isIconOnly={true}
+            startContent={<FaRegUserCircle size={24} />}
+          />
+        </DropdownTrigger>
+        <DropdownMenu
+          onMouseEnter={() => setOpenMenuIndex(menuItems.length)}
+          onMouseLeave={() => setOpenMenuIndex(null)}
+        >
+          <DropdownItem
+            className="font-bold text-2xl text-text-brown-primary"
+            onClick={() => router.push("/authentication/login")}
+          >
+            Đăng nhập
+          </DropdownItem>
+          <DropdownItem
+            className="font-bold text-2xl text-text-brown-primary"
+            onClick={() => router.push("/authentication/register")}
+          >
+            Đăng ký
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+    );
+  };
+
+  const renderMobileAuthMenu = () => {
+    if (isAuthenticated && user) {
+      return (
+        <NavbarMenuItem>
+          <Accordion isCompact className="px-0">
+            <AccordionItem
+              key="auth"
+              aria-label="Authentication"
+              title={
+                <span className="w-fit font-medium text-text-brown-primary">
+                  <div className="flex items-center gap-2">{user.fullname}</div>
+                  <Divider className="bg-[#D7A444]" />
+                </span>
+              }
+            >
+              <div className="flex flex-col gap-2 ml-4">
+                <div className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer">
+                  <Link
+                    color="foreground"
+                    className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                    size="md"
+                    onClick={() => {
+                      setIsOpen(false);
+                      router.push("/affiliate-dashboard");
+                    }}
+                  >
+                    <div className="w-full">Tài khoản của tôi</div>
+                  </Link>
+                </div>
+                <div className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer">
+                  <Link
+                    color="foreground"
+                    className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                    size="md"
+                    onClick={() => {
+                      setIsOpen(false);
+                      router.push("/orders");
+                    }}
+                  >
+                    <div className="w-full">Đơn hàng</div>
+                  </Link>
+                </div>
+                <div className="w-full text-red-500 hover:text-red-600 cursor-pointer">
+                  <Link
+                    color="foreground"
+                    className="w-full font-medium mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                    size="md"
+                    onClick={() => {
+                      setIsOpen(false);
+                      handleLogout();
+                    }}
+                  >
+                    <div className="w-full">Đăng xuất</div>
+                  </Link>
+                </div>
+              </div>
+            </AccordionItem>
+          </Accordion>
+        </NavbarMenuItem>
+      );
+    }
+
+    return (
+      <NavbarMenuItem>
+        <Accordion isCompact className="px-0">
+          <AccordionItem
+            key="auth"
+            aria-label="Authentication"
+            title={
+              <span className="w-fit font-medium text-text-brown-primary">
+                <div className="flex items-center gap-2">Tài khoản</div>
+                <Divider className="bg-[#D7A444]" />
+              </span>
+            }
+          >
+            <div className="flex flex-col gap-2 ml-4">
+              <div className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer">
+                <Link
+                  color="foreground"
+                  className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                  size="md"
+                  onClick={() => {
+                    setIsOpen(false);
+                    router.push("/authentication/login");
+                  }}
+                >
+                  <div className="w-full">Đăng nhập</div>
+                </Link>
+              </div>
+              <div className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer">
+                <Link
+                  color="foreground"
+                  className="w-full font-semibold text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                  size="md"
+                  onClick={() => {
+                    setIsOpen(false);
+                    router.push("/authentication/register");
+                  }}
+                >
+                  <div className="w-full">Đăng ký</div>
+                </Link>
+              </div>
+            </div>
+          </AccordionItem>
+        </Accordion>
+      </NavbarMenuItem>
+    );
+  };
 
   return (
     <Navbar
@@ -159,9 +359,7 @@ export default function HeroSection() {
           ) : (
             <NavbarItem key={index}>
               <Link
-                onClick={() =>
-                  item.href && router.push(item.href)
-                }
+                onClick={() => item.href && router.push(item.href)}
                 className="font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] cursor-pointer"
               >
                 <div className="flex justify-between items-center">
@@ -172,50 +370,18 @@ export default function HeroSection() {
           )
         )}
 
-        <div className="relative">
-          <Dropdown isOpen={openMenuIndex === menuItems.length}>
-            <DropdownTrigger>
-              <Button
-                className="bg-[#FBF6EC] font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444]"
-                onMouseEnter={() => setOpenMenuIndex(menuItems.length)}
-                onMouseLeave={() => setOpenMenuIndex(null)}
-                isIconOnly={true}
-                startContent={<FaRegUserCircle size={24} />}
-              >
-
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              onMouseEnter={() => setOpenMenuIndex(menuItems.length)}
-              onMouseLeave={() => setOpenMenuIndex(null)}
+        <div className="relative">{renderAuthButton()}</div>
+        <NavbarItem>
+          <Badge color="danger" content={40} size="sm">
+            <Button
+              onClick={() => router.push("/cart")}
+              radius="full"
+              isIconOnly
+              className="bg-[#FBF6EC] font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] hover:scale-110"
             >
-              <DropdownItem
-                className="font-bold text-2xl text-text-brown-primary"
-                onClick={() => router.push("/authentication/login")}
-              >
-                Đăng nhập
-              </DropdownItem>
-              <DropdownItem
-                className="font-bold text-2xl text-text-brown-primary"
-                onClick={() => router.push("/authentication/register")}
-              >
-                Đăng ký
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </div>
-        <NavbarItem onClick={() => router.push('/cart')}>
-
-          <Badge
-            color="danger"
-            content={40}
-            size="sm"
-          >
-            <Button radius="full" isIconOnly className="bg-[#FBF6EC] font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] hover:scale-110" >
               <IoCartOutline size={30} />
             </Button>
           </Badge>
-
         </NavbarItem>
       </NavbarContent>
 
@@ -264,7 +430,7 @@ export default function HeroSection() {
             <NavbarMenuItem key={`${item.title}-${index}`}>
               <Link
                 color="foreground"
-                className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                className="w-full font-medium text-text-brown-primary tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
                 size="md"
                 onClick={() => {
                   setIsOpen(false);
@@ -281,59 +447,10 @@ export default function HeroSection() {
             </NavbarMenuItem>
           )
         )}
+        {renderMobileAuthMenu()}
         <NavbarMenuItem>
-          <Accordion isCompact className="px-0">
-            <AccordionItem
-              key="auth"
-              aria-label="Authentication"
-              title={
-                <span className="w-fit font-medium text-text-brown-primary">
-                  <div className="flex items-center gap-2">
-
-                    Tài khoản
-                  </div>
-                  <Divider className="bg-[#D7A444]" />
-                </span>
-              }
-            >
-              <div className="flex flex-col gap-2 ml-4">
-                <div
-                  className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
-                >
-                  <Link
-                    color="foreground"
-                    className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
-                    size="md"
-                    onClick={() => {
-                      setIsOpen(false);
-                      router.push("/authentication/login");
-                    }}
-                  >
-                    <div className="w-full">Đăng nhập</div>
-                  </Link>
-                </div>
-                <div
-                  className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
-                >
-                  <Link
-                    color="foreground"
-                    className="w-full font-semibold text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
-                    size="md"
-                    onClick={() => {
-                      setIsOpen(false);
-                      router.push("/authentication/register");
-                    }}
-                  >
-                    <div className="w-full">Đăng ký</div>
-                  </Link>
-                </div>
-              </div>
-            </AccordionItem>
-          </Accordion>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link
-            href="/cart"
+          <div
+            onClick={() => router.push("/cart")}
             className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
           >
             <div className="flex justify-between items-center w-full">
@@ -348,7 +465,7 @@ export default function HeroSection() {
                 <IoCartOutline size={25} />
               </Badge>
             </div>
-          </Link>
+          </div>
           <Divider className="bg-[#D7A444]" />
         </NavbarMenuItem>
       </NavbarMenu>

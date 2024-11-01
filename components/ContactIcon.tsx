@@ -17,7 +17,7 @@ interface ChatbotProps {
   onClose: () => void;
 }
 
-const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
+const Chatbot: React.FC<ChatbotProps> = () => {
   const [scriptsLoaded, setScriptsLoaded] = useState(false);
 
   useEffect(() => {
@@ -90,16 +90,6 @@ const ContactIcons = () => {
           isOpen={isChatbotOpen}
           onClose={() => setIsChatbotOpen(false)}
         />
-
-        {/* Chatbot trigger button */}
-        <button
-          onClick={() => setIsChatbotOpen(!isChatbotOpen)}
-          className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center hover:bg-purple-600 hover:scale-110 transition-all"
-          aria-label="Open Chatbot"
-        >
-          <FaRobot className="text-white text-2xl" />
-        </button>
-
         <Link
           href="mailto:contact@example.com"
           className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all"

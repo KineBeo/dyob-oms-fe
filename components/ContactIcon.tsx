@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { FaFacebookMessenger, FaPhone } from "react-icons/fa";
 import { SiZalo } from "react-icons/si";
-import { FaRobot } from "react-icons/fa";
 import Link from "next/link";
 declare global {
   interface Window {

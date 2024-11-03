@@ -27,7 +27,7 @@ export default function SpecificProduct() {
 
     return (
         <div>
-            <ProductInfo images={[product.Main_image.provider_metadata.public_id, product.Main_image.provider_metadata.public_id, product.Main_image.provider_metadata.public_id]} name={product.Name} price={product.Price} />
+            <ProductInfo images={[product.Main_image.provider_metadata.public_id, product.Main_image.provider_metadata.public_id, product.Main_image.provider_metadata.public_id]} name={product.Name} price={product.Price}/>
             <MoreDetails markdown={product.Product_details} image={product.Main_image.provider_metadata.public_id} />
             <OtherProducts />
         </div>

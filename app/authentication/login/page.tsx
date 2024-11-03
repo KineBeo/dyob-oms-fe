@@ -2,18 +2,14 @@
 import { useState } from 'react';
 import AuthInput from "@/components/form/AuthInput";
 import Image from "next/image";
-import api from '@/utils/auth/authApi';
+import { authService } from '@/utils/auth/authApi';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { ApiErrorResponse } from '@/interfaces/auth';
 import { loginStart, loginSuccess, loginFailure } from '@/redux/features/auth/authSlice';
 import { RootState } from '@/store/store';
 import { useDispatch, useSelector } from 'react-redux';
-interface FormData {
-    email: string;
-    password: string;
-}
-
+import { LoginCredentials } from '@/interfaces/auth';
 interface FormErrors {
     email?: string;
     password?: string;
@@ -24,7 +20,7 @@ export default function Login() {
     const router = useRouter();
     const dispatch = useDispatch();
     const { loading, error } = useSelector((state: RootState) => state.auth);
-    const [formData, setFormData] = useState<FormData>({
+    const [loginCredentials, setLoginCredentials] = useState<LoginCredentials>({
         email: '',
         password: ''
     });
@@ -37,14 +33,14 @@ export default function Login() {
 
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!formData.email) {
+        if (!loginCredentials.email) {
             newErrors.email = 'Email không được để trống';
-        } else if (!emailRegex.test(formData.email)) {
+        } else if (!emailRegex.test(loginCredentials.email)) {
             newErrors.email = 'Email không hợp lệ';
         }
 
         // Password validation
-        if (!formData.password) {
+        if (!loginCredentials.password) {
             newErrors.password = 'Mật khẩu không được để trống';
         }
 
@@ -54,7 +50,7 @@ export default function Login() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
-        setFormData(prev => ({
+        setLoginCredentials(prev => ({
             ...prev,
             [id]: value
         }));
@@ -68,27 +64,16 @@ export default function Login() {
         }
 
         dispatch(loginStart());
-        setIsSubmitting(true);
 
         try {
-            const response = await api.post('/auth/login', {
-                email: formData.email,
-                password: formData.password
-            });
-
-            // The API response contains user, access_token, and refresh_token
-            const { user, access_token, refresh_token } = response.data;
+            const response = await authService.login(loginCredentials);
 
             // Dispatch loginSuccess with the correct payload structure
             dispatch(loginSuccess({
-                user,
-                access_token,
-                refresh_token
+                user: response.user,
+                access_token: response.access_token,
+                refresh_token: response.refresh_token
             }));
-
-            // Store tokens (consider using a more secure method)
-            localStorage.setItem('accessToken', access_token);
-            localStorage.setItem('refreshToken', refresh_token);
 
             toast.success('Đăng nhập thành công!');
             router.push('/');
@@ -111,9 +96,7 @@ export default function Login() {
 
             dispatch(loginFailure(errorMessage));
             setErrors(prev => ({ ...prev, general: errorMessage }));
-        } finally {
-            setIsSubmitting(false);
-        }
+        } 
     };
 
     return (
@@ -147,7 +130,7 @@ export default function Login() {
                                     label="Email"
                                     type="email"
                                     placeholder="Nhập email"
-                                    value={formData.email}
+                                    value={loginCredentials.email}
                                     onChange={handleChange}
                                     error={errors.email}
                                 />
@@ -156,7 +139,7 @@ export default function Login() {
                                     label="Mật khẩu"
                                     type="password"
                                     placeholder="Nhập mật khẩu"
-                                    value={formData.password}
+                                    value={loginCredentials.password}
                                     onChange={handleChange}
                                     error={errors.password}
                                 />

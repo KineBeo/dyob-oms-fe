@@ -1,4 +1,3 @@
-// types/auth.ts
 export interface RegisterDto {
   name: string;
   phone: string;
@@ -28,4 +27,24 @@ export interface ApiErrorResponse {
       message?: string;
     };
   };
+}
+
+// * LOGIN
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface User {
+  user_id: number,
+  email: string,
+  fullname: string,
+  phone_number: string,
+  role: string,
+}
+
+export interface LoginResponse {
+  user: User;
+  access_token: string;
+  refresh_token: string;
 }

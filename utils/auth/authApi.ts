@@ -10,6 +10,7 @@ class AuthService {
     const res = await api.post<LoginResponse>("/auth/login", credentials);
     this.setTokens(res.data.access_token, res.data.refresh_token);
     this.setAuthHeader(res.data.access_token);
+    console.log('res.data', res.data)
     return res.data;
   }
 

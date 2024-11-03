@@ -36,7 +36,7 @@ export interface LoginCredentials {
 }
 
 export interface User {
-  user_id: number,
+  id: number,
   email: string,
   fullname: string,
   phone_number: string,

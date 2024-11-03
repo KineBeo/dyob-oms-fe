@@ -1,61 +1,58 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaFacebookMessenger, FaPhone} from "react-icons/fa";
+import { FaFacebookMessenger, FaPhone } from "react-icons/fa";
 import { SiZalo } from "react-icons/si";
 import Link from "next/link";
-
+declare global {
+  interface Window {
+    chtlConfig: {
+      chatbotId: string;
+    };
+  }
+}
 interface ChatbotProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
+const Chatbot: React.FC<ChatbotProps> = () => {
   const [scriptsLoaded, setScriptsLoaded] = useState(false);
 
   useEffect(() => {
-    const loadScripts = () => {
+    const loadChatlingScript = () => {
       if (!scriptsLoaded) {
-        const script1 = document.createElement("script");
-        script1.src = "https://cdn.botpress.cloud/webchat/v2.2/inject.js";
-        script1.async = true;
+        const chatbotId = process.env.NEXT_PUBLIC_BOTCHAT_CHATLING_ID;
+        // Configure Chatling
+        if (!chatbotId) {
+          throw new Error(
+            "Environment variable NEXT_PUBLIC_BOTCHAT_CHATLING_ID is not set"
+          );
+        }
+        window.chtlConfig = { chatbotId: chatbotId };
 
-        const script2 = document.createElement("script");
-        script2.src =
-          "https://files.bpcontent.cloud/2024/10/29/15/20241029152141-PN38Y243.js";
-        script2.async = true;
+        const script = document.createElement("script");
+        script.src = "https://chatling.ai/js/embed.js";
+        script.async = true;
+        script.type = "text/javascript";
+        script.id = "chatling-embed-script";
+        script.dataset.id = chatbotId;
 
-    
-        script1.onload = () => {
-          script2.onload = () => setScriptsLoaded(true);
-          document.body.appendChild(script2);
-        };
-
-        document.body.appendChild(script1);
+        script.onload = () => setScriptsLoaded(true);
+        document.body.appendChild(script);
 
         return () => {
-          document.body.removeChild(script1);
-          document.body.removeChild(script2);
+          document.body.removeChild(script);
         };
       }
     };
 
-    loadScripts();
+    loadChatlingScript();
   }, [scriptsLoaded]);
 
-  if (!isOpen || !scriptsLoaded) return null;
-
-  return (
-    <div className="fixed right-20 bottom-60 z-50">
-      <div id="webchat" className="w-[400px] h-[600px]" />
-      <button
-        onClick={onClose}
-        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-      >
-        ×
-      </button>
-    </div>
-  );
+  // The Chatling widget will be controlled by its own UI
+  // We don't need to render additional container
+  return null;
 };
 
 const ContactIcons = () => {
@@ -94,9 +91,10 @@ const ContactIcons = () => {
       `}</style>
 
       <div className="fixed left-4 bottom-4 flex flex-col gap-3 z-50">
-      
-        <Chatbot isOpen={isChatbotOpen} onClose={() => setIsChatbotOpen(false)} />
-
+        <Chatbot
+          isOpen={isChatbotOpen}
+          onClose={() => setIsChatbotOpen(false)}
+        />
         <Link
           href="mailto:contact@example.com"
           className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all"

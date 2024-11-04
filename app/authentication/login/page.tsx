@@ -2,16 +2,14 @@
 import { useState } from 'react';
 import AuthInput from "@/components/form/AuthInput";
 import Image from "next/image";
-import api from '@/utils/auth/authApi';
+import { authService } from '@/utils/auth/authApi';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { ApiErrorResponse } from '@/interfaces/auth';
-
-interface FormData {
-    email: string;
-    password: string;
-}
-
+import { loginStart, loginSuccess, loginFailure } from '@/redux/features/auth/authSlice';
+import { RootState } from '@/store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoginCredentials } from '@/interfaces/auth';
 interface FormErrors {
     email?: string;
     password?: string;
@@ -20,7 +18,9 @@ interface FormErrors {
 
 export default function Login() {
     const router = useRouter();
-    const [formData, setFormData] = useState<FormData>({
+    const dispatch = useDispatch();
+    const { loading, error } = useSelector((state: RootState) => state.auth);
+    const [loginCredentials, setLoginCredentials] = useState<LoginCredentials>({
         email: '',
         password: ''
     });
@@ -33,14 +33,14 @@ export default function Login() {
 
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!formData.email) {
+        if (!loginCredentials.email) {
             newErrors.email = 'Email không được để trống';
-        } else if (!emailRegex.test(formData.email)) {
+        } else if (!emailRegex.test(loginCredentials.email)) {
             newErrors.email = 'Email không hợp lệ';
         }
 
         // Password validation
-        if (!formData.password) {
+        if (!loginCredentials.password) {
             newErrors.password = 'Mật khẩu không được để trống';
         }
 
@@ -50,7 +50,7 @@ export default function Login() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
-        setFormData(prev => ({
+        setLoginCredentials(prev => ({
             ...prev,
             [id]: value
         }));
@@ -63,26 +63,23 @@ export default function Login() {
             return;
         }
 
-        setIsSubmitting(true);
+        dispatch(loginStart());
 
         try {
-            const response = await api.post('/auth/login', {
-                email: formData.email,
-                password: formData.password
-            });
+            const response = await authService.login(loginCredentials);
 
-            // Assuming the API returns a token
-            const { token } = response.data;
-
-            // Store the token (you might want to use a more secure method)
-            localStorage.setItem('authToken', token);
+            // Dispatch loginSuccess with the correct payload structure
+            dispatch(loginSuccess({
+                user: response.user,
+                access_token: response.access_token,
+                refresh_token: response.refresh_token
+            }));
 
             toast.success('Đăng nhập thành công!');
-            router.push('/'); // Or wherever you want to redirect after login
+            router.push('/');
 
         } catch (error: unknown) {
-            console.error('Registration error:', error);
-
+            console.error('Login error:', error);
 
             const isApiError = (error: unknown): error is ApiErrorResponse => {
                 return (
@@ -97,10 +94,9 @@ export default function Login() {
                 ? error.response?.data?.message || 'Đã có lỗi xảy ra'
                 : 'Đã có lỗi xảy ra';
 
+            dispatch(loginFailure(errorMessage));
             setErrors(prev => ({ ...prev, general: errorMessage }));
-        } finally {
-            setIsSubmitting(false);
-        }
+        } 
     };
 
     return (
@@ -134,7 +130,7 @@ export default function Login() {
                                     label="Email"
                                     type="email"
                                     placeholder="Nhập email"
-                                    value={formData.email}
+                                    value={loginCredentials.email}
                                     onChange={handleChange}
                                     error={errors.email}
                                 />
@@ -143,7 +139,7 @@ export default function Login() {
                                     label="Mật khẩu"
                                     type="password"
                                     placeholder="Nhập mật khẩu"
-                                    value={formData.password}
+                                    value={loginCredentials.password}
                                     onChange={handleChange}
                                     error={errors.password}
                                 />
@@ -151,10 +147,10 @@ export default function Login() {
                             <div className="flex flex-col space-y-4">
                                 <button
                                     type="submit"
-                                    disabled={isSubmitting}
-                                    className={`laptop:hover:scale-105 desktop:hover:scale-105 bg-[#8B0000] px-8 py-3 w-full font-medium text-white transition ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    disabled={loading}
+                                    className={`laptop:hover:scale-105 desktop:hover:scale-105 bg-[#8B0000] px-8 py-3 w-full font-medium text-white transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
-                                    {isSubmitting ? 'Đang xử lý...' : 'Đăng nhập'}
+                                    {loading ? 'Đang xử lý...' : 'Đăng nhập'}
                                 </button>
                                 <div className="text-center">
                                     <button

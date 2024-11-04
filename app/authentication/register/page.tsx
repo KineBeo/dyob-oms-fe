@@ -2,10 +2,10 @@
 import { useState } from 'react';
 import AuthInput from "@/components/form/AuthInput";
 import Image from "next/image";
-import api from '@/utils/auth/authApi';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast'
 import { ApiErrorResponse } from '@/interfaces/auth';
+import api from '@/utils/config';
 interface FormData {
     fullname: string;
     phone_number: string;

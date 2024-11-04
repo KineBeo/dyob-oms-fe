@@ -1,6 +1,9 @@
 "use client"
 import React, { useState } from "react";
 import { Table, Card, Button, Avatar, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
+import { RootState } from "@/store/store";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 
 const stats = [
   { label: "Tổng số", value: "$9,342" },
@@ -83,7 +86,11 @@ const referrals = [
 
 export default function AffiliateDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
+  // Get auth state from Redux
+  const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
@@ -91,14 +98,15 @@ export default function AffiliateDashboard() {
       {/* Sidebar for mobile */}
       <div className="laptop:hidden desktop:hidden mini-laptop:hidden bg-[#7A0505] p-4 flex flex-row justify-normal items-center">
         <Avatar
-          src="/placeholder-avatar.png"
-          size="sm"
-          name="A"
-          color="warning"
+          className=""
+          classNames={{
+            base: "bg-gradient-to-br from-[#FBF6EC] to-[#D7A444]",
+          }}
+            name={user?.fullname.split(' ').pop()}
           onClick={toggleSidebar}
         />
         <h2 className="mt-2 text-xl font-semibold px-2 text-white">
-          Nguyễn Văn A
+         {user?.fullname}
         </h2>
         {/* <Button isIconOnly onClick={toggleSidebar} className="bg-transparent">
           <Menu className="text-white" />
@@ -112,15 +120,16 @@ export default function AffiliateDashboard() {
         } laptop:block mini-laptop:block desktop:block`}
       >
         <div className="p-4 flex flex-row">
-          <Avatar
-            src="/placeholder-avatar.png"
-            size="lg"
-            name="A"
-            color="warning"
-            className="hidden md:inline-block"
-          />
+        <Avatar
+          className=""
+          classNames={{
+            base: "bg-gradient-to-br from-[#FBF6EC] to-[#D7A444]",
+          }}
+            name={user?.fullname.split(' ').pop()}
+          onClick={toggleSidebar}
+        />
           <h2 className="mt-2 text-xl  font-semibold px-2 mobile:hidden tablet:hidden ">
-            Nguyễn Văn A
+            {user?.fullname}
           </h2>
         </div>
         <nav className="mt-6 mx-4">

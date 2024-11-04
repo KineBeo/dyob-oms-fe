@@ -1,53 +1,50 @@
-import axios from "axios";
+import api from "../config";
 
-const api = axios.create({
-  // Make sure this matches your backend URL exactly
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
-  headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  },
-  // Add timeout
-  timeout: 10000,
-});
+import { LoginCredentials, LoginResponse } from "@/interfaces/auth";
 
-// Add request interceptor for debugging
-api.interceptors.request.use(
-  (config) => {
-    // Log the full URL being requested
-    console.log("Full Request URL:", `${config.baseURL}${config.url}`);
-    console.log("Request Config:", {
-      method: config.method,
-      url: config.url,
-      data: config.data,
-      headers: config.headers,
-    });
-    return config;
-  },
-  (error) => {
-    console.error("Request Error:", error);
-    return Promise.reject(error);
+const ACCESS_TOKEN_KEY = "access_token";
+const REFRESH_TOKEN_KEY = "refresh_token";
+
+class AuthService {
+  async login(credentials: LoginCredentials): Promise<LoginResponse> {
+    const res = await api.post<LoginResponse>("/auth/login", credentials);
+    this.setTokens(res.data.access_token, res.data.refresh_token);
+    this.setAuthHeader(res.data.access_token);
+    console.log('res.data', res.data)
+    return res.data;
   }
-);
 
-// Enhanced response interceptor
-api.interceptors.response.use(
-  (response) => {
-    console.log("Response:", {
-      status: response.status,
-      data: response.data,
-      headers: response.headers,
-    });
-    return response;
-  },
-  (error) => {
-    console.error("Response Error:", {
-      message: error.message,
-      response: error.response?.data,
-      status: error.response?.status,
-    });
-    return Promise.reject(error);
+  logout(): void {
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
+    this.removeAuthHeader();
   }
-);
 
-export default api;
+  setTokens(accessToken: string, refreshToken: string): void {
+    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+  }
+
+  getAccessToken(): string | null {
+    return localStorage.getItem(ACCESS_TOKEN_KEY);
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem(REFRESH_TOKEN_KEY);
+  }
+
+  setAuthHeader(token: string): void {
+    api.defaults.headers["Authorization"] = `Bearer ${token}`;
+  }
+  removeAuthHeader(): void {
+    delete api.defaults.headers.common["Authorization"];
+  }
+
+  initializeAuth(): void {
+    const token = this.getAccessToken();
+    if (token) {
+      this.setAuthHeader(token);
+    }
+  }
+}
+export const authService = new AuthService();

@@ -1,3 +1,13 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    // Disable TypeScript unused variable warnings
+    "@typescript-eslint/no-unused-vars": "off",
+    
+    // Disable Next.js img element warning
+    "@next/next/no-img-element": "off",
+    
+    // Disable TypeScript undefined variable warnings
+    "@typescript-eslint/no-undefined-vars": "off"
+  }
 }

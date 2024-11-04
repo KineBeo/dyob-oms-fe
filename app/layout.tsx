@@ -5,7 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import ContactIcons from "@/components/ContactIcon";
 import { Toaster } from "react-hot-toast";
-
+import { Providers } from "./provider";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -33,6 +33,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Providers>
         <Navbar />
         {children}
         <ContactIcons />
@@ -41,7 +42,7 @@ export default function RootLayout({
           position="top-center"
           reverseOrder={false}
           toastOptions={{
-            duration: 5000,
+            duration: 1500,
             style: {
               background: '#363636',
               color: '#fff',
@@ -61,6 +62,7 @@ export default function RootLayout({
             },
           }}
         />
+        </Providers>
       </body>
     </html>
   );

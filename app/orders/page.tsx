@@ -26,9 +26,9 @@ const OrdersPage = () => {
       try {
         const data = await orderService.getOrderByUserID(user.id);
         setOrders(data);
-      } catch (error: any) {
+      } catch (error) {
         console.error('Error fetching orders:', error);
-        if (error.response?.status === 404) {
+        if ((error as any).response?.status === 404) {
           setOrders([]);
         } else {
           toast.error('Không thể tải danh sách đơn hàng');

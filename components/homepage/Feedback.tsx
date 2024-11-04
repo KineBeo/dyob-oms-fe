@@ -10,6 +10,7 @@ import {
 import { Card, CardBody } from '@nextui-org/react';
 
 interface VideosProps {
+  title: string;
   videoId: string;
   isActive: boolean;
   onVideoClick: (videoId: string) => void;
@@ -23,9 +24,9 @@ interface YouTubeEmbedProps {
   onVideoClick: (videoId: string) => void;
 }
 
-const SideVideos: React.FC<VideosProps> = ({ videoId, isActive, onVideoClick }) => {
+const SideVideos: React.FC<VideosProps> = ({ title, videoId, isActive, onVideoClick }) => {
   return (
-    <Card className="h-fit shadow-xl">
+    <Card className="shadow-xl h-fit">
       <CardBody className="gap-2">
         <YouTubeEmbed
           videoId={videoId}
@@ -33,8 +34,8 @@ const SideVideos: React.FC<VideosProps> = ({ videoId, isActive, onVideoClick }) 
           onVideoClick={onVideoClick}
           title="Small video"
         />
-        <p className="mobile:text-base tablet:text-md text-lg font-medium h-full font-robotoflex">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend at ante et sagittis.
+        <p className="h-full font-medium font-robotoflex text-lg mobile:text-base tablet:text-md">
+          {title}
         </p>
       </CardBody>
     </Card>
@@ -61,7 +62,7 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({
       className={`w-full ${className}`}
       onClick={() => onVideoClick(videoId)}
     >
-      <div className="relative w-full pt-[56.25%] cursor-pointer">
+      <div className="relative pt-[56.25%] w-full cursor-pointer">
         {isActive ? (
           <iframe
             className="absolute inset-0 w-full h-full"
@@ -77,9 +78,9 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({
               alt={title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-16 h-16 bg-black bg-opacity-60 rounded-full flex items-center justify-center">
-                <div className="w-0 h-0 border-l-[20px] border-l-white border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1" />
+            <div className="absolute inset-0 flex justify-center items-center">
+              <div className="flex justify-center items-center bg-black bg-opacity-60 rounded-full w-16 h-16">
+                <div className="ml-1 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent border-l-[20px] border-l-white w-0 h-0" />
               </div>
             </div>
           </div>
@@ -88,29 +89,26 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({
     </div>
   );
 };
+interface CustomerFeedbackProps {
+  videos: {
+    videoId: string;
+    title: string;
+  }[];
+}
 
-const CustomerFeedback: React.FC = () => {
+const CustomerFeedback: React.FC<CustomerFeedbackProps> = ({ videos }) => {
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
-
-  // Sample video IDs array with type definition
-  const videos: string[] = [
-    "2YHd-5pIGRg",
-    "BNYaSeT2rUE",
-    "3TCLy95r8x0",
-    "ZDajJraxu9E",
-    "LH3d0_2c7bU"
-  ];
 
   const handleVideoClick = (videoId: string): void => {
     setActiveVideoId(videoId === activeVideoId ? null : videoId);
   };
 
   return (
-    <div className="mx-auto px-4 py-8 tablet:max-w-lg mini-laptop:max-w-2xl max-w-4xl desktop:max-w-5xl">
-      <h1 className="mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl text-3xl font-bold font-robotoslab text-[#7A0505] text-center mb-2">
+    <div className="mx-auto px-4 py-8 max-w-4xl tablet:max-w-lg mini-laptop:max-w-2xl desktop:max-w-5xl">
+      <h1 className="mb-2 font-bold font-robotoslab text-[#7A0505] text-3xl text-center mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">
         PHẢN HỒI KHÁCH HÀNG
       </h1>
-      <div className="w-24 h-1 bg-[#D7A444] mx-auto mb-8"></div>
+      <div className="bg-[#D7A444] mx-auto mb-8 w-24 h-1"></div>
       <Carousel
         opts={{
           align: "center",
@@ -119,21 +117,22 @@ const CustomerFeedback: React.FC = () => {
         className="w-full"
       >
         <CarouselContent>
-          {videos.map((videoId, index) => (
+          {videos.map((video, index) => (
             <CarouselItem
               key={index}
               className="mobile:basis-full tablet:basis-full basis-1/2"
             >
               <SideVideos
-                videoId={videoId}
-                isActive={activeVideoId === videoId}
+                title={video.title}
+                videoId={video.videoId}
+                isActive={activeVideoId === video.videoId}
                 onVideoClick={handleVideoClick}
               />
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="mobile:ml-12 tablet:ml-10 ml-8 hover:bg-[#D7A444] hover:text-white active:bg-[#C2943D] active:text-white" />
-        <CarouselNext className="mobile:mr-12 tablet:mr-10 ml-8 mr-8 hover:bg-[#D7A444] hover:text-white active:bg-[#C2943D] active:text-white" />
+        <CarouselPrevious className="hover:bg-[#D7A444] active:bg-[#C2943D] ml-8 mobile:ml-12 tablet:ml-10 hover:text-white active:text-white" />
+        <CarouselNext className="hover:bg-[#D7A444] active:bg-[#C2943D] mr-8 mobile:mr-12 tablet:mr-10 ml-8 hover:text-white active:text-white" />
       </Carousel>
     </div>
   );

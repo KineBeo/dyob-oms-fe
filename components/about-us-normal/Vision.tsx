@@ -1,7 +1,13 @@
 import { Divider } from "@nextui-org/react";
 import OurDestinyCard from "../cards/OurDestinyCard";
 
-export default function ImageAndDes() {
+// interface VisionProps {
+//   visionTitle: String;
+//   vision1: String;
+//   vision2: String;
+//   vision3: String;
+// }
+export default function Vision() {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-4">
       <div className="w-full mobile:mb-4 tablet:mb-4 mb-6 items-center justify-center flex flex-col">
@@ -18,7 +24,6 @@ export default function ImageAndDes() {
           <OurDestinyCard />
         </div>
       </div>
-      
     </div>
   );
 }

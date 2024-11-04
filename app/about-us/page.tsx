@@ -2,37 +2,28 @@
 
 import React from "react";
 import ReactFullpage from "@fullpage/react-fullpage";
-import Image from "next/image";
+import * as strapi from "../../utils/globalApi";
+import useSWR from "swr";
+import Loading from "@/components/Loading";
+interface ImageAndText {
+  First_short_text: string;
+  Last_short_text: string;
+  Image: {
+    url: string;
+  } ;
+}
 
-const images = [
-  {
-    src: "/images/about-us-slide/slide1.png",
-    alt: "Hands planting seedlings",
-    caption: "mong muốn mang đến",
-    subcaption: "sự tinh túy...",
-  },
-  {
-    src: "/images/about-us-slide/slide2.png",
-    alt: "Wooden bowls with various herbs",
-    caption: "với khao khát cống hiến & phụng sự xã hội",
-    subcaption: "chữa bệnh cứu người, hành đạo giúp đời...",
-  },
-  {
-    src: "/images/about-us-slide/slide3.png",
-    alt: "Wooden bowls with various herbs",
-    caption: "là sứ mệnh thiêng liêng cao cả",
-    subcaption: "của nhà sáng lập Việt Nam Tỉnh Thức...",
-  },
-  {
-    src: "/images/about-us-slide/slide4.png",
-    alt: "Wooden bowls with various herbs",
-    caption: "mỗi sản phẩm tạo ra",
-    subcaption: "là sự kết tinh giá trị của đạo và đời...",
-  },
-];
 
-export default function AboutUs() {
-  
+export default function AboutUs( ) {
+   const { data, isLoading, error } = useSWR("about-us", async () => {
+     const response = await strapi.getAboutUs();
+     return response.data;
+   });
+
+   if (error) return <div>Failed to load</div>;
+   if (isLoading) return <Loading/>;
+  // return  <pre>{JSON.stringify(data.slide, null, 2)}</pre>;
+   const images : ImageAndText[] = data.slide
   return (
     <ReactFullpage
       navigation={false}
@@ -53,18 +44,11 @@ export default function AboutUs() {
                 {/* Thêm overflow-hidden */}
                 <div className="relative w-full h-screen flex items-center justify-center">
                   <div className="absolute inset-0">
-                    {" "}
                     {/* Wrapper div cho Image */}
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      layout="fill"
-                      objectFit="cover"
-                      quality={100}
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,..."
-                      priority={index === 0} // Ưu tiên load ảnh đầu tiên
-                      className="select-none" // Ngăn không cho select ảnh
+                    <img
+                      src={image.Image.url}
+                      alt={image.Image.url}
+                      className="w-full h-full object-cover" // Add your desired styles
                     />
                   </div>
                   <h2
@@ -78,7 +62,7 @@ export default function AboutUs() {
                               
                                " // Thêm pointer-events-none
                   >
-                    {image.subcaption}
+                    {image.First_short_text}
                   </h2>
                   <h2
                     className="absolute text-3xl font-semibold font-robotoslab
@@ -89,7 +73,7 @@ export default function AboutUs() {
                                mini-laptop:text-2xl mini-laptop:font-medium
                               "
                   >
-                    {image.caption}
+                    {image.Last_short_text}
                   </h2>
                 </div>
               </div>

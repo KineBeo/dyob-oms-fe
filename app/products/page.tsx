@@ -1,37 +1,16 @@
-"use client"
-
+'use client'
 import ProductCard from "@/components/cards/ProductCard";
-import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from 'react';
-import { LuBrain } from "react-icons/lu";
-import { LuBone } from "react-icons/lu";
-import { GiKidneys, GiLiver, GiStomach } from "react-icons/gi";
 import * as strapi from '../../utils/globalApi';
 import useSWR from 'swr';
-import { Product, ProductResponse } from "@/utils/api/Product.interface";
+import { CategoriesResponse, FilterCategory, Product, ProductResponse } from "@/utils/api/Product.interface";
 import Loading from "@/components/Loading";
-import { FaHeartPulse } from "react-icons/fa6";
-import { PiMaskSadFill } from "react-icons/pi";
-
-interface FilterCategory {
-    icon: React.ReactNode;
-    name: string;
-    filter: string; // Added filter property to match with product filter
-}
-
-const filterCategories: FilterCategory[] = [
-  { icon: <LuBrain />, name: "Thần kinh", filter: "than-kinh" },
-  { icon: <LuBone />, name: "Xương khớp", filter: "xuong-khop" },
-  { icon: <GiStomach />, name: "Tiêu hóa", filter: "tieu-hoa" },
-  { icon: <FaHeartPulse />, name: "Tim mạch", filter: "tim-mach" },
-  { icon: <PiMaskSadFill />, name: "Trầm cảm", filter: "tram-cam" },
-  { icon: <GiKidneys />, name: "Thận tiết niệu", filter: "than-tiet-nieu"},
-  { icon: <GiLiver/>, name: "Nội tiết", filter: "noi-tiet"},
-];
+import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function Products() {
-    const [activeFilter, setActiveFilter] = useState<string | null>(null);
+    const [selectedFilters, setSelectedFilters] = useState<Set<number>>(new Set());
     const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
+    const [isFilterOpen, setIsFilterOpen] = useState(false); // state for filter menu
 
     const { data, isLoading, error } = useSWR('products', async () => {
         const response: ProductResponse = await strapi.getAllProducts();
@@ -41,25 +20,52 @@ export default function Products() {
         revalidateOnReconnect: false
     });
 
+    const { data: categories } = useSWR('categories', async () => {
+        const response: CategoriesResponse = await strapi.getAllCategories();
+        return response;
+    }, {
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false
+    });
+
+    const filterCategories: FilterCategory[] = categories?.data || [];
+
     useEffect(() => {
         if (data?.data) {
-            if (activeFilter) {
-                const filtered = data.data.filter(product => {
-                    if (product.filter) {
-                        return product.filter === activeFilter;
-                    }
-                    return false;
-                }
+            if (selectedFilters.size > 0) {
+                const filtered = data.data.filter(product =>
+                    product.category.id && selectedFilters.has(product.category.id)
                 );
                 setDisplayedProducts(filtered);
             } else {
                 setDisplayedProducts(data.data);
             }
         }
-    }, [data, activeFilter]);
+    }, [data, selectedFilters]);
 
-    const handleFilterClick = (filter: FilterCategory) => {
-        setActiveFilter(activeFilter === filter.filter ? null : filter.filter);
+    const handleFilterClick = (filterId: number) => {
+        setSelectedFilters(prev => {
+            const newFilters = new Set(prev);
+            if (newFilters.has(filterId)) {
+                newFilters.delete(filterId);
+            } else {
+                newFilters.add(filterId);
+            }
+            return newFilters;
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const getSelectedCategoriesNames = () => {
+        return Array.from(selectedFilters)
+            .map(filter => filterCategories.find(f => f.id === filter)?.name)
+            .filter(Boolean)
+            .join(', ');
+    };
+
+    const toggleFilterMenu = () => {
+        setIsFilterOpen((prev) => !prev);
     };
 
     if (isLoading) return <Loading />
@@ -67,44 +73,121 @@ export default function Products() {
     if (!data?.data) return (<div>No products found</div>);
 
     return (
-        <>
+        <div className="flex flex-col bg-paper min-h-screen">
+            {/* Header Banner */}
             <div className="flex justify-center items-center bg-[#4A2511] h-32 text-lg text-white">
                 San pham Dong y ong but
             </div>
 
-            <div className="bg-paper px-4">
-                <div className="flex justify-center py-4">
-                    <div className="w-full max-w-6xl laptop:max-w-[52rem] mini-laptop:max-w-2xl">
-                        <p className="font-bold font-robotoslab text-[#4A2511] text-2xl mobile:text-lg tablet:text-xl uppercase">
-                            Danh mục
-                        </p>
+            {/* Main Content */}
+            <div className="flex flex-1 justify-center px-4 py-8">
+                <div className="flex mobile:flex-col tablet:flex-col gap-8 w-full max-w-7xl">
+                    {/* Filter Button for Mobile/Tablet */}
+                    <div className="mobile:block tablet:block justify-end hidden p-4 w-full">
+                        <button
+                            onClick={toggleFilterMenu}
+                            className="flex justify-between items-center bg-[#4A2511] p-2 rounded w-full text-white"
+                        >
+                            <span className="flex items-center">
+                                <FaBars className="mr-2" /> Bộ lọc
+                            </span>
+                            {selectedFilters.size > 0 && (
+                                <span className="font-normal text-sm">({getSelectedCategoriesNames()})</span>
+                            )}
+                        </button>
+                        {isFilterOpen && (
+                            <div className="top-20 left-0 z-10 absolute bg-white shadow-lg p-4 w-full">
+                                <div className="flex justify-between items-center mb-4">
+                                    <p className="font-bold font-robotoslab text-[#4A2511] text-xl uppercase">
+                                        Danh mục
+                                    </p>
+                                    <button
+                                        onClick={toggleFilterMenu}
+                                        className="text-[#4A2511] hover:text-[#4A2511]/70"
+                                    >
+                                        <FaTimes />
+                                    </button>
+                                </div>
+                                <div className="flex flex-col gap-2">
+                                    {Array.isArray(filterCategories) && filterCategories.map((filter) => (
+                                        <button
+                                            key={filter.id}
+                                            onClick={() => handleFilterClick(filter.id)}
+                                            className={`p-2 text-left rounded transition-colors duration-200 text-sm font-robotoflex font-medium ${selectedFilters.has(filter.id)
+                                                ? 'bg-[#4A2511] text-white'
+                                                : 'bg-[#dad9da] text-[#4A2511] hover:bg-[#4A2511]/10'
+                                                }`}
+                                        >
+                                            {filter.name}
+                                        </button>
+                                    ))}
 
-                        <div className="flex flex-wrap gap-2 py-2">
-                            {filterCategories.map((filter, index) => (
-                                <Button
-                                    key={index}
-                                    startContent={filter.icon}
-                                    onPress={() => handleFilterClick(filter)}
-                                    className={`text-sm font-robotoflex font-medium ${activeFilter === filter.filter ? 'bg-[#4A2511] text-white' : ''}`}
+                                    {selectedFilters.size > 0 && (
+                                        <button
+                                            onClick={() => setSelectedFilters(new Set())}
+                                            className="mt-4 text-[#4A2511] text-sm hover:text-[#4A2511]/70 underline"
+                                        >
+                                            Xóa bộ lọc
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Left Sidebar - Filters */}
+                    <div className="mobile:hidden tablet:hidden w-1/6">
+                        <div className="top-4 sticky">
+                            <p className="mb-4 font-bold font-robotoslab text-[#4A2511] text-xl uppercase">
+                                Danh mục
+                            </p>
+                            <div className="flex flex-col gap-2">
+                                {Array.isArray(filterCategories) && filterCategories.map((filter) => (
+                                    <button
+                                        key={filter.id}
+                                        onClick={() => handleFilterClick(filter.id)}
+                                        className={`p-2 text-left rounded transition-colors duration-200 text-sm font-robotoflex font-medium ${selectedFilters.has(filter.id)
+                                            ? 'bg-[#4A2511] text-white'
+                                            : 'bg-[#dad9da] text-[#4A2511] hover:bg-[#4A2511]/10'
+                                            }`}
+                                    >
+                                        {filter.name}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {selectedFilters.size > 0 && (
+                                <button
+                                    onClick={() => setSelectedFilters(new Set())}
+                                    className="mt-4 text-[#4A2511] text-sm hover:text-[#4A2511]/70 underline"
                                 >
-                                    {filter.name}
-                                </Button>
-                            ))}
+                                    Xóa bộ lọc
+                                </button>
+                            )}
                         </div>
                     </div>
-                </div>
 
-                <div className="flex justify-center py-4">
-                    <div className="w-full max-w-6xl laptop:max-w-[52rem] mini-laptop:max-w-2xl">
-                        <p className="font-bold font-robotoslab text-[#4A2511] text-2xl mobile:text-lg tablet:text-xl uppercase">
-                            Danh sách sản phẩm {activeFilter && `- ${filterCategories.find(f => f.filter === activeFilter)?.name}`}
-                        </p>
+                    {/* Right Content - Products */}
+                    <div className="flex-1">
+                        <div className="flex justify-between items-center mb-6">
+                            <p className="font-bold font-robotoslab text-[#4A2511] text-2xl mobile:text-lg tablet:text-xl uppercase">
+                                Danh sách sản phẩm
+                                {selectedFilters.size > 0 && (
+                                    <span className="ml-2 font-normal text-sm">
+                                        ({getSelectedCategoriesNames()})
+                                    </span>
+                                )}
+                            </p>
+                            <span className="text-gray-600 text-sm">
+                                {displayedProducts.length} sản phẩm
+                            </span>
+                        </div>
 
-                        <div className="gap-6 grid grid-cols-3 desktop:grid-cols-5 laptop:grid-cols-4 mobile:grid-cols-2 py-4">
-                            {displayedProducts.map((product) => (
+                        <div className="gap-6 grid grid-cols-4 laptop:grid-cols-3 mobile:grid-cols-2 tablet:grid-cols-2">
+                            {Array.isArray(displayedProducts) && displayedProducts.map((product) => (
                                 <ProductCard
                                     key={product.id}
-                                    image_url={product.Main_image.url}
+                                    image_url={product.Main_image.provider_metadata.public_id}
                                     title={product.Name}
                                     price={product.Price}
                                     slug={product.slug}
@@ -114,12 +197,12 @@ export default function Products() {
 
                         {displayedProducts.length === 0 && (
                             <div className="py-8 text-center text-gray-500">
-                                No products found for this category
+                                Không tìm thấy sản phẩm nào cho danh mục này
                             </div>
                         )}
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }

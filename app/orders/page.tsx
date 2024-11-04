@@ -8,15 +8,8 @@ import { RootState } from '@/store/store';
 import OrderCard from '@/components/orders/OrderCard';
 import { Order } from '@/interfaces/order';
 import { orderService } from '@/utils/order/orderApi';
+import { ApiErrorResponse } from '@/interfaces/auth';
 
-interface ApiError {
-    response?: {
-      status: number;
-      data?: any;
-    };
-    message: string;
-  }
-  
 const OrdersPage = () => {
   const router = useRouter();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -35,9 +28,9 @@ const OrdersPage = () => {
         const data = await orderService.getOrderByUserID(user.id);
         setOrders(data);
       } catch (error: unknown) {
-        const err = error as ApiError;
+        const err = error as ApiErrorResponse;
         console.error('Error fetching orders:', err);
-        if (err.response?.status === 404) {
+        if (err.response && 'status' in err.response && err.response.status === 404) {
           setOrders([]);
         } else {
           toast.error('Không thể tải danh sách đơn hàng');
@@ -46,7 +39,6 @@ const OrdersPage = () => {
         setIsLoading(false);
       }
     };
-
     fetchOrders();
   }, [user, router]);
 

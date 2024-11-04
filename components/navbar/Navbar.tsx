@@ -28,6 +28,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/features/auth/authSlice";
 import { RootState } from "@/store/store";
+import { clearCart } from "@/redux/features/cart/cartSlice";
 
 interface SubLink {
   title: string;
@@ -52,8 +53,11 @@ export default function HeroSection() {
     (state: RootState) => state.auth
   );
 
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearCart());
     router.push("/");
   };
 
@@ -372,7 +376,7 @@ export default function HeroSection() {
 
         <div className="relative">{renderAuthButton()}</div>
         <NavbarItem>
-          <Badge color="danger" content={40} size="sm">
+          <Badge color="danger" content={cartItems.length} size="md">
             <Button
               onClick={() => router.push("/cart")}
               radius="full"

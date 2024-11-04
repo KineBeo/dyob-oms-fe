@@ -14,7 +14,7 @@ const CartSummary = () => {
     0
   );
 
-  const shipping = 30000; // Fixed shipping cost
+  const shipping = 0; // Fixed shipping cost
   const total = subtotal + shipping;
 
   return (

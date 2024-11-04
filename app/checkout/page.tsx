@@ -7,7 +7,7 @@ import { clearCart } from '@/redux/features/cart/cartSlice';
 import { RootState } from '@/store/store';
 import OrderSummary from '../../components/checkout/OrderSummary';
 import ShippingForm from '../../components/checkout/ShippingForm';
-
+import { orderService } from '@/utils/order/orderApi';
 
 interface ShippingInfo {
   fullName: string;
@@ -22,31 +22,38 @@ const CheckoutPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { items } = useSelector((state: RootState) => state.cart);
+  const  user = useSelector((state: RootState) => state.auth.user);
   const [isLoading, setIsLoading] = useState(false);
 
-  if (items.length === 0) {
-    router.push('/cart');
-    return null;
-  }
+  // if (items.length === 0) {
+  //   router.push('/cart');
+  //   return null;
+  // }
 
   const handleSubmitOrder = async (shippingInfo: ShippingInfo) => {
     setIsLoading(true);
     try {
-      // Simulate API call to create order
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      if (!user?.id) {
+        toast.error('Vui lòng đăng nhập để đặt hàng');
+        router.push('/authentication/login');
+        return;
+      }
 
-     
+      // Format địa chỉ đầy đủ
+      const fullAddress = `${shippingInfo.address}, ${shippingInfo.city}`;
+      const order = await orderService.createOrder(user.id, fullAddress);
       
-      // Show success message
-      toast.success('Đặt hàng thành công!');
-      
-      // Redirect to order confirmation page
-      router.push('/order-success');
+      if (order) {
+        // Xóa giỏ hàng sau khi đặt hàng thành công
+        dispatch(clearCart());
 
-       // Clear cart after successful order
-      //  dispatch(clearCart());
+        toast.success('Đặt hàng thành công!');
+        // Chuyển hướng đến trang xác nhận đơn hàng
+        router.push('/order-success');
+      }
     } catch (error) {
-      toast.error('Có lỗi xảy ra khi đặt hàng');
+      console.error('Error creating order:', error);
+      toast.error('Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại sau.');
     } finally {
       setIsLoading(false);
     }

@@ -20,7 +20,7 @@ const OrdersPage = () => {
     const fetchOrders = async () => {
       if (!user?.id) {
         toast.error('Vui lòng đăng nhập để xem đơn hàng');
-        router.push('/login');
+        router.push('/authentication/login');
         return;
       }
 

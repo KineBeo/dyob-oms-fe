@@ -33,7 +33,7 @@ export default function Address({ title, description, cards }: AddressProps) {
         >
           <CarouselContent>
             {cards.map((card, index) => (
-              <CarouselItem className="relative basis-1/2" >
+              <CarouselItem key={index} className="relative basis-1/2" >
                 <StoreCard key={index} image_url={card.image_url} location={card.location} google_maps_url={card.google_maps_url || '#'} />
               </CarouselItem>
             ))

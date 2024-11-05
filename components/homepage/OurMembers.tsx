@@ -41,9 +41,9 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
             <div className="bg-[#D7A444] mx-auto mt-2 w-24 h-1"></div>
           </h2>
 
-          <div className="flex flex-row mobile:flex-col tablet:flex-col mobile:justify-center mobile:items-center gap-8">
+          <div className="grid grid-cols-12 mobile:flex mobile:flex-col tablet:flex tablet:flex-col mobile:justify-center mobile:items-center gap-8">
             {/* Main doctor */}
-            <div className="flex justify-center w-fit">
+            <div className="justify-center w-full h-full col-span-5">
               <CldImage
                 src={mainDoctor?.image || ""}
                 alt={mainDoctor?.name || ""}
@@ -52,7 +52,7 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
               />
             </div>
             {/* Other doctors */}
-            <div className="gap-0 grid grid-rows-3 mobile:grid-rows-5 tablet:grid-rows-6">
+            <div className="col-span-7 flex flex-col justify-between gap-0 mobile:gap-4 tablet:gap-8">
               <div className="relative justify-center items-center">
                 <h3 className="font-bold font-robotoflex text-white text-xl mobile:text-[#3F291B] tablet:text-[#3F291B]">
                   {mainDoctor?.name}
@@ -60,8 +60,11 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
                 <p className="font-normal font-robotoflex text-[#D7A444] italic">
                   {mainDoctor?.role}
                 </p>
+                <p className="font-normal font-robotoflex text-white mobile:text-black tablet:text-black mini-laptop:text-xs">
+                  Nhà khoa học và doanh nhân ở nhiều lĩnh vực, tự nghiên cứu và ứng dụng khoa học công nghệ hiện đại kết hợp đông y Hải Thượng Lãn Ông để tạo ra các sản phẩm chất lượng, hiệu quả.
+                </p>
               </div>
-              <div className="gap-4 grid grid-rows-1 row-span-2 mobile:row-span-4 tablet:row-span-5 place-self-end">
+              <div className="place-self-end">
                 <Carousel
                   opts={{
                     align: "start",
@@ -89,6 +92,9 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
                           <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent rounded-xl" />
 
                           <div className="right-0 bottom-0 left-0 absolute py-2">
+                            <p className="font-bold text-center text-base text-white font-robotoslab uppercase">
+                              {doctor.role}
+                            </p>
                             <p className="font-bold text-center text-base text-white font-robotoslab uppercase">
                               {doctor.name}
                             </p>

@@ -64,7 +64,7 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
           {/* Image Section - 5 columns */}
           <div className=" mini-laptop:col-span-5 laptop:col-span-5 desktop:col-span-5 relative w-full h-full">
             <div className="relative aspect-[4/3]">
-              <div className="absolute top inset-0 bg-[#f5f5f5] rounded-lg overflow-hidden">
+              <div className="absolute top inset-0 bg-[#f5f5f5] rounded-lg overflow-hidden  rounded-tl-[9rem] rounded-br-[9rem]">
                 <img
                   src={
                     data?.data[currentSlide]?.image?.url ??

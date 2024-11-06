@@ -1,50 +1,117 @@
+import {
+  TokenResponse,
+  LoginCredentials,
+  LoginResponse,
+} from "@/interfaces/auth";
+import {
+  loginSuccess,
+  logout,
+  loginFailure,
+} from "@/redux/features/auth/authSlice";
+import { store } from "@/store/store";
+import axios from "axios";
 import api from "../config";
 
-import { LoginCredentials, LoginResponse } from "@/interfaces/auth";
-
-const ACCESS_TOKEN_KEY = "access_token";
-const REFRESH_TOKEN_KEY = "refresh_token";
-
 class AuthService {
+  private refreshPromise: Promise<TokenResponse> | null = null;
+
   async login(credentials: LoginCredentials): Promise<LoginResponse> {
-    const res = await api.post<LoginResponse>("/auth/login", credentials);
-    this.setTokens(res.data.access_token, res.data.refresh_token);
-    this.setAuthHeader(res.data.access_token);
-    console.log('res.data', res.data)
-    return res.data;
+    try {
+      const response = await api.post<LoginResponse>(
+        "/auth/login",
+        credentials
+      );
+      const { access_token, refresh_token, user } = response.data;
+
+      // this.setTokens(access_token, refresh_token);
+      store.dispatch(loginSuccess({ user, access_token, refresh_token }));
+
+      return response.data;
+    } catch (error) {
+      this.handleAuthError(error);
+      throw error;
+    }
   }
 
-  logout(): void {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
-    localStorage.removeItem(REFRESH_TOKEN_KEY);
-    this.removeAuthHeader();
+  async refreshToken(): Promise<TokenResponse> {
+    if (this.refreshPromise) {
+      return this.refreshPromise;
+    }
+
+    const refreshToken = this.getRefreshToken();
+    if (!refreshToken) {
+      throw new Error("No refresh token available");
+    }
+
+    this.refreshPromise = api
+      .post<TokenResponse>("/auth/refresh", { refreshToken })
+      .then((response) => {
+        const { access_token, refresh_token } = response.data;
+        store.dispatch(
+          loginSuccess({
+            user: store.getState().auth.user!,
+            access_token,
+            refresh_token: refresh_token || refreshToken,
+          })
+        );
+        return response.data;
+      })
+      .catch((error) => {
+        this.logout();
+        throw error;
+      })
+      .finally(() => {
+        this.refreshPromise = null;
+      });
+
+    return this.refreshPromise;
   }
 
-  setTokens(accessToken: string, refreshToken: string): void {
-    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+  async logout(): Promise<void> {
+    try {
+      const refreshToken = this.getRefreshToken();
+      if (refreshToken) {
+        await api.post("/auth/logout", { refreshToken });
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      store.dispatch(logout());
+    }
+  }
+
+  private handleAuthError(error: any): void {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Authentication failed";
+      store.dispatch(loginFailure(errorMessage));
+    } else {
+      store.dispatch(loginFailure("An unexpected error occurred"));
+    }
   }
 
   getAccessToken(): string | null {
-    return localStorage.getItem(ACCESS_TOKEN_KEY);
+    return store.getState().auth.accessToken;
   }
 
   getRefreshToken(): string | null {
-    return localStorage.getItem(REFRESH_TOKEN_KEY);
+    return store.getState().auth.refreshToken;
   }
 
-  setAuthHeader(token: string): void {
-    api.defaults.headers["Authorization"] = `Bearer ${token}`;
-  }
-  removeAuthHeader(): void {
-    delete api.defaults.headers.common["Authorization"];
-  }
+  isTokenExpired(token: string): boolean {
+    if (!token) return true;
 
-  initializeAuth(): void {
-    const token = this.getAccessToken();
-    if (token) {
-      this.setAuthHeader(token);
+    try {
+      const tokenParts = token.split(".");
+      if (tokenParts.length !== 3) return true;
+
+      const payload = JSON.parse(atob(tokenParts[1]));
+      // Add 30-second buffer to handle refresh before actual expiration
+      return Date.now() >= payload.exp * 1000 - 30000;
+    } catch {
+      return true;
     }
   }
 }
+
 export const authService = new AuthService();

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
@@ -16,19 +16,22 @@ interface ShippingInfo {
   address: string;
   city: string;
   note?: string;
+  referralCode?: string;
 }
 
 const CheckoutPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { items } = useSelector((state: RootState) => state.cart);
-  const  user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector((state: RootState) => state.auth.user);
   const [isLoading, setIsLoading] = useState(false);
 
-  // if (items.length === 0) {
-  //   router.push('/cart');
-  //   return null;
-  // }
+  // useEffect(() => {
+  //   if (items.length === 0) {
+  //     toast.error('Giỏ hàng trống');
+  //     router.push('/cart');
+  //   }
+  // }, [items, router]);
 
   const handleSubmitOrder = async (shippingInfo: ShippingInfo) => {
     setIsLoading(true);
@@ -39,32 +42,40 @@ const CheckoutPage = () => {
         return;
       }
 
-      // Format địa chỉ đầy đủ
-      const fullAddress = `${shippingInfo.address}, ${shippingInfo.city}`;
-      const order = await orderService.createOrder(user.id, fullAddress);
+      const refferal_code_of_referrer = shippingInfo.referralCode || '';
+      const address = `${shippingInfo.address}, ${shippingInfo.city}`;
+
+      const order = await orderService.createOrder(user.id, refferal_code_of_referrer, address);
       
       if (order) {
-        // Xóa giỏ hàng sau khi đặt hàng thành công
         dispatch(clearCart());
-
         toast.success('Đặt hàng thành công!');
-        // Chuyển hướng đến trang xác nhận đơn hàng
         router.push('/order-success');
       }
     } catch (error) {
-      console.error('Error creating order:', error);
-      toast.error('Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại sau.');
+      const errorMessage = error instanceof Error ? error.message : 'Có lỗi xảy ra khi đặt hàng';
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
   };
+
+  // if (items.length === 0) {
+  //   return null;
+  // }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Thanh toán</h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <ShippingForm onSubmit={handleSubmitOrder} isLoading={isLoading} />
+          <ShippingForm onSubmit={handleSubmitOrder} isLoading={isLoading} defaultValues={
+            {
+              fullName: user?.fullname || '',
+              phone: user?.phone_number || '',
+              email: user?.email || '',
+            }
+          }/>
         </div>
         <div>
           <OrderSummary />

@@ -1,96 +1,79 @@
-import { ApiError } from "@/interfaces/auth";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import { authService } from "./auth/authApi";
 
 const api = axios.create({
-  // Make sure this matches your backend URL exactly
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
   },
-  // Add timeout
   timeout: 10000,
 });
 
-export const isAuthenticated = (): boolean => {
-  const token = localStorage.getItem("access_token");
-  return !!token;
-};
-
+// Single request interceptor that handles both token presence and expiration
 api.interceptors.request.use(
-  (config) => {
-    // Get token from localStorage
-    const token = localStorage.getItem("access_token");
-
-    // If token exists, add it to headers
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+  async (config: InternalAxiosRequestConfig) => {
+    const accessToken = authService.getAccessToken();
+    
+    // Skip token check for auth endpoints
+    if (config.url?.includes('/auth/login') || config.url?.includes('/auth/refresh')) {
+      return config;
     }
+
+    try {
+      if (!accessToken) {
+        throw new Error('No access token available');
+      }
+
+      if (authService.isTokenExpired(accessToken)) {
+        const newTokens = await authService.refreshToken();
+        config.headers.Authorization = `Bearer ${newTokens.access_token}`;
+      } else {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+    } catch (error) {
+      // If there's any error in token handling, redirect to login
+      authService.logout();
+      // if (typeof window !== 'undefined') {
+      //   window.location.href = '/authentication/login';
+      // }
+    }
+
     return config;
   },
-  (error) => {
+  (error) => Promise.reject(error)
+);
+
+// Simplified response interceptor focusing only on error handling
+api.interceptors.response.use(
+  (response: AxiosResponse) => response,
+  async (error: AxiosError) => {
+    const originalRequest = error.config;
+    
+    if (!originalRequest || (originalRequest as any)._retry) {
+      return Promise.reject(error);
+    }
+
+    // Handle 401 errors only if they're not from auth endpoints
+    if (error.response?.status === 401 && 
+        !originalRequest.url?.includes('/auth/login') && 
+        !originalRequest.url?.includes('/auth/refresh')) {
+      try {
+        (originalRequest as any)._retry = true;
+        const newTokens = await authService.refreshToken();
+        originalRequest.headers.Authorization = `Bearer ${newTokens.access_token}`;
+        return api(originalRequest);
+      } catch (refreshError) {
+        authService.logout();
+        // if (typeof window !== 'undefined') {
+        //   window.location.href = '/authentication/login';
+        // }
+        return Promise.reject(refreshError);
+      }
+    }
+
     return Promise.reject(error);
   }
 );
 
-// Add a response interceptor
-api.interceptors.response.use(
-  (response: AxiosResponse) => response,
-  async (error: AxiosError<ApiError>) => {
-    const originalRequest = error.config;
-
-    // Handle 401 Unauthorized errors
-    if (error.response?.status === 401) {
-      // If there's no original request or it's already been retried, redirect to login
-      if (!originalRequest || (originalRequest as any)._retry) {
-        // Clear tokens
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-
-        // You can either throw an error or redirect to login
-        throw new Error("Not authenticated");
-      }
-
-      try {
-        // Mark request as retried
-        (originalRequest as any)._retry = true;
-
-        // Get refresh token
-        const refreshToken = localStorage.getItem("refresh_token");
-
-        if (!refreshToken) {
-          throw new Error("No refresh token available");
-        }
-
-        // Attempt to refresh the token
-        const response = await api.post<{ accessToken: string }>(
-          "/auth/refresh",
-          {
-            refresh_token: refreshToken,
-          }
-        );
-
-        // Store new access token
-        const newAccessToken = response.data.accessToken;
-        localStorage.setItem("access_token", newAccessToken);
-
-        // Update authorization header
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
-        // Retry the original request
-        return api(originalRequest);
-      } catch (refreshError) {
-        // Clear tokens on refresh failure
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-
-        throw new Error("Session expired. Please login again.");
-      }
-    }
-
-    // For other errors, return a formatted error message
-    const errorMessage = error.response?.data?.message || "An error occurred";
-    throw new Error(errorMessage);
-  }
-);
 export default api;

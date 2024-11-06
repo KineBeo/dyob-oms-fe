@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/features/auth/authSlice";
 import { RootState } from "@/store/store";
 import { clearCart } from "@/redux/features/cart/cartSlice";
+import { cartService } from "@/utils/cart/cartApi";
 
 interface SubLink {
   title: string;
@@ -55,9 +56,12 @@ export default function HeroSection() {
 
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch(logout());
     dispatch(clearCart());
+    if (user?.id !== undefined) {
+      await cartService.clearCart(user.id);
+    }
     router.push("/");
   };
 

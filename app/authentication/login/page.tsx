@@ -66,39 +66,14 @@ export default function Login() {
         dispatch(loginStart());
 
         try {
-            const response = await authService.login(loginCredentials);
-
-            // Dispatch loginSuccess with the correct payload structure
-            dispatch(loginSuccess({
-                user: response.user,
-                access_token: response.access_token,
-                refresh_token: response.refresh_token
-            }));
-
+            await authService.login(loginCredentials);
             toast.success('Đăng nhập thành công!');
             router.push('/');
-
         } catch (error: unknown) {
-            console.error('Login error:', error);
-
-            const isApiError = (error: unknown): error is ApiErrorResponse => {
-                return (
-                    typeof error === 'object' &&
-                    error !== null &&
-                    'response' in error &&
-                    typeof (error as ApiErrorResponse).response === 'object'
-                );
-            };
-
-            const errorMessage = isApiError(error)
-                ? error.response?.data?.message || 'Đã có lỗi xảy ra'
-                : 'Đã có lỗi xảy ra';
-
-            dispatch(loginFailure(errorMessage));
+            const errorMessage = error instanceof Error ? error.message : 'Đã có lỗi xảy ra';
             setErrors(prev => ({ ...prev, general: errorMessage }));
-        } 
+        }
     };
-
     return (
         <div className="relative h-[70vh]">
             <div className="z-0 absolute inset-0">

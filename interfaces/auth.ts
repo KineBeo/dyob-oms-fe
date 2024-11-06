@@ -48,3 +48,41 @@ export interface LoginResponse {
   access_token: string;
   refresh_token: string;
 }
+
+export interface TokenResponse {
+  access_token: string;
+  refresh_token: string;
+}
+
+export interface RefreshTokenResponse {
+  access_token: string;
+  refresh_token: string;
+}
+
+export interface RegisterFormData {
+  fullname: string;
+  phone_number: string;
+  email: string;
+  password_hash: string;
+  confirmPassword: string;
+  referral_code_of_referrer?: string;
+}
+
+export interface RegisterResponse {
+  user: {
+      id: number;
+      email: string;
+      fullname: string;
+      phone_number: string;
+  }
+}
+
+export interface FormErrors {
+  fullname?: string;
+  phone_number?: string;
+  email?: string;
+  password_hash?: string;
+  confirmPassword?: string;
+  referral_code_of_referrer?: string;
+  general?: string;
+}

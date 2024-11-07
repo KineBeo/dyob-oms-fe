@@ -8,9 +8,34 @@ import { RootState } from '@/store/store';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+interface Referral {
+  id: string;
+  personal_referral_code: string;
+  user_rank: string;
+  total_sales: number;
+}
+
+interface UserStatus {
+  personal_referral_code: string;
+  user_rank: string;
+  referrer_name: string | null;
+  rank_achievement_date: string;
+  total_orders: number;
+  total_purchase: number;
+  total_sales: number;
+  referrals: Referral[];
+}
+
+interface Order {
+  id: string;
+  createdAt: string;
+  status: string;
+  address: string;
+}
+
 const UserStatusPage = () => {
-  const [userStatus, setUserStatus] = useState<any>(null);
-  const [orders, setOrders] = useState<any[]>([]);
+  const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const ordersPerPage = 3;
@@ -44,7 +69,7 @@ const UserStatusPage = () => {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
 
-  const OrderCard = ({ order }: { order: any }) => (
+  const OrderCard = ({ order }: { order: Order }) => (
     <div className="p-4 bg-white rounded-lg border hover:shadow-lg transition-shadow">
       <div className="flex mobile:flex-col tablet:flex-row laptop:flex-row justify-between items-start mb-2">
         <p className="font-medium text-text-brown-primary">Mã đơn: #{order.id}</p>
@@ -67,7 +92,7 @@ const UserStatusPage = () => {
     </div>
   );
 
-  const OrderRow = ({ order }: { order: any }) => (
+  const OrderRow = ({ order }: { order: Order }) => (
     <div className="p-4 bg-white border-b hover:bg-gray-50 transition-colors">
       <div className="grid mobile:grid-cols-1 tablet:grid-cols-4 gap-4 items-center">
         <p className="font-medium text-text-brown-primary">#{order.id}</p>
@@ -150,7 +175,7 @@ const UserStatusPage = () => {
         <CardContent>
           {userStatus.referrals && userStatus.referrals.length > 0 ? (
             <div className="grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-3 gap-4">
-              {userStatus.referrals.map((referral: any) => (
+              {userStatus.referrals.map((referral: Referral) => (
                 <div key={referral.id} className="p-4 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
                   <p className="font-medium text-text-brown-primary">Mã: {referral.personal_referral_code}</p>
                   <p className="text-gray-600 mt-2">Cấp bậc: {referral.user_rank}</p>

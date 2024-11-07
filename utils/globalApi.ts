@@ -115,3 +115,25 @@ export const getOneArticle = async (seoUrl: string) => {
 
   return response;
 };
+export const getAllVisions = async () => {
+  const response = await axiosClient
+    .get("about-us-normal?populate=visions.text")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching all visions data:", error);
+    });
+  return response
+}
+export const getAllMissions = async () => {
+  const response = await axiosClient
+    .get("about-us-normal?populate=missions.text")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching all mission data:", error);
+    });
+  return response
+}

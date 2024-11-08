@@ -3,12 +3,12 @@ import toast from "react-hot-toast";
 export const orderService = {
 
 
- async createOrder(user_id: number, referral_code_of_referrer: string, address: string) {
+ async createOrder(user_id: number, referral_code_of_referrer: string, shipping_address_id: number) {
    try {
      const createOrderDto = {
        user_id,
        referral_code_of_referrer,
-       address,
+       shipping_address_id,
      };
      const response = await api.post(`/orders`, createOrderDto);
      return response.data;

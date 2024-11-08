@@ -64,7 +64,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
       <div className="space-y-4">
         <div>
           <h4 className="font-medium mb-2">Địa chỉ giao hàng</h4>
-          <p className="text-gray-600">{order.address || 'Không có địa chỉ'}</p>
+          <p className="text-gray-600">{order.snapshot_full_address || 'Không có địa chỉ'}</p>
         </div>
 
         <div>

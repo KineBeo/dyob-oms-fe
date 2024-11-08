@@ -10,6 +10,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Referral {
   id: string;
+  fullname: string;
   personal_referral_code: string;
   user_rank: string;
   total_sales: number;
@@ -23,6 +24,7 @@ interface UserStatus {
   total_orders: number;
   total_purchase: number;
   total_sales: number;
+  commission: string;
   referrals: Referral[];
 }
 
@@ -30,7 +32,7 @@ interface Order {
   id: string;
   createdAt: string;
   status: string;
-  address: string;
+  snapshot_full_address: string;
 }
 
 const UserStatusPage = () => {
@@ -47,7 +49,7 @@ const UserStatusPage = () => {
         if (!user?.id) return;
         const statusData = await userStatusService.getUserStatusById(user.id);
         const ordersData = await orderService.getOrderByUserID(user.id);
-        
+
         if (statusData) setUserStatus(statusData);
         if (ordersData) setOrders(ordersData);
       } catch (error) {
@@ -82,11 +84,11 @@ const UserStatusPage = () => {
         </p>
       </div>
       <div className="grid mobile:grid-cols-1 tablet:grid-cols-2 gap-2 text-sm">
-        <p className="text-text-brown-primary">Trạng thái: 
+        <p className="text-text-brown-primary">Trạng thái:
           <span className="ml-2 font-medium">{order.status}</span>
         </p>
-        <p className="text-text-brown-primary">Địa chỉ: 
-          <span className="ml-2 font-medium">{order.address}</span>
+        <p className="text-text-brown-primary">Địa chỉ:
+          <span className="ml-2 font-medium">{order.snapshot_full_address}</span>
         </p>
       </div>
     </div>
@@ -97,7 +99,7 @@ const UserStatusPage = () => {
       <div className="grid mobile:grid-cols-1 tablet:grid-cols-4 gap-4 items-center">
         <p className="font-medium text-text-brown-primary">#{order.id}</p>
         <p className="text-text-brown-primary">{order.status}</p>
-        <p className="text-text-brown-primary truncate">{order.address}</p>
+        <p className="text-text-brown-primary truncate">{order.snapshot_full_address}</p>
         <p className="text-text-brown-primary">
           {new Date(order.createdAt).toLocaleDateString('vi-VN')}
         </p>
@@ -141,7 +143,7 @@ const UserStatusPage = () => {
             Thống kê
           </CardTitle>
         </CardHeader>
-        <CardContent className="grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-3 gap-4">
+        <CardContent className="grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-2 desktop:grid-cols-2 gap-4">
           <div className="p-4 bg-blue-50 rounded-lg border">
             <p className="text-sm font-medium text-blue-600">Tổng đơn hàng</p>
             <p className="mobile:text-xl tablet:text-2xl font-bold text-blue-700">
@@ -162,6 +164,13 @@ const UserStatusPage = () => {
                 .format(Number(userStatus.total_sales))}
             </p>
           </div>
+          <div className="p-4 bg-orange-50 rounded-lg border">
+            <p className="text-sm font-medium text-orange-600">Tổng hoa hồng</p>
+            <p className="mobile:text-xl tablet:text-2xl font-bold text-orange-700">
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                .format(Number(userStatus.commission))}
+            </p>
+          </div>
         </CardContent>
       </Card>
 
@@ -178,6 +187,7 @@ const UserStatusPage = () => {
               {userStatus.referrals.map((referral: Referral) => (
                 <div key={referral.id} className="p-4 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
                   <p className="font-medium text-text-brown-primary">Mã: {referral.personal_referral_code}</p>
+                  <p className="text-gray-600 mt-2">Họ và tên: {referral.fullname}</p>
                   <p className="text-gray-600 mt-2">Cấp bậc: {referral.user_rank}</p>
                   <p className="text-gray-600 mt-1">Doanh số: {
                     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })

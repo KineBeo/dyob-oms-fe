@@ -22,14 +22,14 @@ export default function WhyChoosing({ title, description, cards }: WhyChoosingPr
 
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <div className="relative">
         {/* Split background */}
         <div className="absolute inset-0">
           <div className="bg-[#3F291B] h-3/5"></div>
           <div className="bg-white h-2/5"></div>
         </div>
-        <div className="relative z-10 justify-items-center px-4 py-6 text-center">
+        <div className="relative z-10 justify-items-center px-4 py-6 text-center ">
           <h2 className="mb-4 font-bold font-robotoslab text-3xl text-center text-white mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">
             {title}
           </h2>

@@ -17,15 +17,15 @@ export default function Vision() {
      const response = await strapi.getAllVisions();
      return response?.data;
    });
-    const { data : MissionData } = useSWR("about-us-normal-mission", async () => {
+    const { data : MissionData, isLoading : MissionLoanding, error : MisssionError } = useSWR("about-us-normal-mission", async () => {
      const response = await strapi.getAllMissions();
      return response?.data;
    });
 
-   if (error) return <div>Failed to load</div>;
-   if (isLoading) return <Loading />;
+   if (error || MisssionError) return <div>Failed to load</div>;
+   if (isLoading || MissionLoanding) return <Loading />;
 
-   const vision: Vision = VisionData.visions;
+   const vision: Vision = VisionData.visions ;
    const mission: Vision = MissionData.missions;
   return (
     <div className="w-full max-w-4xl desktop:max-w-5xl mx-auto px-4 py-4">
@@ -38,7 +38,7 @@ export default function Vision() {
 
       <div className="laptop:px-8 desktop:px-12 flex justify-center items-center">
         <div className="grid grid-cols-2 mobile:grid-cols-1 tablet:grid-cols-1 mobile:p-4 gap-8 desktop:gap-12">
-          <OurDestinyCard title={vision.title} text={vision.text} />
+          <OurDestinyCard title={vision.title } text={vision.text} />
           <OurDestinyCard title={mission.title} text={mission.text} />
         </div>
       </div>

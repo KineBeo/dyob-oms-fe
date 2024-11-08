@@ -14,7 +14,7 @@ interface VisionItem {
 export default function OurDestinyCard( vision : Vision) {
     console.log(vision.title)
     return (
-        <Card className="w-fit rounded-none">
+        <Card className="w-full rounded-none">
             <CardHeader className="justify-between px-6">
                 <p className="text-lg font-semibold">{vision.title}</p>
                     <IoMdGlobe className="text-[#7A0505]"/>

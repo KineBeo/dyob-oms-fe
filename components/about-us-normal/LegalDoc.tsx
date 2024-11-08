@@ -38,7 +38,7 @@ const documents = [
 
 export default function LegalDoct() {
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 pt-4 pb-12">
+    <div className="w-full max-w-4xl desktop:max-w-5xl mx-auto px-4 pt-4 pb-12">
       <div className="w-full mobile:mb-4 tablet:mb-4 mb-6 items-center justify-center flex flex-col">
         <p className="mobile:text-3xl tablet:text-3xl text-4xl font-robotoslab font-bold text-center p-2 text-[#4A2511]">
           Hồ sơ pháp lý

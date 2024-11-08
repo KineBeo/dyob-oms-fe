@@ -54,7 +54,7 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="max-w-5xl desktop:max-w-5xl mx-auto px-4 py-8">
+    <div className="max-w-4xl desktop:max-w-5xl mx-auto px-4 py-8">
       <div className="relative">
         {/* Main Content */}
         <div className="grid mini-laptop:grid-cols-12 laptop:grid-cols-12 desktop:grid-cols-12 gap-8 items-top">
@@ -80,25 +80,28 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
           </div>
 
           {/* Text Content - 7 columns */}
-          <div className="mini-laptop:col-span-7 laptop:col-span-7 desktop:col-span-7 space-y-6">
-            <h2 className="mobile:hidden tablet:hidden text-2xl font-bold text-[#7A0505]">
-              {data?.data[currentSlide].title}
-            </h2>
-            <div className="relative">
-              <FaQuoteLeft className="text-2xl text-[#D7A444] mb-4" />
-              <blockquote className="text-black font-robotoflex mobile:text-sm text-base">
-                {data?.data[currentSlide].quote}
-              </blockquote>
+          <div className="mini-laptop:col-span-7 laptop:col-span-7 desktop:col-span-7">
+            <div className="relative aspect-[6/3] flex flex-col items-start ">
+              <h2 className="mobile:hidden tablet:hidden text-2xl font-bold text-[#7A0505] mb-4">
+                {data?.data[currentSlide].title}
+              </h2>
+              <div className="flex-1 overflow-y-auto">
+                <div className="relative">
+                  <FaQuoteLeft className="text-xl text-[#D7A444] mb-4" />
+                  <blockquote className="text-black font-robotoflex mobile:text-sm text-base">
+                    {data?.data[currentSlide].quote}
+                  </blockquote>
+                </div>
+              </div>
+              <button
+                className="text-[#D7A444] hover:text-[#D7A444] font-medium transition-colors mt-4"
+                onClick={() =>
+                  router.push(`/articles/${data?.data[currentSlide].seoUrl}`)
+                }
+              >
+                XEM CHI TIẾT
+              </button>
             </div>
-
-            <button
-              className="text-[#D7A444] hover:text-[#D7A444] font-medium transition-colors"
-              onClick={() =>
-                router.push(`/articles/${data?.data[currentSlide].seoUrl}`)
-              }
-            >
-              XEM CHI TIẾT
-            </button>
           </div>
         </div>
 

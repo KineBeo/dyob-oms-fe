@@ -40,13 +40,13 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
   };
 
   const { data, isLoading, error } = useSWR(
-    
+
     homepageLoaded ? "articles" : null,
     async () => {
       const response: ArticleResponse = await strapi.getAllArticles();
       return response;
     },
-   
+
   );
   const router = useRouter();
   if (!homepageLoaded) return null;
@@ -54,47 +54,47 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="max-w-4xl desktop:max-w-5xl mx-auto px-4 py-8">
+    <div className="mx-auto px-4 py-8 max-w-4xl desktop:max-w-5xl">
       <div className="relative">
         {/* Main Content */}
-        <div className="grid mini-laptop:grid-cols-12 laptop:grid-cols-12 desktop:grid-cols-12 gap-8 items-top">
-          <h2 className="hidden mobile:flex tablet:flex text-2xl font-bold text-[#7A0505]">
+        <div className="items-top gap-8 grid desktop:grid-cols-12 laptop:grid-cols-12 mini-laptop:grid-cols-12">
+          <h2 className="mobile:flex tablet:flex hidden font-bold text-[#7A0505] text-2xl">
             {data?.data[currentSlide]?.title}
           </h2>
           {/* Image Section - 5 columns */}
-          <div className=" mini-laptop:col-span-5 laptop:col-span-5 desktop:col-span-5 relative w-full h-full">
+          <div className="relative desktop:col-span-5 laptop:col-span-5 mini-laptop:col-span-5 w-full h-full">
             <div className="relative aspect-[4/3]">
-              <div className="absolute top inset-0 bg-[#f5f5f5] rounded-lg overflow-hidden  rounded-tl-[9rem] rounded-br-[9rem]">
+              <div className="top absolute inset-0 bg-[#f5f5f5] rounded-lg rounded-tl-[9rem] rounded-br-[9rem] overflow-hidden">
                 <img
                   src={
                     data?.data[currentSlide]?.image?.url ??
                     "images/homgepage/boss.png"
                   }
                   alt={data?.data[currentSlide].name}
-                  className="object-cover w-full h-full"
+                  className="w-full h-full object-cover"
                 />
                 {/* Fade effect overlay */}
-                <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
+                <div className="right-0 bottom-0 left-0 absolute bg-gradient-to-t from-black/30 to-transparent h-1/3" />
               </div>
             </div>
           </div>
 
           {/* Text Content - 7 columns */}
-          <div className="mini-laptop:col-span-7 laptop:col-span-7 desktop:col-span-7">
-            <div className="relative aspect-[6/3] flex flex-col items-start ">
-              <h2 className="mobile:hidden tablet:hidden text-2xl font-bold text-[#7A0505] mb-4">
+          <div className="desktop:col-span-7 laptop:col-span-7 mini-laptop:col-span-7">
+            <div className="relative flex flex-col items-start aspect-[6/3]">
+              <h2 className="mobile:hidden tablet:hidden mb-4 font-bold text-[#7A0505] text-2xl">
                 {data?.data[currentSlide].title}
               </h2>
               <div className="flex-1 overflow-y-auto">
                 <div className="relative">
-                  <FaQuoteLeft className="text-xl text-[#D7A444] mb-4" />
-                  <blockquote className="text-black font-robotoflex mobile:text-sm text-base">
+                  <FaQuoteLeft className="mb-4 text-[#D7A444] text-xl" />
+                  <blockquote className="font-robotoflex text-base text-black mobile:text-sm">
                     {data?.data[currentSlide].quote}
                   </blockquote>
                 </div>
               </div>
               <button
-                className="text-[#D7A444] hover:text-[#D7A444] font-medium transition-colors mt-4"
+                className="mt-4 font-medium text-[#D7A444] hover:text-[#D7A444] transition-colors"
                 onClick={() =>
                   router.push(`/articles/${data?.data[currentSlide].seoUrl}`)
                 }
@@ -108,18 +108,14 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
         {/* Navigation Buttons */}
         <button
           onClick={prevSlide}
-          className="absolute left-12 top-2/3 mobile:top-1/2 tablet:top-1/2
-           -translate-y-1/2 -translate-x-12 bg-white p-1 rounded-full 
-           hover:border-[#D7A444]  hover:border-1 transition-all"
+          className="top-2/3 mobile:top-1/2 tablet:top-1/2 left-12 absolute hover:border-[#D7A444] hover:border-1 bg-white p-1 rounded-full transition-all -translate-x-12 -translate-y-1/2"
           aria-label="Previous slide"
         >
           <IoIosArrowBack className="w-6 h-6 text-[#7A0505]" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-12 top-2/3  mobile:top-1/2 tablet:top-1/2 
-          -translate-y-1/2 translate-x-12 bg-white p-1 rounded-full
-           hover:border-[#D7A444]  hover:border-1 transition-all"
+          className="top-2/3 mobile:top-1/2 tablet:top-1/2 right-12 absolute hover:border-[#D7A444] hover:border-1 bg-white p-1 rounded-full transition-all -translate-y-1/2 translate-x-12"
           aria-label="Next slide"
         >
           <IoIosArrowForward className="w-6 h-6 text-[#7A0505]" />
@@ -139,17 +135,16 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
               {data?.data.map((testimonial, index) => (
                 <CarouselItem
                   key={index}
-                  className="relative flex justify-center items-center mobile:basis-1/2 tablet:basis-1/3 mini-laptop:basis-1/6 laptop:basis-1/6 desktop:basis-1/6"
+                  className="relative desktop:basis-1/6 laptop:basis-1/6 flex justify-center items-center mobile:basis-1/2 tablet:basis-1/3 mini-laptop:basis-1/6"
                 >
                   <button
                     key={testimonial.id}
                     onClick={() => handleThumbnailClick(index)}
                     className={`relative flex-shrink-0 w-32 aspect-square rounded-lg overflow-hidden
-                ${
-                  currentSlide === index
-                    ? "ring-2 ring-[#D7A444]"
-                    : "opacity-70 hover:opacity-100"
-                }`}
+                ${currentSlide === index
+                        ? "ring-2 ring-[#D7A444]"
+                        : "opacity-70 hover:opacity-100"
+                      }`}
                   >
                     <img
                       src={testimonial.image?.url ?? "images/homepage/boss.png"}

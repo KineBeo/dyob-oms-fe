@@ -8,6 +8,7 @@ import * as strapi from "@/utils/globalApi";
 import Loading from "../Loading";
 import { useRouter } from "next/navigation";
 import { type CarouselApi } from "../ui/carousel";
+import { CldImage } from "next-cloudinary";
 interface ArticlesProps {
   homepageLoaded: boolean;
 }
@@ -65,13 +66,12 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
           <div className="relative desktop:col-span-5 laptop:col-span-5 mini-laptop:col-span-5 w-full h-full">
             <div className="relative aspect-[4/3]">
               <div className="top absolute inset-0 bg-[#f5f5f5] rounded-lg rounded-tl-[9rem] rounded-br-[9rem] overflow-hidden">
-                <img
-                  src={
-                    data?.data[currentSlide]?.image?.url ??
-                    "images/homgepage/boss.png"
-                  }
-                  alt={data?.data[currentSlide].name}
-                  className="w-full h-full object-cover"
+                <CldImage
+                  src={data?.data[currentSlide]?.image?.url ?? "images/homgepage/boss.png"}
+                  alt={data?.data[currentSlide].name ?? "default alt text"}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 {/* Fade effect overlay */}
                 <div className="right-0 bottom-0 left-0 absolute bg-gradient-to-t from-black/30 to-transparent h-1/3" />
@@ -146,10 +146,12 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
                         : "opacity-70 hover:opacity-100"
                       }`}
                   >
-                    <img
+                    <CldImage
                       src={testimonial.image?.url ?? "images/homepage/boss.png"}
                       alt={`Thumbnail ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 50vw, 33vw"
                     />
                     {/* Brown overlay for non-active thumbnails */}
                     {currentSlide !== index && (

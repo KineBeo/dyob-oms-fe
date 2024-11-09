@@ -103,6 +103,7 @@ export const getAllArticles = async () => {
     });
   return response;
 };
+
 export const getOneArticle = async (seoUrl: string) => {
   const response: ArticleResponse = await axiosClient
     .get(`/articles?filters[seoUrl][$eq]=${seoUrl}&populate=*`)

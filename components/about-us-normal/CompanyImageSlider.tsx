@@ -3,10 +3,13 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Divider } from "@nextui-org/react";
 import useEmblaCarousel from "embla-carousel-react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { CldImage } from "next-cloudinary";
 
 
 interface Image {
   src: string;
+  width: number;
+  height: number;
   alt?: string;
 }
 
@@ -58,25 +61,27 @@ export default function CompanyImageSlider({
   }
 
   return (
-    <div className="w-full max-w-4xl desktop:max-w-5xl mx-auto px-4 py-4">
-      <div className="w-full mobile:mb-4 tablet:mb-4 mb-6 items-center justify-center flex flex-col">
-        <p className="mobile:text-3xl tablet:text-3xl text-4xl font-robotoslab font-bold text-center p-2 text-[#4A2511]">
+    <div className="mx-auto px-4 py-4 w-full max-w-4xl desktop:max-w-5xl">
+      <div className="flex flex-col justify-center items-center mb-6 mobile:mb-4 tablet:mb-4 w-full">
+        <p className="p-2 font-bold font-robotoslab text-[#4A2511] text-4xl text-center mobile:text-3xl tablet:text-3xl">
           Hình ảnh công ty
         </p>
-        <Divider className="w-24 h-1 bg-[#D7A444]" />
+        <Divider className="bg-[#D7A444] w-24 h-1" />
       </div>
 
-      <div className="laptop:px-8 desktop:px-12">
-        <div className="relative overflow-hidden rounded-lg shadow-lg">
+      <div className="desktop:px-12 laptop:px-8">
+        <div className="relative shadow-lg rounded-lg overflow-hidden">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
               {images.map((image, index) => (
                 <div key={index} className="relative flex-[0_0_100%] min-w-0">
                   <div className="relative pb-[56.25%]">
-                    <img
+                    <CldImage
                       src={image.src}
                       alt={image.alt || "Company image"}
-                      className="absolute top-0 left-0 w-full h-full object-cover"
+                      width={image.width}
+                      height={image.height}
+                      className="top-0 left-0 absolute w-full h-full object-cover"
                     />
                   </div>
                 </div>
@@ -87,28 +92,27 @@ export default function CompanyImageSlider({
           {/* Navigation Buttons */}
           <button
             onClick={scrollPrev}
-            className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full shadow-md transition-all"
+            className="top-1/2 left-2 md:left-4 absolute flex justify-center items-center bg-white/80 hover:bg-white shadow-md rounded-full w-8 md:w-10 h-8 md:h-10 text-gray-800 transform transition-all -translate-y-1/2"
             aria-label="Previous image"
           >
-            <IoIosArrowBack className="w-5 h-5 md:w-6 md:h-6" />
+            <IoIosArrowBack className="w-5 md:w-6 h-5 md:h-6" />
           </button>
           <button
             onClick={scrollNext}
-            className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full shadow-md transition-all"
+            className="top-1/2 right-2 md:right-4 absolute flex justify-center items-center bg-white/80 hover:bg-white shadow-md rounded-full w-8 md:w-10 h-8 md:h-10 text-gray-800 transform transition-all -translate-y-1/2"
             aria-label="Next image"
           >
-            <IoIosArrowForward className="w-5 h-5 md:w-6 md:h-6" />
+            <IoIosArrowForward className="w-5 md:w-6 h-5 md:h-6" />
           </button>
 
           {/* Dots Navigation */}
-          <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          <div className="bottom-2 md:bottom-4 left-1/2 absolute flex space-x-2 transform -translate-x-1/2">
             {scrollSnaps.map((_, index) => (
               <button
                 key={index}
                 onClick={() => scrollTo(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  selectedIndex === index ? "bg-white w-4" : "bg-white/60"
-                }`}
+                className={`w-2 h-2 rounded-full transition-all ${selectedIndex === index ? "bg-white w-4" : "bg-white/60"
+                  }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}

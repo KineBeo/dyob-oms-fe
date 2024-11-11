@@ -46,6 +46,80 @@ export default function AboutUsNormal() {
     height: img.height
   }));
 
+  const documents = [
+    {
+      "id": 1,
+      "title": "22.07 Vn tỉnh thức",
+      "date": "2024-11-11",
+      "filePath": "public/pdf/22.07 Vn tỉnh thức.pdf"
+    },
+    {
+      "id": 2,
+      "title": "BCB Milk calcium CX",
+      "date": "2023-11-09",
+      "filePath": "public/pdf/BCB Milk calcium CX.pdf"
+    },
+    {
+      "id": 3,
+      "title": "BCB Tulixo ChlorophyII",
+      "date": "2023-11-09",
+      "filePath": "public/pdf/BCB Tulixo ChlorophyII.pdf"
+    },
+    {
+      "id": 4,
+      "title": "Bản công bố Astrojoi moi 2019",
+      "date": "2019-11-01",
+      "filePath": "public/pdf/Bản công bố Astrojoi moi 2019.pdf"
+    },
+    {
+      "id": 5,
+      "title": "Công bố TX gửi Ông Bụt",
+      "date": "2024-11-11",
+      "filePath": "public/pdf/Công bố TX gửi Ông Bụt.zip"
+    },
+    {
+      "id": 6,
+      "title": "GCN BQ. ONG BUT",
+      "date": "2024-11-11",
+      "filePath": "public/pdf/GCN BQ. ONG BUT.pdf"
+    },
+    {
+      "id": 7,
+      "title": "GCN. BQ. DONG Y ONG BUT",
+      "date": "2024-11-11",
+      "filePath": "public/pdf/GCN. BQ. DONG Y ONG BUT.pdf"
+    },
+    {
+      "id": 8,
+      "title": "TCB_Sâm ngọc linh Thanh Xuân",
+      "date": "2023-09-28",
+      "filePath": "public/pdf/TCB_Sâm ngọc linh Thanh Xuân.pdf"
+    },
+    {
+      "id": 9,
+      "title": "Thực phẩm bổ sung Ahlozen protein",
+      "date": "2023-11-09",
+      "filePath": "public/pdf/Thực phẩm bổ sung Ahlozen protein.pdf"
+    },
+    {
+      "id": 10,
+      "title": "Thực phẩm bổ sung Breast lady plus",
+      "date": "2023-11-09",
+      "filePath": "public/pdf/Thực phẩm bổ sung Breast lady plus.pdf"
+    },
+    {
+      "id": 11,
+      "title": "Thực phẩm bổ sung Multivitamin pluszzs-fruits",
+      "date": "2023-11-09",
+      "filePath": "public/pdf/Thực phẩm bổ sung Multivitamin pluszzs-fruits.pdf"
+    },
+    {
+      "id": 12,
+      "title": "Thực phẩm bổ sung Viên sủi Actiso râu ngô rau má",
+      "date": "2023-11-09",
+      "filePath": "public/pdf/Thực phẩm bổ sung Viên sủi Actiso râu ngô rau má.pdf"
+    }
+  ]
 
   return (
     <div>
@@ -64,7 +138,9 @@ export default function AboutUsNormal() {
         <CompanyImageSlider images={images} />
 
         {/* legal doc */}
-        <LegalDoc />
+        <LegalDoc
+          documents={documents}
+        />
       </div>
     </div>
   );

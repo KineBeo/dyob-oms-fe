@@ -6,11 +6,14 @@ import useSWR from 'swr';
 import { CategoriesResponse, FilterCategory, Product, ProductResponse } from "@/utils/api/Product.interface";
 import Loading from "@/components/Loading";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Products() {
     const [selectedFilters, setSelectedFilters] = useState<Set<number>>(new Set());
     const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
-    const [isFilterOpen, setIsFilterOpen] = useState(false); // state for filter menu
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 20;
 
     const { data, isLoading, error } = useSWR('products', async () => {
         const response: ProductResponse = await strapi.getAllProducts();
@@ -32,16 +35,21 @@ export default function Products() {
 
     useEffect(() => {
         if (data?.data) {
-            if (selectedFilters.size > 0) {
-                const filtered = data.data.filter(product =>
+            const filteredProducts = selectedFilters.size > 0
+                ? data.data.filter(product =>
                     product.category.id && selectedFilters.has(product.category.id)
-                );
-                setDisplayedProducts(filtered);
-            } else {
-                setDisplayedProducts(data.data);
-            }
+                )
+                : data.data;
+            setDisplayedProducts(filteredProducts);
+            setCurrentPage(1); // Reset to first page when filters change
         }
     }, [data, selectedFilters]);
+
+    // Pagination calculations
+    const totalPages = Math.ceil(displayedProducts.length / productsPerPage);
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = displayedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
     const handleFilterClick = (filterId: number) => {
         setSelectedFilters(prev => {
@@ -66,6 +74,11 @@ export default function Products() {
 
     const toggleFilterMenu = () => {
         setIsFilterOpen((prev) => !prev);
+    };
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     if (isLoading) return <Loading />
@@ -183,8 +196,8 @@ export default function Products() {
                             </span>
                         </div>
 
-                        <div className="gap-6 grid grid-cols-4 laptop:grid-cols-3 mobile:grid-cols-2 tablet:grid-cols-2">
-                            {Array.isArray(displayedProducts) && displayedProducts.map((product) => (
+                        <div className="gap-6 grid grid-cols-4 laptop:grid-cols-3 mini-laptop:grid-cols-3 mobile:grid-cols-2 tablet:grid-cols-2">
+                            {Array.isArray(currentProducts) && currentProducts.map((product) => (
                                 <ProductCard
                                     key={product.id}
                                     image_url={product.Main_image.provider_metadata.public_id}
@@ -195,9 +208,41 @@ export default function Products() {
                             ))}
                         </div>
 
-                        {displayedProducts.length === 0 && (
+                        {displayedProducts.length === 0 ? (
                             <div className="py-8 text-center text-gray-500">
                                 Không tìm thấy sản phẩm nào cho danh mục này
+                            </div>
+                        ) : (
+                            // Pagination Controls
+                            <div className="flex justify-center items-center gap-2 mt-8">
+                                <button
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                    className="hover:bg-gray-100 disabled:opacity-50 p-2 rounded disabled:cursor-not-allowed"
+                                >
+                                    <ChevronLeft className="w-5 h-5" />
+                                </button>
+
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                    <button
+                                        key={page}
+                                        onClick={() => handlePageChange(page)}
+                                        className={`px-3 py-1 rounded ${currentPage === page
+                                            ? 'bg-[#4A2511] text-white'
+                                            : 'hover:bg-gray-100'
+                                            }`}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+
+                                <button
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                    className="hover:bg-gray-100 disabled:opacity-50 p-2 rounded disabled:cursor-not-allowed"
+                                >
+                                    <ChevronRight className="w-5 h-5" />
+                                </button>
                             </div>
                         )}
                     </div>

@@ -21,7 +21,7 @@ export interface OrderProduct {
 export interface Order {
   id: number;
   total_amount: string;
-  address: string;
+  snapshot_full_address: string;
   status: OrderStatus;
   createdAt: Date;
   updateAt: Date;

@@ -5,12 +5,16 @@ import ReactFullpage from "@fullpage/react-fullpage";
 import * as strapi from "../../utils/globalApi";
 import useSWR from "swr";
 import Loading from "@/components/Loading";
+import { CldImage } from "next-cloudinary";
 interface ImageAndText {
   First_short_text: string;
   Last_short_text: string;
   Image: {
     url: string;
-  } ;
+    provider_metadata: {
+      public_id : string;
+    },
+  };
 }
 
 
@@ -45,9 +49,12 @@ export default function AboutUs( ) {
                 <div className="relative w-full h-screen flex items-center justify-center">
                   <div className="absolute inset-0">
                     {/* Wrapper div cho Image */}
-                    <img
-                      src={image.Image.url}
+                    <CldImage
+                      src={image.Image.provider_metadata.public_id}
                       alt={image.Image.url}
+                      width={window.innerWidth}
+                      height={window.innerHeight}
+                      loading="eager"
                       className="w-full h-full object-cover" // Add your desired styles
                     />
                   </div>
@@ -62,7 +69,7 @@ export default function AboutUs( ) {
                               
                                " // Thêm pointer-events-none
                   >
-                    {image.First_short_text}
+                    {image.Last_short_text}
                   </h2>
                   <h2
                     className="absolute text-3xl font-semibold font-robotoslab
@@ -73,7 +80,7 @@ export default function AboutUs( ) {
                                mini-laptop:text-2xl mini-laptop:font-medium
                               "
                   >
-                    {image.Last_short_text}
+                    {image.First_short_text}
                   </h2>
                 </div>
               </div>

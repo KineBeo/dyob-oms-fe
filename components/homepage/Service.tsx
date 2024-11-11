@@ -15,7 +15,7 @@ interface ServiceSectionProps {
 
 const ServiceSection = ({ title, services }: ServiceSectionProps) => {
   return (
-    <section className="relative mx-auto mb-20 py-6 max-w-4xl desktop:max-w-5xl">
+    <section className="relative mx-auto mb-20 py-6 max-w-4xl tablet:max-w-lg mini-laptop:max-w-2xl desktop:max-w-5xl">
       {/* Background layers */}
       <div className="absolute inset-0">
         <div className="bg-white rounded-xl h-1/3"></div>

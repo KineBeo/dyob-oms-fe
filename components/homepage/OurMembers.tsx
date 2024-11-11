@@ -27,7 +27,7 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
   const mainDoctor = teamMembers.find((member) => member.isMain);
   const otherDoctors = teamMembers.filter((member) => !member.isMain);
   return (
-    <div className="relative">
+    <div className="relative ">
       {/* Split background */}
       <div className="absolute inset-0">
         <div className="bg-[#3F291B] h-1/2" />

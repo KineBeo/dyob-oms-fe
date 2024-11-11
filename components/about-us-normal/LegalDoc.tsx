@@ -1,69 +1,81 @@
 "use client";
 import { Divider } from "@nextui-org/react";
-import React from "react";
+import React, { useState } from "react";
 import { FaFileAlt, FaDownload } from "react-icons/fa";
 
-const documents = [
-  {
-    id: 1,
-    title: "Hồ sơ công bố sản phẩm An vị Khang Ông Bụt",
-    date: "27/09/2024",
-  },
-  {
-    id: 2,
-    title: "Hồ sơ công bố sản phẩm An vị Khang Ông Bụt",
-    date: "27/09/2024",
-  },
-  {
-    id: 3,
-    title: "Hồ sơ công bố sản phẩm An vị Khang Ông Bụt",
-    date: "27/09/2024",
-  },
-  {
-    id: 4,
-    title: "Hồ sơ công bố sản phẩm An vị Khang Ông Bụt",
-    date: "27/09/2024",
-  },
-  {
-    id: 5,
-    title: "Hồ sơ công bố sản phẩm An vị Khang Ông Bụt",
-    date: "27/09/2024",
-  },
-  {
-    id: 6,
-    title: "Hồ sơ công bố sản phẩm An vị Khang Ông Bụt",
-    date: "27/09/2024",
-  },
-];
+interface Document {
+  id: number;
+  title: string;
+  date: string;
+  filePath: string;
+}
 
-export default function LegalDoct() {
+interface LegalDocProps {
+  documents: Document[];
+}
+
+const ITEMS_PER_PAGE = 6;
+
+export default function LegalDoc({ documents }: LegalDocProps) {
+  const [downloading, setDownloading] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(documents.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentDocuments = documents.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const handleDownload = async (doc: Document) => {
+    try {
+      setDownloading(doc.id);
+      const fileName = doc.filePath.split('/').pop() || 'document.pdf';
+      const link = document.createElement('a');
+      link.href = doc.filePath;
+      link.download = fileName;
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Download failed:', error);
+    } finally {
+      setDownloading(null);
+    }
+  };
+
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 pt-4 pb-12">
-      <div className="w-full mobile:mb-4 tablet:mb-4 mb-6 items-center justify-center flex flex-col">
-        <p className="mobile:text-3xl tablet:text-3xl text-4xl font-robotoslab font-bold text-center p-2 text-[#4A2511]">
+    <div className="mx-auto px-4 pt-4 pb-12 w-full max-w-4xl desktop:max-w-5xl">
+      <div className="flex flex-col justify-center items-center mb-6 mobile:mb-4 tablet:mb-4 w-full">
+        <p className="p-2 font-bold font-robotoslab text-[#4A2511] text-4xl text-center mobile:text-3xl tablet:text-3xl">
           Hồ sơ pháp lý
         </p>
-        <Divider className="w-24 h-1 bg-[#D7A444]" />
+        <Divider className="bg-[#D7A444] w-24 h-1" />
       </div>
 
-      <div className="laptop:px-8 desktop:px-12 grid grid-cols-2 mobile:grid-cols-1 tablet:grid-cols-1 w-full mobile:gap-4 gap-8 ">
-        {documents.map((doc) => (
+      <div className="desktop:px-12 laptop:px-8 gap-8 mobile:gap-4 grid grid-cols-2 mobile:grid-cols-1 tablet:grid-cols-1 w-full">
+        {currentDocuments.map((doc) => (
           <div
             key={doc.id}
-            className="bg-white border border-gray-200 rounded-lg overflow-hidden"
+            className="border-gray-200 bg-white hover:shadow-md border rounded-lg transition-shadow overflow-hidden"
           >
-            <div className="flex items-center justify-between p-4">
+            <div className="flex justify-between items-center p-4">
               <div className="flex items-center space-x-3">
-                <FaFileAlt className="text-[#7A0505] w-5 h-5 flex-shrink-0" />
+                <FaFileAlt className="flex-shrink-0 w-5 h-5 text-[#7A0505]" />
                 <div>
                   <h3 className="font-medium">{doc.title}</h3>
-                  <p className="text-sm">Ngày đăng {doc.date}</p>
+                  <p className="text-gray-600 text-sm">Ngày đăng {doc.date}</p>
                 </div>
               </div>
 
               <div className="flex items-center space-x-2 px-2">
-                <button className="p-2 bg-[#7A0505] text-white rounded hover:bg-[#A52A2A] transition-colors">
-                  <FaDownload className="w-4 h-4" />
+                <button
+                  onClick={() => handleDownload(doc)}
+                  disabled={downloading === doc.id}
+                  className={`p-2 ${downloading === doc.id
+                      ? 'bg-gray-400'
+                      : 'bg-[#7A0505] hover:bg-[#A52A2A]'
+                    } text-white rounded transition-colors`}
+                >
+                  <FaDownload className={`w-4 h-4 ${downloading === doc.id ? 'animate-pulse' : ''}`} />
                 </button>
               </div>
             </div>
@@ -71,14 +83,23 @@ export default function LegalDoct() {
         ))}
       </div>
 
-      {/* <div className="flex justify-center mt-8 space-x-2 pb-4">
-        <button className="w-8 h-8 rounded-full bg-[#8B0000] text-white">
-          1
-        </button>
-        <button className="w-8 h-8 rounded-full bg-[#FFF7ED] text-[#8B0000] hover:bg-[#8B0000] hover:text-white transition-colors">
-          2
-        </button>
-      </div> */}
+      {/* Pagination controls */}
+      {totalPages > 1 && (
+        <div className="flex justify-center gap-2 mt-8">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+            <button
+              key={pageNum}
+              onClick={() => setCurrentPage(pageNum)}
+              className={`w-8 h-8 rounded-full ${pageNum === currentPage
+                  ? 'bg-[#7A0505] text-white'
+                  : 'bg-[#FFF7ED] text-[#7A0505] hover:bg-[#7A0505] hover:text-white'
+                } transition-colors`}
+            >
+              {pageNum}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

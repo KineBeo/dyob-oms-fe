@@ -196,7 +196,7 @@ export default function Products() {
                             </span>
                         </div>
 
-                        <div className="gap-6 grid grid-cols-4 laptop:grid-cols-3 mobile:grid-cols-2 tablet:grid-cols-2">
+                        <div className="gap-6 grid grid-cols-4 laptop:grid-cols-3 mini-laptop:grid-cols-3 mobile:grid-cols-2 tablet:grid-cols-2">
                             {Array.isArray(currentProducts) && currentProducts.map((product) => (
                                 <ProductCard
                                     key={product.id}

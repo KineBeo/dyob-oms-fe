@@ -16,15 +16,16 @@ interface ProductCardProps {
 export default function ProductCard(props: ProductCardProps) {
     const router = useRouter();
     return (
-        <Card className="shadow-xl hover:shadow-2xl p-0 w-fit h-full cursor-pointer">
+        <Card className="shadow-xl hover:shadow-2xl p-0 w-60 h-full cursor-pointer">
             <div onClick={() => router.push(`/products/${props.slug}`)}>
-                <CardHeader className="flex-col items-center bg-[#FBF6EC] px-4 py-8">
+                <CardHeader className="flex justify-center items-center bg-[#FBF6EC] px-4 py-8 h-52">
                     <CldImage
                         alt="Card background"
-                        className="rounded-xl"
+                        className="w-auto h-full object-contain"
                         src={props.image_url}
                         width={320}
-                        height={195}
+                        height={208}
+                        priority
                     />
                 </CardHeader>
                 <CardBody className="items-left pt-2 h-full">

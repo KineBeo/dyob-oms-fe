@@ -50,74 +50,68 @@ export default function AboutUsNormal() {
     {
       "id": 1,
       "title": "22.07 Vn tỉnh thức",
-      "date": "2024-11-11",
-      "filePath": "public/pdf/22.07 Vn tỉnh thức.pdf"
+      "date": "11/11/2024",
+      "filePath": "/pdf/22-07-vn-tinh-thuc.pdf"
     },
     {
       "id": 2,
       "title": "BCB Milk calcium CX",
-      "date": "2023-11-09",
-      "filePath": "public/pdf/BCB Milk calcium CX.pdf"
+      "date": "9/11/2023",
+      "filePath": "/pdf/bcb-milk-calcium-cx.pdf"
     },
     {
       "id": 3,
       "title": "BCB Tulixo ChlorophyII",
-      "date": "2023-11-09",
-      "filePath": "public/pdf/BCB Tulixo ChlorophyII.pdf"
+      "date": "9/11/2023",
+      "filePath": "/pdf/bcb-tulixo-chlorophyii.pdf"
     },
     {
       "id": 4,
       "title": "Bản công bố Astrojoi moi 2019",
-      "date": "2019-11-01",
-      "filePath": "public/pdf/Bản công bố Astrojoi moi 2019.pdf"
+      "date": "1/11/2019",
+      "filePath": "/pdf/ban-cong-bo-astrojoi-moi-2019.pdf"
     },
     {
       "id": 5,
-      "title": "Công bố TX gửi Ông Bụt",
-      "date": "2024-11-11",
-      "filePath": "public/pdf/Công bố TX gửi Ông Bụt.zip"
+      "title": "GCN BQ. ONG BUT",
+      "date": "11/11/2024",
+      "filePath": "/pdf/gcn-bq-ong-but.pdf"
     },
     {
       "id": 6,
-      "title": "GCN BQ. ONG BUT",
-      "date": "2024-11-11",
-      "filePath": "public/pdf/GCN BQ. ONG BUT.pdf"
+      "title": "GCN. BQ. DONG Y ONG BUT",
+      "date": "11/11/2024",
+      "filePath": "/pdf/gcn-bq-dong-y-ong-but.pdf"
     },
     {
       "id": 7,
-      "title": "GCN. BQ. DONG Y ONG BUT",
-      "date": "2024-11-11",
-      "filePath": "public/pdf/GCN. BQ. DONG Y ONG BUT.pdf"
+      "title": "TCB_Sâm ngọc linh Thanh Xuân",
+      "date": "9/28/2023",
+      "filePath": "/pdf/tcb-sam-ngoc-linh-thanh-xuan.pdf"
     },
     {
       "id": 8,
-      "title": "TCB_Sâm ngọc linh Thanh Xuân",
-      "date": "2023-09-28",
-      "filePath": "public/pdf/TCB_Sâm ngọc linh Thanh Xuân.pdf"
+      "title": "Thực phẩm bổ sung Ahlozen protein",
+      "date": "9/11/2023",
+      "filePath": "/pdf/thuc-pham-bo-sung-ahlozen-protein.pdf"
     },
     {
       "id": 9,
-      "title": "Thực phẩm bổ sung Ahlozen protein",
-      "date": "2023-11-09",
-      "filePath": "public/pdf/Thực phẩm bổ sung Ahlozen protein.pdf"
+      "title": "Thực phẩm bổ sung Breast lady plus",
+      "date": "9/11/2023",
+      "filePath": "/pdf/thuc-pham-bo-sung-breast-lady-plus.pdf"
     },
     {
       "id": 10,
-      "title": "Thực phẩm bổ sung Breast lady plus",
-      "date": "2023-11-09",
-      "filePath": "public/pdf/Thực phẩm bổ sung Breast lady plus.pdf"
+      "title": "Thực phẩm bổ sung Multivitamin pluszzs-fruits",
+      "date": "9/11/2023",
+      "filePath": "/pdf/thuc-pham-bo-sung-multivitamin-pluszzs-fruits.pdf"
     },
     {
       "id": 11,
-      "title": "Thực phẩm bổ sung Multivitamin pluszzs-fruits",
-      "date": "2023-11-09",
-      "filePath": "public/pdf/Thực phẩm bổ sung Multivitamin pluszzs-fruits.pdf"
-    },
-    {
-      "id": 12,
       "title": "Thực phẩm bổ sung Viên sủi Actiso râu ngô rau má",
-      "date": "2023-11-09",
-      "filePath": "public/pdf/Thực phẩm bổ sung Viên sủi Actiso râu ngô rau má.pdf"
+      "date": "9/11/2023",
+      "filePath": "public/pdf/thuc-pham-bo-sung-vien-sui-actiso-rau-ngo-rau-ma.pdf"
     }
   ]
 

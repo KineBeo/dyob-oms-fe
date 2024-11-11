@@ -111,9 +111,9 @@ export default function AboutUsNormal() {
       "id": 11,
       "title": "Thực phẩm bổ sung Viên sủi Actiso râu ngô rau má",
       "date": "9/11/2023",
-      "filePath": "public/pdf/thuc-pham-bo-sung-vien-sui-actiso-rau-ngo-rau-ma.pdf"
+      "filePath": "/pdf/thuc-pham-bo-sung-vien-sui-actiso-rau-ngo-rau-ma.pdf"
     }
-  ]
+  ];
 
   return (
     <div>

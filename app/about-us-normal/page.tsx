@@ -46,6 +46,74 @@ export default function AboutUsNormal() {
     height: img.height
   }));
 
+  const documents = [
+    {
+      "id": 1,
+      "title": "22.07 Vn tỉnh thức",
+      "date": "11/11/2024",
+      "filePath": "/pdf/22-07-vn-tinh-thuc.pdf"
+    },
+    {
+      "id": 2,
+      "title": "BCB Milk calcium CX",
+      "date": "9/11/2023",
+      "filePath": "/pdf/bcb-milk-calcium-cx.pdf"
+    },
+    {
+      "id": 3,
+      "title": "BCB Tulixo ChlorophyII",
+      "date": "9/11/2023",
+      "filePath": "/pdf/bcb-tulixo-chlorophyii.pdf"
+    },
+    {
+      "id": 4,
+      "title": "Bản công bố Astrojoi moi 2019",
+      "date": "1/11/2019",
+      "filePath": "/pdf/ban-cong-bo-astrojoi-moi-2019.pdf"
+    },
+    {
+      "id": 5,
+      "title": "GCN BQ. ONG BUT",
+      "date": "11/11/2024",
+      "filePath": "/pdf/gcn-bq-ong-but.pdf"
+    },
+    {
+      "id": 6,
+      "title": "GCN. BQ. DONG Y ONG BUT",
+      "date": "11/11/2024",
+      "filePath": "/pdf/gcn-bq-dong-y-ong-but.pdf"
+    },
+    {
+      "id": 7,
+      "title": "TCB_Sâm ngọc linh Thanh Xuân",
+      "date": "9/28/2023",
+      "filePath": "/pdf/tcb-sam-ngoc-linh-thanh-xuan.pdf"
+    },
+    {
+      "id": 8,
+      "title": "Thực phẩm bổ sung Ahlozen protein",
+      "date": "9/11/2023",
+      "filePath": "/pdf/thuc-pham-bo-sung-ahlozen-protein.pdf"
+    },
+    {
+      "id": 9,
+      "title": "Thực phẩm bổ sung Breast lady plus",
+      "date": "9/11/2023",
+      "filePath": "/pdf/thuc-pham-bo-sung-breast-lady-plus.pdf"
+    },
+    {
+      "id": 10,
+      "title": "Thực phẩm bổ sung Multivitamin pluszzs-fruits",
+      "date": "9/11/2023",
+      "filePath": "/pdf/thuc-pham-bo-sung-multivitamin-pluszzs-fruits.pdf"
+    },
+    {
+      "id": 11,
+      "title": "Thực phẩm bổ sung Viên sủi Actiso râu ngô rau má",
+      "date": "9/11/2023",
+      "filePath": "/pdf/thuc-pham-bo-sung-vien-sui-actiso-rau-ngo-rau-ma.pdf"
+    }
+  ];
 
   return (
     <div>
@@ -64,7 +132,9 @@ export default function AboutUsNormal() {
         <CompanyImageSlider images={images} />
 
         {/* legal doc */}
-        <LegalDoc />
+        <LegalDoc
+          documents={documents}
+        />
       </div>
     </div>
   );

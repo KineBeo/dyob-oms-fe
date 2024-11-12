@@ -23,26 +23,32 @@ export default function Address({ title, description, cards }: AddressProps) {
       <p className="mx-auto mb-8 font-robotoflex text-base text-black text-center mobile:text-sm">
         {description}
       </p>
-      <div className=" ">
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="relative w-full max-w-5xl laptop:max-w-[52rem] mini-laptop:max-w-3xl"
-        >
-          <CarouselContent>
-            {cards.map((card, index) => (
-              <CarouselItem key={index} className="relative basis-1/2" >
-                <StoreCard key={index} image_url={card.image_url} location={card.location} google_maps_url={card.google_maps_url || '#'} />
-              </CarouselItem>
-            ))
-              }
-          </CarouselContent>
-          <CarouselPrevious className="left-0 hover:bg-[#D7A444] active:bg-[#C2943D] hover:text-white active:text-white" />
-          <CarouselNext className="right-0 hover:bg-[#D7A444] active:bg-[#C2943D] hover:text-white active:text-white" />
-          </Carousel>
-      </div>
+
+      <Carousel
+        opts={{
+          align: "start",
+          loop: true,
+        }}
+        className="relative w-full max-w-5xl laptop:max-w-[52rem] mini-laptop:max-w-3xl bg-transparent"
+      >
+        <CarouselContent className="">
+          {cards.map((card, index) => (
+            <CarouselItem
+              key={index}
+              className="relative basis-1/2 "
+            >
+              <StoreCard
+                key={index}
+                image_url={card.image_url}
+                location={card.location}
+                google_maps_url={card.google_maps_url || "#"}
+              />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="left-0 hover:bg-[#D7A444] active:bg-[#C2943D] hover:text-white active:text-white" />
+        <CarouselNext className="right-0 hover:bg-[#D7A444] active:bg-[#C2943D] hover:text-white active:text-white" />
+      </Carousel>
     </div>
   );
 

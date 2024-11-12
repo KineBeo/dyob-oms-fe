@@ -10,6 +10,7 @@ import * as strapi from '@/utils/globalApi';
 import useSWR from "swr";
 import { CldImage } from 'next-cloudinary';
 import Articles from "@/components/homepage/Articles";
+import Loading from "@/components/Loading";
 
 
 export default function Home() {
@@ -19,7 +20,7 @@ export default function Home() {
     return response;
   });
 
-  // if (isLoading) return <Loading />;
+  if (isLoading) return <Loading/>;
   if (error) return <div>Error loading homepage data</div>;
 
   const homepageData = data?.data;
@@ -32,8 +33,9 @@ export default function Home() {
           src={
             homepageData?.Hero_section_image?.provider_metadata.public_id || ""
           }
-          width={typeof window !== 'undefined' ? window.innerWidth : 0}
-          height={typeof window !== 'undefined' ? window.innerHeight : 0}
+          width={typeof window !== "undefined" ? window.innerWidth : 0}
+          height={typeof window !== "undefined" ? window.innerHeight : 0}
+          loading="eager"
           alt="Herosection"
         />
       </div>

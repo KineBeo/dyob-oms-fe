@@ -42,25 +42,25 @@ export default function Solutions({ title, description, icons }: SolutionsProps)
       <section className="mx-auto px-4 pt-4 max-w-4xl tablet:max-w-lg mini-laptop:max-w-2xl desktop:max-w-5xl">
         <div className="place-items-start gap-6 mobile:gap-4 grid grid-cols-3 mobile:grid-cols-2 pb-10 w-full h-fit">
           <div className="flex justify-center items-center w-full">
-            <button className="bg-[#D7A444] hover:bg-[#40241A] rounded-bl-md rounded-br-md w-full h-12 font-bold font-robotoflex text-white">
+            {/* <button className="bg-[#D7A444] hover:bg-[#40241A] rounded-bl-md rounded-br-md w-full h-12 font-bold font-robotoflex text-white">
               Xem thêm
-            </button>
+            </button> */}
           </div>
           <div className="flex justify-center items-center w-full">
-            <button className="bg-[#D7A444] hover:bg-[#40241A] rounded-bl-md rounded-br-md w-full h-12 font-bold font-robotoflex text-white">
+            {/* <button className="bg-[#D7A444] hover:bg-[#40241A] rounded-bl-md rounded-br-md w-full h-12 font-bold font-robotoflex text-white">
               Xem thêm
-            </button>
+            </button> */}
           </div>
           <div className="flex justify-center items-center mobile:col-span-2 w-full">
-            <button className="bg-[#D7A444] hover:bg-[#40241A] rounded-bl-md rounded-br-md w-full h-12 font-bold font-robotoflex text-white">
+            {/* <button className="bg-[#D7A444] hover:bg-[#40241A] rounded-bl-md rounded-br-md w-full h-12 font-bold font-robotoflex text-white">
               Xem thêm
-            </button>
+            </button> */}
           </div>
         </div>
-        <div className="flex desktop:flex-row laptop:flex-row flex-col gap-8 pb-4">
+        <div className="flex desktop:flex-row laptop:flex-row flex-col gap-0 pb-4">
           {/* Left content */}
           <div className="desktop:w-1/3 laptop:w-1/3">
-            <h2 className="mb-4 font-bold font-robotoslab text-[#7A0505] text-3xl text-left mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">
+            <h2 className="mb-4 font-bold font-robotoslab text-[#7A0505] text-2xl text-left mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl whitespace-pre-line">
               {title}
               <div className="bg-[#D7A444] mt-2 w-24 h-1"></div>
             </h2>
@@ -68,13 +68,16 @@ export default function Solutions({ title, description, icons }: SolutionsProps)
             <p className="mb-6 font-robotoflex desktop:text-base laptop:text-base mobile:text-sm tablet:text-sm mini-laptop:text-sm">
               {description}
             </p>
-            <Button variant="bordered" className="border-[#D7A444] hover:bg-[#D7A444] bg-none px-6 py-2 border rounded-full font-bold text-[#D7A444] hover:text-white transition-all">
+            <Button
+              variant="bordered"
+              className="border-[#D7A444] hover:bg-[#D7A444] bg-none px-6 py-2 border rounded-full font-bold text-[#D7A444] hover:text-white transition-all"
+            >
               XEM THÊM
             </Button>
           </div>
 
           {/* Right content - Icons grid */}
-          <div className="desktop:w-3/5 laptop:w-3/5 place-content-center">
+          <div className="desktop:w-2/3 laptop:w-2/3 place-content-center">
             <div className="gap-y-2 mobile:gap-y-6 grid grid-cols-4 mobile:grid-cols-2">
               {icons.map((item) => (
                 <TreatmentIcon

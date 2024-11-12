@@ -20,18 +20,28 @@ interface Product {
   };
   Name: string;
   Price: string; // Using string since the price comes as a string from API
-  Product_details: string;
-  Product_details_title: string | null;
-  Sub_images: null | any[]; // Replace 'any' with proper type if sub_images structure is known
+  Product_details?: string;
+  Product_details_title?: string | null;
+  Sub_images?: null | any[]; // Replace 'any' with proper type if sub_images structure is known
   slug: string;
   category: {
     id: number;
   };
 }
 
-// Main response interface
+// interfaces/product.ts
+interface PaginationMeta {
+  pagination: {
+    page: number;
+    pageSize: number;
+    pageCount: number;
+    total: number;
+  };
+}
+
 interface ProductResponse {
   data: Product[];
+  meta: PaginationMeta;
 }
 
 interface FilterCategory {

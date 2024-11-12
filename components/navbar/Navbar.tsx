@@ -89,8 +89,8 @@ export default function HeroSection() {
       hasSubmenu: true,
       submenu: [
         {
-          title: "Đăng nhập",
-          href: "/affiliate/login",
+          title: "Chính sách",
+          href: "/affiliate/legal",
         },
         {
           title: "Tìm hiểu thêm",
@@ -121,21 +121,21 @@ export default function HeroSection() {
           <DropdownMenu aria-label="User Actions">
             <DropdownItem
               key="profile"
-              className="font-bold text-xl text-text-brown-primary"
+              className="font-bold text-text-brown-primary text-xl"
               onClick={() => router.push("/affiliate-dashboard")}
             >
               Tài khoản của tôi
             </DropdownItem>
             <DropdownItem
               key="orders"
-              className="font-bold text-xl text-text-brown-primary"
+              className="font-bold text-text-brown-primary text-xl"
               onClick={() => router.push("/orders")}
             >
               Đơn hàng
             </DropdownItem>
             <DropdownItem
               key="logout"
-              className="font-bold text-xl text-red-500"
+              className="font-bold text-red-500 text-xl"
               onClick={handleLogout}
             >
               Đăng xuất

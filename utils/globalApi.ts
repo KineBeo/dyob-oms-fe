@@ -1,5 +1,6 @@
 import { default as axios } from "axios";
 import { CategoriesResponse, ProductResponse } from "./api/Product.interface";
+import qs from "qs";
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_STRAPI_API_URL,
@@ -65,7 +66,7 @@ export const getOneProduct = async (slug: string) => {
 export const getAllProducts = async () => {
   const response: ProductResponse = await axiosClient
     .get(
-      "products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name"
+      "products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width,height,provider_metadata&populate[Sub_images][fields]=width,height,provider_metadata&populate[category][fields]=name&pagination[pageSize]=100"
     )
     .then((res) => {
       return res.data;
@@ -75,6 +76,18 @@ export const getAllProducts = async () => {
     });
 
   return response;
+};
+
+export const getPageOfProducts = async (page = 1, pageSize = 20) => {
+  try {
+    const response: ProductResponse = await axiosClient.get(
+      `products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name&pagination[page]=${page}&pagination[pageSize]=${pageSize}`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching all products data:", error);
+    throw error;
+  }
 };
 
 export const getAllCategories = async () => {

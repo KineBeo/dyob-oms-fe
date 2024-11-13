@@ -110,7 +110,7 @@ export default function Footer() {
                         </a>
                         <address className="-mt-0.5 flex-1 not-italic text-white">
                           Địa chỉ: {location.address_name}{" "}
-                          <Link className="text-[#D7A444] italic" href={location.href_map}>(Xem bản đồ)</Link>
+                          <Link className="text-[#D7A444] italic" href={location.href_map} target="blank">(Xem bản đồ)</Link>
                         </address>
                       </li>
 

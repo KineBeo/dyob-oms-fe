@@ -26,7 +26,7 @@ interface YouTubeEmbedProps {
 
 const SideVideos: React.FC<VideosProps> = ({ title, videoId, isActive, onVideoClick }) => {
   return (
-    <Card className="shadow-xl h-fit">
+    <Card className="shadow-xl h-full">
       <CardBody className="gap-2">
         <YouTubeEmbed
           videoId={videoId}
@@ -114,13 +114,13 @@ const CustomerFeedback: React.FC<CustomerFeedbackProps> = ({ videos }) => {
           align: "center",
           loop: true,
         }}
-        className="w-full"
+        className="w-full "
       >
         <CarouselContent>
           {videos.map((video, index) => (
             <CarouselItem
               key={index}
-              className="mobile:basis-full tablet:basis-full basis-1/2"
+              className="mobile:basis-full tablet:basis-full basis-1/2 my-2"
             >
               <SideVideos
                 title={video.title}

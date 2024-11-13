@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: GenerateMetadataProps): Promi
 
         if (!product) {
             return {
-                title: 'Product Not Found | Your Store Name',
+                title: 'Product Not Found | Đông Y Ông Bụt',
                 description: 'The requested product could not be found',
                 robots: {
                     index: false,
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: GenerateMetadataProps): Promi
         const seoDescription = product.Product_details?.substring(0, 155) || 'Product description';
 
         return {
-            title: `${product.Name} | Your Store Name`,
+            title: `${product.Name} | Đông Y Ông Bụt`,
             description: seoDescription,
             robots: {
                 index: true,

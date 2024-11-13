@@ -45,8 +45,8 @@ export default function Footer() {
                             laptop:max-w-xs 
                             desktp:max-w-xs"
                 >
-                  Giấy đăng ký kinh doanh số: 410803511 do UBND QUẬN X - TP Hải
-                  Dương cấp ngày 00/00/0000
+                  Giấy đăng ký kinh doanh số: 0801417620 do UBND Huyện Bình Giang - Tỉnh Hải
+                  Dương cấp ngày 21/03/2024
                 </p>
                 <div className="text-[#FFFFFF] mt-4">
                   <div className="w-full border-b border-white border-dashed border-opacity-50">
@@ -67,7 +67,7 @@ export default function Footer() {
                         </div>
                       </a>
                       <address className="-mt-0.5 flex-1 not-italic text-[#FFFFFF]">
-                        Địa chỉ: Số XX Ngõ XX, XX, XX, Hải Dương{" "}
+                        Địa chỉ: Thôn An Đông Xã Thái Hòa, Huyện Bình Giang, Tỉnh Hải Dương{" "}
                         <i className="text-[#D7A444]">(Xem bản đồ)</i>
                       </address>
                     </li>

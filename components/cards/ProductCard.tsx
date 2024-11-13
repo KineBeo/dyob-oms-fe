@@ -16,9 +16,9 @@ interface ProductCardProps {
 export default function ProductCard(props: ProductCardProps) {
     const router = useRouter();
     return (
-        <Card className="shadow-xl hover:shadow-2xl p-0 w-60 h-full cursor-pointer">
+        <Card className="shadow-xl hover:shadow-2xl p-0 w-full h-full cursor-pointer">
             <div onClick={() => router.push(`/products/${props.slug}`)}>
-                <CardHeader className="flex justify-center items-center bg-[#FBF6EC] px-4 py-8 h-52">
+                <CardHeader className="flex justify-center items-center bg-[#FBF6EC] px-4 py-4 mobile:p-0 tablet:p-0 mini-laptop:p-0 h-52">
                     <CldImage
                         alt="Card background"
                         className="w-auto h-full object-contain"

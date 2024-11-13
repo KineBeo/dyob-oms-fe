@@ -24,7 +24,7 @@ export default function StoreCard(props: StoreCardProps) {
                 <h2 className="p-2 font-semibold text-large text-white">{props.location}</h2>
             </CardBody>
 
-            <CardFooter className="flex-row justify-center items-center gap-2 pt-0 pb-2">
+            <CardFooter className="flex-row justify-center items-center gap-2 pt-0 pb-4">
                 <Button
                     onClick={() => window.open(props.google_maps_url || '', '_blank')}
                     className="bg-white rounded-full w-2/5 font-bold text-[#D7A444] text-[14px] desktop:text-[18px]"

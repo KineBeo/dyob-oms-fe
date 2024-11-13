@@ -90,7 +90,6 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
 
                           {/* Gradient overlay */}
                           <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent rounded-xl" />
-
                           <div className="right-0 bottom-0 left-0 absolute py-2">
                             <p className="font-bold text-center text-base text-white font-robotoslab uppercase">
                               {doctor.role}

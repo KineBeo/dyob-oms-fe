@@ -24,32 +24,20 @@ export default function Affiliate() {
     return (
         <div className="bg-paper">
             {/* Hero Section */}
-            <div className="w-full tablet:max-w-xl mini-laptop:max-w-2xl max-w-3xl desktop:max-w-7xl mobile:px-4 tablet:px-4 mx-auto">
+            <div className="mx-auto mobile:px-4 tablet:px-4 w-full max-w-3xl tablet:max-w-xl mini-laptop:max-w-2xl desktop:max-w-7xl">
                 <div className="py-12">
-                    <div className="grid grid-cols-2 items-center justify-between">
+                    <div className="justify-between items-center grid grid-cols-2">
                         {/* Left side content */}
-                        <div className="w-full space-y-4 laptop:space-y-6 desktop:space-y-6">
-                            <p className="
-                            mobile:text-2xl 
-                            tablet:text-3xl 
-                            mini-laptop:text-3xl
-                            text-4xl font-bold font-robotoslab text-[#4A2511]">
+                        <div className="space-y-4 desktop:space-y-6 laptop:space-y-6 w-full">
+                            <p className="font-bold font-robotoslab text-[#4A2511] text-4xl mobile:text-2xl tablet:text-3xl mini-laptop:text-3xl">
                                 Chương trình tiếp thị liên kết
                             </p>
-                            <p className="
-                            mobile:text-sm 
-                            tablet:text-medium 
-                            mini-laptop:text-lg 
-                            text-xl font-robotoflex">
+                            <p className="font-robotoflex text-xl mobile:text-sm mini-laptop:text-lg tablet:text-medium">
                                 Chúng tôi luôn mong muốn tìm kiếm những đối tác mới.
                                 Hãy tham gia cùng chúng tôi ngay.
                             </p>
-                            <Button className="bg-[#7A0505] text-white font-medium py-3 px-8 rounded-2xl
-                            mobile:text-sm
-                            tablet:text-medium
-                            mini-laptop:text-base
-                            text-lg h-full"
-                                onClick={() => router.push('/affiliate/login')}
+                            <Button className="bg-[#7A0505] px-8 py-3 rounded-2xl h-full font-medium text-lg text-white mini-laptop:text-base mobile:text-sm tablet:text-medium"
+                                onClick={() => router.push('/authentication/register')}
                             >
                                 Đăng kí ngay
                             </Button>
@@ -65,25 +53,17 @@ export default function Affiliate() {
             </div>
 
             {/* Benefits earn */}
-            <div className="w-full tablet:max-w-xl mini-laptop:max-w-2xl max-w-3xl desktop:max-w-7xl mx-auto mobile:px-4 tablet:px-4 py-8 laptop:py-12 desktop:py-12">
-                <div className="w-full bg-[#F0E0CA] mb-8 drop-shadow-lg border-1 border-black text-[#4A2511]">
-                    <p className="
-                    mobile:text-2xl 
-                    tablet:text-3xl
-                    mini-laptop:text-3xl
-                    text-4xl font-robotoslab font-bold text-center p-2">Lợi ích bạn nhận được</p>
+            <div className="desktop:py-12 laptop:py-12 mx-auto mobile:px-4 tablet:px-4 py-8 w-full max-w-3xl tablet:max-w-xl mini-laptop:max-w-2xl desktop:max-w-7xl">
+                <div className="border-1 bg-[#F0E0CA] drop-shadow-lg mb-8 border-black w-full text-[#4A2511]">
+                    <p className="p-2 font-bold font-robotoslab text-4xl text-center mobile:text-2xl tablet:text-3xl mini-laptop:text-3xl">Lợi ích bạn nhận được</p>
                 </div>
-                <p className="text-center font-robotoflex font-medium mobile:my-10 my-12 desktop:my-16 
-                mobile:text-sm
-                tablet:text-medium
-                text-lg
-                desktop:text-xl">
+                <p className="desktop:my-16 my-12 mobile:my-10 font-medium font-robotoflex text-center text-lg mobile:text-sm desktop:text-xl tablet:text-medium">
                     Chúng tôi thích làm việc với các đối tác có ảnh hưởng và đa dạng. Chúng tôi luôn tìm kiếm các đề xuất hợp tác.
                     <br />
                     Liên hệ với chúng tôi để biết thêm thông tin
                 </p>
                 <div className="flex justify-center">
-                    <div className="grid grid-cols-1 laptop:grid-cols-3 desktop:grid-cols-3 gap-8">
+                    <div className="gap-8 grid grid-cols-1 desktop:grid-cols-3 laptop:grid-cols-3">
                         <BenefitsCard />
                         <BenefitsCard />
                         <BenefitsCard />
@@ -92,59 +72,42 @@ export default function Affiliate() {
             </div>
 
             {/* How to join */}
-            <div className="w-full tablet:max-w-xl mini-laptop:max-w-2xl max-w-3xl desktop:max-w-7xl mx-auto mobile:px-4 tablet:px-4 py-8 desktop:py-12">
-                <div className="w-full bg-[#F0E0CA] mb-8 drop-shadow-lg border-1 border-black text-[#4A2511]">
-                    <p className="
-                    mobile:text-2xl 
-                    tablet:text-3xl
-                    mini-laptop:text-3xl
-                    text-4xl font-robotoslab font-bold text-center p-2">Làm sao để tham gia</p>
+            <div className="desktop:py-12 mx-auto mobile:px-4 tablet:px-4 py-8 w-full max-w-3xl tablet:max-w-xl mini-laptop:max-w-2xl desktop:max-w-7xl">
+                <div className="border-1 bg-[#F0E0CA] drop-shadow-lg mb-8 border-black w-full text-[#4A2511]">
+                    <p className="p-2 font-bold font-robotoslab text-4xl text-center mobile:text-2xl tablet:text-3xl mini-laptop:text-3xl">Làm sao để tham gia</p>
                 </div>
-                <p className="text-center font-robotoflex font-medium mobile:my-10 my-12 desktop:my-16 
-                mobile:text-sm
-                tablet:text-medium
-                mini-laptop:text-lg
-                text-xl">
+                <p className="desktop:my-16 my-12 mobile:my-10 font-medium font-robotoflex text-center text-xl mobile:text-sm mini-laptop:text-lg tablet:text-medium">
                     Chúng tôi thích làm việc với các đối tác có ảnh hưởng và đa dạng. Chúng tôi luôn tìm kiếm các đề xuất hợp tác.
                     <br />
                     Liên hệ với chúng tôi để biết thêm thông tin
                 </p>
                 <div className="relative">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
                         {steps.map((step, index) => (
                             <div key={step.number} className="flex flex-col items-center">
                                 <div className="relative flex justify-center w-full">
                                     {/* Left connecting line */}
                                     {index > 0 && (
-                                        <div className="absolute top-6 right-1/2 w-full h-0.5 bg-black hidden md:block" />
+                                        <div className="md:block top-6 right-1/2 absolute hidden bg-black w-full h-0.5" />
                                     )}
                                     {/* Right connecting line */}
                                     {index < steps.length - 1 && (
-                                        <div className="absolute top-6 left-1/2 w-full h-0.5 bg-black hidden md:block" />
+                                        <div className="md:block top-6 left-1/2 absolute hidden bg-black w-full h-0.5" />
                                     )}
-                                    <div className="w-12 h-12 rounded-full bg-[#7A0505] text-white flex items-center justify-center text-xl font-bold mb-4 z-10 relative">
+                                    <div className="relative z-10 flex justify-center items-center bg-[#7A0505] mb-4 rounded-full w-12 h-12 font-bold text-white text-xl">
                                         {step.number}
                                     </div>
                                 </div>
-                                <Card className="w-full p-6 mobile:mt-0 mt-4 h-full">
-                                    <p className="font-robotoflex font-medium text-center 
-                                    mobile:text-sm
-                                    tablet:text-base
-                                    mini-laptop:text-medium 
-                                    text-lg
-                                    ">{step.description}</p>
+                                <Card className="mt-4 mobile:mt-0 p-6 w-full h-full">
+                                    <p className="font-medium font-robotoflex text-center text-lg mini-laptop:text-medium mobile:text-sm tablet:text-base">{step.description}</p>
                                 </Card>
                             </div>
                         ))}
                     </div>
                 </div>
-                <div className="text-center mt-12">
-                    <Button className="bg-[#7A0505] text-white font-medium py-3 px-8 rounded-2xl
-                            mobile:text-sm
-                            tablet:text-medium
-                            mini-laptop:text-base
-                            text-lg h-full"
-                        onClick={() => router.push('/affiliate/login')}
+                <div className="mt-12 text-center">
+                    <Button className="bg-[#7A0505] px-8 py-3 rounded-2xl h-full font-medium text-lg text-white mini-laptop:text-base mobile:text-sm tablet:text-medium"
+                        onClick={() => router.push('/authentication/register')}
                     >
                         Đăng kí ngay
                     </Button>

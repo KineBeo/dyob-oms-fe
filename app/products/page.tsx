@@ -102,6 +102,9 @@ export default function Products() {
                         selectedFilters={selectedFilters}
                         toggleFilterMenu={toggleFilterMenu}
                         getSelectedCategoriesNames={getSelectedCategoriesNames}
+                        filterCategories={filterCategories}
+                        handleFilterClick={handleFilterClick}
+                        clearFilters={clearFilters}
                     />
 
                     <FilterSidebar

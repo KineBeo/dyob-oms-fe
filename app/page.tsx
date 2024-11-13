@@ -1,5 +1,4 @@
 'use client'
-import Image from "next/image";
 import WhyChoosing from "@/components/homepage/WhyChoosing";
 import Solutions from "@/components/homepage/Solutions";
 import OurMembers from "@/components/homepage/OurMembers";

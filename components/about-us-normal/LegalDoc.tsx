@@ -60,8 +60,8 @@ export default function LegalDoc({ documents }: LegalDocProps) {
             <div className="flex justify-between items-center p-4">
               <div className="flex items-center space-x-3">
                 <FaFileAlt className="flex-shrink-0 w-5 h-5 text-[#7A0505]" />
-                <div>
-                  <h3 className="font-medium">{doc.title}</h3>
+                <div className="relative group">
+                  <h3 className="font-medium" title={doc.title} >{doc.title.length > 30 ? `${doc.title.slice(0, 30)}...` : doc.title}</h3>
                   <p className="text-gray-600 text-sm">Ngày đăng {doc.date}</p>
                 </div>
               </div>

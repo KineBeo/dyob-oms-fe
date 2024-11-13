@@ -42,6 +42,7 @@ interface Data {
   Why_choosing_cards: Card[];
   Solution_card: Card[];
   Hero_section_image: Image;
+  Mobile_hero_section_image: Image;
   Employees: Employee[];
   services_content: Card[];
   Location_card: Card[];

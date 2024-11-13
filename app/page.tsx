@@ -40,7 +40,7 @@ export default function Home() {
       </div>
       <div className="mobile:flex tablet:flex justify-center hidden w-full h-full">
         <CldImage
-          src={homepageData?.Mobile_hero_section_image.provider_metadata.public_id || "banner_web_mobile_134318e89b"}
+          src={homepageData?.Mobile_hero_section_image?.provider_metadata.public_id || "banner_web_mobile_134318e89b"}
           width={618}
           height={644}
           alt="Herosection"

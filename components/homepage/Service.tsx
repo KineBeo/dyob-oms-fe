@@ -113,14 +113,14 @@ const ServiceSection = ({ title, services }: ServiceSectionProps) => {
         </div>
 
         {/* Button */}
-        <div className="mt-6 text-center">
+        {/* <div className="mt-6 text-center">
           <Button
             size="md"
             className="bg-[#D7A444] hover:bg-opacity-80 px-6 py-2 rounded-full font-bold text-white"
           >
             XEM CHI TIẾT
           </Button>
-        </div>
+        </div> */}
       </div>
     </section>
   );

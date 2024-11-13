@@ -84,7 +84,7 @@ export default function HeroSection() {
     },
     { title: "Sản phẩm", href: "/products", hasSubmenu: false },
     {
-      title: "Affiliate",
+      title: "Tiếp thị liên kết",
       href: "/affiliate",
       hasSubmenu: true,
       submenu: [

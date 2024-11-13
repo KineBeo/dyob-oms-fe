@@ -47,7 +47,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
         image: images[0],
         user_id: user?.id ?? 0,
       };
-      
+
       dispatch(addToCart(cartItem));
       await cartService.addToCart({
         user_id: cartItem.user_id,
@@ -91,9 +91,8 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
                 width={100}
                 height={100}
                 alt={`${name} thumbnail ${index + 1}`}
-                className={`border rounded-lg w-24 h-24 cursor-pointer ${
-                  currentImageIndex === index ? 'border-[#7A0505]' : ''
-                }`}
+                className={`border rounded-lg w-24 h-24 cursor-pointer ${currentImageIndex === index ? 'border-[#7A0505]' : ''
+                  }`}
                 onClick={() => setCurrentImageIndex(index)}
               />
             ))}
@@ -124,12 +123,12 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
       <div className="md:w-1/2">
         <h1 className="mb-4 font-bold text-3xl text-red-900">{name}</h1>
 
-        <div className="flex items-center mb-4">
+        {/* <div className="flex items-center mb-4">
           {[...Array(5)].map((_, i) => (
             <FaStar key={i} className="w-5 h-5 text-yellow-400" />
           ))}
           <span className="ml-2 text-gray-600">15 reviews</span>
-        </div>
+        </div> */}
 
         <div className="mb-6">
           <h2 className="mb-4 font-bold text-3xl">

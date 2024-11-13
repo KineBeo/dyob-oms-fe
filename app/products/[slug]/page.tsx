@@ -14,14 +14,14 @@ import { useEffect } from 'react';
 
 // Hàm tạo slug thân thiện với SEO
 const createSEOFriendlySlug = (text: string): string => {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[đĐ]/g, 'd')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .trim();
+    return text
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[đĐ]/g, 'd')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .trim();
 };
 
 export default function SpecificProduct() {
@@ -43,7 +43,7 @@ export default function SpecificProduct() {
     );
 
     const product = data?.data.find((product) => product.slug === slug);
-    
+
     // Tự động chuyển hướng nếu slug không đúng định dạng
     useEffect(() => {
         if (product && slug !== createSEOFriendlySlug(product.Name)) {
@@ -69,16 +69,16 @@ export default function SpecificProduct() {
                 <meta name="robots" content="index, follow" />
             </Head>
             <div>
-                <ProductInfo 
-                    images={[product.Main_image.provider_metadata.public_id, 
-                            product.Main_image.provider_metadata.public_id, 
-                            product.Main_image.provider_metadata.public_id]} 
-                    name={product.Name} 
+                <ProductInfo
+                    images={[product.Main_image.provider_metadata.public_id,
+                    product.Main_image.provider_metadata.public_id,
+                    product.Main_image.provider_metadata.public_id]}
+                    name={product.Name}
                     price={product.Price}
                 />
-                <MoreDetails 
-                    markdown={product.Product_details ?? ''} 
-                    image={product.Main_image.provider_metadata.public_id || ''} 
+                <MoreDetails
+                    markdown={product.Product_details ?? ''}
+                    image={product.Main_image.provider_metadata.public_id || ''}
                 />
                 <OtherProducts />
             </div>

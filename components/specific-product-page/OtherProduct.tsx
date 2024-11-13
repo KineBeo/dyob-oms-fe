@@ -33,11 +33,11 @@ const OtherProducts: React.FC = () => {
           opts={{
             align: "start",
           }}
-          className="py-6 w-full"
+          className="py-6 pr-8 w-full"
         >
           <CarouselContent>
             {otherProducts?.map((otherProduct, index) => (
-              <CarouselItem key={index} className="mobile:basis-1/2 tablet:basis-1/3 desktop:basis-1/5 basis-1/4">
+              <CarouselItem key={index} className="mobile:basis-1/2 tablet:basis-1/3 desktop:basis-1/5 pb-12 basis-1/4">
                 <ProductCard key={index}
                   image_url={otherProduct.Main_image.provider_metadata.public_id}
                   title={otherProduct.Name}

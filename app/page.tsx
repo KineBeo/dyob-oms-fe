@@ -1,5 +1,4 @@
 'use client'
-import Image from "next/image";
 import WhyChoosing from "@/components/homepage/WhyChoosing";
 import Solutions from "@/components/homepage/Solutions";
 import OurMembers from "@/components/homepage/OurMembers";
@@ -20,7 +19,7 @@ export default function Home() {
     return response;
   });
 
-  if (isLoading) return <Loading/>;
+  if (isLoading) return <Loading />;
   if (error) return <div>Error loading homepage data</div>;
 
   const homepageData = data?.data;
@@ -28,7 +27,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero section  */}
-      <div className="mobile:hidden tablet:hidden w-full h-full flex justify-center">
+      <div className="flex justify-center mobile:hidden tablet:hidden w-full h-full">
         <CldImage
           src={
             homepageData?.Hero_section_image?.provider_metadata.public_id || ""
@@ -39,12 +38,11 @@ export default function Home() {
           alt="Herosection"
         />
       </div>
-      <div className="mobile:block tablet:block relative hidden w-full">
-        <Image
-          src="/images/homepage/herosection_mini.jpg"
+      <div className="mobile:flex tablet:flex justify-center hidden w-full h-full">
+        <CldImage
+          src={homepageData?.Mobile_hero_section_image?.provider_metadata.public_id || "banner_web_mobile_134318e89b"}
           width={618}
           height={644}
-          style={{ height: "100%", width: "100%" }}
           alt="Herosection"
         />
       </div>

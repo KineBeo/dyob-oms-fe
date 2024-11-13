@@ -255,7 +255,7 @@ export default function Footer() {
                   </a>
                   <span className="flex-1 text-white">
                     Hotline:{" "}
-                    <b className="text-[#D7A444]">0888 280 000</b>
+                    <Link className="text-[#D7A444]" href={`tel:${"0888 280 000"}`} target="blank">0888 280 000</Link>
                   </span>
                 </div>
               </div>

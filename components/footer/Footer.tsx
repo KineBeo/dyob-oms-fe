@@ -39,7 +39,7 @@ const addressLinks = [
   },
   {
     title: "Cơ sở 3",
-    name: "Vườn chữa lành thân tâm Ông Bụt",
+    name: "Câu Lạc bộ chăm sóc sức khỏe Đông Y Ông Bụt",
     address_name: "J14 Camelia, đường số 8, Phường Bình Hưng, Quận Bình Chánh, HCM",
     href_map: "https://maps.app.goo.gl/GxUbpakd76epKgqu8",
   },
@@ -206,7 +206,7 @@ export default function Footer() {
                 <ul className="mt-5 flex justify-left gap-4 sm:justify-start md:gap-4">
                   <div>
                     <a
-                      href="#"
+                      href="https://www.youtube.com/channel/UCRGy27qv4bhjm7yfrh_AHow"
                       rel="noreferrer"
                       target="_blank"
                       className="text-[#FFFFFF]"

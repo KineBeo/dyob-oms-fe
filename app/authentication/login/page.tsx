@@ -10,7 +10,7 @@ import { RootState } from '@/store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginCredentials } from '@/interfaces/auth';
 interface FormErrors {
-    email?: string;
+    phone_number?: string;
     password?: string;
     general?: string;
 }
@@ -20,7 +20,7 @@ export default function Login() {
     const dispatch = useDispatch();
     const { loading, error } = useSelector((state: RootState) => state.auth);
     const [loginCredentials, setLoginCredentials] = useState<LoginCredentials>({
-        email: '',
+        phone_number: '',
         password: ''
     });
 
@@ -30,12 +30,18 @@ export default function Login() {
     const validateForm = (): boolean => {
         const newErrors: FormErrors = {};
 
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!loginCredentials.email) {
-            newErrors.email = 'Email không được để trống';
-        } else if (!emailRegex.test(loginCredentials.email)) {
-            newErrors.email = 'Email không hợp lệ';
+        // // Email validation
+        // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // if (!loginCredentials.email) {
+        //     newErrors.email = 'Email không được để trống';
+        // } else if (!emailRegex.test(loginCredentials.email)) {
+        //     newErrors.email = 'Email không hợp lệ';
+        // }
+        const phoneRegex = /^0\d{9}$/;
+        if (!loginCredentials.phone_number) {
+            newErrors.phone_number = 'Số điện thoại không được để trống';
+        } else if (!phoneRegex.test(loginCredentials.phone_number) || loginCredentials.phone_number.length !== 10) {
+            newErrors.phone_number = 'Số điện thoại không hợp lệ (phải là số điện thoại Việt Nam gồm 10 chữ số bắt đầu bằng 0)';
         }
 
         // Password validation
@@ -100,13 +106,13 @@ export default function Login() {
                         <div className="flex flex-col">
                             <div className="mb-4">
                                 <AuthInput
-                                    id="email"
-                                    label="Email"
-                                    type="email"
-                                    placeholder="Nhập email"
-                                    value={loginCredentials.email}
+                                    id="phone_number"
+                                    label="Số điện thoại"
+                                    type="text"
+                                    placeholder="Nhập số điện thoại"
+                                    value={loginCredentials.phone_number}
                                     onChange={handleChange}
-                                    error={errors.email}
+                                    error={errors.phone_number}
                                 />
                                 <AuthInput
                                     id="password"

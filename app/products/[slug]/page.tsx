@@ -11,6 +11,7 @@ import Loading from '../../../components/Loading';
 import { useRouter } from 'next/navigation';
 import Head from 'next/head';
 import { useEffect } from 'react';
+import Script from 'next/script'
 
 // Hàm tạo slug thân thiện với SEO
 const createSEOFriendlySlug = (text: string): string => {
@@ -43,6 +44,13 @@ export default function SpecificProduct() {
     );
 
     const product = data?.data.find((product) => product.slug === slug);
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product?.Name,
+        price: product?.Price,
+        details: product?.Product_details,
+    }
 
     // Tự động chuyển hướng nếu slug không đúng định dạng
     useEffect(() => {
@@ -82,6 +90,11 @@ export default function SpecificProduct() {
                 />
                 <OtherProducts />
             </div>
+            <Script
+                id="product-json-ld"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
         </>
     );
 }

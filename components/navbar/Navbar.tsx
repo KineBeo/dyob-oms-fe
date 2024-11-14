@@ -302,8 +302,8 @@ export default function HeroSection() {
             <Image
               src="/images/logo-image.png"
               alt="Đông Y Ông Bụt Logo"
-              width={100}
-              height={100}
+              width={50}
+              height={50}
               priority
               loading="eager"
               className="w-auto mobile:w-14 h-auto mobile:h-14 hover:scale-110 transition"

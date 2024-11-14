@@ -23,7 +23,7 @@ export default function AuthInput({
         <div className="mb-4">
             <label htmlFor={id} className="block font-medium text-black text-sm">
                 {label}
-                <span className="text-[#7A0505]"> *</span>
+                <span className="text-[#7A0505]"> </span>
             </label>
             <div className="relative flex mt-1">
                 <input

@@ -1,12 +1,11 @@
-'use client'
+'use client';
 import { useState } from 'react';
 import AuthInput from "@/components/form/AuthInput";
 import Image from "next/image";
 import { authService } from '@/utils/auth/authApi';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
-import { ApiErrorResponse } from '@/interfaces/auth';
-import { loginStart, loginSuccess, loginFailure } from '@/redux/features/auth/authSlice';
+import { loginStart } from '@/redux/features/auth/authSlice';
 import { RootState } from '@/store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginCredentials } from '@/interfaces/auth';
@@ -75,7 +74,7 @@ export default function Login() {
         }
     };
     return (
-        <div className="relative h-[70vh]">
+        <div className="relative ">
             <div className="z-0 absolute inset-0">
                 <Image
                     src="/images/productbg.png"

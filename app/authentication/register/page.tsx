@@ -118,7 +118,7 @@ export default function Register() {
     };
 
     return (
-        <div className="relative h-screen">
+        <div className="relative ">
             <div className="z-0 absolute inset-0">
                 <Image
                     src="/images/productbg.png"

@@ -72,14 +72,14 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
 
   return (
     <div className="flex desktop:flex-row laptop:flex-row mini-laptop:flex-row flex-col gap-8 mx-auto p-4 max-w-7xl">
-      <div className="md:w-1/2">
-        <div className="mb-4">
+      <div className="md:w-1/2 flex flex-col justify-between">
+        <div className="mb-4 flex justify-center items-center ">
           <CldImage
             src={images[currentImageIndex]}
             width={500}
             height={500}
             alt={name}
-            className="rounded-lg w-full h-full"
+            className="rounded-lg w-full h-full max-h-[500px] object-contain"
           />
         </div>
         <div className="relative">
@@ -91,8 +91,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
                 width={100}
                 height={100}
                 alt={`${name} thumbnail ${index + 1}`}
-                className={`border rounded-lg w-24 h-24 cursor-pointer ${currentImageIndex === index ? 'border-[#7A0505]' : ''
-                  }`}
+                className={`border rounded-lg w-24 h-24 cursor-pointer ${
+                  currentImageIndex === index ? "border-[#7A0505]" : ""
+                }`}
                 onClick={() => setCurrentImageIndex(index)}
               />
             ))}
@@ -132,7 +133,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
 
         <div className="mb-6">
           <h2 className="mb-4 font-bold text-3xl">
-            {Number(price.replace(/[^0-9.-]+/g, '')).toLocaleString('vi-VN')}đ
+            {Number(price.replace(/[^0-9.-]+/g, "")).toLocaleString("vi-VN")}đ
           </h2>
 
           <div className="flex items-center gap-4 mb-4">

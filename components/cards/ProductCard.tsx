@@ -21,7 +21,7 @@ export default function ProductCard(props: ProductCardProps) {
                 <CardHeader className="mini-laptop:p-0 flex justify-center items-center bg-[#FBF6EC] px-4 py-4 mobile:p-0 tablet:p-0 h-52">
                     <CldImage
                         alt="Card background"
-                        className="w-auto h-full object-contain"
+                        className="w-auto h-full object-contain rounded-xl"
                         src={props.image_url}
                         width={320}
                         height={208}

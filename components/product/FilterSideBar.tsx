@@ -12,7 +12,7 @@ function FilterSidebar(props: FilterSidebarProps) {
 
     return (
         <div className="mobile:hidden tablet:hidden w-1/6">
-            <div className="top-4 sticky">
+            <div className="top-24 sticky">
                 <p className="mb-4 font-bold font-robotoslab text-[#4A2511] text-xl uppercase">
                     Danh mục
                 </p>

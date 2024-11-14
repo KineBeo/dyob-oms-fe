@@ -1,7 +1,7 @@
 export interface RegisterDto {
   name: string;
   phone: string;
-  email: string;
+  // email: string;
   password: string;
 }
 
@@ -10,7 +10,7 @@ export interface RegisterResponse {
   user: {
     id: number;
     fullname: string;
-    email: string;
+    // email: string;
     phone_number: string;
   };
 }
@@ -31,13 +31,14 @@ export interface ApiErrorResponse {
 
 // * LOGIN
 export interface LoginCredentials {
-  email: string;
+  // email: string;
+  phone_number: string;
   password: string;
 }
 
 export interface User {
   id: number,
-  email: string,
+  // email: string,
   fullname: string,
   phone_number: string,
   role: string,
@@ -62,7 +63,7 @@ export interface RefreshTokenResponse {
 export interface RegisterFormData {
   fullname: string;
   phone_number: string;
-  email: string;
+  // email: string;
   password_hash: string;
   confirmPassword: string;
   referral_code_of_referrer?: string;
@@ -71,7 +72,7 @@ export interface RegisterFormData {
 export interface RegisterResponse {
   user: {
       id: number;
-      email: string;
+      // email: string;
       fullname: string;
       phone_number: string;
   }
@@ -80,7 +81,7 @@ export interface RegisterResponse {
 export interface FormErrors {
   fullname?: string;
   phone_number?: string;
-  email?: string;
+  // email?: string;
   password_hash?: string;
   confirmPassword?: string;
   referral_code_of_referrer?: string;

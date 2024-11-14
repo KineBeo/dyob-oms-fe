@@ -12,7 +12,7 @@ export default function Register() {
     const [formData, setFormData] = useState<RegisterFormData>({
         fullname: '',
         phone_number: '',
-        email: '',
+        // email: '',
         password_hash: '',
         confirmPassword: '',
         referral_code_of_referrer: ''
@@ -40,19 +40,19 @@ export default function Register() {
         }
 
         // Email validation matching backend requirements
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!formData.email) {
-            newErrors.email = 'Email không được để trống';
-        } else if (!emailRegex.test(formData.email)) {
-            newErrors.email = 'Email không hợp lệ';
-        }
+        // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // if (!formData.email) {
+        //     newErrors.email = 'Email không được để trống';
+        // } else if (!emailRegex.test(formData.email)) {
+        //     newErrors.email = 'Email không hợp lệ';
+        // }
 
         // Password validation matching backend requirements
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         if (!formData.password_hash) {
             newErrors.password_hash = 'Mật khẩu không được để trống';
         } else if (!passwordRegex.test(formData.password_hash)) {
-            newErrors.password_hash = 'Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt';
+            newErrors.password_hash = 'Mật khẩu phải có ít nhất 8 ký tự. Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt. ';
         }
 
         // Confirm password validation
@@ -161,7 +161,7 @@ export default function Register() {
                                     onChange={handleChange}
                                     error={errors.phone_number}
                                 />
-                                <AuthInput
+                                {/* <AuthInput
                                     id="email"
                                     label="Email"
                                     type="email"
@@ -169,7 +169,7 @@ export default function Register() {
                                     value={formData.email}
                                     onChange={handleChange}
                                     error={errors.email}
-                                />
+                                /> */}
                                 <AuthInput
                                     id="password_hash"
                                     label="Mật khẩu"

@@ -96,7 +96,8 @@ const ContactIcons = () => {
           onClose={() => setIsChatbotOpen(false)}
         />
         <Link
-          href="mailto:contact@example.com"
+          href="https://zalo.me/"
+          target="blank"
           className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all"
           aria-label="Email"
         >
@@ -104,7 +105,8 @@ const ContactIcons = () => {
         </Link>
 
         <Link
-          href="https://m.me/yourpage"
+          href="https://m.me/61560826497465"
+          target="blank"
           className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all"
           aria-label="Messenger"
         >
@@ -114,7 +116,8 @@ const ContactIcons = () => {
         <div className="relative">
           <div className="ripple-container">
             <Link
-              href="tel:+1234567890"
+              href="tel:0888280000"
+              target="blank"
               className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center hover:bg-amber-600 transition-all hover:scale-110 relative z-10"
               aria-label="Phone"
             >

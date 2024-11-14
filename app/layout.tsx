@@ -21,6 +21,27 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "ĐÔNG Y ÔNG BỤT",
   description: "Quán Tâm An Bệnh",
+  icons: [
+    {
+      url: "/favicon.ico",
+      sizes: "16x16",
+    }
+  ],
+  openGraph: {
+    title: "ĐÔNG Y ÔNG BỤT",
+    description: "DỊCH VỤ CỦA ĐÔNG Y ÔNG BỤT · Bắt mạch, thăm khám và kê đơn · Tư vấn khám chữa bệnh",
+    images: [
+      {
+        url: "/images/logo-image.png", // Ảnh hiển thị khi share trên mạng xã hội
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -29,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

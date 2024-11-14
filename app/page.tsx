@@ -128,6 +128,7 @@ export default function Home() {
         }
       />
       <Script
+        id="homepage-json-ld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />

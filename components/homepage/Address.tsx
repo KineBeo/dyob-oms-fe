@@ -35,7 +35,7 @@ export default function Address({ title, description, cards }: AddressProps) {
           {cards.map((card, index) => (
             <CarouselItem
               key={index}
-              className="relative basis-1/2 "
+              className="relative basis-1/2 mobile:basis-full tablet:basis-full"
             >
               <StoreCard
                 key={index}

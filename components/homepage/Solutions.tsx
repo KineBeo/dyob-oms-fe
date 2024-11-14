@@ -68,12 +68,12 @@ export default function Solutions({ title, description, icons }: SolutionsProps)
             <p className="mb-6 font-robotoflex desktop:text-base laptop:text-base mobile:text-sm tablet:text-sm mini-laptop:text-sm">
               {description}
             </p>
-            <Button
+            {/* <Button
               variant="bordered"
               className="border-[#D7A444] hover:bg-[#D7A444] bg-none px-6 py-2 border rounded-full font-bold text-[#D7A444] hover:text-white transition-all"
             >
               XEM THÊM
-            </Button>
+            </Button> */}
           </div>
 
           {/* Right content - Icons grid */}

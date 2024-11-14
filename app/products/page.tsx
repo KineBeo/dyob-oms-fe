@@ -92,9 +92,12 @@ export default function Products() {
 
     return (
         <div className="flex flex-col bg-paper min-h-screen">
-            <div className="flex justify-center items-center bg-[#4A2511] h-32 text-lg text-white">
-                San pham Dong y ong but
-            </div>
+            <div className="flex flex-col items-center justify-center bg-[#3F291B] w-full h-36 mobile:h-32 tablet:h-40">
+                <p className=" font-robotoslab text-[#D7A444] font-semibold text-2xl text-left mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">
+                    {" "}
+                    SẢN PHẨM ĐÔNG Y ÔNG BỤT{" "}
+                </p>
+        </div>
             <div className="flex flex-1 justify-center px-4 py-8">
                 <div className="flex mobile:flex-col tablet:flex-col gap-8 w-full max-w-7xl">
                     <FilterButtons
@@ -102,6 +105,9 @@ export default function Products() {
                         selectedFilters={selectedFilters}
                         toggleFilterMenu={toggleFilterMenu}
                         getSelectedCategoriesNames={getSelectedCategoriesNames}
+                        filterCategories={filterCategories}
+                        handleFilterClick={handleFilterClick}
+                        clearFilters={clearFilters}
                     />
 
                     <FilterSidebar

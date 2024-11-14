@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   icons: [
     {
       url: "/favicon.ico",
-      sizes: "16x16",
+      sizes: "32x32",
     }
   ],
   openGraph: {

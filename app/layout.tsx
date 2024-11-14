@@ -19,7 +19,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "ĐÔNG Y ÔNG BỤT",
+  title: "Đông Y Ông Bụt - Quán Tâm An Bệnh",
   description: "Quán Tâm An Bệnh",
   icons: [
     {
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     }
   ],
   openGraph: {
-    title: "ĐÔNG Y ÔNG BỤT",
+    title: "Đông Y Ông Bụt",
     description: "DỊCH VỤ CỦA ĐÔNG Y ÔNG BỤT · Bắt mạch, thăm khám và kê đơn · Tư vấn khám chữa bệnh",
     images: [
       {
@@ -50,39 +50,43 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+
     <html lang="vi">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-        <Navbar />
-        {children}
-        <ContactIcons />
-        <Footer />
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          toastOptions={{
-            duration: 1500,
-            style: {
-              background: '#363636',
-              color: '#fff',
-              fontFamily: 'var(--font-geist-sans)',
-            },
-            success: {
+          <Navbar />
+          {children}
+          <ContactIcons />
+          <Footer />
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+            toastOptions={{
+              duration: 1500,
               style: {
-                background: '#4aed88',
-                color: '#000',
-              },
-            },
-            error: {
-              style: {
-                background: '#ff4444',
+                background: '#363636',
                 color: '#fff',
+                fontFamily: 'var(--font-geist-sans)',
               },
-            },
-          }}
-        />
+              success: {
+                style: {
+                  background: '#4aed88',
+                  color: '#000',
+                },
+              },
+              error: {
+                style: {
+                  background: '#ff4444',
+                  color: '#fff',
+                },
+              },
+            }}
+          />
         </Providers>
       </body>
     </html>

@@ -5,13 +5,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: 'https://dongyongbut.com.vn/',
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'daily',
       priority: 1,
     },
     {
       url: 'https://dongyongbut.com.vn/products',
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 0.8,
     },
     {

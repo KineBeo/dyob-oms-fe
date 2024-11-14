@@ -21,13 +21,13 @@ export default function StoreCard(props: StoreCardProps) {
                     width={500}
                     height={300}
                 />
-                <h2 className="p-2 font-semibold text-large text-white">{props.location}</h2>
+                <h2 className="p-2 font-semibold text-center text-large mobile:text-base tablet:text-base mini-laptop:text-small text-white">{props.location}</h2>
             </CardBody>
 
             <CardFooter className="flex-row justify-center items-center gap-2 pt-0 pb-4">
                 <Button
                     onClick={() => window.open(props.google_maps_url || '', '_blank')}
-                    className="bg-white rounded-full w-2/5 font-bold text-[#D7A444] text-[14px] desktop:text-[18px]"
+                    className="bg-white rounded-full w-2/5 font-bold text-[#D7A444] text-[14px] desktop:text-[18px] mini-laptop:text-xs"
                     size="md"
                     startContent={<FaLocationDot />}
                     aria-label="Find location"
@@ -35,9 +35,9 @@ export default function StoreCard(props: StoreCardProps) {
                     Tìm đường
                 </Button>
 
-                <Button className="bg-white rounded-full w-2/5 font-bold text-[#D7A444] text-[14px] desktop:text-[18px]" size="md" startContent={<BiDetail />} aria-label="More details">
+                {/* <Button className="bg-white rounded-full w-2/5 font-bold text-[#D7A444] text-[14px] desktop:text-[18px]" size="md" startContent={<BiDetail />} aria-label="More details">
                     Chi tiết
-                </Button>
+                </Button> */}
             </CardFooter>
         </Card>
     )

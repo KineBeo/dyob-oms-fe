@@ -18,10 +18,10 @@ export default function ProductCard(props: ProductCardProps) {
     return (
         <Card className="shadow-xl hover:shadow-2xl p-0 w-full h-full cursor-pointer">
             <div onClick={() => router.push(`/products/${props.slug}`)}>
-                <CardHeader className="flex justify-center items-center bg-[#FBF6EC] px-4 py-4 mobile:p-0 tablet:p-0 mini-laptop:p-0 h-52">
+                <CardHeader className="mini-laptop:p-0 flex justify-center items-center bg-[#FBF6EC] px-4 py-4 mobile:p-0 tablet:p-0 h-52">
                     <CldImage
                         alt="Card background"
-                        className="w-auto h-full object-contain"
+                        className="w-auto h-full object-contain rounded-xl"
                         src={props.image_url}
                         width={320}
                         height={208}

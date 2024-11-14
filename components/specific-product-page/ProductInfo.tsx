@@ -47,7 +47,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
         image: images[0],
         user_id: user?.id ?? 0,
       };
-      
+
       dispatch(addToCart(cartItem));
       await cartService.addToCart({
         user_id: cartItem.user_id,
@@ -72,14 +72,14 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
 
   return (
     <div className="flex desktop:flex-row laptop:flex-row mini-laptop:flex-row flex-col gap-8 mx-auto p-4 max-w-7xl">
-      <div className="md:w-1/2">
-        <div className="mb-4">
+      <div className="md:w-1/2 flex flex-col justify-between">
+        <div className="mb-4 flex justify-center items-center ">
           <CldImage
             src={images[currentImageIndex]}
             width={500}
             height={500}
             alt={name}
-            className="rounded-lg w-full h-full"
+            className="rounded-lg w-full h-full max-h-[500px] object-contain"
           />
         </div>
         <div className="relative">
@@ -92,7 +92,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
                 height={100}
                 alt={`${name} thumbnail ${index + 1}`}
                 className={`border rounded-lg w-24 h-24 cursor-pointer ${
-                  currentImageIndex === index ? 'border-[#7A0505]' : ''
+                  currentImageIndex === index ? "border-[#7A0505]" : ""
                 }`}
                 onClick={() => setCurrentImageIndex(index)}
               />
@@ -124,16 +124,16 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
       <div className="md:w-1/2">
         <h1 className="mb-4 font-bold text-3xl text-red-900">{name}</h1>
 
-        <div className="flex items-center mb-4">
+        {/* <div className="flex items-center mb-4">
           {[...Array(5)].map((_, i) => (
             <FaStar key={i} className="w-5 h-5 text-yellow-400" />
           ))}
           <span className="ml-2 text-gray-600">15 reviews</span>
-        </div>
+        </div> */}
 
         <div className="mb-6">
           <h2 className="mb-4 font-bold text-3xl">
-            {Number(price.replace(/[^0-9.-]+/g, '')).toLocaleString('vi-VN')}đ
+            {Number(price.replace(/[^0-9.-]+/g, "")).toLocaleString("vi-VN")}đ
           </h2>
 
           <div className="flex items-center gap-4 mb-4">

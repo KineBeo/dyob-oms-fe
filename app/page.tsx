@@ -10,7 +10,7 @@ import useSWR from "swr";
 import { CldImage } from 'next-cloudinary';
 import Articles from "@/components/homepage/Articles";
 import Loading from "@/components/Loading";
-
+import Script from 'next/script';
 
 export default function Home() {
 
@@ -23,6 +23,15 @@ export default function Home() {
   if (error) return <div>Error loading homepage data</div>;
 
   const homepageData = data?.data;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Homepage',
+    name: homepageData?.Why_choosing_title,
+    description: homepageData?.Why_choosing_description,
+    services: homepageData?.Services_title,
+    services_description: homepageData?.services_content?.map((card) => card.Description),
+  }
 
   return (
     <div>
@@ -117,6 +126,11 @@ export default function Home() {
             title: video.Title,
           })) || []
         }
+      />
+      <Script
+        id="homepage-json-ld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
     </div>
   );

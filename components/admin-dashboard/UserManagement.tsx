@@ -3,16 +3,16 @@ import { ChevronLeft, ChevronRight, ArrowUpDown, Pencil, Trash, Eye, Search } fr
 
 const UserManagement = () => {
     const [users] = useState([
-        { id: 1, fullName: 'Alyxia Kelley', email: 'a.kelley@gmail.com', dateOfBirth: '06/18/1978' },
-        { id: 2, fullName: 'Jaiden Nixon', email: 'jaiden.n@gmail.com', dateOfBirth: '09/30/1983' },
-        { id: 3, fullName: 'Ace Foley', email: 'ace.foley@yahoo.com', dateOfBirth: '12/09/1985' },
-        { id: 4, fullName: 'Nikolai Schmidt', email: 'nikolai.schmidt1954@outlook.com', dateOfBirth: '03/22/1956' },
-        { id: 5, fullName: 'Clayton Charles', email: 'me@clayton.com', dateOfBirth: '10/14/1971' },
-        { id: 6, fullName: 'Prince Chen', email: 'prince.chen1997@gmail.com', dateOfBirth: '07/05/1992' },
-        { id: 7, fullName: 'Reece Duran', email: 'reece@yahoo.com', dateOfBirth: '05/26/1980' },
-        { id: 8, fullName: 'Anastasia Mcdaniel', email: 'anastasia.spring@mcdaniel12.com', dateOfBirth: '02/11/1988' },
-        { id: 9, fullName: 'Melvin Boyle', email: 'Me.boyle@gmail.com', dateOfBirth: '08/03/1974' },
-        { id: 10, fullName: 'Kailee Thomas', email: 'Kailee.thomas@gmail.com', dateOfBirth: '11/28/1954' },
+        { id: 1, fullName: 'Alyxia Kelley', phone: '0912345678', dateOfBirth: '06/18/1978' },
+        { id: 2, fullName: 'Jaiden Nixon', phone: '0923456789', dateOfBirth: '09/30/1983' },
+        { id: 3, fullName: 'Ace Foley', phone: '0934567890', dateOfBirth: '12/09/1985' },
+        { id: 4, fullName: 'Nikolai Schmidt', phone: '0945678901', dateOfBirth: '03/22/1956' },
+        { id: 5, fullName: 'Clayton Charles', phone: '0956789012', dateOfBirth: '10/14/1971' },
+        { id: 6, fullName: 'Prince Chen', phone: '0967890123', dateOfBirth: '07/05/1992' },
+        { id: 7, fullName: 'Reece Duran', phone: '0978901234', dateOfBirth: '05/26/1980' },
+        { id: 8, fullName: 'Anastasia Mcdaniel', phone: '0989012345', dateOfBirth: '02/11/1988' },
+        { id: 9, fullName: 'Melvin Boyle', phone: '0990123456', dateOfBirth: '08/03/1974' },
+        { id: 10, fullName: 'Kailee Thomas', phone: '0901234567', dateOfBirth: '11/28/1954' },
     ]);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -54,7 +54,7 @@ const UserManagement = () => {
                             </th>
                             <th className="p-4 font-medium text-gray-600 text-left text-sm">
                                 <div className="flex items-center gap-2">
-                                    E-Mail
+                                    Số điện thoại
                                     <ArrowUpDown size={14} className="text-gray-400" />
                                 </div>
                             </th>
@@ -72,7 +72,7 @@ const UserManagement = () => {
                             <tr key={user.id} className="border-gray-200 hover:bg-gray-50 border-b">
                                 <td className="p-4 text-gray-600 text-sm">{user.id}</td>
                                 <td className="p-4 text-gray-900 text-sm">{user.fullName}</td>
-                                <td className="p-4 text-gray-600 text-sm">{user.email}</td>
+                                <td className="p-4 text-gray-600 text-sm">{user.phone}</td>
                                 <td className="p-4 text-gray-600 text-sm">{user.dateOfBirth}</td>
                                 <td className="p-4">
                                     <div className="flex justify-end gap-1">
@@ -115,8 +115,8 @@ const UserManagement = () => {
                             key={page}
                             onClick={() => setCurrentPage(page)}
                             className={`w-8 h-8 rounded text-sm font-medium ${currentPage === page
-                                    ? 'bg-gray-900 text-white'
-                                    : 'border hover:bg-gray-50 text-gray-600'
+                                ? 'bg-gray-900 text-white'
+                                : 'border hover:bg-gray-50 text-gray-600'
                                 }`}
                         >
                             {page}

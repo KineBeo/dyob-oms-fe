@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react";
-import OrderCard from "@/components/orders/OrderCard";
 import { CardTitle, CardContent } from "@/components/ui/card";
 import { Card, CardHeader, Button } from "@nextui-org/react";
 import { ChevronLeft, ChevronRight, LogOut, Settings, User, LayoutDashboard, Users, ShoppingCart, FileText, Menu } from "lucide-react";

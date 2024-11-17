@@ -20,11 +20,12 @@ import {
 } from '@/components/ui/select';
 import { toast } from 'react-hot-toast';
 import { orderService } from '@/utils/order/orderApi';
+import { RootState } from '@/store/store';
 
 const OrderManagement = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useSelector((state: any) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     fetchOrders();

@@ -1,17 +1,6 @@
+import { ShippingFormData } from '@/interfaces/user-address';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-export interface ShippingFormData  {
-  user_id: number;
-  receiver_name: string;
-  phone_number: string;
-  province: string;
-  district: string;
-  ward: string;
-  street_address: string;
-  notes?: string;
-  is_default?: boolean;
-  referralCode?: string;
-}
 
 interface ShippingFormProps {
   onSubmit: (data: ShippingFormData) => void;

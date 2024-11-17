@@ -13,6 +13,8 @@
     "@botpress/webchat-generator": "^0.2.15",
     "@fullpage/react-fullpage": "^0.1.44",
     "@nextui-org/react": "^2.4.8",
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@reduxjs/toolkit": "^2.3.0",
     "@types/fullpage.js": "^2.9.6",

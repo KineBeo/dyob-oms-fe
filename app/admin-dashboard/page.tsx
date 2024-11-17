@@ -5,17 +5,20 @@ import { CardTitle, CardContent } from "@/components/ui/card";
 import { Card, CardHeader, Button } from "@nextui-org/react";
 import { ChevronLeft, ChevronRight, LogOut, Settings, User, LayoutDashboard, Users, ShoppingCart, FileText, Menu } from "lucide-react";
 import UserManagement from "@/components/admin-dashboard/UserManagement";
+import OrderManagement from "@/components/admin-dashboard/OrderManagement";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const DashboardLayout = () => {
     const [activeTab, setActiveTab] = useState('welcome');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-    const user = {
-        name: "Nguyễn Văn A",
-        email: "nguyenvana@example.com",
-        role: "Admin",
-        avatar: "/api/placeholder/40/40"
-    };
+    const user = useSelector((state: RootState) => state.auth.user);   
+    // const user = {
+    //     name: "Nguyễn Văn A",
+    //     email: "nguyenvana@example.com",
+    //     role: "Admin",
+    //     avatar: "/api/placeholder/40/40"
+    // };
 
     const menuItems = [
         { id: 'dashboard', icon: <LayoutDashboard size={20} />, label: 'Trang chủ' },
@@ -38,9 +41,8 @@ const DashboardLayout = () => {
                             </CardHeader>
                             <CardContent>
                                 <p className="text-gray-700">
-                                    Đang đăng nhập với tư cách <span className="font-semibold">{user.name}</span>
+                                    Đang đăng nhập với tư cách <span className="font-semibold">{user?.fullname}</span>
                                 </p>
-                                <p className="text-gray-500 text-sm">{user.email}</p>
                             </CardContent>
                         </Card>
                     </div>
@@ -71,6 +73,8 @@ const DashboardLayout = () => {
                         </div>
                     </div>
                 );
+            case 'orders':
+                return <OrderManagement />;
             case 'users':
                 return <UserManagement />;
             default:
@@ -95,14 +99,14 @@ const DashboardLayout = () => {
                 {/* User Profile Section */}
                 <div className={`p-6 border-b ${!isSidebarOpen && 'md:p-4'}`}>
                     <div className="flex items-center space-x-4">
-                        <img
+                        {/* <img
                             src={user.avatar}
                             alt="User avatar"
                             className="rounded-full w-10 h-10 shrink-0"
-                        />
+                        /> */}
                         <div className={`transition-opacity duration-300 ${!isSidebarOpen && 'md:hidden'}`}>
-                            <h3 className="font-medium text-gray-900">{user.name}</h3>
-                            <p className="text-gray-500 text-sm">{user.role}</p>
+                            <h3 className="font-medium text-gray-900">{user?.fullname}</h3>
+                            <p className="text-gray-500 text-sm">{user?.role}</p>
                         </div>
                     </div>
                 </div>

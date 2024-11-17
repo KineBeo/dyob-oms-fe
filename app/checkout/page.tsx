@@ -6,27 +6,22 @@ import { toast } from 'react-hot-toast';
 import { clearCart } from '@/redux/features/cart/cartSlice';
 import { RootState } from '@/store/store';
 import OrderSummary from '../../components/checkout/OrderSummary';
-import ShippingForm, { ShippingFormData } from '../../components/checkout/ShippingForm';
 import { orderService } from '@/utils/order/orderApi';
 import AddressSelector from '@/components/checkout/AddressSelector';
-import { userAddressApi } from '@/utils/user-address/userAddressApi';
-import { UserAddress } from '@/interfaces/user-address';
-
-interface ShippingInfo {
-  user_id: number;
-  referral_code_of_referrer: string;
-  shipping_address_id: number;
-}
+import { userAddressService } from '@/utils/user-address/userAddressApi';
+import { ShippingFormData, UserAddress } from '@/interfaces/user-address';
+import AddressDialog from '@/components/affiliate-dashboard/AddressDialog';
 
 const CheckoutPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { items } = useSelector((state: RootState) => state.cart);
   const user = useSelector((state: RootState) => state.auth.user);
+  
   const [isLoading, setIsLoading] = useState(false);
   const [addresses, setAddresses] = useState<UserAddress[]>([]);
-  const [showNewAddressForm, setShowNewAddressForm] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<UserAddress | null>(null);
+  const [isAddressDialogOpen, setIsAddressDialogOpen] = useState(false);
 
   useEffect(() => {
     if (user?.id) {
@@ -36,14 +31,15 @@ const CheckoutPage = () => {
 
   const loadUserAddresses = async () => {
     try {
-      const addresses = await userAddressApi.getUserAddresses(user!.id);
+      const addresses = await userAddressService.getUserAddresses(user!.id);
       setAddresses(addresses);
 
       if (addresses.length === 0) {
-        setShowNewAddressForm(true);
+        setIsAddressDialogOpen(true);
       }
     } catch (error) {
       console.error('Failed to load addresses:', error);
+      toast.error('Không thể tải danh sách địa chỉ');
     }
   };
 
@@ -57,7 +53,7 @@ const CheckoutPage = () => {
     try {
       const order = await orderService.createOrder(
         user.id,
-        referralCode, // Sử dụng referralCode được truyền vào
+        referralCode,
         selectedAddress.id
       );
 
@@ -74,81 +70,53 @@ const CheckoutPage = () => {
     }
   };
 
-
-  const handleSubmitOrder = async (data: ShippingFormData) => {
-    setIsLoading(true);
+  const handleAddressSubmit = async (data: ShippingFormData) => {
     try {
-      if (!user?.id) {
-        toast.error('Vui lòng đăng nhập để đặt hàng');
-        router.push('/authentication/login');
-        return;
-      }
-
-      let addressId: number;
-
-      if (showNewAddressForm) {
-        // Create new address
-        const newAddress = await userAddressApi.createAddress(data);
-        addressId = newAddress.id;
-      } else {
-        if (!selectedAddress) {
-          toast.error('Vui lòng chọn địa chỉ giao hàng');
-          return;
-        }
-        addressId = selectedAddress.id;
-      }
-
-      // Create order with the address
-      const order = await orderService.createOrder(
-        user.id,
-        data.referralCode || '',
-        addressId
-      );
-
-      if (order) {
-        dispatch(clearCart());
-        toast.success('Đặt hàng thành công!');
-        router.push('/order-success');
-      }
+      const newAddress = await userAddressService.createAddress(data);
+      await loadUserAddresses(); // Reload the addresses list
+      setIsAddressDialogOpen(false);
+      toast.success('Thêm địa chỉ mới thành công');
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Có lỗi xảy ra khi đặt hàng';
+      const errorMessage = error instanceof Error ? error.message : 'Có lỗi xảy ra khi thêm địa chỉ';
       toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
     }
   };
+
+  if (!user) {
+    router.push('/authentication/login');
+    return null;
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Thanh toán</h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          {!showNewAddressForm && addresses.length > 0 ? (
-            <AddressSelector
-              userId={user?.id || 0}
-              addresses={addresses}
-              onAddressSelect={setSelectedAddress}
-              onCreateNew={() => setShowNewAddressForm(true)}
-              onOrder={handleOrderWithSelectedAddress}
-              isLoading={isLoading}
-            />
-          ) : (
-            <ShippingForm
-              onSubmit={handleSubmitOrder}
-              isLoading={isLoading}
-              defaultValues={{
-                user_id: user?.id || 0,
-                receiver_name: user?.fullname || '',
-                phone_number: user?.phone_number || '',
-                province: '',
-                district: '',
-                ward: '',
-                street_address: '',
-                notes: '',
-                referralCode: '',
-              }}
-            />
-          )}
+          <AddressSelector
+            userId={user.id}
+            addresses={addresses}
+            onAddressSelect={setSelectedAddress}
+            onCreateNew={() => setIsAddressDialogOpen(true)}
+            onOrder={handleOrderWithSelectedAddress}
+            isLoading={isLoading}
+          />
+
+          <AddressDialog
+            isOpen={isAddressDialogOpen}
+            onClose={() => setIsAddressDialogOpen(false)}
+            onSubmit={handleAddressSubmit}
+            initialData={{
+              user_id: user.id,
+              receiver_name: user.fullname || '',
+              phone_number: user.phone_number || '',
+              province: '',
+              district: '',
+              ward: '',
+              street_address: '',
+              notes: '',
+              is_default: addresses.length === 0 // Set as default if it's the first address
+            }}
+          />
         </div>
         <div>
           <OrderSummary />

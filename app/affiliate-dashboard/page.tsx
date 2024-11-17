@@ -1,12 +1,14 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { userStatusService } from '@/utils/user-status/userStatus';
 import { orderService } from '@/utils/order/orderApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Package, BarChart2, UserPlus, Badge, Crown, Phone, UserIcon } from 'lucide-react';
+import { userAddressService } from '@/utils/user-address/userAddressApi';
+import Addresses from '@/components/affiliate-dashboard/Addresses';
 
 interface Referral {
   id: string;
@@ -35,12 +37,19 @@ interface Order {
   snapshot_full_address: string;
 }
 
+interface Address {
+  id: number;
+  full_address: string;
+  is_default: boolean;
+}
+
 const UserStatusPage = () => {
+  const [activeTab, setActiveTab] = useState('overview');
   const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [addresses, setAddresses] = useState<Address[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const ordersPerPage = 3;
+  const ordersPerPage = 5;
   const user = useSelector((state: RootState) => state.auth.user);
 
   useEffect(() => {
@@ -49,9 +58,14 @@ const UserStatusPage = () => {
         if (!user?.id) return;
         const statusData = await userStatusService.getUserStatusById(user.id);
         const ordersData = await orderService.getOrderByUserID(user.id);
+        // Fetch addresses here using the provided endpoint
+        // const addressesData = await userAddressService.getUserAddresses(user.id);
+        const addressData = await userAddressService.getUserAddresses(user.id);
 
         if (statusData) setUserStatus(statusData);
         if (ordersData) setOrders(ordersData);
+        // if (addressesData) setAddresses(addressesData);
+        if (addressData) setAddresses(addressData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -71,102 +85,54 @@ const UserStatusPage = () => {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
 
-  const OrderCard = ({ order }: { order: Order }) => (
-    <div className="p-4 bg-white rounded-lg border hover:shadow-lg transition-shadow">
-      <div className="flex mobile:flex-col tablet:flex-row laptop:flex-row justify-between items-start mb-2">
-        <p className="font-medium text-text-brown-primary">Mã đơn: #{order.id}</p>
-        <p className="text-text-brown-primary mobile:mt-2 tablet:mt-0">
-          {new Date(order.createdAt).toLocaleDateString('vi-VN', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </p>
-      </div>
-      <div className="grid mobile:grid-cols-1 tablet:grid-cols-2 gap-2 text-sm">
-        <p className="text-text-brown-primary">Trạng thái:
-          <span className="ml-2 font-medium">{order.status}</span>
-        </p>
-        <p className="text-text-brown-primary">Địa chỉ:
-          <span className="ml-2 font-medium">{order.snapshot_full_address}</span>
-        </p>
-      </div>
-    </div>
-  );
+  const Overview = () => (
+    <div className="space-y-6">
+      <Card className="border-none shadow-sm">
+      <CardContent className="p-6">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+            <UserIcon className="w-8 h-8 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">{user?.fullname}</h2>
+            <div className="flex items-center gap-4 mt-1">
+              <div className="flex items-center gap-1">
+                <Crown className="w-5 h-5" />
+                {userStatus.user_rank}
+              </div>
+              <div className="flex items-center gap-1">
+                <Phone className="w-5 h-5" />
+                {user?.phone_number}
+              </div>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
 
-  const OrderRow = ({ order }: { order: Order }) => (
-    <div className="p-4 bg-white border-b hover:bg-gray-50 transition-colors">
-      <div className="grid mobile:grid-cols-1 tablet:grid-cols-4 gap-4 items-center">
-        <p className="font-medium text-text-brown-primary">#{order.id}</p>
-        <p className="text-text-brown-primary">{order.status}</p>
-        <p className="text-text-brown-primary truncate">{order.snapshot_full_address}</p>
-        <p className="text-text-brown-primary">
-          {new Date(order.createdAt).toLocaleDateString('vi-VN')}
-        </p>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="mobile:px-2 tablet:px-4 laptop:container desktop:container mx-auto p-4 space-y-4 font-roboto">
-      {/* Thông tin cơ bản */}
-      <Card className="">
-        <CardHeader>
-          <CardTitle className="text-text-brown-primary mobile:text-lg tablet:text-xl laptop:text-2xl">
-            Thông tin tài khoản
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-2 desktop:grid-cols-2 gap-4">
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <p className="text-sm font-medium text-text-brown-primary">Mã giới thiệu</p>
-            <p className="text-lg font-semibold mt-1">{userStatus.personal_referral_code}</p>
-          </div>
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <p className="text-sm font-medium text-text-brown-primary">Cấp bậc</p>
-            <p className="text-lg font-semibold mt-1">{userStatus.user_rank}</p>
-          </div>
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <p className="text-sm font-medium text-text-brown-primary">Người giới thiệu</p>
-            <p className="text-lg font-semibold mt-1">{userStatus.referrer_name || 'Chưa có'}</p>
-          </div>
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <p className="text-sm font-medium text-text-brown-primary">Ngày đạt cấp bậc</p>
-            <p className="text-lg font-semibold mt-1">{new Date(userStatus.rank_achievement_date).toLocaleDateString('vi-VN')}</p>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Thống kê */}
-      <Card className="">
-        <CardHeader>
-          <CardTitle className="text-text-brown-primary mobile:text-lg tablet:text-xl laptop:text-2xl">
-            Thống kê
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-2 desktop:grid-cols-2 gap-4">
-          <div className="p-4 bg-blue-50 rounded-lg border">
+      <Card className="border-none shadow-sm">
+        <CardContent className="grid grid-cols-2 mini-laptop:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-4 gap-4 p-6">
+          <div className="p-4 bg-blue-50 rounded-lg">
             <p className="text-sm font-medium text-blue-600">Tổng đơn hàng</p>
-            <p className="mobile:text-xl tablet:text-2xl font-bold text-blue-700">
-              {userStatus.total_orders}
-            </p>
+            <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-blue-700">{userStatus.total_orders}</p>
           </div>
-          <div className="p-4 bg-green-50 rounded-lg border">
+          <div className="p-4 bg-green-50 rounded-lg">
             <p className="text-sm font-medium text-green-600">Tổng mua hàng</p>
-            <p className="mobile:text-xl tablet:text-2xl font-bold text-green-700">
+            <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-green-700">
               {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                 .format(Number(userStatus.total_purchase))}
             </p>
           </div>
-          <div className="p-4 bg-purple-50 rounded-lg border">
+          <div className="p-4 bg-purple-50 rounded-lg">
             <p className="text-sm font-medium text-purple-600">Tổng doanh số</p>
-            <p className="mobile:text-xl tablet:text-2xl font-bold text-purple-700">
+            <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-purple-700">
               {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                 .format(Number(userStatus.total_sales))}
             </p>
           </div>
-          <div className="p-4 bg-orange-50 rounded-lg border">
+          <div className="p-4 bg-orange-50 rounded-lg">
             <p className="text-sm font-medium text-orange-600">Tổng hoa hồng</p>
-            <p className="mobile:text-xl tablet:text-2xl font-bold text-orange-700">
+            <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-orange-700">
               {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                 .format(Number(userStatus.commission))}
             </p>
@@ -174,123 +140,168 @@ const UserStatusPage = () => {
         </CardContent>
       </Card>
 
-      {/* Mạng lưới */}
-      <Card className="">
-        <CardHeader>
-          <CardTitle className="text-text-brown-primary mobile:text-lg tablet:text-xl laptop:text-2xl">
-            Mạng lưới giới thiệu ({userStatus.referrals?.length || 0} người)
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {userStatus.referrals && userStatus.referrals.length > 0 ? (
-            <div className="grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-3 gap-4">
-              {userStatus.referrals.map((referral: Referral) => (
-                <div key={referral.id} className="p-4 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                  <p className="font-medium text-text-brown-primary">Mã: {referral.personal_referral_code}</p>
-                  <p className="text-gray-600 mt-2">Họ và tên: {referral.fullname}</p>
-                  <p className="text-gray-600 mt-2">Cấp bậc: {referral.user_rank}</p>
-                  <p className="text-gray-600 mt-1">Doanh số: {
-                    new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                      .format(Number(referral.total_sales))
-                  }</p>
-                </div>
-              ))}
+      <Card className="border-none shadow-sm">
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold mb-4">Thông tin tài khoản</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-600">Mã giới thiệu</p>
+              <p className="font-medium">{userStatus.personal_referral_code}</p>
             </div>
-          ) : (
-            <div className="text-center py-8 text-text-brown-primary">
-              <p>Chưa có người được giới thiệu</p>
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-600">Cấp bậc</p>
+              <p className="font-medium">{userStatus.user_rank}</p>
             </div>
-          )}
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-600">Người giới thiệu</p>
+              <p className="font-medium">{userStatus.referrer_name || 'Chưa có'}</p>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-600">Ngày đạt cấp bậc</p>
+              <p className="font-medium">
+                {new Date(userStatus.rank_achievement_date).toLocaleDateString('vi-VN')}
+              </p>
+            </div>
+          </div>
         </CardContent>
       </Card>
+    </div>
+  );
 
-      {/* Đơn hàng */}
-      <Card className="">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-text-brown-primary mobile:text-lg tablet:text-xl laptop:text-2xl">
-            Đơn hàng gần đây
-          </CardTitle>
-          <div className="flex gap-2">
+  const Orders = () => (
+    <div className="bg-white rounded-lg shadow-sm">
+      <div className="p-4 border-b">
+        <h3 className="text-lg font-semibold">Đơn hàng của tôi</h3>
+      </div>
+      <div className="divide-y">
+        {currentOrders.map((order) => (
+          <div key={order.id} className="p-4 hover:bg-gray-50">
+            <div className="flex justify-between items-start mb-2">
+              <div>
+                <p className="font-medium">Đơn hàng #{order.id}</p>
+                <p className="text-sm text-gray-600">
+                  {new Date(order.createdAt).toLocaleDateString('vi-VN')}
+                </p>
+              </div>
+              <span className="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">
+                {order.status}
+              </span>
+            </div>
+            <p className="text-sm text-gray-600">{order.snapshot_full_address}</p>
+          </div>
+        ))}
+      </div>
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-2 p-4 border-t">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => paginate(Math.max(1, currentPage - 1))}
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
             <Button
-              variant={viewMode === 'grid' ? 'default' : 'outline'}
+              key={number}
+              variant={currentPage === number ? 'default' : 'outline'}
               size="sm"
-              onClick={() => setViewMode('grid')}
+              onClick={() => paginate(number)}
             >
-              Grid
+              {number}
+            </Button>
+          ))}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+            disabled={currentPage === totalPages}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+
+  <Addresses />
+
+  const Referrals = () => (
+    <div className="bg-white rounded-lg shadow-sm">
+      <div className="p-4 border-b">
+        <h3 className="text-lg font-semibold">Mạng lưới giới thiệu ({userStatus.referrals?.length || 0})</h3>
+      </div>
+      <div className="p-4">
+        {userStatus.referrals && userStatus.referrals.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {userStatus.referrals.map((referral) => (
+              <div key={referral.id} className="p-4 border rounded-lg">
+                <p className="font-medium">{referral.fullname}</p>
+                <p className="text-sm text-gray-600 mt-2">Mã: {referral.personal_referral_code}</p>
+                <p className="text-sm text-gray-600">Cấp bậc: {referral.user_rank}</p>
+                <p className="text-sm text-gray-600">
+                  Doanh số: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                    .format(Number(referral.total_sales))}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-500 py-8">Chưa có người được giới thiệu</p>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Sidebar */}
+          <div className="w-full md:w-64 space-y-2">
+            <Button
+              variant={activeTab === 'overview' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => setActiveTab('overview')}
+            >
+              <BarChart2 className="mr-2 h-4 w-4" />
+              Tổng quan
             </Button>
             <Button
-              variant={viewMode === 'list' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('list')}
+              variant={activeTab === 'orders' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => setActiveTab('orders')}
             >
-              List
+              <Package className="mr-2 h-4 w-4" />
+              Đơn hàng
+            </Button>
+            <Button
+              variant={activeTab === 'addresses' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => setActiveTab('addresses')}
+            >
+              <MapPin className="mr-2 h-4 w-4" />
+              Địa chỉ
+            </Button>
+            <Button
+              variant={activeTab === 'referrals' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => setActiveTab('referrals')}
+            >
+              <UserPlus className="mr-2 h-4 w-4" />
+              Mạng lưới
             </Button>
           </div>
-        </CardHeader>
-        <CardContent>
-          {orders && orders.length > 0 ? (
-            <>
-              {viewMode === 'grid' ? (
-                <div className="grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-4">
-                  {currentOrders.map((order) => (
-                    <OrderCard key={order.id} order={order} />
-                  ))}
-                </div>
-              ) : (
-                <div className="space-y-1">
-                  <div className="bg-gray-100 p-4 rounded-t-lg">
-                    <div className="grid mobile:grid-cols-1 tablet:grid-cols-4 gap-4 font-medium text-text-brown-primary">
-                      <p>Mã đơn</p>
-                      <p>Trạng thái</p>
-                      <p>Địa chỉ</p>
-                      <p>Ngày đặt</p>
-                    </div>
-                  </div>
-                  {currentOrders.map((order) => (
-                    <OrderRow key={order.id} order={order} />
-                  ))}
-                </div>
-              )}
 
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex justify-center items-center gap-2 mt-6">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => paginate(Math.max(1, currentPage - 1))}
-                    disabled={currentPage === 1}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
-                    <Button
-                      key={number}
-                      variant={currentPage === number ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => paginate(number)}
-                    >
-                      {number}
-                    </Button>
-                  ))}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
-                    disabled={currentPage === totalPages}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="text-center py-8 text-text-brown-primary">
-              <p>Chưa có đơn hàng nào</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+          {/* Main Content */}
+          <div className="flex-1">
+            {activeTab === 'overview' && <Overview />}
+            {activeTab === 'orders' && <Orders />}
+            {activeTab === 'addresses' && <Addresses />}
+            {activeTab === 'referrals' && <Referrals />}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

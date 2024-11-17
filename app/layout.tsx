@@ -21,11 +21,6 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Đông Y Ông Bụt - Quán Tâm An Bệnh",
   description: "Quán Tâm An Bệnh",
-  icons: [
-    {
-      url: "/favicon.ico",
-    }
-  ],
   openGraph: {
     title: "Đông Y Ông Bụt",
     description: "DỊCH VỤ CỦA ĐÔNG Y ÔNG BỤT · Bắt mạch, thăm khám và kê đơn · Tư vấn khám chữa bệnh",
@@ -51,6 +46,7 @@ export default function RootLayout({
     <html lang="vi">
       <head>
         <meta name="google-site-verification" content="ru0IkfhjFjnnWm4g1SZvsAaxAHDWfjVEfKijL97okvE" />
+        <link rel="icon" href="/favicon/favicon.ico"/>
         <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
         <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
         <link rel="shortcut icon" href="/favicon/favicon.ico" />

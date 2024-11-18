@@ -417,7 +417,7 @@ export default function HeroSection() {
                       >
                         <Link
                           color="foreground"
-                          className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                          className="w-full font-medium text-text-brown-primary"
                           size="md"
                           onClick={() => {
                             setIsOpen(false);
@@ -438,7 +438,7 @@ export default function HeroSection() {
             <NavbarMenuItem key={`${item.title}-${index}`}>
               <Link
                 color="foreground"
-                className="w-full font-medium text-text-brown-primary tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                className="w-full font-medium text-text-brown-primary"
                 size="md"
                 onClick={() => {
                   setIsOpen(false);
@@ -459,18 +459,18 @@ export default function HeroSection() {
         <NavbarMenuItem>
           <div
             onClick={() => router.push("/cart")}
-            className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+            className="w-full font-medium text-text-brown-primary"
           >
             <div className="flex justify-between items-center w-full">
               Giỏ hàng
               <Badge
                 color="danger"
-                content={40}
+                content={cartItems.length}
                 isInvisible={isInvisible}
                 shape="circle"
-                size="sm"
+                size="md"
               >
-                <IoCartOutline size={25} />
+                <IoCartOutline size={30} />
               </Badge>
             </div>
           </div>

@@ -3,6 +3,9 @@ import React from 'react';
 import { Card, Button } from '@nextui-org/react';
 import BenefitsCard from '@/components/cards/BenefitsCard';
 import { useRouter } from "next/navigation";
+import { FaDollarSign } from 'react-icons/fa';
+import { MdGroups } from "react-icons/md";
+import { BsMegaphoneFill } from "react-icons/bs";
 
 const steps = [
     {
@@ -26,15 +29,16 @@ export default function Affiliate() {
             {/* Hero Section */}
             <div className="mx-auto mobile:px-4 tablet:px-4 w-full max-w-3xl tablet:max-w-xl mini-laptop:max-w-2xl desktop:max-w-7xl">
                 <div className="py-12">
-                    <div className="justify-between items-center grid grid-cols-2">
+                    <div className="justify-between items-center grid grid-cols-2 mobile:gap-2 gap-4 desktop:gap-0">
                         {/* Left side content */}
                         <div className="space-y-4 desktop:space-y-6 laptop:space-y-6 w-full">
                             <p className="font-bold font-robotoslab text-[#4A2511] text-4xl mobile:text-2xl tablet:text-3xl mini-laptop:text-3xl">
                                 Chương trình tiếp thị liên kết
                             </p>
                             <p className="font-robotoflex text-xl mobile:text-sm mini-laptop:text-lg tablet:text-medium">
-                                Chúng tôi luôn mong muốn tìm kiếm những đối tác mới.
-                                Hãy tham gia cùng chúng tôi ngay.
+                                Tham gia chương trình Affiliate của chúng tôi để kiếm hoa hồng hấp dẫn trên mỗi đơn hàng thành công!
+                                <br />
+                                Đăng ký dễ dàng và theo dõi doanh thu minh bạch.
                             </p>
                             <Button className="bg-[#7A0505] px-8 py-3 rounded-2xl h-full font-medium text-lg text-white mini-laptop:text-base mobile:text-sm tablet:text-medium"
                                 onClick={() => router.push('/authentication/register')}
@@ -42,9 +46,12 @@ export default function Affiliate() {
                                 Đăng kí ngay
                             </Button>
                         </div>
-                        <div>
+
+                        {/* Right side content */}
+                        <div className="flex justify-center">
                             <img
-                                src="/images/affiliate/megaphone.png"
+                                className=""
+                                src="/images/affiliate/marketing.png"
                                 alt="megaphone"
                             />
                         </div>
@@ -58,15 +65,15 @@ export default function Affiliate() {
                     <p className="p-2 font-bold font-robotoslab text-4xl text-center mobile:text-2xl tablet:text-3xl mini-laptop:text-3xl">Lợi ích bạn nhận được</p>
                 </div>
                 <p className="desktop:my-16 my-12 mobile:my-10 font-medium font-robotoflex text-center text-lg mobile:text-sm desktop:text-xl tablet:text-medium">
-                    Chúng tôi thích làm việc với các đối tác có ảnh hưởng và đa dạng. Chúng tôi luôn tìm kiếm các đề xuất hợp tác.
+                    Nhận hoa hồng hấp dẫn, công cụ quảng bá miễn phí, và hỗ trợ tận tâm!
                     <br />
                     Liên hệ với chúng tôi để biết thêm thông tin
                 </p>
                 <div className="flex justify-center">
                     <div className="gap-8 grid grid-cols-1 desktop:grid-cols-3 laptop:grid-cols-3">
-                        <BenefitsCard />
-                        <BenefitsCard />
-                        <BenefitsCard />
+                        <BenefitsCard icon_url={FaDollarSign} title='Thu nhập cao' benefit='Hoa hồng cao và thanh toán định kỳ minh bạch.'/>
+                        <BenefitsCard icon_url={BsMegaphoneFill} title='Quảng cáo mọi người' benefit='Bộ công cụ quảng bá liên kết miễn phí.'/>
+                        <BenefitsCard icon_url={MdGroups} title='Đội ngũ tận tâm' benefit='Hỗ trợ cá nhân hóa từ đội ngũ chuyên nghiệp.'/>
                     </div>
                 </div>
             </div>
@@ -77,9 +84,9 @@ export default function Affiliate() {
                     <p className="p-2 font-bold font-robotoslab text-4xl text-center mobile:text-2xl tablet:text-3xl mini-laptop:text-3xl">Làm sao để tham gia</p>
                 </div>
                 <p className="desktop:my-16 my-12 mobile:my-10 font-medium font-robotoflex text-center text-xl mobile:text-sm mini-laptop:text-lg tablet:text-medium">
-                    Chúng tôi thích làm việc với các đối tác có ảnh hưởng và đa dạng. Chúng tôi luôn tìm kiếm các đề xuất hợp tác.
+                    Chỉ cần đăng ký tài khoản, nhận liên kết cá nhân hóa và chia sẻ đến khách hàng tiềm năng của bạn.
                     <br />
-                    Liên hệ với chúng tôi để biết thêm thông tin
+                    Hãy bắt đầu hành trình kiếm tiền ngay hôm nay!
                 </p>
                 <div className="relative">
                     <div className="gap-8 grid grid-cols-1 md:grid-cols-3">

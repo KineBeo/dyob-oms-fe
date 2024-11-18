@@ -16,7 +16,7 @@ const moreLinks = [
   },
   {
     title: "Chính sách và bảo mật",
-    href: "#",
+    href: "/affiliate/legal",
   },
   {
     title: "Tiếp thị liên kết",
@@ -242,21 +242,21 @@ export default function Footer() {
                   </div>
                 </ul>
 
-                <div className="flex items-center justify-center mt-4 gap-2">
+                <div className="flex items-center justify-start mt-4 gap-2">
+                  <span className=" text-white">
+                    Hotline:{" "}
+                    <Link className="text-[#D7A444]" href={`tel:${"0888280000"}`} target="blank">0888 280 000</Link>
+                  </span>
                   <a
                     href={`tel:${"0888 280 000"}`}
                     rel="noreferrer"
                     target="_blank"
                     className="text-white"
                   >
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-start">
                       <FaPhone className="w-4 h-4 text-[#D7A444]" />
                     </div>
                   </a>
-                  <span className="flex-1 text-white">
-                    Hotline:{" "}
-                    <Link className="text-[#D7A444]" href={`tel:${"0888 280 000"}`} target="blank">0888 280 000</Link>
-                  </span>
                 </div>
               </div>
               <div></div>

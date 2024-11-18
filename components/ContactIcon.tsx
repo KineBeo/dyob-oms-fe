@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaFacebookMessenger, FaPhone } from "react-icons/fa";
+import { FaFacebookMessenger, FaPhoneAlt } from "react-icons/fa";
 import { SiZalo } from "react-icons/si";
 import Link from "next/link";
 declare global {
@@ -121,7 +121,7 @@ const ContactIcons = () => {
               className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center hover:bg-amber-600 transition-all hover:scale-110 relative z-10"
               aria-label="Phone"
             >
-              <FaPhone className="text-white text-2xl" />
+              <FaPhoneAlt className="text-white text-2xl" />
             </Link>
           </div>
         </div>

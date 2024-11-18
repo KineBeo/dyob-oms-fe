@@ -60,24 +60,27 @@ export default function AboutUs( ) {
                   </div>
                   <h2
                     className=" animate-slideInLeft
-                                absolute text-3xl font-semibold font-robotoslab
-                                text-wrap max-w-xl w-1/4 pointer-events-none
-                                right-1/4 bottom-1/4 text-white text-left
-                               mobile:text-lg mobile:font-medium mobile:text-right mobile:right-8
-                               tablet:text-xl tablet:font-normal
-                               mini-laptop:text-2xl mini-laptop:font-medium
-                              
+                                absolute text-4xl font-medium font-inter
+                                text-wrap max-w-xl w-1/2 pointer-events-none
+                                right-64 bottom-1/4 text-white text-right
+                               mobile:text-2xl mobile:text-right mobile:right-8
+                               tablet:text-3xl tablet:right-8
+                               mini-laptop:text-3xl mini-laptop:right-8
+                               laptop:right-8
+                               desktop:right-64
                                " // Thêm pointer-events-none
                   >
                     {image.Last_short_text}
                   </h2>
                   <h2
-                    className="absolute text-3xl font-semibold font-robotoslab
-                               text-wrap max-w-xl w-1/4 pointer-events-none
-                               left-1/4 top-1/4 text-white text-right
-                               mobile:text-lg mobile:font-medium mobile:text-left mobile:left-8
-                               tablet:text-xl tablet:font-normal
-                               mini-laptop:text-2xl mini-laptop:font-medium
+                    className="absolute text-4xl font-medium font-inter
+                               text-wrap max-w-xl w-1/2 pointer-events-none
+                               left-64 top-1/4 text-white text-left
+                               mobile:text-2xl mobile:text-left mobile:left-8
+                               tablet:text-3xl tablet:left-8
+                               mini-laptop:text-3xl mini-laptop:left-8
+                               laptop:left-8
+                               
                               "
                   >
                     {image.First_short_text}

@@ -1,7 +1,6 @@
 import { SiTiktok } from "react-icons/si";
-import { FaYoutube } from "react-icons/fa";
+import { FaPhoneAlt, FaYoutube } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import { FaPhone } from "react-icons/fa";
 import { FaLocationPin } from "react-icons/fa6";
 import { FaHouse } from "react-icons/fa6";
 import { Link } from "@nextui-org/react";
@@ -243,6 +242,9 @@ export default function Footer() {
                 </ul>
 
                 <div className="flex items-center justify-start mt-4 gap-2">
+                  <div className="flex items-center justify-start">
+                    <FaPhoneAlt className="w-4 h-4 text-[#D7A444] -rotate" />
+                  </div>
                   <span className=" text-white">
                     Hotline:{" "}
                     <Link className="text-[#D7A444]" href={`tel:${"0888280000"}`} target="blank">0888 280 000</Link>
@@ -253,9 +255,6 @@ export default function Footer() {
                     target="_blank"
                     className="text-white"
                   >
-                    <div className="flex items-center justify-start">
-                      <FaPhone className="w-4 h-4 text-[#D7A444]" />
-                    </div>
                   </a>
                 </div>
               </div>

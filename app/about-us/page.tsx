@@ -60,11 +60,11 @@ export default function AboutUs( ) {
                   </div>
                   <h2
                     className=" animate-slideInLeft
-                                absolute text-2xl font-medium font-inter
+                                absolute text-3xl font-medium font-inter
                                 text-wrap max-w-xl w-1/2 pointer-events-none
                                 right-64 bottom-1/4 text-white text-right
-                               mobile:text-lg mobile:text-right mobile:right-8
-                               tablet:text-xl tablet:right-8
+                               mobile:text-2xl mobile:text-right mobile:right-8
+                               tablet:text-2xl tablet:right-8
                                mini-laptop:text-2xl mini-laptop:right-8
                                laptop:right-8
                                desktop:right-64
@@ -73,11 +73,11 @@ export default function AboutUs( ) {
                     {image.Last_short_text}
                   </h2>
                   <h2
-                    className="absolute text-2xl font-medium font-inter
+                    className="absolute text-3xl font-medium font-inter
                                text-wrap max-w-xl w-1/2 pointer-events-none
                                left-64 top-1/4 text-white text-left
-                               mobile:text-lg mobile:text-left mobile:left-8
-                               tablet:text-xl tablet:left-8
+                               mobile:text-2xl mobile:text-left mobile:left-8
+                               tablet:text-2xl tablet:left-8
                                mini-laptop:text-2xl mini-laptop:left-8
                                laptop:left-8
                                

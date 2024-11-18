@@ -32,11 +32,10 @@ const CheckoutPage = () => {
   const loadUserAddresses = async () => {
     try {
       const addresses = await userAddressService.getUserAddresses(user!.id);
-      setAddresses(addresses);
-
       if (addresses.length === 0) {
         setIsAddressDialogOpen(true);
       }
+      setAddresses(addresses);
     } catch (error) {
       console.error('Failed to load addresses:', error);
       toast.error('Không thể tải danh sách địa chỉ');

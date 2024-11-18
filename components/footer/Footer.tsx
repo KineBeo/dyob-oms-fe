@@ -1,7 +1,6 @@
 import { SiTiktok } from "react-icons/si";
-import { FaYoutube } from "react-icons/fa";
+import { FaPhoneAlt, FaYoutube } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import { FaPhone } from "react-icons/fa";
 import { FaLocationPin } from "react-icons/fa6";
 import { FaHouse } from "react-icons/fa6";
 import { Link } from "@nextui-org/react";
@@ -16,7 +15,7 @@ const moreLinks = [
   },
   {
     title: "Chính sách và bảo mật",
-    href: "#",
+    href: "/affiliate/legal",
   },
   {
     title: "Tiếp thị liên kết",
@@ -242,21 +241,21 @@ export default function Footer() {
                   </div>
                 </ul>
 
-                <div className="flex items-center justify-center mt-4 gap-2">
+                <div className="flex items-center justify-start mt-4 gap-2">
+                  <div className="flex items-center justify-start">
+                    <FaPhoneAlt className="w-4 h-4 text-[#D7A444] -rotate" />
+                  </div>
+                  <span className=" text-white">
+                    Hotline:{" "}
+                    <Link className="text-[#D7A444]" href={`tel:${"0888280000"}`} target="blank">0888 280 000</Link>
+                  </span>
                   <a
                     href={`tel:${"0888 280 000"}`}
                     rel="noreferrer"
                     target="_blank"
                     className="text-white"
                   >
-                    <div className="flex items-center justify-center">
-                      <FaPhone className="w-4 h-4 text-[#D7A444]" />
-                    </div>
                   </a>
-                  <span className="flex-1 text-white">
-                    Hotline:{" "}
-                    <Link className="text-[#D7A444]" href={`tel:${"0888 280 000"}`} target="blank">0888 280 000</Link>
-                  </span>
                 </div>
               </div>
               <div></div>

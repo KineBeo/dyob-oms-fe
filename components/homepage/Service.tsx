@@ -52,10 +52,10 @@ const ServiceSection = ({ title, services }: ServiceSectionProps) => {
                 </CardBody>
               </Card>
               <div className="p-2">
-                <h3 className="mb-4 font-bold text-[#D7A444] text-base text-center">
+                <h3 className="mb-4 font-bold text-[#D7A444] text-lg desktop:text-xl text-center uppercase">
                   {service.title}
                 </h3>
-                <p className="text-justify text-white desktop:text-base mini-laptop:text-sm laptop:text-sm">
+                <p className="hidden text-justify text-white desktop:text-base mini-laptop:text-sm laptop:text-sm">
                   {service.description}
                 </p>
               </div>
@@ -96,10 +96,10 @@ const ServiceSection = ({ title, services }: ServiceSectionProps) => {
                       </CardBody>
                     </Card>
                     <div className="p-2">
-                      <h3 className="mb-4 font-bold text-[#D7A444] text-base text-center">
+                      <h3 className="mb-4 font-bold text-[#D7A444] text-lg tablet:text-base text-center uppercase">
                         {service.title}
                       </h3>
-                      <p className="text-justify text-sm text-white tablet:text-base">
+                      <p className="hidden text-justify text-sm text-white tablet:text-base">
                         {service.description}
                       </p>
                     </div>

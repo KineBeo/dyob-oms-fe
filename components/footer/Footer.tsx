@@ -38,8 +38,8 @@ const addressLinks = [
   },
   {
     title: "Cơ sở 3",
-    name: "Câu Lạc bộ chăm sóc sức khỏe Đông Y Ông Bụt",
-    address_name: "J14 Camelia, đường số 8, Phường Bình Hưng, Quận Bình Chánh, HCM",
+    name: "Câu lạc bộ chăm sóc sức khỏe Đông Y Ông Bụt",
+    address_name: "J14 Camelia, Đường số 8, Phường Bình Hưng, Quận Bình Chánh, HCM",
     href_map: "https://maps.app.goo.gl/GxUbpakd76epKgqu8",
   },
   {

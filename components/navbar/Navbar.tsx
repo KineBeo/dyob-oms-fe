@@ -335,7 +335,7 @@ export default function HeroSection() {
               <Dropdown isOpen={openMenuIndex === index}>
                 <DropdownTrigger>
                   <Button
-                    className="bg-[#FBF6EC] font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] "
+                    className="bg-[#FBF6EC] font-semibold text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] "
                     onMouseEnter={() => setOpenMenuIndex(index)}
                     onMouseLeave={() => setOpenMenuIndex(null)}
                   >
@@ -368,7 +368,7 @@ export default function HeroSection() {
             <NavbarItem key={index}>
               <Link
                 onClick={() => item.href && router.push(item.href)}
-                className=" font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] cursor-pointer hover:scale-95 transition-all " 
+                className=" font-semibold text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] cursor-pointer hover:scale-95 transition-all "
               >
                 <div className="flex justify-between items-center">
                   {item.title}

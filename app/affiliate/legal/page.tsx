@@ -46,7 +46,7 @@ export default function PolicyPage() {
                     <td className="border-2 p-2 border-black">NVKD</td>
                     <td className="border-2 p-2 border-black">3,000,000</td>
                     <td className="border-2 p-2 border-black">1</td>
-                    <td className="border-2 p-2 border-black">10%</td>
+                    <td className="border-2 p-2 border-black">20%</td>
                   </tr>
                   <tr>
                     <td className="border-2 p-2 border-black">TP</td>
@@ -58,7 +58,7 @@ export default function PolicyPage() {
                     <td className="border-2 p-2 border-black">GĐKD</td>
                     <td className="border-2 p-2 border-black">150,000,000</td>
                     <td className="border-2 p-2 border-black">3</td>
-                    <td className="border-2 p-2 border-black">5%</td>
+                    <td className="border-2 p-2 border-black">4%</td>
                   </tr>
                   <tr>
                     <td className="border-2 p-2 border-black">GĐV</td>
@@ -81,7 +81,7 @@ export default function PolicyPage() {
               <div className="space-y-4">
                 <div>
                   <p className="font-semibold">1. Người tiêu dùng (NTD):</p>
-                  <p className="pl-4">Được quyền thăm khám, sử dụng dịch vụ, có điểm tích lũy và chiết khấu khi mua hàng</p>
+                  <p className="pl-4">Được quyền thăm khám, sử dụng dịch vụ, chiết khấu khi mua hàng</p>
                 </div>
 
                 <div>

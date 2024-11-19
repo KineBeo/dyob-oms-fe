@@ -92,15 +92,17 @@ export default function Products() {
     if (!data?.data) return (<div>No products found</div>);
 
     return (
-      <div className="flex flex-col  min-h-screen">
-        <Image
-          src="/images/productbg.png"
-          alt="Background"
-          fill
-          priority
-          className="object-cover -z-10"
-        />
-
+      <div className=" relative flex flex-col  min-h-screen">
+        <div className="absolute inset-0 w-full h-full">
+          <Image
+            src="/images/productbg.png"
+            alt="Background"
+            fill
+            priority
+            className="object-cover"
+          />
+        </div>
+      <div className="relative flex flex-col flex-1">
         <div className="flex flex-col items-center justify-center bg-[#3F291B] w-full h-36 mobile:h-32 tablet:h-40">
           <p className=" font-robotoslab text-[#D7A444] font-semibold text-2xl text-left mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">
             {" "}
@@ -151,6 +153,7 @@ export default function Products() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     );
 }

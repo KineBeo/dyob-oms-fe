@@ -19,7 +19,7 @@ const ServiceSection = ({ title, services }: ServiceSectionProps) => {
       {/* Background layers */}
       <div className="absolute inset-0">
         <div className="bg-white rounded-xl h-1/3"></div>
-        <div className="bg-[#40241A] rounded-xl h-2/3"></div>
+        <div className="bg-[#3F291B] rounded-xl h-2/3"></div>
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl container">

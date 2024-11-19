@@ -17,7 +17,7 @@ const Loading = () => {
           className="w-auto mobile:w-14 h-auto mobile:h-14 hover:scale-110 transition"
         />
       </div>
-      <div className="ml-2 animate-pulse">
+      <div className="ml-2 animate-pulse flex flex-col justify-center items-center ">
         <div className="font-semibold text-text-brown-primary mobile:text-md tablet:text-lg mini-laptop:text-lg laptop:text-xl desktop:text-xl">
           Đông Y Ông Bụt
         </div>

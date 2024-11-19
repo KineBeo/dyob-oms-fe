@@ -7,7 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { Card, CardBody } from '@nextui-org/react';
+import { Card, CardBody, Image } from '@nextui-org/react';
 
 interface VideosProps {
   title: string;
@@ -72,12 +72,14 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({
             allowFullScreen
           />
         ) : (
-          <div className="absolute inset-0 w-full h-full">
-            <img
+            <div className="absolute inset-0 w-full h-full">
+            
+            <Image
               src={thumbnailUrl}
               alt={title}
-              className="w-full h-full object-cover"
-            />
+              className="w-full h-full object-cover static"
+              />
+              
             <div className="absolute inset-0 flex justify-center items-center">
               <div className="flex justify-center items-center bg-black bg-opacity-60 rounded-full w-16 h-16">
                 <div className="ml-1 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent border-l-[20px] border-l-white w-0 h-0" />

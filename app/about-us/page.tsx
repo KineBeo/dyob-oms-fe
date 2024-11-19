@@ -54,7 +54,9 @@ export default function AboutUs( ) {
                       alt={image.Image.url}
                       width={window.innerWidth}
                       height={window.innerHeight}
+                      quality={80}
                       loading="eager"
+                      priority
                       className="w-full h-full object-cover" // Add your desired styles
                     />
                   </div>

@@ -72,14 +72,14 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({
             allowFullScreen
           />
         ) : (
-            <div className="absolute inset-0 w-full h-full">
-            
+          <div className="absolute inset-0 w-full h-full">
+
             <Image
               src={thumbnailUrl}
               alt={title}
-              className="w-full h-full object-cover static"
-              />
-              
+              className="static w-full h-full object-cover"
+            />
+
             <div className="absolute inset-0 flex justify-center items-center">
               <div className="flex justify-center items-center bg-black bg-opacity-60 rounded-full w-16 h-16">
                 <div className="ml-1 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent border-l-[20px] border-l-white w-0 h-0" />
@@ -108,7 +108,7 @@ const CustomerFeedback: React.FC<CustomerFeedbackProps> = ({ videos }) => {
   return (
     <div className="mx-auto px-4 py-8 max-w-4xl tablet:max-w-lg mini-laptop:max-w-2xl desktop:max-w-5xl">
       <h1 className="mb-2 font-bold font-robotoslab text-[#7A0505] text-3xl text-center mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">
-        PHẢN HỒI KHÁCH HÀNG
+        CẢM NHẬN TỪ ĐẠI CHÚNG
       </h1>
       <div className="bg-[#D7A444] mx-auto mb-8 w-24 h-1"></div>
       <Carousel
@@ -116,13 +116,13 @@ const CustomerFeedback: React.FC<CustomerFeedbackProps> = ({ videos }) => {
           align: "center",
           loop: true,
         }}
-        className="w-full "
+        className="w-full"
       >
         <CarouselContent>
           {videos.map((video, index) => (
             <CarouselItem
               key={index}
-              className="mobile:basis-full tablet:basis-full basis-1/2 my-2"
+              className="mobile:basis-full tablet:basis-full my-2 basis-1/2"
             >
               <SideVideos
                 title={video.title}

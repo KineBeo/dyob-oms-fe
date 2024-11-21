@@ -61,29 +61,6 @@ export default function Home() {
           alt="Herosection"
         />
       </div>
-      <Solutions
-        title={homepageData?.Solution_title || ""}
-        description={homepageData?.Solution_description || ""}
-        icons={
-          homepageData?.Solution_card?.map((card) => ({
-            id: card.id,
-            name: card.Title,
-            icon: card.Icon?.provider_metadata.public_id || "",
-            width: card.Icon?.width || 0,
-            height: card.Icon?.height || 0,
-          })) || []
-        }
-      />
-      <Service
-        title={homepageData?.Services_title || ""}
-        services={
-          homepageData?.services_content?.map((card) => ({
-            title: card.Title || "",
-            description: card.Description || "",
-            image: card.Image?.provider_metadata.public_id || "",
-          })) || []
-        }
-      />
       <WhyChoosing
         title={homepageData?.Why_choosing_title || ""}
         description={homepageData?.Why_choosing_description || ""}
@@ -96,6 +73,10 @@ export default function Home() {
           }) || []
         }
       />
+
+      {!isLoading && <Articles homepageLoaded={true} />}
+
+
       <OurMembers
         title={homepageData?.Employee_introduction_title || ""}
         teamMembers={
@@ -111,6 +92,32 @@ export default function Home() {
           }) || []
         }
       />
+
+      {/* <Solutions
+        title={homepageData?.Solution_title || ""}
+        description={homepageData?.Solution_description || ""}
+        icons={
+          homepageData?.Solution_card?.map((card) => ({
+            id: card.id,
+            name: card.Title,
+            icon: card.Icon?.provider_metadata.public_id || "",
+            width: card.Icon?.width || 0,
+            height: card.Icon?.height || 0,
+          })) || []
+        }
+      /> */}
+
+      {/* <Service
+        title={homepageData?.Services_title || ""}
+        services={
+          homepageData?.services_content?.map((card) => ({
+            title: card.Title || "",
+            description: card.Description || "",
+            image: card.Image?.provider_metadata.public_id || "",
+          })) || []
+        }
+      /> */}
+
       <Address
         title={homepageData?.Location_title || ""}
         description={homepageData?.Location_description || ""}
@@ -124,7 +131,6 @@ export default function Home() {
           }) || []
         }
       />
-      {!isLoading && <Articles homepageLoaded={true} />}
       <CustomerFeedback
         videos={
           homepageData?.Review?.map((video) => ({

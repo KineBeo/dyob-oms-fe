@@ -114,31 +114,62 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>{initialData ? 'Chỉnh sửa địa chỉ' : 'Thêm địa chỉ mới'}</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <DialogContent 
+    aria-description='Address dialog'
+      className="
+        w-full 
+        max-w-[95%] 
+        mobile:max-w-[95%] 
+        tablet:max-w-[90%] 
+        mini-laptop:max-w-[80%] 
+        laptop:max-w-[70%] 
+        desktop:max-w-[60%]
+        p-4 
+        mobile:p-3 
+        tablet:p-4 
+        mini-laptop:p-5 
+        laptop:p-6 
+        desktop:p-8
+      "
+    >
+      <DialogHeader>
+        <DialogTitle className="
+          text-lg 
+          mobile:text-base 
+          tablet:text-lg 
+          laptop:text-xl 
+          desktop:text-2xl
+        ">
+          {initialData ? 'Chỉnh sửa địa chỉ' : 'Thêm địa chỉ mới'}
+        </DialogTitle>
+      </DialogHeader>
+      <form onSubmit={handleSubmit} className="space-y-3 mobile:space-y-2 tablet:space-y-3 laptop:space-y-4">
+        {/* Responsive input sections */}
+        <div className="grid grid-cols-1 mobile:grid-cols-1 tablet:grid-cols-2 gap-3 mobile:gap-2 tablet:gap-3 laptop:gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Họ và tên người nhận hàng</label>
+            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Họ và tên người nhận hàng</label>
             <Input
               required
+              className="w-full"
               value={formData.receiver_name}
               onChange={(e) => setFormData({ ...formData, receiver_name: e.target.value })}
             />
           </div>
           
           <div className="space-y-2">
-            <label className="text-sm font-medium">Số điện thoại</label>
+            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Số điện thoại</label>
             <Input
               required
+              className="w-full"
               value={formData.phone_number}
               onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
             />
           </div>
+        </div>
 
+        <div className="grid grid-cols-1 mobile:grid-cols-1 tablet:grid-cols-2 gap-3 mobile:gap-2 tablet:gap-3 laptop:gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Tỉnh/Thành phố</label>
+            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Tỉnh/Thành phố</label>
             <Select 
               value={selectedProvince?.code || ''}
               onValueChange={(value) => {
@@ -149,7 +180,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
                 }
               }}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Chọn tỉnh/thành phố">
                   {selectedProvince?.name || "Chọn tỉnh/thành phố"}
                 </SelectValue>
@@ -165,7 +196,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Quận/Huyện</label>
+            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Quận/Huyện</label>
             <Select
               value={selectedDistrict?.code || ''}
               onValueChange={(value) => {
@@ -177,7 +208,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
               }}
               disabled={!selectedProvince}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Chọn quận/huyện">
                   {selectedDistrict?.name || "Chọn quận/huyện"}
                 </SelectValue>
@@ -191,9 +222,11 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
               </SelectContent>
             </Select>
           </div>
+        </div>
 
+        <div className="grid grid-cols-1 mobile:grid-cols-1 tablet:grid-cols-2 gap-3 mobile:gap-2 tablet:gap-3 laptop:gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Phường/Xã</label>
+            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Phường/Xã</label>
             <Select
               value={formData.ward}
               onValueChange={(value) => {
@@ -201,7 +234,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
               }}
               disabled={!selectedDistrict}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Chọn phường/xã" />
               </SelectTrigger>
               <SelectContent>
@@ -215,47 +248,57 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Địa chỉ cụ thể</label>
+            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Địa chỉ cụ thể</label>
             <Input
               required
+              className="w-full"
               value={formData.street_address}
               onChange={(e) => setFormData({ ...formData, street_address: e.target.value })}
             />
           </div>
+        </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Ghi chú</label>
-            <Input
-              value={formData.notes}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-            />
-          </div>
+        <div className="space-y-2">
+          <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Ghi chú</label>
+          <Input
+            value={formData.notes}
+            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+          />
+        </div>
 
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="isDefault"
-              checked={formData.is_default}
-              onChange={(e) => setFormData({ ...formData, is_default: e.target.checked })}
-              className="h-4 w-4 rounded border-gray-300"
-            />
-            <label htmlFor="isDefault" className="text-sm font-medium">
-              Đặt làm địa chỉ mặc định
-            </label>
-          </div>
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="isDefault"
+            checked={formData.is_default}
+            onChange={(e) => setFormData({ ...formData, is_default: e.target.checked })}
+            className="h-4 w-4 rounded border-gray-300"
+          />
+          <label htmlFor="isDefault" className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">
+            Đặt làm địa chỉ mặc định
+          </label>
+        </div>
 
-          <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="flat" onClick={onClose}>
-              Hủy
-            </Button>
-            <Button type="submit">
-              {initialData ? 'Lưu' : 'Thêm địa chỉ'}
-            </Button>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
+        <div className="flex justify-end space-x-2 pt-4">
+          <Button 
+            type="button" 
+            variant="flat" 
+            className="mobile:text-xs tablet:text-sm laptop:text-base"
+            onClick={onClose}
+          >
+            Hủy
+          </Button>
+          <Button 
+            type="submit" 
+            className="mobile:text-xs tablet:text-sm laptop:text-base"
+          >
+            {initialData ? 'Lưu' : 'Thêm địa chỉ'}
+          </Button>
+        </div>
+      </form>
+    </DialogContent>
+  </Dialog>
+);
 };
 
 export default AddressDialog;

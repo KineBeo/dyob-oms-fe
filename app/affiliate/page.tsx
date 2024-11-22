@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import { FaDollarSign } from 'react-icons/fa';
 import { MdGroups } from "react-icons/md";
 import { BsMegaphoneFill } from "react-icons/bs";
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
+import toast from 'react-hot-toast';
 
 const steps = [
     {
@@ -23,7 +26,16 @@ const steps = [
 ];
 
 export default function Affiliate() {
-    const router = useRouter()
+    const router = useRouter();
+    const user = useSelector((state: RootState) => state.auth.user);
+
+    const handleRegisterClick = () => {
+        if (user) {
+            toast.success('BẠN ĐÃ ĐĂNG NHẬP RỒI!');
+        } else {
+            router.push('/authentication/register');
+        }
+    }
     return (
         <div className="bg-paper">
             {/* Hero Section */}
@@ -41,7 +53,7 @@ export default function Affiliate() {
                                 Đăng ký dễ dàng và theo dõi doanh thu minh bạch.
                             </p>
                             <Button className="bg-[#7A0505] px-8 py-3 rounded-2xl h-full font-medium text-lg text-white mini-laptop:text-base mobile:text-sm tablet:text-medium"
-                                onClick={() => router.push('/authentication/register')}
+                                onClick={handleRegisterClick}
                             >
                                 Đăng kí ngay
                             </Button>
@@ -71,9 +83,9 @@ export default function Affiliate() {
                 </p>
                 <div className="flex justify-center">
                     <div className="gap-8 grid grid-cols-1 desktop:grid-cols-3 laptop:grid-cols-3">
-                        <BenefitsCard icon_url={FaDollarSign} title='Thu nhập cao' benefit='Hoa hồng cao và thanh toán định kỳ minh bạch.'/>
-                        <BenefitsCard icon_url={BsMegaphoneFill} title='Quảng cáo mọi người' benefit='Bộ công cụ quảng bá liên kết miễn phí.'/>
-                        <BenefitsCard icon_url={MdGroups} title='Đội ngũ tận tâm' benefit='Hỗ trợ cá nhân hóa từ đội ngũ chuyên nghiệp.'/>
+                        <BenefitsCard icon_url={FaDollarSign} title='Thu nhập cao' benefit='Hoa hồng cao và thanh toán định kỳ minh bạch.' />
+                        <BenefitsCard icon_url={BsMegaphoneFill} title='Quảng cáo mọi người' benefit='Bộ công cụ quảng bá liên kết miễn phí.' />
+                        <BenefitsCard icon_url={MdGroups} title='Đội ngũ tận tâm' benefit='Hỗ trợ cá nhân hóa từ đội ngũ chuyên nghiệp.' />
                     </div>
                 </div>
             </div>
@@ -114,7 +126,7 @@ export default function Affiliate() {
                 </div>
                 <div className="mt-12 text-center">
                     <Button className="bg-[#7A0505] px-8 py-3 rounded-2xl h-full font-medium text-lg text-white mini-laptop:text-base mobile:text-sm tablet:text-medium"
-                        onClick={() => router.push('/authentication/register')}
+                        onClick={handleRegisterClick}
                     >
                         Đăng kí ngay
                     </Button>

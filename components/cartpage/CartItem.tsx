@@ -6,7 +6,6 @@ import { CldImage } from 'next-cloudinary';
 import { FaMinus, FaPlus, FaTrash } from 'react-icons/fa';
 import { RootState } from '@/store/store';
 import { cartService } from '@/utils/cart/cartApi';
-import { user } from '@nextui-org/react';
 
 const CartItems = () => {
   const dispatch = useDispatch();
@@ -15,6 +14,11 @@ const CartItems = () => {
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     if (newQuantity >= 1 && newQuantity <= 100) {
       dispatch(updateQuantity({ productId, quantity: newQuantity }));
+      cartService.updateCartItemQuantity({
+        user_id: user?.id ?? 0,
+        product_id: productId,
+        quantity: newQuantity,
+      });
     }
   };
 

@@ -458,7 +458,10 @@ export default function HeroSection() {
         {renderMobileAuthMenu()}
         <NavbarMenuItem>
           <div
-            onClick={() => router.push("/cart")}
+            onClick={() => {
+              setIsOpen(false);
+              router.push("/cart");
+            }}
             className="w-full font-medium text-text-brown-primary"
           >
             <div className="flex justify-between items-center w-full">

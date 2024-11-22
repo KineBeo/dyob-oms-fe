@@ -3,17 +3,20 @@ import AuthInput from "@/components/form/AuthInput";
 import { ApiErrorResponse, FormErrors, LoginCredentials, RegisterFormData } from "@/interfaces/auth";
 import api from "@/utils/config";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginStart } from "@/redux/features/auth/authSlice";
 import { authService } from "@/utils/auth/authApi";
+import { useSearchParams } from "next/navigation";
 
 export default function Register() {
     const router = useRouter();
     const dispatch = useDispatch();
+    const searchParams = useSearchParams();
+
     const [formData, setFormData] = useState<RegisterFormData>({
         fullname: '',
         phone_number: '',
@@ -22,6 +25,16 @@ export default function Register() {
         confirmPassword: '',
         referral_code_of_referrer: ''
     });
+
+    useEffect(() => {
+        const refCode = searchParams.get('ref');
+        if (refCode) {
+            setFormData(prev => ({
+                ...prev,
+                referral_code_of_referrer: refCode
+            }));
+        }
+    }, [searchParams]);
 
     const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -222,6 +235,7 @@ export default function Register() {
                                     value={formData.referral_code_of_referrer || ''}
                                     onChange={handleChange}
                                     error={errors.referral_code_of_referrer}
+                                    disabled={!!searchParams.get('ref')} // Disable input if referral code is from URL
                                 />
                             </div>
                             <div className="flex justify-between items-center">

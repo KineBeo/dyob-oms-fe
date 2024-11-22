@@ -11,6 +11,7 @@ import { userAddressService } from '@/utils/user-address/userAddressApi';
 import Addresses from '@/components/affiliate-dashboard/Addresses';
 import Loading from '@/components/Loading';
 import RankRoadmap, { UserRank } from '@/components/affiliate-dashboard/RankRoadmap';
+import toast from 'react-hot-toast';
 
 interface Referral {
   id: string;
@@ -87,6 +88,16 @@ const UserStatusPage = () => {
     return <Loading />;
   }
 
+  const copyReferralLink = async (referralCode: string) => {
+    const referralLink = `${window.location.origin}/authentication/register?ref=${referralCode}`;
+    try {
+      await navigator.clipboard.writeText(referralLink);
+      toast.success('Đã sao chép liên kết giới thiệu!');
+    } catch (err) {
+      toast.error('Không thể sao chép liên kết. Vui lòng thử lại.');
+    }
+  };
+
   const Overview = () => (
     <div className="space-y-6">
       <Card className="border-none shadow-sm">
@@ -150,8 +161,17 @@ const UserStatusPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 bg-gray-50 rounded-lg">
               <p className="text-sm text-gray-600">Mã giới thiệu</p>
-              <p className="font-medium">{userStatus.personal_referral_code}</p>
+              <p className="font-medium break-all">
+                {`${window.location.origin}/authentication/register?ref=${userStatus?.personal_referral_code}`}
+              </p>
             </div>
+            <Button
+              onClick={() => copyReferralLink(userStatus?.personal_referral_code)}
+              variant="outline"
+              size="sm"
+            >
+              Sao chép liên kết
+            </Button>
             <div className="p-4 bg-gray-50 rounded-lg">
               <p className="text-sm text-gray-600">Cấp bậc</p>
               <p className="font-medium">{userStatus.user_rank}</p>

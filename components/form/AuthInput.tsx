@@ -9,6 +9,7 @@ interface AuthInputProps {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     error?: string;
+    disabled?: boolean;
 }
 
 export default function AuthInput({
@@ -18,7 +19,8 @@ export default function AuthInput({
     placeholder,
     value,
     onChange,
-    error
+    error,
+    disabled
 }: AuthInputProps) {
     const [showPassword, setShowPassword] = useState(false);
     
@@ -46,6 +48,7 @@ export default function AuthInput({
                     }`}
                     placeholder={placeholder}
                     pattern={type === "tel" ? "[0-9]{10}" : undefined}
+                    disabled={disabled}
                 />
                 {type === 'password' && (
                     <button

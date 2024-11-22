@@ -14,6 +14,7 @@ const Loading = () => {
           height={100}
           priority
           loading="eager"
+          quality={70}
           className="w-auto mobile:w-14 h-auto mobile:h-14 hover:scale-110 transition"
         />
       </div>

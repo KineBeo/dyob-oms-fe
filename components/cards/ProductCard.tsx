@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import { IoCartOutline } from "react-icons/io5";
 import { CardDescription, CardTitle } from "../ui/card";
 import { CldImage } from "next-cloudinary";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import toast from "react-hot-toast";
+import { productService } from "@/utils/product/productApi";
+import { useState } from "react";
+import { addToCart } from "@/redux/features/cart/cartSlice";
+import { cartService } from "@/utils/cart/cartApi";
 
 interface ProductCardProps {
     image_url: string,
@@ -15,6 +22,57 @@ interface ProductCardProps {
 
 export default function ProductCard(props: ProductCardProps) {
     const router = useRouter();
+    const dispatch = useDispatch();
+    const [quantity, setQuantity] = useState(1);
+    const user = useSelector((state: RootState) => state.auth.user);
+
+    const handleQuantityChange = (newQuantity: number) => {
+        if (newQuantity >= 1 && newQuantity <= 100) {
+          setQuantity(newQuantity);
+        }
+      };
+
+    const handleAddToCart = async () => {
+        if (!user || user.id <= 0) {
+          toast.error('Vui lòng đăng nhập để thêm vào giỏ hàng');
+          router.push('/authentication/login');
+          return;
+        }
+    
+        try {
+          const product_id_from_backend = await productService.findOneByName(props.title);
+    
+          const cartItem = {
+            id: Date.now(),
+            product_id: product_id_from_backend.id,
+            quantity,
+            name: props.title,
+            price: props.price,
+            user_id: user?.id ?? 0,
+            image: props.image_url,
+          };
+    
+          dispatch(addToCart(cartItem));
+          await cartService.addToCart({
+            user_id: cartItem.user_id,
+            product_id: cartItem.product_id,
+            quantity: cartItem.quantity,
+          });
+          toast.success('Thêm vào giỏ hàng thành công!');
+        } catch (error) {
+          console.log('Error adding to cart:', error);
+          toast.error('Có lỗi xảy ra khi thêm vào giỏ hàng');
+        }
+      };
+
+      const handleBuyNow = async () => {
+        try {
+            await handleAddToCart();
+            router.push('/checkout');
+          } catch (error) {
+            toast.error('Có lỗi xảy ra');
+          }
+      }
     return (
         <Card className="shadow-xl hover:shadow-2xl p-0 w-full h-full cursor-pointer">
             <div onClick={() => router.push(`/products/${props.slug}`)}>
@@ -37,7 +95,14 @@ export default function ProductCard(props: ProductCardProps) {
             </div>
 
             <CardFooter className="flex-row justify-center items-center gap-4 px-4 pt-0">
-
+                <Button className="bg-[#7A0505] rounded-full w-3/5 font-bold text-white" size="sm" aria-label="Buy now"
+                onClick={handleBuyNow}>
+                    Mua ngay
+                </Button>
+                <Button className="bg-[#F0E0CA] rounded-full w-2/5" size="sm" isIconOnly aria-label="Add to Cart"
+                onClick={handleAddToCart}>
+                    <IoCartOutline className="text-[#7A0505] size-4" />
+                </Button>
             </CardFooter>
         </Card>
     )

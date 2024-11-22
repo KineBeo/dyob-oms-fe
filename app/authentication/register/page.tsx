@@ -1,14 +1,19 @@
 'use client'
 import AuthInput from "@/components/form/AuthInput";
-import { ApiErrorResponse, FormErrors, RegisterFormData } from "@/interfaces/auth";
+import { ApiErrorResponse, FormErrors, LoginCredentials, RegisterFormData } from "@/interfaces/auth";
 import api from "@/utils/config";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginStart } from "@/redux/features/auth/authSlice";
+import { authService } from "@/utils/auth/authApi";
 
 export default function Register() {
     const router = useRouter();
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState<RegisterFormData>({
         fullname: '',
         phone_number: '',
@@ -52,7 +57,7 @@ export default function Register() {
         if (!formData.password_hash) {
             newErrors.password_hash = 'Mật khẩu không được để trống';
         } else if (!passwordRegex.test(formData.password_hash)) {
-            newErrors.password_hash = 'Mật khẩu phải có ít nhất 8 ký tự. Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt. ';
+            newErrors.password_hash = 'Mật khẩu phải có ít nhất 8 ký tự. Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt. VD: Abc@1234';
         }
 
         // Confirm password validation
@@ -89,27 +94,48 @@ export default function Register() {
         try {
             const { confirmPassword, ...registerData } = formData;
             const response = await api.post('/auth/register', registerData);
-            console.log('Registration response:', response.data);
 
-            toast.success('Đăng ký thành công! Vui lòng đăng nhập để tiếp tục');
-            router.push('/authentication/login');
-
-        } catch (error: unknown) {
-            console.error('Registration error:', error);
-
-            const isApiError = (error: unknown): error is ApiErrorResponse => {
-                return (
-                    typeof error === 'object' &&
-                    error !== null &&
-                    'response' in error &&
-                    typeof (error as ApiErrorResponse).response === 'object'
-                );
+            const loginCredentials: LoginCredentials = {
+                phone_number: formData.phone_number,
+                password: formData.password_hash
             };
 
-            const errorMessage = isApiError(error)
-                ? error.response?.data?.message || 'Đã có lỗi xảy ra'
-                : 'Đã có lỗi xảy ra';
+            dispatch(loginStart());
+            await authService.login(loginCredentials);
+            toast.success('Đăng ký thành công!');
+            router.push('/');
+            // toast.success('Đăng ký thành công! Vui lòng đăng nhập để tiếp tục');
+            // router.push('/authentication/login');
 
+        } catch (error: unknown) {
+            let errorMessage = 'Đã có lỗi xảy ra';
+
+            if (axios.isAxiosError(error)) {
+                const backendError = error.response?.data;
+                console.log('Registration error:', backendError.message);
+
+                switch (backendError?.statusCode) {
+                    case 409:
+                        // Handle specific validation errors
+                        if (backendError.message?.includes('Phone number is already in use')) {
+                            errorMessage = 'Số điện thoại đã được đăng ký';
+                            setErrors(prev => ({ ...prev, phone_number: errorMessage }));
+                            return;
+                        } 
+                        errorMessage = 'Tài khoản đã tồn tại';
+                        break;
+                    case 403:
+                        errorMessage = 'Đăng ký bị từ chối';
+                        break;
+                    default:
+                        // Use backend error message if available
+                        errorMessage = backendError?.message ||
+                            error.response?.data?.error ||
+                            'Đăng ký thất bại. Vui lòng thử lại';
+                }
+            }
+
+            // Set general error message
             setErrors(prev => ({ ...prev, general: errorMessage }));
 
         } finally {

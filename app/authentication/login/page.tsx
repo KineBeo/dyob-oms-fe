@@ -9,6 +9,7 @@ import { loginStart } from '@/redux/features/auth/authSlice';
 import { RootState } from '@/store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginCredentials } from '@/interfaces/auth';
+import axios from 'axios';
 interface FormErrors {
     phone_number?: string;
     password?: string;
@@ -75,7 +76,33 @@ export default function Login() {
             toast.success('Đăng nhập thành công!');
             router.push('/');
         } catch (error: unknown) {
-            const errorMessage = error instanceof Error ? error.message : 'Đã có lỗi xảy ra';
+            let errorMessage = 'Đã có lỗi xảy ra';
+
+            if (axios.isAxiosError(error)) {
+                // Handle specific error scenarios from backend
+                const backendError = error.response?.data;
+
+                switch (backendError?.statusCode) {
+                    case 400:
+                        errorMessage = 'Thông tin đăng nhập không hợp lệ';
+                        break;
+                    case 401:
+                        errorMessage = 'Tài khoản hoặc mật khẩu không chính xác';
+                        break;
+                    case 403:
+                        errorMessage = 'Tài khoản của bạn đã bị khóa';
+                        break;
+                    case 404:
+                        errorMessage = 'Tài khoản không tồn tại';
+                        break;
+                    default:
+                        // Use backend error message if available
+                        errorMessage = backendError?.message ||
+                            error.response?.data?.error ||
+                            'Đăng nhập thất bại. Vui lòng thử lại';
+                }
+            }
+
             setErrors(prev => ({ ...prev, general: errorMessage }));
         }
     };

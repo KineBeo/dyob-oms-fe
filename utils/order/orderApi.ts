@@ -26,7 +26,7 @@ export const orderService = {
       const response = await api.get(`/orders/user/getAll/${user_id}`);
       return response.data;
     } catch (error) {
-      toast.error("Bạn chưa có đơn hàng nào!");
+      // toast.error("Bạn chưa có đơn hàng nào!");
       console.error(error);
     }
   },
@@ -35,7 +35,6 @@ export const orderService = {
       const response = await api.get('/orders');
       return response.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   },

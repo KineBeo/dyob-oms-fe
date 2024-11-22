@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, MapPin, Package, BarChart2, UserPlus, Badge, Crown, Phone, UserIcon } from 'lucide-react';
 import { userAddressService } from '@/utils/user-address/userAddressApi';
 import Addresses from '@/components/affiliate-dashboard/Addresses';
+import Loading from '@/components/Loading';
+import RankRoadmap, { UserRank } from '@/components/affiliate-dashboard/RankRoadmap';
 
 interface Referral {
   id: string;
@@ -82,33 +84,35 @@ const UserStatusPage = () => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   if (!userStatus) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    return <Loading />;
   }
 
   const Overview = () => (
     <div className="space-y-6">
       <Card className="border-none shadow-sm">
-      <CardContent className="p-6">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-            <UserIcon className="w-8 h-8 text-primary" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold">{user?.fullname}</h2>
-            <div className="flex items-center gap-4 mt-1">
-              <div className="flex items-center gap-1">
-                <Crown className="w-5 h-5" />
-                {userStatus.user_rank}
-              </div>
-              <div className="flex items-center gap-1">
-                <Phone className="w-5 h-5" />
-                {user?.phone_number}
+        <CardContent className="p-6">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+              <UserIcon className="w-8 h-8 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold">{user?.fullname}</h2>
+              <div className="flex items-center gap-4 mt-1">
+                <div className="flex items-center gap-1">
+                  <Crown className="w-5 h-5" />
+                  {userStatus.user_rank}
+                </div>
+                <div className="flex items-center gap-1">
+                  <Phone className="w-5 h-5" />
+                  {user?.phone_number}
+                </div>
               </div>
             </div>
+
           </div>
-        </div>
-      </CardContent>
-    </Card>
+          <RankRoadmap currentRank={userStatus.user_rank as UserRank} />
+        </CardContent>
+      </Card>
 
       <Card className="border-none shadow-sm">
         <CardContent className="grid grid-cols-2 mini-laptop:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-4 gap-4 p-6">
@@ -167,29 +171,32 @@ const UserStatusPage = () => {
       </Card>
     </div>
   );
-
   const Orders = () => (
     <div className="bg-white rounded-lg shadow-sm">
       <div className="p-4 border-b">
         <h3 className="text-lg font-semibold">Đơn hàng của tôi</h3>
       </div>
       <div className="divide-y">
-        {currentOrders.map((order) => (
-          <div key={order.id} className="p-4 hover:bg-gray-50">
-            <div className="flex justify-between items-start mb-2">
-              <div>
-                <p className="font-medium">Đơn hàng #{order.id}</p>
-                <p className="text-sm text-gray-600">
-                  {new Date(order.createdAt).toLocaleDateString('vi-VN')}
-                </p>
+        {currentOrders.length > 0 ? (
+          currentOrders.map((order) => (
+            <div key={order.id} className="p-4 hover:bg-gray-50">
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                  <p className="font-medium">Đơn hàng #{order.id}</p>
+                  <p className="text-sm text-gray-600">
+                    {new Date(order.createdAt).toLocaleDateString('vi-VN')}
+                  </p>
+                </div>
+                <span className="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">
+                  {order.status}
+                </span>
               </div>
-              <span className="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">
-                {order.status}
-              </span>
+              <p className="text-sm text-gray-600">{order.snapshot_full_address}</p>
             </div>
-            <p className="text-sm text-gray-600">{order.snapshot_full_address}</p>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-center text-gray-700 py-8 font-bold text-lg laptop:text-xl desktop:text-xl">Bạn chưa có đơn hàng nào</p>
+        )}
       </div>
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-2 p-4 border-t">
@@ -247,7 +254,7 @@ const UserStatusPage = () => {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-500 py-8">Chưa có người được giới thiệu</p>
+          <p className="text-center text-gray-700 text-lg laptop:text-xl desktop:text-xl font-bold py-8">Chưa có người được giới thiệu</p>
         )}
       </div>
     </div>

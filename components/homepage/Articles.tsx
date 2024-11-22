@@ -56,12 +56,10 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
 
   return (
     <div className="mx-auto px-4 py-8 max-w-4xl desktop:max-w-5xl">
+      <h1 className="mb-4 font-bold font-robotoslab text-[#7A0505] text-3xl text-center mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">NHỊP SỐNG CÙNG ĐÔNG Y ÔNG BỤT</h1>
       <div className="relative">
         {/* Main Content */}
         <div className="items-top gap-8 grid desktop:grid-cols-12 laptop:grid-cols-12 mini-laptop:grid-cols-12">
-          <h2 className="mobile:flex tablet:flex hidden font-bold font-robotoslab text-3xl text-center text-white mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">
-            {data?.data[currentSlide]?.title}
-          </h2>
           {/* Image Section - 5 columns */}
           <div className="relative desktop:col-span-5 laptop:col-span-5 mini-laptop:col-span-5 w-full h-full">
             <div className="relative aspect-[4/3]">

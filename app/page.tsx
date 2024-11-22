@@ -38,7 +38,7 @@ export default function Home() {
 
   const desktopImageId = homepageData?.Hero_section_image?.provider_metadata?.public_id || '';
   const mobileImageId = homepageData?.Mobile_hero_section_image?.provider_metadata?.public_id || 'banner_web_mobile_134318e89b';
-
+  console.log(mobileImageId);
 
   return (
     <div>
@@ -61,6 +61,7 @@ export default function Home() {
           quality={80}
         />
       </div>
+      {/* Mobile hero section  */}
       <div className="mobile:flex tablet:flex justify-center hidden w-full h-full">
         <Image
           loader={cloudinaryLoader}

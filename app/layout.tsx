@@ -48,6 +48,17 @@ export const metadata: Metadata = {
       rel: "manifest",
     },
   ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     title: "Đông Y Ông Bụt",
     description: "DỊCH VỤ CỦA ĐÔNG Y ÔNG BỤT · Bắt mạch, thăm khám và kê đơn · Tư vấn khám chữa bệnh",
@@ -56,10 +67,6 @@ export const metadata: Metadata = {
         url: "/favicon-96x96.png", // Ảnh hiển thị khi share trên mạng xã hội
       },
     ],
-  },
-  robots: {
-    index: true,
-    follow: true,
   },
 };
 

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { FaFacebookMessenger, FaPhoneAlt } from "react-icons/fa";
 import { SiZalo } from "react-icons/si";
 import Link from "next/link";
+import BuyNowButton from "./BuyNowIcon";
 declare global {
   interface Window {
     chtlConfig: {
@@ -88,6 +89,16 @@ const ContactIcons = () => {
         .ripple-container::after {
           animation-delay: 1s;
         }
+
+        .ripple-zalo::before,
+        .ripple-zalo::after {
+          background: #3b82f6;
+        }
+
+        .ripple-messenger::before,
+        .ripple-messenger::after {
+          background: #3b82f6;
+        }
       `}</style>
 
       <div className="fixed left-4 bottom-4 flex flex-col gap-3 z-50">
@@ -95,23 +106,32 @@ const ContactIcons = () => {
           isOpen={isChatbotOpen}
           onClose={() => setIsChatbotOpen(false)}
         />
-        <Link
-          href="https://zalo.me/"
-          target="blank"
-          className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all"
-          aria-label="Email"
-        >
-          <SiZalo className="text-white text-2xl" />
-        </Link>
+        <BuyNowButton />
+        <div className="relative">
+          <div className="ripple-container ripple-zalo">
+            <Link
+              href="https://zalo.me/0888280000"
+              target="blank"
+              className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all relative z-10"
+              aria-label="Zalo"
+            >
+              <SiZalo className="text-white text-2xl" />
+            </Link>
+          </div>
+        </div>
 
-        <Link
-          href="https://m.me/61560826497465"
-          target="blank"
-          className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all"
-          aria-label="Messenger"
-        >
-          <FaFacebookMessenger className="text-white text-2xl" />
-        </Link>
+        <div className="relative">
+          <div className="ripple-container ripple-messenger">
+            <Link
+              href="https://www.facebook.com/profile.php?id=61560826497465&mibextid=LQQJ4d"
+              target="blank"
+              className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all relative z-10"
+              aria-label="Messenger"
+            >
+              <FaFacebookMessenger className="text-white text-2xl" />
+            </Link>
+          </div>
+        </div>
 
         <div className="relative">
           <div className="ripple-container">

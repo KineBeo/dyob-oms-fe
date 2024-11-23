@@ -6,6 +6,8 @@ import Vision from "@/components/about-us-normal/Vision";
 import * as strapi from "../../utils/globalApi";
 import Loading from "../../components/Loading";
 import useSWR from "swr";
+import { Button, Divider } from "@nextui-org/react";
+import Link from "next/link";
 
 
 
@@ -141,7 +143,28 @@ export default function AboutUsNormal() {
         <CompanyImageSlider images={images} />
 
         {/* legal doc */}
-        <LegalDoc documents={documents} />
+        {/* Tạm thời ẩn  */}
+        {/* <LegalDoc documents={documents} /> */}
+        <div className="flex flex-col  items-center justify-center p-4 mt-4">
+          <div className="p-2 font-bold font-robotoslab text-[#4A2511] text-4xl text-center mobile:text-3xl tablet:text-3xl">
+            Bạn có muốn đồng hành cùng Ông Bụt chữa bệnh cứu người?
+          </div>
+          <Divider className="w-24 h-1 bg-[#D7A444]" />
+          <div className="mt-10 mobile:p-6 tablet:p-8 mini-laptop:p-8 laptop:p-10 p-10">
+            <Link href="https://zalo.me/0888280000">
+
+              <Button size="lg" className="bg-[#D7A444] hover:bg-[#7A0505] font-robotoflex text-gray-50 font-bold 
+              mobile:text-base
+              tablet:text-xl
+              mini-laptop:text-2xl
+              laptop:text-2xl
+              desktop:text-2xl"
+              >
+                Liên hệ với Ông Bụt ngay!
+              </Button>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -23,23 +23,23 @@ export const metadata: Metadata = {
   description: "Đông y Ông Bụt ứng dụng các bài thuốc của Thần y Hải Thượng Lãn Ông, sử dụng 100% dược liệu sạch chất lượng cao, áp dụng công nghệ khoa học hiện đại để tạo ra các sản phẩm",
   icons: [
     {
-      url: "/favicon/favicon.ico",
+      url: "/favicon.ico",
       rel: "icon",
       type: "image/x-icon",
     },
     {
-      url: "/favicon/favicon-96x96.png",
+      url: "/favicon-96x96.png",
       rel: "icon",
       type: "image/png",
       sizes: "96x96",
     },
     {
-      url: "/favicon/favicon.svg",
+      url: "/favicon.svg",
       rel: "icon",
       type: "image/svg+xml",
     },
     {
-      url: "/favicon/apple-touch-icon.png",
+      url: "/apple-touch-icon.png",
       rel: "apple-touch-icon",
       sizes: "180x180",
     },
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     description: "DỊCH VỤ CỦA ĐÔNG Y ÔNG BỤT · Bắt mạch, thăm khám và kê đơn · Tư vấn khám chữa bệnh",
     images: [
       {
-        url: "/images/logo-image.png", // Ảnh hiển thị khi share trên mạng xã hội
+        url: "/favicon-96x96.png", // Ảnh hiển thị khi share trên mạng xã hội
       },
     ],
   },
@@ -74,14 +74,14 @@ export default function RootLayout({
       <head>
         <meta name="google-site-verification" content="ru0IkfhjFjnnWm4g1SZvsAaxAHDWfjVEfKijL97okvE" />
         <link rel="icon" href="/favicon/favicon.ico" />
-        <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-        <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-        <link rel="shortcut icon" href="/favicon/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <meta name="apple-mobile-web-app-title" content="Đông Y Ông Bụt" />
         <link rel="manifest" href="/favicon/site.webmanifest" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/favicon/web-app-manifest-192x192.png" />
-        <link rel="icon" type="image/png" sizes="512x512" href="/favicon/web-app-manifest-512x512.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/web-app-manifest-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/web-app-manifest-512x512.png" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

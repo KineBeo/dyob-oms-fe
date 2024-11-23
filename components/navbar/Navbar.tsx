@@ -57,7 +57,7 @@ export default function HeroSection() {
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const handleLogout = async () => {
-    if (user?.id !== undefined) {
+    if (user?.id !== undefined && cartItems.length > 0) {
       await cartService.clearCart(user.id);
     }
     dispatch(logout());

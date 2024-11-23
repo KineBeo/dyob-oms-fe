@@ -9,6 +9,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: 'https://dongyongbut.com.vn/favicon.ico',
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 2,
+    },
+    {
       url: 'https://dongyongbut.com.vn/products',
       lastModified: new Date(),
       changeFrequency: 'weekly',
@@ -16,6 +22,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: 'https://dongyongbut.com.vn/about-us-normal',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.5,
+    },
+    {
+      url: 'https://dongyongbut.com.vn/about-us',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.5,
+    },
+    {
+      url: 'https://dongyongbut.com.vn/products/bao-phe-ong-but-tre-em',
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.5,

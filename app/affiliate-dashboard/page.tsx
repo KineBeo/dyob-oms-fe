@@ -6,11 +6,12 @@ import { orderService } from '@/utils/order/orderApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, MapPin, Package, BarChart2, UserPlus, Badge, Crown, Phone, UserIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Package, BarChart2, UserPlus, Badge, Crown, Phone, UserIcon, LayoutDashboard } from 'lucide-react';
 import { userAddressService } from '@/utils/user-address/userAddressApi';
 import Addresses from '@/components/affiliate-dashboard/Addresses';
 import Loading from '@/components/Loading';
 import RankRoadmap, { UserRank } from '@/components/affiliate-dashboard/RankRoadmap';
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 interface Referral {
@@ -53,6 +54,7 @@ const UserStatusPage = () => {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 5;
+  const router = useRouter();
   const user = useSelector((state: RootState) => state.auth.user);
 
   useEffect(() => {
@@ -119,7 +121,6 @@ const UserStatusPage = () => {
                 </div>
               </div>
             </div>
-
           </div>
           <RankRoadmap currentRank={userStatus.user_rank as UserRank} />
         </CardContent>
@@ -318,6 +319,17 @@ const UserStatusPage = () => {
               <UserPlus className="mr-2 h-4 w-4" />
               Mạng lưới
             </Button>
+            {/* Admin Dashboard Button */}
+            {user?.role === "ADMIN" && (
+              <Button
+                variant={activeTab === 'admin' ? 'default' : 'ghost'}
+                className='w-full justify-start'
+                onClick={() => router.push('/admin-dashboard')}
+              >
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                Admin Dashboard
+              </Button>
+            )}
           </div>
 
           {/* Main Content */}

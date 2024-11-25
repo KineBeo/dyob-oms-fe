@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CardTitle, CardContent } from "@/components/ui/card";
 import { Card, CardHeader, Button } from "@nextui-org/react";
 import { ChevronLeft, ChevronRight, LogOut, Settings, User, LayoutDashboard, Users, ShoppingCart, FileText, Menu } from "lucide-react";
@@ -8,25 +8,25 @@ import UserManagement from "@/components/admin-dashboard/UserManagement";
 import OrderManagement from "@/components/admin-dashboard/OrderManagement";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import StatisticsManagement from "@/components/admin-dashboard/StatisticsManagement";
+import { orderService } from "@/utils/order/orderApi";
+import { userService } from "@/utils/user/userApi";
+import Overview from "@/components/admin-dashboard/Overview";
 
 const DashboardLayout = () => {
     const [activeTab, setActiveTab] = useState('welcome');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const user = useSelector((state: RootState) => state.auth.user);   
-    // const user = {
-    //     name: "Nguyễn Văn A",
-    //     email: "nguyenvana@example.com",
-    //     role: "Admin",
-    //     avatar: "/api/placeholder/40/40"
-    // };
+    const user = useSelector((state: RootState) => state.auth.user);
 
     const menuItems = [
         { id: 'dashboard', icon: <LayoutDashboard size={20} />, label: 'Trang chủ' },
         { id: 'users', icon: <Users size={20} />, label: 'Quản lý users' },
         { id: 'orders', icon: <ShoppingCart size={20} />, label: 'Đơn hàng' },
-        { id: 'reports', icon: <FileText size={20} />, label: 'Báo cáo' },
+        { id: 'reports', icon: <FileText size={20} />, label: 'Thống kê' },
         { id: 'settings', icon: <Settings size={20} />, label: 'Cài đặt' },
     ];
+
+  
 
     const renderContent = () => {
         switch (activeTab) {
@@ -49,34 +49,14 @@ const DashboardLayout = () => {
                 );
             case 'dashboard':
                 return (
-                    <div className="space-y-6">
-                        <h2 className="font-bold text-2xl text-gray-800">Tổng quan hệ thống</h2>
-                        <div className="gap-4 grid grid-cols-1 md:grid-cols-3">
-                            <Card>
-                                <CardContent className="p-6">
-                                    <h3 className="font-medium text-gray-700">Tổng người dùng</h3>
-                                    <p className="font-bold text-2xl text-blue-600">1,234</p>
-                                </CardContent>
-                            </Card>
-                            <Card>
-                                <CardContent className="p-6">
-                                    <h3 className="font-medium text-gray-700">Đơn hàng mới</h3>
-                                    <p className="font-bold text-2xl text-green-600">56</p>
-                                </CardContent>
-                            </Card>
-                            <Card>
-                                <CardContent className="p-6">
-                                    <h3 className="font-medium text-gray-700">Doanh thu</h3>
-                                    <p className="font-bold text-2xl text-purple-600">$12,345</p>
-                                </CardContent>
-                            </Card>
-                        </div>
-                    </div>
+                    <Overview />
                 );
             case 'orders':
                 return <OrderManagement />;
             case 'users':
                 return <UserManagement />;
+            case 'reports':
+                return <StatisticsManagement />;
             default:
                 return (
                     <div className="p-6 text-center">

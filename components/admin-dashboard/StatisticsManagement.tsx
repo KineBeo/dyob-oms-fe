@@ -33,7 +33,13 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function StatisticsManagement() {
-  const [chartData, setChartData] = React.useState<any[]>([]);
+  interface ChartData {
+    date: string;
+    revenue: number;
+    newUser: number;
+  }
+
+  const [chartData, setChartData] = React.useState<ChartData[]>([]);
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>("revenue");
 
@@ -56,7 +62,7 @@ React.useEffect(() => {
             threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
             // Nhóm và tính tổng theo ngày cho orders
-            const dailyTotals = orders.reduce((acc: any, order: any) => {
+            const dailyTotals = orders.reduce((acc: Record<string, { date: string; revenue: number; newUser: number }>, order: { createdAt: string; total_amount: string }) => {
                 const orderDate = new Date(order.createdAt);
                 if (orderDate >= threeMonthsAgo) {
                     const dateKey = orderDate.toISOString().split('T')[0];
@@ -75,7 +81,7 @@ React.useEffect(() => {
             }, {});
 
             // Nhóm và tính tổng theo ngày cho users
-            users.forEach((user: any) => {
+            users.forEach((user: { createdAt: Date }) => {
                 const userDate = new Date(user.createdAt);
                 if (userDate >= threeMonthsAgo) {
                     const dateKey = userDate.toISOString().split('T')[0];
@@ -93,9 +99,9 @@ React.useEffect(() => {
 
             // Chuyển đổi thành mảng và sắp xếp theo ngày
             const processedData = Object.values(dailyTotals)
-                .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
+                .sort((a, b) => new Date((a as ChartData).date).getTime() - new Date((b as ChartData).date).getTime());
 
-            setChartData(processedData);
+            setChartData(processedData as ChartData[]);
         } catch (error) {
             console.error('Error fetching data:', error);
         }

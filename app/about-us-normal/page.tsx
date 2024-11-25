@@ -8,6 +8,9 @@ import Loading from "../../components/Loading";
 import useSWR from "swr";
 import { Button, Divider } from "@nextui-org/react";
 import Link from "next/link";
+import NewSloganAndDes from "@/components/about-us-normal/NewSloganAndDes";
+import NewSloganAndDes2 from "@/components/about-us-normal/NewSloganAndDes2";
+import NewProducts from "@/components/about-us-normal/NewProducts";
 
 
 
@@ -131,17 +134,24 @@ export default function AboutUsNormal() {
       </div>
       <div className="bg-paper">
         {/* Image and description */}
-        <ImageAndDes
+        <NewSloganAndDes
+          introTitle={Introduction_title}
+          introDescript={Introduction_description}
+        />
+        <NewSloganAndDes2
           introTitle={Introduction_title}
           introDescript={Introduction_description}
         />
 
         {/* Tam nhin va su menh */}
-        <Vision />
-
+        {/* <Vision /> */}
+        <NewProducts />
         {/* image slide */}
         <CompanyImageSlider images={images} />
-
+        <NewSloganAndDes
+          introTitle={Introduction_title}
+          introDescript={Introduction_description}
+        />
         {/* legal doc */}
         {/* Tạm thời ẩn  */}
         {/* <LegalDoc documents={documents} /> */}
@@ -152,8 +162,9 @@ export default function AboutUsNormal() {
           <Divider className="w-24 h-1 bg-[#D7A444]" />
           <div className="mt-10 mobile:p-6 tablet:p-8 mini-laptop:p-8 laptop:p-10 p-10">
             <Link href="https://zalo.me/0888280000">
-
-              <Button size="lg" className="bg-[#D7A444] hover:bg-[#7A0505] font-robotoflex text-gray-50 font-bold 
+              <Button
+                size="lg"
+                className="bg-[#D7A444] hover:bg-[#7A0505] font-robotoflex text-gray-50 font-bold 
               mobile:text-base
               tablet:text-xl
               mini-laptop:text-2xl

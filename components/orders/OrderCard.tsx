@@ -54,7 +54,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
             {formatDate(order.createdAt)}
           </p>
         </div>
-        <span 
+        <span
           className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.status as OrderStatus)}`}
         >
           {getStatusText(order.status as OrderStatus)}
@@ -62,6 +62,14 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
       </div>
 
       <div className="space-y-4">
+        <div>
+          <h4 className="font-medium mb-2">Người nhận hàng</h4>
+          <p className="text-gray-600">{order.snapshot_receiver_name || 'Không có địa chỉ'}</p>
+        </div>
+        <div>
+          <h4 className="font-medium mb-2">Số điện thoại</h4>
+          <p className="text-gray-600">{order.snapshot_phone_number || 'Không có địa chỉ'}</p>
+        </div>
         <div>
           <h4 className="font-medium mb-2">Địa chỉ giao hàng</h4>
           <p className="text-gray-600">{order.snapshot_full_address || 'Không có địa chỉ'}</p>

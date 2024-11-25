@@ -1,8 +1,8 @@
 "use client"
 import CompanyImageSlider from "@/components/about-us-normal/CompanyImageSlider";
-import ImageAndDes from "@/components/about-us-normal/ImageAndDes";
-import LegalDoc from "@/components/about-us-normal/LegalDoc";
-import Vision from "@/components/about-us-normal/Vision";
+// import ImageAndDes from "@/components/about-us-normal/ImageAndDes";
+// import LegalDoc from "@/components/about-us-normal/LegalDoc";
+// import Vision from "@/components/about-us-normal/Vision";
 import * as strapi from "../../utils/globalApi";
 import Loading from "../../components/Loading";
 import useSWR from "swr";

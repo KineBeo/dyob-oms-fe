@@ -32,10 +32,9 @@ const NewProducts: React.FC = () => {
 
   return (
     <div className="mx-auto pt-12 max-w-5xl">
-    
-    <h2 className="font-bold text-[#3F291B] text-3xl text-center italic">
-        "Mỗi bài thuốc đều là câu chuyện của lòng đam mê"
-    </h2>
+      <h2 className="font-bold text-[#3F291B] text-3xl text-center italic">
+        &quot;Mỗi bài thuốc đều là câu chuyện của lòng đam mê&quot;
+      </h2>
 
       <div>
         <Carousel

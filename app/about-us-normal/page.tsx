@@ -11,6 +11,7 @@ import Link from "next/link";
 import NewSloganAndDes from "@/components/about-us-normal/NewSloganAndDes";
 import NewSloganAndDes2 from "@/components/about-us-normal/NewSloganAndDes2";
 import NewProducts from "@/components/about-us-normal/NewProducts";
+import NewSloganAndDes3 from "@/components/about-us-normal/NewSloganAndDes3";
 
 
 
@@ -148,7 +149,7 @@ export default function AboutUsNormal() {
         <NewProducts />
         {/* image slide */}
         <CompanyImageSlider images={images} />
-        <NewSloganAndDes
+        <NewSloganAndDes3
           introTitle={Introduction_title}
           introDescript={Introduction_description}
         />

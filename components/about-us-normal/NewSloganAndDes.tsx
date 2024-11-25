@@ -16,10 +16,16 @@ export default function NewSloganAndDes(props: ImageAndDesProps) {
 
         <div className="space-y-4 w-full">
           <p className=" font-bold font-robotoslab text-[#4A2511] italic text-2xl text-left mobile:text-3xl tablet:text-3xl">
-            {props.introTitle}
+            &quot;Chữa bệnh cứu người, làm thiện nguyện qua hành động&quot;
           </p>
           <p className="font-robotoflex text-lg desktop:text-lg mobile:text-base tablet:text-base">
-            {props.introDescript}
+            Từ khi thành lập, Đông Y Ông Bụt đã mang trong mình một sứ mệnh cao
+            cả - chữa lành thân và tâm cho mọi người, không chỉ ở Việt Nam mà
+            còn hướng ra thế giới. Chúng tôi tin rằng, qua việc phục hồi sức
+            khỏe thể chất, chúng ta cũng có thể giúp đỡ, nâng đỡ tinh thần của
+            những người xung quanh. Chữa lành thân - chữa lành tâm, đó là cách
+            chúng tôi hành đạo giúp đời, thấm nhuần đạo đức nghề nghiệp vào mỗi
+            bước đi, từng sản phẩm và từng sự kiện.
           </p>
         </div>
         {/* Image container */}

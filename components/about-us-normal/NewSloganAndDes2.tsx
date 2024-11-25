@@ -24,10 +24,14 @@ export default function NewSloganAndDes2(props: ImageAndDesProps) {
         {/* Text content */}
         <div className="space-y-4 w-full">
           <p className=" font-bold font-robotoslab text-[#4A2511] italic text-2xl text-left mobile:text-3xl tablet:text-3xl">
-            {props.introTitle}
+            &quot;Cùng nhau lan tỏa tử tế, xây dựng một cộng đồng khỏe
+            mạnh.&quot;
           </p>
           <p className="font-robotoflex text-lg desktop:text-lg mobile:text-base tablet:text-base">
-            {props.introDescript}
+            Chúng tôi mong muốn kết nối những tâm hồn cùng chung chí hướng, cùng
+            nhau chia sẻ tri thức và đam mê, giúp nhau nâng cao sức khỏe thể
+            chất và tinh thần. Chúng tôi không chỉ trị bệnh mà còn mang tới sự
+            an yên, bình an trong cuộc sống.
           </p>
         </div>
       </div>

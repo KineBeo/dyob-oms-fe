@@ -5,7 +5,12 @@ import { useEffect, useState } from "react";
 import { CardContent } from "../ui/card";
 
 const Overview = () => {
-    const [overviewData, setOverviewData] = useState<any[]>([]);
+    interface OverviewData {
+        label: string;
+        value: number;
+    }
+
+    const [overviewData, setOverviewData] = useState<OverviewData[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {

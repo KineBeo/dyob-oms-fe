@@ -61,10 +61,12 @@ export default function CompanyImageSlider({
   }
 
   return (
-    <div className="mx-auto px-4 py-4 w-full max-w-4xl desktop:max-w-5xl">
+    <div className="mx-auto px-4 py-8 w-full max-w-4xl desktop:max-w-5xl">
       <div className="flex flex-col justify-center items-center mb-6 mobile:mb-4 tablet:mb-4 w-full">
-        <p className="p-2 font-bold font-robotoslab text-[#4A2511] text-4xl text-center mobile:text-3xl tablet:text-3xl">
-          Hình ảnh công ty
+        <p className="p-2 font-bold font-robotoslab text-[#4A2511] text-2xl text-center mobile:text-3xl tablet:text-3xl">
+          Mỗi khách hàng, mỗi câu chuyện là một niềm cảm hứng, là động lực để
+          chúng tôi tiếp tục sứ mệnh chữa lành không chỉ cho cơ thể mà còn cho
+          tâm hồn.
         </p>
         <Divider className="bg-[#D7A444] w-24 h-1" />
       </div>
@@ -111,8 +113,9 @@ export default function CompanyImageSlider({
               <button
                 key={index}
                 onClick={() => scrollTo(index)}
-                className={`w-2 h-2 rounded-full transition-all ${selectedIndex === index ? "bg-white w-4" : "bg-white/60"
-                  }`}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  selectedIndex === index ? "bg-white w-4" : "bg-white/60"
+                }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}

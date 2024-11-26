@@ -84,21 +84,21 @@ export default function HeroSection() {
       ],
     },
     { title: "Sản phẩm", href: "/products", hasSubmenu: false },
-    {
-      title: "Tiếp thị liên kết",
-      href: "/affiliate",
-      hasSubmenu: true,
-      submenu: [
-        {
-          title: "Chính sách",
-          href: "/affiliate/legal",
-        },
-        {
-          title: "Tìm hiểu thêm",
-          href: "/affiliate",
-        },
-      ],
-    },
+    // {
+    //   title: "Tiếp thị liên kết",
+    //   href: "/affiliate",
+    //   hasSubmenu: true,
+    //   submenu: [
+    //     {
+    //       title: "Chính sách",
+    //       href: "/affiliate/legal",
+    //     },
+    //     {
+    //       title: "Tìm hiểu thêm",
+    //       href: "/affiliate",
+    //     },
+    //   ],
+    // },
   ];
 
   const renderAuthButton = () => {

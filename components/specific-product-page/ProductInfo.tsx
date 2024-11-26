@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CldImage } from 'next-cloudinary';
-import { FaStar, FaChevronLeft, FaChevronRight, FaMinus, FaPlus } from 'react-icons/fa';
+import { FaStar, FaChevronLeft, FaChevronRight, FaMinus, FaPlus, FaFacebookMessenger } from 'react-icons/fa';
 import { addToCart } from '../../redux/features/cart/cartSlice';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { cartService } from '@/utils/cart/cartApi';
 import { RootState } from '@/store/store';
 import { productService } from '@/utils/product/productApi';
+import Link from 'next/link';
+import { SiZalo } from 'react-icons/si';
 
 interface ProductInfoProps {
   name: string;
@@ -91,9 +93,8 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
                 width={100}
                 height={100}
                 alt={`${name} thumbnail ${index + 1}`}
-                className={`border rounded-lg w-24 h-24 cursor-pointer ${
-                  currentImageIndex === index ? "border-[#7A0505]" : ""
-                }`}
+                className={`border rounded-lg w-24 h-24 cursor-pointer ${currentImageIndex === index ? "border-[#7A0505]" : ""
+                  }`}
                 onClick={() => setCurrentImageIndex(index)}
               />
             ))}
@@ -132,6 +133,31 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
         </div> */}
 
         <div className="mb-6">
+          <div className='flex flex-row gap-2'>
+          <div className=''>
+            <div className='items-center justify-center font-semibold desktop:text-xl'>
+              Chat với chúng tôi để nhận tư vấn
+            </div>
+          </div>
+          <div className='flex flex-row gap-2 items-center'>
+              <Link
+                href="https://zalo.me/0888280000"
+                target="blank"
+                className="w-7 h-7 desktop:w-8 desktop:h-8 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all relative z-10"
+                aria-label="Zalo"
+              >
+                <SiZalo className="text-white text-xl" />
+              </Link>
+              <Link
+                href="https://www.facebook.com/profile.php?id=61560826497465&mibextid=LQQJ4d"
+                target="blank"
+                className="w-7 h-7 desktop:w-8 desktop:h-8 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all relative z-10"
+                aria-label="Messenger"
+              >
+                <FaFacebookMessenger className="text-white text-xl" />
+              </Link>
+            </div>
+            </div>
           <h2 className="mb-4 font-bold text-3xl">
             {Number(price.replace(/[^0-9.-]+/g, "")).toLocaleString("vi-VN")}đ
           </h2>

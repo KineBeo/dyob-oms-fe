@@ -43,7 +43,7 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
 
           <div className="mobile:flex tablet:flex mobile:flex-col tablet:flex-col mobile:justify-center mobile:items-center gap-8 grid grid-cols-12">
             {/* Main doctor */}
-            <div className="justify-center col-span-5 w-full h-full">
+            <div className="justify-center col-span-5 w-full h-full hover:scale-110 transition">
               <CldImage
                 className="w-full h-full object-cover"
                 src={mainDoctor?.image || ""}

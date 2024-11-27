@@ -20,9 +20,6 @@ export default function Article() {
     console.log(response);
     return response;
   });
-  if (error) return <div>Error loading article data</div>;
-  const article = data?.data.find((article) => article.seoUrl === seoUrl);
-  
 
   const { data : articlesData , isLoading : isLoadingArticles , error : errorArticles } = useSWR(
       "otherarticle",
@@ -31,14 +28,13 @@ export default function Article() {
        return response;
      }
    );
-   if (!article) return <Loading />;
-   if (isLoading) return <Loading />;
-    if (isLoadingArticles) return <Loading/>;
-    if (errorArticles) return <Loading />;
 
-   const otherArticelList = articlesData?.data
-
-  const date = new Date(article.createdAt);
+  if (isLoading || isLoadingArticles) return <Loading />;
+  if (error || errorArticles) return <div>Error loading article data</div>;
+  const otherArticelList = articlesData?.data
+  const article = data?.data.find((article) => article.seoUrl === seoUrl);
+  if (!article) return <Loading />;
+  const date = new Date(article?.createdAt);
 
   // Lấy ngày
   const day = date.getDate(); // 15
@@ -111,12 +107,12 @@ export default function Article() {
         </div>
         {/* Tin khác */}
         <div className="flex flex-col">
-          <p className="font-bold text-[#3F291B] text-2xl py-8 mobile:py-2 tablet:py-2 mobile:px-4 tablet:px-4 "> 
+          <p className="font-bold text-[#3F291B] text-2xl py-8 mobile:py-2 tablet:py-2 mobile:px-4 tablet:px-4 ">
             Tin khác
-            </p>
+          </p>
           {otherArticelList?.map((article) => (
-            <div>
-              {otherArticles(article.image.url, article.name, article.seoUrl)}
+            <div key={article.id}>
+              {OtherArticles(article.image.url, article.name, article.seoUrl)}
             </div>
           ))}
         </div>
@@ -126,7 +122,7 @@ export default function Article() {
 }
 
 
-function otherArticles(imageUrl : string , title : string , seoUrl : string){
+function OtherArticles(imageUrl : string , title : string , seoUrl : string){
    const router = useRouter();
   return (
     <div

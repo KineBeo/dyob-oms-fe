@@ -3,6 +3,7 @@ id: number;
 name:string;
 title: string;
 quote: string;
+createdAt :string;
 image:{
     url:string
 };

@@ -164,8 +164,8 @@ function OtherArticles(imageUrl: string, title: string, seoUrl: string) {
           className="object-cover"
         />
       </div>
-      <div className="flex items-center justify-center">
-        <p className="font-semibold max-w-48">{title}</p>
+      <div className="flex mobile:items-center mobile:justify-center tablet:items-center tablet:justify-center items-start justify-start">
+        <p className="font-semibold mobile:max-w-48  tablet:max-w-48 max-w-60">{title}</p>
       </div>
     </div>
   );

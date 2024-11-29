@@ -20,9 +20,16 @@ interface WhyChoosingProps {
 
 export default function WhyChoosing({ title, description, cards }: WhyChoosingProps) {
 
+  const fixedTexts = [
+    "100+",
+    "3068",
+    "589",
+    "20+",
+    "10+",
+  ];
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <div className="relative">
         {/* Split background */}
         <div className="absolute inset-0">
@@ -56,6 +63,7 @@ export default function WhyChoosing({ title, description, cards }: WhyChoosingPr
                       <WhyChoosingCard
                         image_url={benefit.image_url}
                         title={benefit.title}
+                        fixed_text={fixedTexts[index]}
                       />
                     </CarouselItem>
                   ))}
@@ -70,6 +78,7 @@ export default function WhyChoosing({ title, description, cards }: WhyChoosingPr
                   key={index}
                   image_url={benefit.image_url}
                   title={benefit.title}
+                  fixed_text={fixedTexts[index]}
                 />
               ))}
             </div>

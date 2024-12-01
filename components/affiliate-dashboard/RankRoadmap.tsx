@@ -17,19 +17,19 @@ import {
 export enum UserRank {
   GUEST = 'GUEST',
   NVKD = 'NVKD',
-  TPKD = 'TPKD',
-  GDKD = 'GDKD',
-  GDV = 'GDV',
-  GDKV = 'GDKV',
+  // TPKD = 'TPKD',
+  // GDKD = 'GDKD',
+  // GDV = 'GDV',
+  // GDKV = 'GDKV',
 }
 
 const RANK_PRIORITY = {
     [UserRank.GUEST]: 0,
     [UserRank.NVKD]: 1,
-    [UserRank.TPKD]: 2,
-    [UserRank.GDKD]: 3,
-    [UserRank.GDV]: 4,
-    [UserRank.GDKV]: 5,
+    // [UserRank.TPKD]: 2,
+    // [UserRank.GDKD]: 3,
+    // [UserRank.GDV]: 4,
+    // [UserRank.GDKV]: 5,
   };
 
 const RANK_DETAILS: Record<UserRank, { icon: React.ElementType, description: string, color: "default" | "primary" | "secondary" | "success" | "warning" | "danger" }> = {
@@ -43,26 +43,26 @@ const RANK_DETAILS: Record<UserRank, { icon: React.ElementType, description: str
     description: 'NHÂN VIÊN KD',
     color: 'primary',
   },
-  [UserRank.TPKD]: {
-    icon: TrendingUp,
-    description: 'TRƯỞNG PHÒNG KD',
-    color: 'secondary',
-  },
-  [UserRank.GDKD]: {
-    icon: ShieldCheck,
-    description: 'GIÁM ĐỐC KINH DOANH',
-    color: 'success',
-  },
-  [UserRank.GDV]: {
-    icon: Zap,
-    description: 'GIÁM ĐỐC VÙNG',
-    color: 'warning',
-  },
-  [UserRank.GDKV]: {
-    icon: Crown,
-    description: 'GIÁM ĐỐC KINH DOANH',
-    color: 'danger',
-  },
+  // [UserRank.TPKD]: {
+  //   icon: TrendingUp,
+  //   description: 'TRƯỞNG PHÒNG KD',
+  //   color: 'secondary',
+  // },
+  // [UserRank.GDKD]: {
+  //   icon: ShieldCheck,
+  //   description: 'GIÁM ĐỐC KINH DOANH',
+  //   color: 'success',
+  // },
+  // [UserRank.GDV]: {
+  //   icon: Zap,
+  //   description: 'GIÁM ĐỐC VÙNG',
+  //   color: 'warning',
+  // },
+  // [UserRank.GDKV]: {
+  //   icon: Crown,
+  //   description: 'GIÁM ĐỐC KINH DOANH',
+  //   color: 'danger',
+  // },
 };
 
 const RANK_ORDER = Object.values(UserRank);

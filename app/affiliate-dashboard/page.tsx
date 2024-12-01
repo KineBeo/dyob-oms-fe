@@ -6,7 +6,7 @@ import { orderService } from '@/utils/order/orderApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, MapPin, Package, BarChart2, UserPlus, Badge, Crown, Phone, UserIcon, LayoutDashboard } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Package, BarChart2, UserPlus, Badge, Crown, Phone, UserIcon, LayoutDashboard, BookOpen } from 'lucide-react';
 import { userAddressService } from '@/utils/user-address/userAddressApi';
 import Addresses from '@/components/affiliate-dashboard/Addresses';
 import Loading from '@/components/Loading';
@@ -30,8 +30,10 @@ interface UserStatus {
   total_orders: number;
   total_purchase: number;
   total_sales: number;
+  group_sales: number;
   commission: string;
   referrals: Referral[];
+  user_type: 'NORMAL' | 'AFFILIATE';
 }
 
 interface Order {
@@ -112,8 +114,12 @@ const UserStatusPage = () => {
               <h2 className="text-2xl font-bold">{user?.fullname}</h2>
               <div className="flex items-center gap-4 mt-1">
                 <div className="flex items-center gap-1">
-                  <Crown className="w-5 h-5" />
-                  {userStatus.user_rank}
+                  {userStatus?.user_type === 'AFFILIATE' && (
+                    <div className="flex items-center gap-1">
+                      <Crown className="w-5 h-5" />
+                      {userStatus.user_rank}
+                    </div>
+                  )}
                 </div>
                 <div className="flex items-center gap-1">
                   <Phone className="w-5 h-5" />
@@ -122,12 +128,14 @@ const UserStatusPage = () => {
               </div>
             </div>
           </div>
-          <RankRoadmap currentRank={userStatus.user_rank as UserRank} />
+          {userStatus?.user_type === 'AFFILIATE' && (
+            <RankRoadmap currentRank={userStatus.user_rank as UserRank} />
+          )}
         </CardContent>
       </Card>
 
       <Card className="border-none shadow-sm">
-        <CardContent className="grid grid-cols-2 mini-laptop:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-4 gap-4 p-6">
+        <CardContent className="grid grid-cols-2 mini-laptop:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 gap-4 p-6">
           <div className="p-4 bg-blue-50 rounded-lg">
             <p className="text-sm font-medium text-blue-600">Tổng đơn hàng</p>
             <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-blue-700">{userStatus.total_orders}</p>
@@ -139,57 +147,69 @@ const UserStatusPage = () => {
                 .format(Number(userStatus.total_purchase))}
             </p>
           </div>
-          <div className="p-4 bg-purple-50 rounded-lg">
-            <p className="text-sm font-medium text-purple-600">Tổng doanh số</p>
-            <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-purple-700">
-              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                .format(Number(userStatus.total_sales))}
-            </p>
-          </div>
-          <div className="p-4 bg-orange-50 rounded-lg">
-            <p className="text-sm font-medium text-orange-600">Tổng hoa hồng</p>
-            <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-orange-700">
-              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                .format(Number(userStatus.commission))}
-            </p>
-          </div>
+          {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
+            <>
+              <div className="p-4 bg-purple-50 rounded-lg">
+                <p className="text-sm font-medium text-purple-600">Tổng doanh số</p>
+                <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-purple-700">
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                    .format(Number(userStatus.total_sales))}
+                </p>
+              </div>
+              <div className="p-4 bg-red-50 rounded-lg">
+                <p className="text-sm font-medium text-red-600">Tổng doanh số nhóm</p>
+                <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-red-700">
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                    .format(Number(userStatus.group_sales))}
+                </p>
+              </div>
+              <div className="p-4 bg-orange-50 rounded-lg">
+                <p className="text-sm font-medium text-orange-600">Tổng hoa hồng</p>
+                <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-orange-700">
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                    .format(Number(userStatus.commission))}
+                </p>
+              </div>
+            </>
+          )}
         </CardContent>
       </Card>
-
-      <Card className="border-none shadow-sm">
-        <CardContent className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Thông tin tài khoản</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-600">Mã giới thiệu</p>
-              <p className="font-medium break-all">
-                {`${window.location.origin}/authentication/register?ref=${userStatus?.personal_referral_code}`}
-              </p>
+      {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
+        <Card className="border-none shadow-sm">
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold mb-4">Thông tin tài khoản</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <p className="text-sm text-gray-600">Mã giới thiệu</p>
+                <p className="font-medium break-all">
+                  {`${window.location.origin}/authentication/register?ref=${userStatus?.personal_referral_code}`}
+                </p>
+              </div>
+              <Button
+                onClick={() => copyReferralLink(userStatus?.personal_referral_code)}
+                variant="outline"
+                size="sm"
+              >
+                Sao chép liên kết
+              </Button>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <p className="text-sm text-gray-600">Cấp bậc</p>
+                <p className="font-medium">{userStatus.user_rank}</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <p className="text-sm text-gray-600">Người giới thiệu</p>
+                <p className="font-medium">{userStatus.referrer_name || 'Chưa có'}</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <p className="text-sm text-gray-600">Ngày đạt cấp bậc</p>
+                <p className="font-medium">
+                  {new Date(userStatus.rank_achievement_date).toLocaleDateString('vi-VN')}
+                </p>
+              </div>
             </div>
-            <Button
-              onClick={() => copyReferralLink(userStatus?.personal_referral_code)}
-              variant="outline"
-              size="sm"
-            >
-              Sao chép liên kết
-            </Button>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-600">Cấp bậc</p>
-              <p className="font-medium">{userStatus.user_rank}</p>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-600">Người giới thiệu</p>
-              <p className="font-medium">{userStatus.referrer_name || 'Chưa có'}</p>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-600">Ngày đạt cấp bậc</p>
-              <p className="font-medium">
-                {new Date(userStatus.rank_achievement_date).toLocaleDateString('vi-VN')}
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
   const Orders = () => (
@@ -281,6 +301,26 @@ const UserStatusPage = () => {
     </div>
   );
 
+  const Policy = () => (
+    <div className="bg-white rounded-lg shadow-sm">
+      <div className="p-4 border-b">
+        <h3 className="text-2xl font-semibold text-center laptop:text-2xl desktop:text-3xl">Chính sách</h3>
+      </div>
+      <div className="p-4">
+        <p className=""> </p>
+        <div className="flex justify-center py-8">
+          <Button
+            className="text-gray-700 text-lg laptop:text-xl desktop:text-xl font-bold"
+            variant="outline"
+            size="sm"
+            onClick={() => router.push('/affiliate')}
+          >
+            Tìm hiểu về chính sách của chúng tôi
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
@@ -312,6 +352,15 @@ const UserStatusPage = () => {
               Địa chỉ
             </Button>
             <Button
+              variant={activeTab === 'policy' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => setActiveTab('policy')}
+            >
+              <BookOpen className="mr-2 h-4 w-4" />
+              Chính sách
+            </Button>
+            {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
+            <Button
               variant={activeTab === 'referrals' ? 'default' : 'ghost'}
               className="w-full justify-start"
               onClick={() => setActiveTab('referrals')}
@@ -319,6 +368,7 @@ const UserStatusPage = () => {
               <UserPlus className="mr-2 h-4 w-4" />
               Mạng lưới
             </Button>
+            )}
             {/* Admin Dashboard Button */}
             {user?.role === "ADMIN" && (
               <Button
@@ -337,7 +387,8 @@ const UserStatusPage = () => {
             {activeTab === 'overview' && <Overview />}
             {activeTab === 'orders' && <Orders />}
             {activeTab === 'addresses' && <Addresses />}
-            {activeTab === 'referrals' && <Referrals />}
+            {activeTab === 'referrals' && userStatus?.user_type === 'AFFILIATE' && <Referrals />}
+            {activeTab === 'policy' && <Policy/>}
           </div>
         </div>
       </div>

@@ -12,12 +12,27 @@ import StatisticsManagement from "@/components/admin-dashboard/StatisticsManagem
 import { orderService } from "@/utils/order/orderApi";
 import { userService } from "@/utils/user/userApi";
 import Overview from "@/components/admin-dashboard/Overview";
+import { useRouter } from "next/navigation";
+import Loading from "@/components/Loading";
 
 const DashboardLayout = () => {
     const [activeTab, setActiveTab] = useState('welcome');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const user = useSelector((state: RootState) => state.auth.user);
+    const router = useRouter();
+    useEffect(() => {
+        if (!user) {
+            // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
+            router.push('/404');
+        } else if (user.role !== 'ADMIN') {
+            // Nếu người dùng không phải là admin, chuyển hướng đến trang 404
+            router.push('/404');
+        }
+    }, [user, router]);
 
+    if (!user || user.role !== 'ADMIN') {
+        return <Loading />;
+    }
     const menuItems = [
         { id: 'dashboard', icon: <LayoutDashboard size={20} />, label: 'Trang chủ' },
         { id: 'users', icon: <Users size={20} />, label: 'Quản lý users' },
@@ -26,7 +41,7 @@ const DashboardLayout = () => {
         { id: 'settings', icon: <Settings size={20} />, label: 'Cài đặt' },
     ];
 
-  
+
 
     const renderContent = () => {
         switch (activeTab) {

@@ -16,25 +16,25 @@ export default function Register() {
     const router = useRouter();
     const dispatch = useDispatch();
     const searchParams = useSearchParams();
+    const refCode = searchParams.get('ref');
 
     const [formData, setFormData] = useState<RegisterFormData>({
         fullname: '',
         phone_number: '',
-        // email: '',
         password_hash: '',
         confirmPassword: '',
-        referral_code_of_referrer: ''
+        referral_code_of_referrer: refCode || ''
     });
 
-    useEffect(() => {
-        const refCode = searchParams.get('ref');
-        if (refCode) {
-            setFormData(prev => ({
-                ...prev,
-                referral_code_of_referrer: refCode
-            }));
-        }
-    }, [searchParams]);
+    // useEffect(() => {
+    //     const refCode = searchParams.get('ref');
+    //     if (refCode) {
+    //         setFormData(prev => ({
+    //             ...prev,
+    //             referral_code_of_referrer: refCode
+    //         }));
+    //     }
+    // }, [searchParams]);
 
     const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -106,7 +106,12 @@ export default function Register() {
 
         try {
             const { confirmPassword, ...registerData } = formData;
-            const response = await api.post('/auth/register', registerData);
+            const dataToSubmit = {
+                ...registerData,
+                referral_code_of_referrer: refCode ? registerData.referral_code_of_referrer : undefined
+            };
+
+            const response = await api.post('/auth/register', dataToSubmit);
 
             const loginCredentials: LoginCredentials = {
                 phone_number: formData.phone_number,
@@ -117,9 +122,6 @@ export default function Register() {
             await authService.login(loginCredentials);
             toast.success('Đăng ký thành công!');
             router.push('/');
-            // toast.success('Đăng ký thành công! Vui lòng đăng nhập để tiếp tục');
-            // router.push('/authentication/login');
-
         } catch (error: unknown) {
             let errorMessage = 'Đã có lỗi xảy ra';
 
@@ -134,7 +136,7 @@ export default function Register() {
                             errorMessage = 'Số điện thoại đã được đăng ký';
                             setErrors(prev => ({ ...prev, phone_number: errorMessage }));
                             return;
-                        } 
+                        }
                         errorMessage = 'Tài khoản đã tồn tại';
                         break;
                     case 403:
@@ -227,16 +229,18 @@ export default function Register() {
                                     onChange={handleChange}
                                     error={errors.confirmPassword}
                                 />
-                                <AuthInput
-                                    id="referral_code_of_referrer"
-                                    label="Mã giới thiệu (không bắt buộc)"
-                                    type="text"
-                                    placeholder="Nhập mã giới thiệu nếu có"
-                                    value={formData.referral_code_of_referrer || ''}
-                                    onChange={handleChange}
-                                    error={errors.referral_code_of_referrer}
-                                    disabled={!!searchParams.get('ref')} // Disable input if referral code is from URL
-                                />
+                                {refCode && (
+                                    <AuthInput
+                                        id="referral_code_of_referrer"
+                                        label="Mã giới thiệu"
+                                        type="text"
+                                        placeholder="Nhập mã giới thiệu nếu có"
+                                        value={formData.referral_code_of_referrer || ''}
+                                        onChange={handleChange}
+                                        error={errors.referral_code_of_referrer}
+                                        disabled={!!searchParams.get('ref')} // Disable input if referral code is from URL
+                                    />
+                                )}
                             </div>
                             <div className="flex justify-between items-center">
                                 <button

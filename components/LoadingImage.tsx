@@ -14,7 +14,7 @@ const LoadingImage = ({ src, alt, className }: { src: string, alt: string, class
                 src={src}
                 alt={alt}
                 fill
-                className={`${className} ${loading ? "opacity-0" : "opacity-100"} transition-opacity`}
+                className={`${className} ${loading ? "opacity-0" : "opacity-100"}`}
                 onLoad={() => setLoading(false)}
                 sizes="(max-width: 768px) 100vw, 50vw"
             />

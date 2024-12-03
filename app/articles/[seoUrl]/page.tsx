@@ -50,7 +50,7 @@ export default function Article() {
     <div className="">
       {/* header */}
       <div className="flex flex-col items-center justify-center bg-[#3F291B] w-full h-36 mobile:h-32 tablet:h-40">
-        <p className=" font-robotoslab text-[#D7A444] font-semibold text-2xl text-left mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">
+        <p className=" font-robotoslab text-[#D7A444] font-semibold text-2xl text-left mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl uppercase">
           {" "}
           Câu chuyện khách hàng{" "}
         </p>

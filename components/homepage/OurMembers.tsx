@@ -1,6 +1,7 @@
 "use client";
 import {
   Carousel,
+  CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -8,6 +9,9 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardFooter } from "@nextui-org/react";
 import { CldImage } from "next-cloudinary";
+import Autoplay from "embla-carousel-autoplay"
+import Fade from "embla-carousel";
+import React, { useState } from "react";
 
 interface TeamMember {
   name: string;
@@ -26,6 +30,21 @@ interface OurMembersProps {
 export default function OurMembers({ title, teamMembers }: OurMembersProps) {
   const mainDoctor = teamMembers.find((member) => member.isMain);
   const otherDoctors = teamMembers.filter((member) => !member.isMain);
+  const [api, setApi] = useState<CarouselApi | null>(null);
+  const [current, setCurrent] = useState(0);
+
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCurrent(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
+  
   return (
     <div className="relative">
       {/* Split background */}
@@ -64,10 +83,17 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
               </div>
               <div className="mt-8 place-self-end">
                 <Carousel
+                  plugins={[
+                    Autoplay({
+                      delay: 2000,
+                    }),
+                  ]}
                   opts={{
                     align: "start",
                     loop: true,
+                    containScroll: false,
                   }}
+                  setApi={setApi}
                   className="relative w-full max-w-5xl laptop:max-w-[52rem] mini-laptop:max-w-3xl"
                 >
                   <CarouselContent>
@@ -104,6 +130,23 @@ export default function OurMembers({ title, teamMembers }: OurMembersProps) {
                   </CarouselContent>
                   <CarouselPrevious className="left-0 hover:bg-[#D7A444] active:bg-[#C2943D] hover:text-white active:text-white" />
                   <CarouselNext className="right-0 hover:bg-[#D7A444] active:bg-[#C2943D] hover:text-white active:text-white" />
+                  
+                  {/* Dot Navigator */}
+                  <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+                    {otherDoctors.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => api?.scrollTo(index)}
+                        className={`
+                h-2 w-2 rounded-full transition-all duration-300
+                ${current === index
+                            ? 'bg-[#D7A444] w-4'
+                            : 'bg-gray-400 hover:bg-gray-600'}
+              `}
+                      />
+                    ))}
+                  </div>
+                  
                 </Carousel>
               </div>
             </div>

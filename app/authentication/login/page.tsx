@@ -54,7 +54,7 @@ export default function Login() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
         setLoginCredentials(prev => ({
             ...prev,
@@ -107,7 +107,7 @@ export default function Login() {
         }
     };
     return (
-        <div className="relative ">
+        <div className="relative">
             <div className="z-0 absolute inset-0">
                 <Image
                     src="/images/productbg.png"

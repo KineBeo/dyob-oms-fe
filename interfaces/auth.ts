@@ -37,11 +37,11 @@ export interface LoginCredentials {
 }
 
 export interface User {
-  id: number,
+  id: number;
   // email: string,
-  fullname: string,
-  phone_number: string,
-  role: string,
+  fullname: string;
+  phone_number: string;
+  role: string;
 }
 
 export interface LoginResponse {
@@ -66,16 +66,17 @@ export interface RegisterFormData {
   // email: string;
   password_hash: string;
   confirmPassword: string;
+  user_class?: string;
   referral_code_of_referrer?: string;
 }
 
 export interface RegisterResponse {
   user: {
-      id: number;
-      // email: string;
-      fullname: string;
-      phone_number: string;
-  }
+    id: number;
+    // email: string;
+    fullname: string;
+    phone_number: string;
+  };
 }
 
 export interface FormErrors {
@@ -84,6 +85,7 @@ export interface FormErrors {
   // email?: string;
   password_hash?: string;
   confirmPassword?: string;
+  user_class?: string;
   referral_code_of_referrer?: string;
   general?: string;
 }

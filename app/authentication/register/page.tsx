@@ -12,6 +12,12 @@ import { loginStart } from "@/redux/features/auth/authSlice";
 import { authService } from "@/utils/auth/authApi";
 import { useSearchParams } from "next/navigation";
 
+enum UserClass {
+    NONE = 'NONE',
+    VIP = 'VIP',
+    BASIC = 'BASIC'
+}
+
 export default function Register() {
     const router = useRouter();
     const dispatch = useDispatch();
@@ -23,7 +29,8 @@ export default function Register() {
         phone_number: '',
         password_hash: '',
         confirmPassword: '',
-        referral_code_of_referrer: refCode || ''
+        referral_code_of_referrer: refCode || '',
+        user_class: (refCode ? UserClass.BASIC : UserClass.NONE)
     });
 
     // useEffect(() => {
@@ -87,7 +94,7 @@ export default function Register() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
         setFormData(prev => ({
             ...prev,
@@ -159,7 +166,7 @@ export default function Register() {
     };
 
     return (
-        <div className="relative ">
+        <div className="relative">
             <div className="z-0 absolute inset-0">
                 <Image
                     src="/images/productbg.png"
@@ -229,6 +236,18 @@ export default function Register() {
                                     onChange={handleChange}
                                     error={errors.confirmPassword}
                                 />
+                                {refCode && (
+                                    <AuthInput
+                                        id="user_class"
+                                        label="Loại người dùng"
+                                        type="select"
+                                        value={formData.user_class || UserClass.BASIC}
+                                        onChange={handleChange}
+                                        error={errors.user_class}
+                                        options={[
+                                            { value: 'BASIC', label: 'Thành viên Cơ bản' },
+                                            { value: 'VIP', label: 'Thành viên VIP' }
+                                        ]} placeholder={""} />)}
                                 {refCode && (
                                     <AuthInput
                                         id="referral_code_of_referrer"

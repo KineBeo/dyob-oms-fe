@@ -141,16 +141,16 @@ const Articles: React.FC<ArticlesProps> = ({ homepageLoaded }) => {
                     key={testimonial.id}
                     onClick={() => handleThumbnailClick(index)}
                     className={`relative flex-shrink-0 w-32 aspect-square rounded-lg overflow-hidden
-                ${currentSlide === index
+                      ${currentSlide === index
                         ? "ring-2 ring-[#D7A444]"
-                        : "opacity-70 hover:opacity-100"
+                      : "opacity-70 hover:opacity-100 hover:scale-110 transition-transform transform duration-400"
                       }`}
                   >
                     <LoadingImage
                       src={testimonial.image?.url ?? "images/homepage/boss.png"}
                       alt={`Thumbnail ${index + 1}`}
                       // fill
-                      className="object-cover"
+                      className="object-cover relative"
                       // sizes="(max-width: 768px) 50vw, 33vw"
                     />
                     {/* Brown overlay for non-active thumbnails */}

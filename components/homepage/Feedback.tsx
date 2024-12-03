@@ -72,16 +72,15 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({
             allowFullScreen
           />
         ) : (
-          <div className="absolute inset-0 w-full h-full">
-
+          <div className="absolute inset-0 w-full h-full overflow-hidden">
             <Image
               src={thumbnailUrl}
               alt={title}
-              className="static w-full h-full object-cover"
+              className="static w-full h-full object-cover hover:scale-110"
             />
 
             <div className="absolute inset-0 flex justify-center items-center">
-              <div className="flex justify-center items-center bg-black bg-opacity-60 rounded-full w-16 h-16">
+              <div className="flex justify-center items-center bg-black bg-opacity-60 rounded-full w-16 h-16 hover:bg-red-500 transition-all duration-300">
                 <div className="ml-1 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent border-l-[20px] border-l-white w-0 h-0" />
               </div>
             </div>

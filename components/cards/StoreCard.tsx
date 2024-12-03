@@ -11,19 +11,20 @@ interface StoreCardProps {
 
 export default function StoreCard(props: StoreCardProps) {
     return (
-        <Card className="bg-[#D7A444] py-0 h-full hover:scale-105 transition">
-            <CardBody className="justify-center items-center p-0">
+        <Card className="bg-[#D7A444] py-0 h-full transition">
+            <CardBody className="justify-center items-center overflow-hidden p-0">
                 <CldImage
                     alt="Store"
-                    className="rounded-xl w-full h-full object-fill"
+                    className="relative rounded-xl w-full h-64 object-fill transition-transform transform hover:scale-110 duration-500"
                     src={props.image_url}
                     crop={"auto"}
                     width={500}
                     height={300}
                 />
-                <h2 className="p-2 font-semibold text-center text-large mobile:text-base tablet:text-base mini-laptop:text-small text-white">{props.location}</h2>
             </CardBody>
-
+            <CardBody>
+                <h2 className="font-semibold text-center text-large mobile:text-base tablet:text-base mini-laptop:text-small text-white">{props.location}</h2>  
+            </CardBody>
             <CardFooter className="flex-row justify-center items-center gap-2 pt-0 pb-4">
                 <Button
                     onClick={() => window.open(props.google_maps_url || '', '_blank')}

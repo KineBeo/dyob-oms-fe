@@ -20,6 +20,7 @@ interface Referral {
   personal_referral_code: string;
   user_rank: string;
   total_sales: number;
+  referrals: Referral[];
 }
 
 interface UserStatus {
@@ -64,6 +65,9 @@ const UserStatusPage = () => {
       try {
         if (!user?.id) return;
         const statusData = await userStatusService.getUserStatusById(user.id);
+        const referrerData = await userStatusService.getReferrerData(user.id);
+        statusData.referrals = referrerData;
+        console.log(statusData);
         const ordersData = await orderService.getOrderByUserID(user.id);
         // Fetch addresses here using the provided endpoint
         // const addressesData = await userAddressService.getUserAddresses(user.id);
@@ -301,32 +305,53 @@ const UserStatusPage = () => {
 
   <Addresses />
 
-  const Referrals = () => (
-    <div className="bg-white shadow-sm rounded-lg">
-      <div className="p-4 border-b">
-        <h3 className="font-semibold text-lg">Mạng lưới giới thiệu ({userStatus.referrals?.length || 0})</h3>
+  const Referrals = () => {
+    return (
+      <div className="bg-white shadow-sm rounded-lg">
+        <div className="p-4 border-b">
+          <h3 className="font-semibold text-lg">Mạng lưới giới thiệu ({userStatus.referrals?.length || 0})</h3>
+        </div>
+        <div className="p-4">
+          {userStatus.referrals && userStatus.referrals.length > 0 ? (
+            <div className="gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              {userStatus.referrals.map((referral) => (
+                <div key={referral.id} className="p-4 border rounded-lg">
+                  <div className="mb-4">
+                    <p className="font-medium">{referral.fullname}</p>
+                    <p className="mt-2 text-gray-600 text-sm">Mã: {referral.personal_referral_code}</p>
+                    <p className="text-gray-600 text-sm">Cấp bậc: {referral.user_rank}</p>
+                    <p className="text-gray-600 text-sm">
+                      Doanh số: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                        .format(Number(referral.total_sales))}
+                    </p>
+                  </div>
+
+                  {referral.referrals && referral.referrals.length > 0 && (
+                    <div className="pt-4 border-t">
+                      <h4 className="mb-2 font-semibold text-sm">Người được giới thiệu</h4>
+                      {referral.referrals.map((nestedReferral) => (
+                        <div key={nestedReferral.id} className="bg-gray-50 mb-2 p-2 rounded">
+                          <p className="text-sm">{nestedReferral.fullname}</p>
+                          <p className="text-gray-600 text-xs">Mã: {nestedReferral.personal_referral_code}</p>
+                          <p className="text-gray-600 text-xs">Cấp bậc: {nestedReferral.user_rank}</p>
+                          <p className="text-gray-600 text-xs">
+                            Doanh số: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                              .format(Number(nestedReferral.total_sales))}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="py-8 font-bold text-center text-gray-700 text-lg laptop:text-xl desktop:text-xl">Chưa có người được giới thiệu</p>
+          )}
+        </div>
       </div>
-      <div className="p-4">
-        {userStatus.referrals && userStatus.referrals.length > 0 ? (
-          <div className="gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {userStatus.referrals.map((referral) => (
-              <div key={referral.id} className="p-4 border rounded-lg">
-                <p className="font-medium">{referral.fullname}</p>
-                <p className="mt-2 text-gray-600 text-sm">Mã: {referral.personal_referral_code}</p>
-                <p className="text-gray-600 text-sm">Cấp bậc: {referral.user_rank}</p>
-                <p className="text-gray-600 text-sm">
-                  Doanh số: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                    .format(Number(referral.total_sales))}
-                </p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="py-8 font-bold text-center text-gray-700 text-lg laptop:text-xl desktop:text-xl">Chưa có người được giới thiệu</p>
-        )}
-      </div>
-    </div>
-  );
+    )
+  };
 
   const Policy = () => (
     <div className="bg-white shadow-sm rounded-lg">
@@ -414,7 +439,7 @@ const UserStatusPage = () => {
             {activeTab === 'overview' && <Overview />}
             {activeTab === 'orders' && <Orders />}
             {activeTab === 'addresses' && <Addresses />}
-            {activeTab === 'referrals' && userStatus?.user_type === 'AFFILIATE' && <Referrals />}
+            {activeTab === 'referrals' && (userStatus?.user_type === 'AFFILIATE' || user?.role == 'ADMIN') && <Referrals />}
             {activeTab === 'policy' && <Policy />}
           </div>
         </div>

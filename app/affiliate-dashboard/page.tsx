@@ -104,14 +104,14 @@ const UserStatusPage = () => {
 
   const Overview = () => (
     <div className="space-y-6">
-      <Card className="border-none shadow-sm">
+      <Card className="shadow-sm border-none">
         <CardContent className="p-6">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+            <div className="flex justify-center items-center bg-primary/10 rounded-full w-16 h-16">
               <UserIcon className="w-8 h-8 text-primary" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold">{user?.fullname}</h2>
+              <h2 className="font-bold text-2xl">{user?.fullname}</h2>
               <div className="flex items-center gap-4 mt-1">
                 <div className="flex items-center gap-1">
                   {userStatus?.user_type === 'AFFILIATE' && (
@@ -134,38 +134,35 @@ const UserStatusPage = () => {
         </CardContent>
       </Card>
 
-      <Card className="border-none shadow-sm">
-        <CardContent className="grid grid-cols-2 mini-laptop:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 gap-4 p-6">
-          <div className="p-4 bg-blue-50 rounded-lg">
-            <p className="text-sm font-medium text-blue-600">Tổng đơn hàng</p>
-            <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-blue-700">{userStatus.total_orders}</p>
-          </div>
-          <div className="p-4 bg-green-50 rounded-lg">
-            <p className="text-sm font-medium text-green-600">Tổng mua hàng</p>
-            <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-green-700">
+      <Card className="shadow-sm border-none">
+        <CardContent className="gap-4 grid grid-cols-2 desktop:grid-cols-4 laptop:grid-cols-4 mini-laptop:grid-cols-2 p-6">
+
+          <div className="bg-green-50 p-4 rounded-lg">
+            <p className="font-medium text-green-600 text-sm">Đã mua hàng</p>
+            <p className="font-bold text-2xl text-green-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
               {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                 .format(Number(userStatus.total_purchase))}
             </p>
           </div>
           {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
             <>
-              <div className="p-4 bg-purple-50 rounded-lg">
-                <p className="text-sm font-medium text-purple-600">Tổng doanh số</p>
-                <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-purple-700">
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <p className="font-medium text-purple-600 text-sm">Doanh số giới thiệu</p>
+                <p className="font-bold text-2xl text-purple-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                     .format(Number(userStatus.total_sales))}
                 </p>
               </div>
-              <div className="p-4 bg-red-50 rounded-lg">
-                <p className="text-sm font-medium text-red-600">Tổng doanh số nhóm</p>
-                <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-red-700">
+              <div className="bg-red-50 p-4 rounded-lg">
+                <p className="font-medium text-red-600 text-sm">Tổng doanh số</p>
+                <p className="font-bold text-2xl text-red-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                     .format(Number(userStatus.group_sales))}
                 </p>
               </div>
-              <div className="p-4 bg-orange-50 rounded-lg">
-                <p className="text-sm font-medium text-orange-600">Tổng hoa hồng</p>
-                <p className="text-2xl mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl font-bold text-orange-700">
+              <div className="bg-orange-50 p-4 rounded-lg">
+                <p className="font-medium text-orange-600 text-sm">Thưởng</p>
+                <p className="font-bold text-2xl text-orange-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                     .format(Number(userStatus.commission))}
                 </p>
@@ -175,33 +172,45 @@ const UserStatusPage = () => {
         </CardContent>
       </Card>
       {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
-        <Card className="border-none shadow-sm">
+        <Card className="shadow-sm border-none">
           <CardContent className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Thông tin tài khoản</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">Mã giới thiệu</p>
+            <h3 className="mb-4 font-semibold text-lg">Thông tin tài khoản</h3>
+            <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-gray-600 text-sm">Mã giới thiệu</p>
                 <p className="font-medium break-all">
                   {`${window.location.origin}/authentication/register?ref=${userStatus?.personal_referral_code}`}
                 </p>
               </div>
-              <Button
-                onClick={() => copyReferralLink(userStatus?.personal_referral_code)}
-                variant="outline"
-                size="sm"
-              >
-                Sao chép liên kết
-              </Button>
-              <div className="p-4 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">Cấp bậc</p>
+              <div className='flex flex-col justify-center space-y-2 w-full'>
+                <Button
+                  onClick={() => copyReferralLink(userStatus?.personal_referral_code)}
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                >
+                  Sao chép liên kết
+                </Button>
+                <Button
+                  disabled
+                  variant="outline"
+                  size='sm'
+                  className='opacity-50 w-full cursor-not-allowed'
+                // 'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700' khi có hiệu lực
+                >
+                  Rút tiền
+                </Button>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-gray-600 text-sm">Cấp bậc</p>
                 <p className="font-medium">{userStatus.user_rank}</p>
               </div>
-              <div className="p-4 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">Người giới thiệu</p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-gray-600 text-sm">Người giới thiệu</p>
                 <p className="font-medium">{userStatus.referrer_name || 'Chưa có'}</p>
               </div>
-              <div className="p-4 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-600">Ngày đạt cấp bậc</p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-gray-600 text-sm">Ngày đạt cấp bậc</p>
                 <p className="font-medium">
                   {new Date(userStatus.rank_achievement_date).toLocaleDateString('vi-VN')}
                 </p>
@@ -212,31 +221,49 @@ const UserStatusPage = () => {
       )}
     </div>
   );
+
+  const translateOrderStatus = (status: string) => {
+    switch (status) {
+      case 'NOT_START_YET':
+        return 'Đang chờ xử lý';
+      case 'ONG_OING':
+        return 'Đang xử lý';
+      case 'COMPLETED':
+        return 'Đã hoàn thành';
+      case 'DELIVERED':
+        return 'Đã nhận hàng';
+      case 'CANCELED':
+        return 'Đã hủy';
+      default:
+        return status;
+    }
+  }
+
   const Orders = () => (
-    <div className="bg-white rounded-lg shadow-sm">
+    <div className="bg-white shadow-sm rounded-lg">
       <div className="p-4 border-b">
-        <h3 className="text-lg font-semibold">Đơn hàng của tôi</h3>
+        <h3 className="font-semibold text-lg">Đơn hàng của tôi</h3>
       </div>
       <div className="divide-y">
         {currentOrders.length > 0 ? (
           currentOrders.map((order) => (
-            <div key={order.id} className="p-4 hover:bg-gray-50">
+            <div key={order.id} className="hover:bg-gray-50 p-4">
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <p className="font-medium">Đơn hàng #{order.id}</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-gray-600 text-sm">
                     {new Date(order.createdAt).toLocaleDateString('vi-VN')}
                   </p>
                 </div>
-                <span className="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">
-                  {order.status}
+                <span className="bg-blue-100 px-3 py-1 rounded-full text-blue-800 text-sm">
+                  {translateOrderStatus(order.status)}
                 </span>
               </div>
-              <p className="text-sm text-gray-600">{order.snapshot_full_address}</p>
+              <p className="text-gray-600 text-sm">{order.snapshot_full_address}</p>
             </div>
           ))
         ) : (
-          <p className="text-center text-gray-700 py-8 font-bold text-lg laptop:text-xl desktop:text-xl">Bạn chưa có đơn hàng nào</p>
+          <p className="py-8 font-bold text-center text-gray-700 text-lg laptop:text-xl desktop:text-xl">Bạn chưa có đơn hàng nào</p>
         )}
       </div>
       {totalPages > 1 && (
@@ -247,7 +274,7 @@ const UserStatusPage = () => {
             onClick={() => paginate(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="w-4 h-4" />
           </Button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
             <Button
@@ -265,7 +292,7 @@ const UserStatusPage = () => {
             onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
             disabled={currentPage === totalPages}
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="w-4 h-4" />
           </Button>
         </div>
       )}
@@ -275,19 +302,19 @@ const UserStatusPage = () => {
   <Addresses />
 
   const Referrals = () => (
-    <div className="bg-white rounded-lg shadow-sm">
+    <div className="bg-white shadow-sm rounded-lg">
       <div className="p-4 border-b">
-        <h3 className="text-lg font-semibold">Mạng lưới giới thiệu ({userStatus.referrals?.length || 0})</h3>
+        <h3 className="font-semibold text-lg">Mạng lưới giới thiệu ({userStatus.referrals?.length || 0})</h3>
       </div>
       <div className="p-4">
         {userStatus.referrals && userStatus.referrals.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {userStatus.referrals.map((referral) => (
               <div key={referral.id} className="p-4 border rounded-lg">
                 <p className="font-medium">{referral.fullname}</p>
-                <p className="text-sm text-gray-600 mt-2">Mã: {referral.personal_referral_code}</p>
-                <p className="text-sm text-gray-600">Cấp bậc: {referral.user_rank}</p>
-                <p className="text-sm text-gray-600">
+                <p className="mt-2 text-gray-600 text-sm">Mã: {referral.personal_referral_code}</p>
+                <p className="text-gray-600 text-sm">Cấp bậc: {referral.user_rank}</p>
+                <p className="text-gray-600 text-sm">
                   Doanh số: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                     .format(Number(referral.total_sales))}
                 </p>
@@ -295,22 +322,22 @@ const UserStatusPage = () => {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-700 text-lg laptop:text-xl desktop:text-xl font-bold py-8">Chưa có người được giới thiệu</p>
+          <p className="py-8 font-bold text-center text-gray-700 text-lg laptop:text-xl desktop:text-xl">Chưa có người được giới thiệu</p>
         )}
       </div>
     </div>
   );
 
   const Policy = () => (
-    <div className="bg-white rounded-lg shadow-sm">
+    <div className="bg-white shadow-sm rounded-lg">
       <div className="p-4 border-b">
-        <h3 className="text-2xl font-semibold text-center laptop:text-2xl desktop:text-3xl">Chính sách</h3>
+        <h3 className="font-semibold text-2xl text-center laptop:text-2xl desktop:text-3xl">Chính sách</h3>
       </div>
       <div className="p-4">
         <p className=""> </p>
         <div className="flex justify-center py-8">
           <Button
-            className="text-gray-700 text-lg laptop:text-xl desktop:text-xl font-bold"
+            className="font-bold text-gray-700 text-lg laptop:text-xl desktop:text-xl"
             variant="outline"
             size="sm"
             onClick={() => router.push('/affiliate')}
@@ -322,61 +349,61 @@ const UserStatusPage = () => {
     </div>
   );
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
-        <div className="flex flex-col md:flex-row gap-6">
+    <div className="bg-gray-50 min-h-screen">
+      <div className="mx-auto p-4 md:p-6 lg:p-8 max-w-7xl">
+        <div className="flex md:flex-row flex-col gap-6">
           {/* Sidebar */}
-          <div className="w-full md:w-64 space-y-2">
+          <div className="space-y-2 w-full md:w-64">
             <Button
               variant={activeTab === 'overview' ? 'default' : 'ghost'}
-              className="w-full justify-start"
+              className="justify-start w-full"
               onClick={() => setActiveTab('overview')}
             >
-              <BarChart2 className="mr-2 h-4 w-4" />
+              <BarChart2 className="mr-2 w-4 h-4" />
               Tổng quan
             </Button>
             <Button
               variant={activeTab === 'orders' ? 'default' : 'ghost'}
-              className="w-full justify-start"
+              className="justify-start w-full"
               onClick={() => setActiveTab('orders')}
             >
-              <Package className="mr-2 h-4 w-4" />
+              <Package className="mr-2 w-4 h-4" />
               Đơn hàng
             </Button>
             <Button
               variant={activeTab === 'addresses' ? 'default' : 'ghost'}
-              className="w-full justify-start"
+              className="justify-start w-full"
               onClick={() => setActiveTab('addresses')}
             >
-              <MapPin className="mr-2 h-4 w-4" />
-              Địa chỉ
+              <MapPin className="mr-2 w-4 h-4" />
+              Thông tin thanh toán
             </Button>
             <Button
               variant={activeTab === 'policy' ? 'default' : 'ghost'}
-              className="w-full justify-start"
+              className="justify-start w-full"
               onClick={() => setActiveTab('policy')}
             >
-              <BookOpen className="mr-2 h-4 w-4" />
+              <BookOpen className="mr-2 w-4 h-4" />
               Chính sách
             </Button>
             {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
-            <Button
-              variant={activeTab === 'referrals' ? 'default' : 'ghost'}
-              className="w-full justify-start"
-              onClick={() => setActiveTab('referrals')}
-            >
-              <UserPlus className="mr-2 h-4 w-4" />
-              Mạng lưới
-            </Button>
+              <Button
+                variant={activeTab === 'referrals' ? 'default' : 'ghost'}
+                className="justify-start w-full"
+                onClick={() => setActiveTab('referrals')}
+              >
+                <UserPlus className="mr-2 w-4 h-4" />
+                Giới thiệu
+              </Button>
             )}
             {/* Admin Dashboard Button */}
             {user?.role === "ADMIN" && (
               <Button
                 variant={activeTab === 'admin' ? 'default' : 'ghost'}
-                className='w-full justify-start'
+                className='justify-start w-full'
                 onClick={() => router.push('/admin-dashboard')}
               >
-                <LayoutDashboard className="mr-2 h-4 w-4" />
+                <LayoutDashboard className="mr-2 w-4 h-4" />
                 Admin Dashboard
               </Button>
             )}
@@ -388,7 +415,7 @@ const UserStatusPage = () => {
             {activeTab === 'orders' && <Orders />}
             {activeTab === 'addresses' && <Addresses />}
             {activeTab === 'referrals' && userStatus?.user_type === 'AFFILIATE' && <Referrals />}
-            {activeTab === 'policy' && <Policy/>}
+            {activeTab === 'policy' && <Policy />}
           </div>
         </div>
       </div>

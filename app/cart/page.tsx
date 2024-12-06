@@ -9,11 +9,11 @@ import CartSummary from '@/components/cartpage/CartSummary';
 
 const CartPage = () => {
   const { items, loading } = useSelector((state: RootState) => state.cart);
-
+  const router = useRouter();
   if (loading) {
     return <div>Loading...</div>;
   }
-  const router = useRouter();
+
 
   if (items.length === 0) {
     return (

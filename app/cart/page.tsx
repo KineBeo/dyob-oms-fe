@@ -2,6 +2,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import { useRouter } from "next/navigation";
+
 import CartItems from '@/components/cartpage/CartItem';
 import CartSummary from '@/components/cartpage/CartSummary';
 
@@ -11,6 +13,7 @@ const CartPage = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+  const router = useRouter();
 
   if (items.length === 0) {
     return (
@@ -71,6 +74,12 @@ const CartPage = () => {
         <div>
           <CartSummary />
         </div>
+        <button
+          onClick={() => router.push("/products")}
+          className="w-1/2 mt-2 bg-[#7A0505] text-white py-2 rounded-full font-bold hover:bg-[#900] transition"
+        >
+          Mua thêm
+        </button>
       </div>
     </div>
   );

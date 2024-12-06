@@ -96,7 +96,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           {children}
-          <ContactIcons />
+          {/* <ContactIcons /> */}
           <Footer />
           <Toaster
             position="top-center"

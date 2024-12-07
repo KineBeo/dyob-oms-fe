@@ -24,7 +24,7 @@
     const articleList = data?.data;
 
     return (
-      <div className="pt-4 max-w-5xl mx-auto gap-4 grid grid-cols-2 mobile:grid-cols-1 tablet:grid-cols-1 mobile:gap-2 ">
+      <div className="py-8  max-w-5xl mx-auto gap-4 grid grid-cols-2 mobile:grid-cols-1 tablet:grid-cols-1 mobile:gap-6 tablet:gap-8 ">
         <div className="flex flex-col items-start mobile:items-center tablet:items-center mini-laptop:items-center">
           <h1 className=" font-bold font-robotoslab text-[#7A0505] text-2xl text-center mobile:text-xl tablet:text-xl mini-laptop:text-xl">
             THÔNG TIN SỨC KHỎE

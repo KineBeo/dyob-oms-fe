@@ -63,7 +63,7 @@ import { CldImage } from "next-cloudinary";
               ))}
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col items-start">
           <h1 className=" font-bold font-robotoslab text-[#7A0505] text-2xl text-center mobile:text-xl tablet:text-xl mini-laptop:text-xl">
             TIN TỨC SỰ KIỆN
           </h1>

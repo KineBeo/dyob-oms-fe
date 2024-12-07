@@ -40,6 +40,20 @@ export const userService = {
     }
   },
 
+  async adminUpdate(id: number, updateData: UpdateUserDto): Promise<User> {
+    try {
+      const response = await api.patch<User>(`/users/admin/${id}`, updateData);
+      toast.success("Cập nhật thông tin thành công");
+      return response.data;
+    } catch (error: any) {
+      toast.error(
+        error.response?.data?.message ||
+          "Không thể cập nhật thông tin người dùng"
+      );
+      throw error;
+    }
+  },
+
   // Cập nhật thông tin người dùng (người dùng chỉ có thể cập nhật thông tin của chính mình)
   async update(id: number, updateData: UpdateUserDto): Promise<User> {
     try {

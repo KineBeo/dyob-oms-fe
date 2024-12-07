@@ -13,8 +13,16 @@ interface Referral {
 interface UserStatus {
     personal_referral_code: string;
     user_rank: string;
+    referrer_name: string | null;
+    rank_achievement_date: string;
+    total_orders: number;
+    total_purchase: number;
     total_sales: number;
+    group_sales: number;
+    commission: string;
+    group_commission: string;
     referrals: Referral[];
+    user_type: 'NORMAL' | 'AFFILIATE';
 }
 
 const ReferralItem = ({ referral, depth = 0 }: { referral: Referral, depth?: number }) => {
@@ -66,8 +74,13 @@ const Referrals = ({ userStatus }: { userStatus: UserStatus }) => {
                 <h3 className="font-semibold text-lg">Mạng lưới giới thiệu</h3>
                 <div className="text-gray-600 text-sm">
                     <div>Cấp bậc: {userStatus.user_rank}</div>
+                    <div>Doanh số cá nhân: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(userStatus.total_sales))}</div>
                     <div>Tổng doanh số: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                        .format(Number(userStatus.total_sales))}</div>
+                        .format(Number(userStatus.group_sales))}</div>
+                    <div>Hoa hồng: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                        .format(Number(userStatus.commission))}</div>
+                    <div>Thưởng: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                        .format(Number(userStatus.group_commission))}</div>
                 </div>
             </div>
 

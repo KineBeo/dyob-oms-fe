@@ -14,6 +14,8 @@ import RankRoadmap, { UserRank } from '@/components/affiliate-dashboard/RankRoad
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import Referrals from '@/components/affiliate-dashboard/Referrals';
+import OrderCard from '@/components/orders/OrderCard';
+import { Order } from '@/interfaces/order';
 
 interface Referral {
   id: string;
@@ -33,16 +35,10 @@ interface UserStatus {
   total_purchase: number;
   total_sales: number;
   group_sales: number;
+  group_commission: string;
   commission: string;
   referrals: Referral[];
   user_type: 'NORMAL' | 'AFFILIATE';
-}
-
-interface Order {
-  id: string;
-  createdAt: string;
-  status: string;
-  snapshot_full_address: string;
 }
 
 interface Address {
@@ -68,7 +64,6 @@ const UserStatusPage = () => {
         const statusData = await userStatusService.getUserStatusById(user.id);
         const referrerData = await userStatusService.getReferrerData(user.id);
         statusData.referrals = referrerData;
-        console.log(statusData);
         const ordersData = await orderService.getOrderByUserID(user.id);
         // Fetch addresses here using the provided endpoint
         // const addressesData = await userAddressService.getUserAddresses(user.id);
@@ -78,6 +73,9 @@ const UserStatusPage = () => {
         if (ordersData) setOrders(ordersData);
         // if (addressesData) setAddresses(addressesData);
         if (addressData) setAddresses(addressData);
+
+        console.log('statusData:', statusData);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -143,7 +141,7 @@ const UserStatusPage = () => {
         <CardContent className="gap-4 grid grid-cols-2 desktop:grid-cols-4 laptop:grid-cols-4 mini-laptop:grid-cols-2 p-6">
 
           <div className="bg-green-50 p-4 rounded-lg">
-            <p className="font-medium text-green-600 text-sm">Đã mua hàng</p>
+            <p className="font-medium text-green-600 text-sm">Đã chi trả</p>
             <p className="font-bold text-2xl text-green-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
               {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                 .format(Number(userStatus.total_purchase))}
@@ -166,10 +164,11 @@ const UserStatusPage = () => {
                 </p>
               </div>
               <div className="bg-orange-50 p-4 rounded-lg">
-                <p className="font-medium text-orange-600 text-sm">Thưởng</p>
+                <p className="font-medium text-orange-600 text-sm">Hoa hồng</p>
                 <p className="font-bold text-2xl text-orange-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                    .format(Number(userStatus.commission))}
+                    .format(Number(userStatus.group_commission))
+                  }
                 </p>
               </div>
             </>
@@ -252,20 +251,21 @@ const UserStatusPage = () => {
       <div className="divide-y">
         {currentOrders.length > 0 ? (
           currentOrders.map((order) => (
-            <div key={order.id} className="hover:bg-gray-50 p-4">
-              <div className="flex justify-between items-start mb-2">
-                <div>
-                  <p className="font-medium">Đơn hàng #{order.id}</p>
-                  <p className="text-gray-600 text-sm">
-                    {new Date(order.createdAt).toLocaleDateString('vi-VN')}
-                  </p>
-                </div>
-                <span className="bg-blue-100 px-3 py-1 rounded-full text-blue-800 text-sm">
-                  {translateOrderStatus(order.status)}
-                </span>
-              </div>
-              <p className="text-gray-600 text-sm">{order.snapshot_full_address}</p>
-            </div>
+            // <div key={order.id} className="hover:bg-gray-50 p-4">
+            //   <div className="flex justify-between items-start mb-2">
+            //     <div>
+            //       <p className="font-medium">Đơn hàng #{order.id}</p>
+            //       <p className="text-gray-600 text-sm">
+            //         {new Date(order.createdAt).toLocaleDateString('vi-VN')}
+            //       </p>
+            //     </div>
+            //     <span className="bg-blue-100 px-3 py-1 rounded-full text-blue-800 text-sm">
+            //       {translateOrderStatus(order.status)}
+            //     </span>
+            //   </div>
+            //   <p className="text-gray-600 text-sm">{order.snapshot_full_address}</p>
+            // </div>
+            <OrderCard key={order.id} order={order} />
           ))
         ) : (
           <p className="py-8 font-bold text-center text-gray-700 text-lg laptop:text-xl desktop:text-xl">Bạn chưa có đơn hàng nào</p>
@@ -356,7 +356,7 @@ const UserStatusPage = () => {
               onClick={() => setActiveTab('addresses')}
             >
               <MapPin className="mr-2 w-4 h-4" />
-              Thông tin thanh toán
+              Địa chỉ
             </Button>
             <Button
               variant={activeTab === 'policy' ? 'default' : 'ghost'}

@@ -7,6 +7,9 @@ createdAt :string;
 image:{
     url:string
 };
+topic:{
+  title:string
+}
 content: string
 seoUrl: string;
 };

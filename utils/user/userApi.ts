@@ -42,7 +42,10 @@ export const userService = {
 
   async adminUpdate(id: number, updateData: UpdateUserDto): Promise<User> {
     try {
-      const response = await api.patch<User>(`/users/admin/${id}`, updateData);
+      const response = await api.patch<User>(
+        `/users/admin/id/${id}`,
+        updateData
+      );
       toast.success("Cập nhật thông tin thành công");
       return response.data;
     } catch (error: any) {

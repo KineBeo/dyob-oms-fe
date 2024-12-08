@@ -72,7 +72,7 @@ const AddressSelector: React.FC<AddressSelectorProps> = ({
       </div>
 
       <div className="space-y-4 border-t pt-4">
-        <div>
+        {/* <div>
           <label htmlFor="referralCode" className="block text-sm font-medium text-gray-700">
             Mã giới thiệu (không bắt buộc)
           </label>
@@ -84,7 +84,7 @@ const AddressSelector: React.FC<AddressSelectorProps> = ({
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="Nhập mã giới thiệu nếu có"
           />
-        </div>
+        </div> */}
 
         <button
           onClick={() => onOrder(referralCode)}

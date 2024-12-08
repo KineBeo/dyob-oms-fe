@@ -32,7 +32,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ onSubmit, isLoading, defaul
   const formValues = watch();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-white p-6 rounded-lg shadow">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6bg-white p-6 rounded-lg shadow">
       {/* Thông tin cá nhân */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Thông tin cá nhân</h2>

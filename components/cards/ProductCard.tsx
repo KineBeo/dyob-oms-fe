@@ -59,6 +59,7 @@ export default function ProductCard(props: ProductCardProps) {
             quantity: cartItem.quantity,
           });
           toast.success('Thêm vào giỏ hàng thành công!');
+          router.push("/cart");
         } catch (error) {
           console.log('Error adding to cart:', error);
           toast.error('Có lỗi xảy ra khi thêm vào giỏ hàng');
@@ -68,7 +69,7 @@ export default function ProductCard(props: ProductCardProps) {
       const handleBuyNow = async () => {
         try {
             await handleAddToCart();
-            router.push('/checkout');
+            router.push('/cart');
           } catch (error) {
             toast.error('Có lỗi xảy ra');
           }

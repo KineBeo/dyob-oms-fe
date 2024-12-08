@@ -14,6 +14,7 @@ import Script from 'next/script';
 import Image from "next/image";
 import ContactIcons from "@/components/ContactIcon";
 import MoreAritcles from "@/components/homepage/MoreArticles";
+import OtherVideos from "@/components/homepage/OtherVideos";
 const cloudinaryLoader = ({ src, width, quality }: { src: string; width: number; quality?: number }) => {
   const params = ['f_auto', 'c_limit', 'w_' + width, 'q_' + (quality || 75)];
   return `https://res.cloudinary.com/dbwhznb11/image/upload/${params.join(',')}/${src}`;
@@ -82,6 +83,18 @@ export default function Home() {
           quality={80}
         />
       </div>
+
+      <Service
+        title={homepageData?.Services_title || ""}
+        services={
+          homepageData?.services_content?.map((card) => ({
+            title: card.Title || "",
+            description: card.Description || "",
+            image: card.Image?.provider_metadata.public_id || "",
+          })) || []
+        }
+      />
+
       <WhyChoosing
         title={homepageData?.Why_choosing_title || ""}
         description={homepageData?.Why_choosing_description || ""}
@@ -127,17 +140,6 @@ export default function Home() {
         }
       /> */}
 
-      {/* <Service
-        title={homepageData?.Services_title || ""}
-        services={
-          homepageData?.services_content?.map((card) => ({
-            title: card.Title || "",
-            description: card.Description || "",
-            image: card.Image?.provider_metadata.public_id || "",
-          })) || []
-        }
-      /> */}
-
       <Address
         title={homepageData?.Location_title || ""}
         description={homepageData?.Location_description || ""}
@@ -161,6 +163,14 @@ export default function Home() {
       />
       <MoreAritcles/>
       <ContactIcons />
+      <OtherVideos
+        videos={
+          homepageData?.Review?.map((video) => ({
+            videoId: video.view_url,
+            title: video.Title,
+          })) || []
+        }
+      />
       <Script
         id="homepage-json-ld"
         type="application/ld+json"

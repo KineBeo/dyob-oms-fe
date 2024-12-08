@@ -1,31 +1,28 @@
-'use client'
-
+'use client';
 import { useEffect, useState } from "react";
 import { CardTitle, CardContent } from "@/components/ui/card";
-import { Card, CardHeader, Button } from "@nextui-org/react";
-import { ChevronLeft, ChevronRight, LogOut, Settings, User, LayoutDashboard, Users, ShoppingCart, FileText, Menu } from "lucide-react";
+import { Card, CardHeader } from "@nextui-org/react";
+import { LogOut, Settings, LayoutDashboard, Users, ShoppingCart, FileText, Menu, PackageOpen, } from "lucide-react";
 import UserManagement from "@/components/admin-dashboard/UserManagement";
 import OrderManagement from "@/components/admin-dashboard/OrderManagement";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import StatisticsManagement from "@/components/admin-dashboard/StatisticsManagement";
-import { orderService } from "@/utils/order/orderApi";
-import { userService } from "@/utils/user/userApi";
 import Overview from "@/components/admin-dashboard/Overview";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
+import ProductsManagement from "@/components/admin-dashboard/ProductsManagement";
 
 const DashboardLayout = () => {
     const [activeTab, setActiveTab] = useState('welcome');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const user = useSelector((state: RootState) => state.auth.user);
     const router = useRouter();
+
     useEffect(() => {
         if (!user) {
-            // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
             router.push('/404');
         } else if (user.role !== 'ADMIN') {
-            // Nếu người dùng không phải là admin, chuyển hướng đến trang 404
             router.push('/404');
         }
     }, [user, router]);
@@ -33,26 +30,26 @@ const DashboardLayout = () => {
     if (!user || user.role !== 'ADMIN') {
         return <Loading />;
     }
+
     const menuItems = [
         { id: 'dashboard', icon: <LayoutDashboard size={20} />, label: 'Trang chủ' },
-        { id: 'users', icon: <Users size={20} />, label: 'Quản lý users' },
+        { id: 'users', icon: <Users size={20} />, label: 'Quản lý người dùng' },
+        { id: 'products', icon: <PackageOpen size={20} />, label: 'Quản lý sản phẩm' },
         { id: 'orders', icon: <ShoppingCart size={20} />, label: 'Đơn hàng' },
         { id: 'reports', icon: <FileText size={20} />, label: 'Thống kê' },
         { id: 'settings', icon: <Settings size={20} />, label: 'Cài đặt' },
     ];
-
-
 
     const renderContent = () => {
         switch (activeTab) {
             case 'welcome':
                 return (
                     <div className="space-y-6 text-center">
-                        <h1 className="font-bold text-4xl text-gray-800">Chào mừng đến với Dashboard</h1>
+                        <h1 className="font-bold text-4xl text-gray-800">Chào mừng đến với bảng điều khiển</h1>
                         <p className="text-gray-600 text-xl">Vui lòng chọn một mục từ menu để xem thông tin chi tiết</p>
                         <Card className="mx-auto max-w-sm">
-                            <CardHeader>
-                                <CardTitle>Thông tin người dùng</CardTitle>
+                            <CardHeader className="justify-center items-center">
+                                <CardTitle className="">Thông tin người dùng</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-gray-700">
@@ -63,11 +60,11 @@ const DashboardLayout = () => {
                     </div>
                 );
             case 'dashboard':
-                return (
-                    <Overview />
-                );
+                return <Overview />;
             case 'orders':
                 return <OrderManagement />;
+            case 'products':
+                return <ProductsManagement />;
             case 'users':
                 return <UserManagement />;
             case 'reports':
@@ -90,15 +87,21 @@ const DashboardLayout = () => {
         <div className="flex bg-gray-100 min-h-screen">
             {/* Sidebar */}
             <aside className={`bg-[#f7efe4] shadow-lg transition-all duration-300 
-                ${isSidebarOpen ? 'w-64' : 'w-0 md:w-16'} overflow-hidden`}>
+                ${isSidebarOpen ? 'w-64' : 'w-0 md:w-16'} overflow-hidden relative`}>
+                {/* Sidebar Toggle Button at the Top */}
+                <div className="top-2 right-2 z-10 absolute">
+                    <button
+                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                        className="hover:bg-gray-100 p-2 rounded-lg transition-colors"
+                        title={isSidebarOpen ? "Thu gọn menu" : "Mở rộng menu"}
+                    >
+                        <Menu size={24} />
+                    </button>
+                </div>
+
                 {/* User Profile Section */}
                 <div className={`p-6 border-b ${!isSidebarOpen && 'md:p-4'}`}>
                     <div className="flex items-center space-x-4">
-                        {/* <img
-                            src={user.avatar}
-                            alt="User avatar"
-                            className="rounded-full w-10 h-10 shrink-0"
-                        /> */}
                         <div className={`transition-opacity duration-300 ${!isSidebarOpen && 'md:hidden'}`}>
                             <h3 className="font-medium text-gray-900">{user?.fullname}</h3>
                             <p className="text-gray-500 text-sm">{user?.role}</p>
@@ -115,7 +118,7 @@ const DashboardLayout = () => {
                                     onClick={() => setActiveTab(item.id)}
                                     className={`flex items-center w-full p-2 rounded-lg transition-colors
                                         ${activeTab === item.id
-                                            ? 'bg-gray-200 text-gray-900'
+                                            ? 'bg-[#dc2626] text-gray-100'
                                             : 'text-gray-700 hover:bg-gray-100'
                                         }`}
                                     title={!isSidebarOpen ? item.label : ''}
@@ -143,15 +146,8 @@ const DashboardLayout = () => {
 
             {/* Main Content */}
             <main className="flex-1">
-                {/* Header with toggle button */}
+                {/* Header */}
                 <div className="bg-white shadow-sm p-4 border-b">
-                    <button
-                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="hover:bg-gray-100 p-2 rounded-lg transition-colors"
-                        title={isSidebarOpen ? "Thu gọn menu" : "Mở rộng menu"}
-                    >
-                        <Menu size={24} />
-                    </button>
                     <h1 className="inline-block ml-4 font-semibold text-gray-800 text-xl">
                         {menuItems.find(item => item.id === activeTab)?.label || 'Dashboard'}
                     </h1>

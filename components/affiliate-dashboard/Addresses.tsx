@@ -80,7 +80,7 @@ const Addresses = () => {
     }
 
     return (
-        <div className="bg-white rounded-lg shadow-sm">
+        <div className="bg-white rounded-lg shadow-none border border-gray-300">
             <div className="p-4 border-b flex justify-between items-center">
                 <h3 className="text-lg font-semibold">Địa chỉ của tôi</h3>
                 <Button
@@ -126,14 +126,14 @@ const Addresses = () => {
                                         >
                                             <PencilIcon className="h-4 w-4" />
                                         </Button>
-                                        <Button
+                                        {/* <Button
                                             variant="flat"
                                             size="sm"
                                             className="text-red-600 hover:text-red-700"
                                             onClick={() => handleDeleteAddress(address.id)}
                                         >
                                             <Trash2Icon className="h-4 w-4" />
-                                        </Button>
+                                        </Button> */}
                                     </div>
                                 </div>
                             </div>

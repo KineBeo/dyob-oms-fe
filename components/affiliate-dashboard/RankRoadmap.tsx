@@ -5,14 +5,7 @@ import {
   Chip, 
   Tooltip 
 } from "@nextui-org/react";
-import { 
-  Users, 
-  Star, 
-  TrendingUp, 
-  ShieldCheck, 
-  Zap, 
-  Crown 
-} from 'lucide-react';
+import { Users, Star } from 'lucide-react';
 
 export enum UserRank {
   GUEST = 'GUEST',
@@ -75,7 +68,8 @@ const RankRoadmap: React.FC<RankRoadmapProps> = ({ currentRank }) => {
     const currentRankPriority = RANK_PRIORITY[currentRank];
 
   return (
-    <Card className="p-2 mobile:p-4 tablet:p-6 bg-white shadow-lg">
+    <Card className="p-2 mobile:p-4 tablet:p-6 shadow-none bg-white border border-gray-300">
+      <h3 className="mb-4 font-semibold text-lg">Các trạng thái</h3>
       <div className="flex flex-col mobile:flex-col tablet:flex-row mini-laptop:flex-row laptop:flex-row desktop:flex-row 
         items-center justify-between 
         mobile:space-y-4 tablet:space-y-0 tablet:space-x-2 

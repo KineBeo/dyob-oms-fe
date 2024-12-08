@@ -31,6 +31,18 @@ const Overview = () => {
         fetchData();
     }, []);
 
+    const formatNumberWithDots = (number: string): string => {
+        // Convert the number to a string and split into integer and decimal parts
+        const parts = number.toString().split('.');
+
+        // Format the integer part with dots
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+        // Join back the parts (in case there were decimal places)
+        return parts.join(',');
+    };
+
+
     return (
         <div className="space-y-6">
             <h2 className="font-bold text-2xl text-gray-800">Tổng quan hệ thống</h2>
@@ -50,7 +62,7 @@ const Overview = () => {
                 <Card>
                     <CardContent className="p-6">
                         <h3 className="font-medium text-gray-700">Doanh thu</h3>
-                        <p className="font-bold text-2xl text-purple-600">{overviewData.find(data => data.label === 'Doanh số')?.value} VNĐ</p>
+                        <p className="font-bold text-2xl text-purple-600">{formatNumberWithDots((overviewData.find(data => data.label === 'Doanh số')?.value || 0).toString())} VNĐ</p>
                     </CardContent>
                 </Card>
             </div>

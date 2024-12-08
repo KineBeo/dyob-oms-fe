@@ -8,8 +8,6 @@ import * as strapi from "@/utils/globalApi";
 import Loading from "../Loading";
 import { useRouter } from "next/navigation";
 import { type CarouselApi } from "../ui/carousel";
-import { CldImage } from "next-cloudinary";
-import { Skeleton } from "@nextui-org/react";
 import LoadingImage from "../LoadingImage";
 interface ArticlesProps {
   homepageLoaded: boolean;

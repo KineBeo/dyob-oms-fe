@@ -29,6 +29,7 @@ import {
 import {
   ColumnDef,
   ColumnFiltersState,
+  Row,
   SortingState,
   flexRender,
   getCoreRowModel,
@@ -121,9 +122,38 @@ const OrderManagement = () => {
     }
   };
 
+  const normalizeOrderId = (input: string | undefined | null): string => {
+    // Coerce to string and trim
+    const trimmedInput = String(input || '').trim();
+    
+    // If empty after trimming, return empty string
+    if (!trimmedInput) return '';
+
+    // Convert to lowercase and remove any # prefix
+    const normalized = trimmedInput.toLowerCase().replace(/^#/, '');
+
+    // Return with # prefix if it's a pure number
+    return normalized.match(/^\d+$/) ? `#${normalized}` : normalized;
+};
+
+// Custom filter function for order IDs
+const filterOrderId = (row: Row<Order>, columnId: string, value: string): boolean => {
+    // If no filter value, show all rows
+    if (!value) return true;
+
+    // Normalize both the filter value and the row's ID
+    const normalizedValue = normalizeOrderId(value);
+    const normalizedId = normalizeOrderId(row.getValue(columnId));
+
+    // Compare normalized values
+    return normalizedId === normalizedValue;
+};
+
+
   const columns = useMemo<ColumnDef<Order>[]>(() => [
     {
       accessorKey: 'id',
+      filterFn: filterOrderId,
       header: 'Mã đơn hàng',
       cell: ({ row }) => <span>#{row.getValue('id')}</span>,
     },
@@ -215,11 +245,15 @@ const OrderManagement = () => {
           {/* Filters */}
           <div className="flex gap-4 mb-4">
             <Input
-              placeholder="Tìm theo mã đơn hàng..."
-              value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
-              onChange={(event) =>
-                table.getColumn('id')?.setFilterValue(event.target.value)
+              placeholder="Nhập mã đơn hàng (VD: #1)"
+              value={
+                // Ensure a string is always passed, even if undefined
+                table.getColumn('id')?.getFilterValue() as string || ''
               }
+              onChange={(event) => {
+                // Set filter value directly from input
+                table.getColumn('id')?.setFilterValue(event.target.value);
+              }}
               className="max-w-xs"
             />
             <Input

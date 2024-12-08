@@ -62,7 +62,7 @@ const UserManagement = () => {
   const handleUpdateUser = async () => {
     if (!selectedUser) return;
     try {
-      await userService.update(selectedUser.id, formData as UpdateUserDto);
+      await userService.adminUpdate(selectedUser.id, formData as UpdateUserDto);
       setIsUpdateModalOpen(false);
       setSelectedUser(null);
       setFormData({ fullname: '', phone_number: '', password_hash: '' });
@@ -125,7 +125,7 @@ const UserManagement = () => {
     <div className="bg-white shadow p-6 rounded-lg w-full">
       {/* Header with New Customer button and Search */}
       <div className="flex justify-between items-center mb-6">
-        <Button 
+        <Button
           onClick={() => setIsCreateModalOpen(true)}
           className="bg-red-500 hover:bg-red-600"
         >
@@ -141,8 +141,8 @@ const UserManagement = () => {
             onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
             className="pl-10"
           />
-          <Search 
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+          <Search
+            className="top-1/2 left-3 absolute w-4 h-4 text-gray-400 -translate-y-1/2"
             onClick={handleSearch}
           />
         </div>
@@ -173,8 +173,8 @@ const UserManagement = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={5} className="text-center p-4">
-                  <Loader2 className="w-6 h-6 animate-spin mx-auto" />
+                <td colSpan={5} className="p-4 text-center">
+                  <Loader2 className="mx-auto w-6 h-6 animate-spin" />
                 </td>
               </tr>
             ) : (
@@ -188,18 +188,18 @@ const UserManagement = () => {
                   </td>
                   <td className="p-4">
                     <div className="flex justify-end gap-1">
-                      <button 
+                      <button
                         className="hover:bg-gray-100 p-1 rounded"
                         onClick={() => openUpdateModal(user)}
                       >
                         <Pencil size={16} className="text-gray-600" />
                       </button>
-                      <button 
+                      {/* <button
                         className="hover:bg-gray-100 p-1 rounded"
                         onClick={() => handleDeleteUser(user.id)}
                       >
                         <Trash size={16} className="text-red-500" />
-                      </button>
+                      </button> */}
                     </div>
                   </td>
                 </tr>
@@ -236,7 +236,7 @@ const UserManagement = () => {
               <button
                 type="button"
                 onClick={() => setShowCreatePassword(!showCreatePassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="top-1/2 right-3 absolute text-gray-500 hover:text-gray-700 -translate-y-1/2"
               >
                 {showCreatePassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
@@ -278,7 +278,7 @@ const UserManagement = () => {
               <button
                 type="button"
                 onClick={() => setShowUpdatePassword(!showUpdatePassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="top-1/2 right-3 absolute text-gray-500 hover:text-gray-700 -translate-y-1/2"
               >
                 {showUpdatePassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>

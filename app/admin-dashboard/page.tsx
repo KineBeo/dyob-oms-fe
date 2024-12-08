@@ -1,19 +1,17 @@
-'use client'
-
+'use client';
 import { useEffect, useState } from "react";
 import { CardTitle, CardContent } from "@/components/ui/card";
-import { Card, CardHeader, Button } from "@nextui-org/react";
-import { ChevronLeft, ChevronRight, LogOut, Settings, User, LayoutDashboard, Users, ShoppingCart, FileText, Menu } from "lucide-react";
+import { Card, CardHeader } from "@nextui-org/react";
+import { LogOut, Settings, LayoutDashboard, Users, ShoppingCart, FileText, Menu, PackageOpen, } from "lucide-react";
 import UserManagement from "@/components/admin-dashboard/UserManagement";
 import OrderManagement from "@/components/admin-dashboard/OrderManagement";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import StatisticsManagement from "@/components/admin-dashboard/StatisticsManagement";
-import { orderService } from "@/utils/order/orderApi";
-import { userService } from "@/utils/user/userApi";
 import Overview from "@/components/admin-dashboard/Overview";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
+import ProductsManagement from "@/components/admin-dashboard/ProductsManagement";
 
 const DashboardLayout = () => {
     const [activeTab, setActiveTab] = useState('welcome');
@@ -35,7 +33,8 @@ const DashboardLayout = () => {
 
     const menuItems = [
         { id: 'dashboard', icon: <LayoutDashboard size={20} />, label: 'Trang chủ' },
-        { id: 'users', icon: <Users size={20} />, label: 'Quản lý users' },
+        { id: 'users', icon: <Users size={20} />, label: 'Quản lý người dùng' },
+        { id: 'products', icon: <PackageOpen size={20} />, label: 'Quản lý sản phẩm' },
         { id: 'orders', icon: <ShoppingCart size={20} />, label: 'Đơn hàng' },
         { id: 'reports', icon: <FileText size={20} />, label: 'Thống kê' },
         { id: 'settings', icon: <Settings size={20} />, label: 'Cài đặt' },
@@ -46,11 +45,11 @@ const DashboardLayout = () => {
             case 'welcome':
                 return (
                     <div className="space-y-6 text-center">
-                        <h1 className="font-bold text-4xl text-gray-800">Chào mừng đến với Dashboard</h1>
+                        <h1 className="font-bold text-4xl text-gray-800">Chào mừng đến với bảng điều khiển</h1>
                         <p className="text-gray-600 text-xl">Vui lòng chọn một mục từ menu để xem thông tin chi tiết</p>
                         <Card className="mx-auto max-w-sm">
-                            <CardHeader>
-                                <CardTitle>Thông tin người dùng</CardTitle>
+                            <CardHeader className="justify-center items-center">
+                                <CardTitle className="">Thông tin người dùng</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-gray-700">
@@ -64,6 +63,8 @@ const DashboardLayout = () => {
                 return <Overview />;
             case 'orders':
                 return <OrderManagement />;
+            case 'products':
+                return <ProductsManagement />;
             case 'users':
                 return <UserManagement />;
             case 'reports':

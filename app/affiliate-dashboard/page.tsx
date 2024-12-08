@@ -3,19 +3,24 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { userStatusService } from '@/utils/user-status/userStatus';
 import { orderService } from '@/utils/order/orderApi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, MapPin, Package, BarChart2, UserPlus, Badge, Crown, Phone, UserIcon, LayoutDashboard, BookOpen } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Package, BarChart2, UserPlus, Badge, Crown, Phone, UserIcon, LayoutDashboard, BookOpen, UserCircle, PackageOpen } from 'lucide-react';
 import { userAddressService } from '@/utils/user-address/userAddressApi';
 import Addresses from '@/components/affiliate-dashboard/Addresses';
 import Loading from '@/components/Loading';
 import RankRoadmap, { UserRank } from '@/components/affiliate-dashboard/RankRoadmap';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import Referrals from '@/components/affiliate-dashboard/Referrals';
+import Referrals, { UserStatus } from '@/components/affiliate-dashboard/Referrals';
 import OrderCard from '@/components/orders/OrderCard';
 import { Order } from '@/interfaces/order';
+import { userService } from '@/utils/user/userApi';
+import { UpdateUserDto } from '@/interfaces/user';
+import Profile from '@/components/affiliate-dashboard/Profile';
+import { updateUserSuccess } from '@/redux/features/auth/authSlice';
+import ReferralBarChart from '@/components/affiliate-dashboard/ReferralBarChart';
 
 interface Referral {
   id: string;
@@ -24,21 +29,6 @@ interface Referral {
   user_rank: string;
   total_sales: number;
   referrals: Referral[];
-}
-
-interface UserStatus {
-  personal_referral_code: string;
-  user_rank: string;
-  referrer_name: string | null;
-  rank_achievement_date: string;
-  total_orders: number;
-  total_purchase: number;
-  total_sales: number;
-  group_sales: number;
-  group_commission: string;
-  commission: string;
-  referrals: Referral[];
-  user_type: 'NORMAL' | 'AFFILIATE';
 }
 
 interface Address {
@@ -56,6 +46,7 @@ const UserStatusPage = () => {
   const ordersPerPage = 5;
   const router = useRouter();
   const user = useSelector((state: RootState) => state.auth.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,16 +56,11 @@ const UserStatusPage = () => {
         const referrerData = await userStatusService.getReferrerData(user.id);
         statusData.referrals = referrerData;
         const ordersData = await orderService.getOrderByUserID(user.id);
-        // Fetch addresses here using the provided endpoint
-        // const addressesData = await userAddressService.getUserAddresses(user.id);
         const addressData = await userAddressService.getUserAddresses(user.id);
 
-        if (statusData) setUserStatus(statusData);
+        if (statusData) setUserStatus(statusData); // TODO: Cục data
         if (ordersData) setOrders(ordersData);
-        // if (addressesData) setAddresses(addressesData);
         if (addressData) setAddresses(addressData);
-
-        console.log('statusData:', statusData);
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -83,6 +69,23 @@ const UserStatusPage = () => {
 
     fetchData();
   }, [user?.id]);
+
+  const handleUpdateUser = async (updateData: UpdateUserDto) => {
+    try {
+      if (user?.id) {
+        const response = await userService.update(user.id, updateData);
+        if (response) {
+          dispatch(updateUserSuccess({
+            ...user,
+            ...updateData
+          }))
+        }
+      }
+      // Cập nhật lại state user nếu cần
+    } catch (error) {
+      console.error('Error updating user:', error);
+    }
+  };
 
   const totalPages = Math.ceil((orders?.length || 0) / ordersPerPage);
   const indexOfLastOrder = currentPage * ordersPerPage;
@@ -107,7 +110,7 @@ const UserStatusPage = () => {
 
   const Overview = () => (
     <div className="space-y-6">
-      <Card className="shadow-sm border-none">
+      <Card className="border border-gray-300">
         <CardContent className="p-6">
           <div className="flex items-center gap-4 mb-6">
             <div className="flex justify-center items-center bg-primary/10 rounded-full w-16 h-16">
@@ -128,6 +131,10 @@ const UserStatusPage = () => {
                   <Phone className="w-5 h-5" />
                   {user?.phone_number}
                 </div>
+                <div className="flex items-center gap-1">
+                  <PackageOpen className="w-5 h-5"/>
+                  GÓI {userStatus?.user_class}
+                </div>
               </div>
             </div>
           </div>
@@ -136,52 +143,12 @@ const UserStatusPage = () => {
           )}
         </CardContent>
       </Card>
-
-      <Card className="shadow-sm border-none">
-        <CardContent className="gap-4 grid grid-cols-2 desktop:grid-cols-4 laptop:grid-cols-4 mini-laptop:grid-cols-2 p-6">
-
-          <div className="bg-green-50 p-4 rounded-lg">
-            <p className="font-medium text-green-600 text-sm">Đã chi trả</p>
-            <p className="font-bold text-2xl text-green-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
-              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                .format(Number(userStatus.total_purchase))}
-            </p>
-          </div>
-          {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
-            <>
-              <div className="bg-purple-50 p-4 rounded-lg">
-                <p className="font-medium text-purple-600 text-sm">Doanh số giới thiệu</p>
-                <p className="font-bold text-2xl text-purple-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
-                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                    .format(Number(userStatus.total_sales))}
-                </p>
-              </div>
-              <div className="bg-red-50 p-4 rounded-lg">
-                <p className="font-medium text-red-600 text-sm">Tổng doanh số</p>
-                <p className="font-bold text-2xl text-red-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
-                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                    .format(Number(userStatus.group_sales))}
-                </p>
-              </div>
-              <div className="bg-orange-50 p-4 rounded-lg">
-                <p className="font-medium text-orange-600 text-sm">Hoa hồng</p>
-                <p className="font-bold text-2xl text-orange-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
-                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                    .format(Number(userStatus.group_commission))
-                  }
-                </p>
-              </div>
-            </>
-          )}
-        </CardContent>
-      </Card>
       {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
-        <Card className="shadow-sm border-none">
+        <Card className="border border-gray-300">
           <CardContent className="p-6">
-            <h3 className="mb-4 font-semibold text-lg">Thông tin tài khoản</h3>
+            <h3 className="mb-4 font-semibold text-lg">Mã giới thiệu</h3>
             <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-gray-600 text-sm">Mã giới thiệu</p>
+              <div className="bg-gray-50 p-4 rounded-lg border border-gray-300">
                 <p className="font-medium break-all">
                   {`${window.location.origin}/authentication/register?ref=${userStatus?.personal_referral_code}`}
                 </p>
@@ -191,7 +158,7 @@ const UserStatusPage = () => {
                   onClick={() => copyReferralLink(userStatus?.personal_referral_code)}
                   variant="outline"
                   size="sm"
-                  className="w-full"
+                  className="w-full border border-gray-400"
                 >
                   Sao chép liên kết
                 </Button>
@@ -205,27 +172,46 @@ const UserStatusPage = () => {
                   Rút tiền
                 </Button>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-gray-600 text-sm">Cấp bậc</p>
-                <p className="font-medium">{userStatus.user_rank}</p>
-              </div>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-gray-600 text-sm">Người giới thiệu</p>
-                <p className="font-medium">{userStatus.referrer_name || 'Chưa có'}</p>
-              </div>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-gray-600 text-sm">Ngày đạt cấp bậc</p>
-                <p className="font-medium">
-                  {new Date(userStatus.rank_achievement_date).toLocaleDateString('vi-VN')}
-                </p>
-              </div>
             </div>
           </CardContent>
         </Card>
       )}
+      <ReferralBarChart userStatus={userStatus} />
+      <Card className="border border-gray-300">
+        <CardContent className="gap-4 grid grid-cols-2 desktop:grid-cols-4 laptop:grid-cols-4 mini-laptop:grid-cols-2 p-6">
+
+          <div className="bg-green-50 p-4 rounded-lg border border-gray-300">
+            <p className="font-medium text-green-600 text-sm">Cá nhân chi tiêu</p>
+            <p className="font-bold text-2xl text-green-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                .format(Number(userStatus.total_purchase))}
+            </p>
+          </div>
+          {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
+            <>
+              <div className="bg-red-50 p-4 rounded-lg border border-gray-300">
+                <p className="font-medium text-red-600 text-sm">Doanh số tích luỹ</p>
+                <p className="font-bold text-2xl text-red-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                    .format(Number(userStatus.total_sales))}
+                </p>
+              </div>
+              <div className="bg-orange-50 p-4 rounded-lg border border-gray-300">
+                <p className="font-medium text-orange-600 text-sm">Doanh số nhóm</p>
+                <p className="font-bold text-2xl text-orange-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                    .format(Number(userStatus.group_sales))
+                  }
+                </p>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 
+  // * Dịch trạng thái đơn hàng sang tiếng Việt 
   const translateOrderStatus = (status: string) => {
     switch (status) {
       case 'NOT_START_YET':
@@ -242,6 +228,17 @@ const UserStatusPage = () => {
         return status;
     }
   }
+  const formatDate = (date: Date | string | undefined) => {
+    if (!date) return 'N/A';
+    return new Date(date).toLocaleDateString('vi-VN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
 
   const Orders = () => (
     <div className="bg-white shadow-sm rounded-lg">
@@ -251,20 +248,6 @@ const UserStatusPage = () => {
       <div className="divide-y">
         {currentOrders.length > 0 ? (
           currentOrders.map((order) => (
-            // <div key={order.id} className="hover:bg-gray-50 p-4">
-            //   <div className="flex justify-between items-start mb-2">
-            //     <div>
-            //       <p className="font-medium">Đơn hàng #{order.id}</p>
-            //       <p className="text-gray-600 text-sm">
-            //         {new Date(order.createdAt).toLocaleDateString('vi-VN')}
-            //       </p>
-            //     </div>
-            //     <span className="bg-blue-100 px-3 py-1 rounded-full text-blue-800 text-sm">
-            //       {translateOrderStatus(order.status)}
-            //     </span>
-            //   </div>
-            //   <p className="text-gray-600 text-sm">{order.snapshot_full_address}</p>
-            // </div>
             <OrderCard key={order.id} order={order} />
           ))
         ) : (
@@ -304,10 +287,6 @@ const UserStatusPage = () => {
     </div>
   );
 
-  <Addresses />
-
-  ////////////////////////
-
   const Policy = () => (
     <div className="bg-white shadow-sm rounded-lg">
       <div className="p-4 border-b">
@@ -328,6 +307,8 @@ const UserStatusPage = () => {
       </div>
     </div>
   );
+
+
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="mx-auto p-4 md:p-6 lg:p-8 max-w-7xl">
@@ -343,12 +324,30 @@ const UserStatusPage = () => {
               Tổng quan
             </Button>
             <Button
+              variant={activeTab === 'profile' ? 'default' : 'ghost'}
+              className="justify-start w-full"
+              onClick={() => setActiveTab('profile')}
+            >
+              <UserCircle className="mr-2 w-4 h-4" />
+              Thông tin cá nhân
+            </Button>
+            {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
+              <Button
+                variant={activeTab === 'referrals' ? 'default' : 'ghost'}
+                className="justify-start w-full"
+                onClick={() => setActiveTab('referrals')}
+              >
+                <UserPlus className="mr-2 w-4 h-4" />
+                Danh sách hệ thống
+              </Button>
+            )}
+            <Button
               variant={activeTab === 'orders' ? 'default' : 'ghost'}
               className="justify-start w-full"
               onClick={() => setActiveTab('orders')}
             >
               <Package className="mr-2 w-4 h-4" />
-              Đơn hàng
+              Lịch sử mua hàng
             </Button>
             <Button
               variant={activeTab === 'addresses' ? 'default' : 'ghost'}
@@ -366,16 +365,6 @@ const UserStatusPage = () => {
               <BookOpen className="mr-2 w-4 h-4" />
               Chính sách
             </Button>
-            {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
-              <Button
-                variant={activeTab === 'referrals' ? 'default' : 'ghost'}
-                className="justify-start w-full"
-                onClick={() => setActiveTab('referrals')}
-              >
-                <UserPlus className="mr-2 w-4 h-4" />
-                Giới thiệu
-              </Button>
-            )}
             {/* Admin Dashboard Button */}
             {user?.role === "ADMIN" && (
               <Button
@@ -392,9 +381,13 @@ const UserStatusPage = () => {
           {/* Main Content */}
           <div className="flex-1">
             {activeTab === 'overview' && <Overview />}
+            {activeTab === 'profile' && <Profile user={user}
+              userStatus={userStatus}
+              formatDate={formatDate}
+              onUpdateUser={handleUpdateUser} />}
+            {activeTab === 'referrals' && (userStatus?.user_type === 'AFFILIATE' || user?.role == 'ADMIN') && <Referrals userStatus={userStatus} />}
             {activeTab === 'orders' && <Orders />}
             {activeTab === 'addresses' && <Addresses />}
-            {activeTab === 'referrals' && (userStatus?.user_type === 'AFFILIATE' || user?.role == 'ADMIN') && <Referrals userStatus={userStatus} />}
             {activeTab === 'policy' && <Policy />}
           </div>
         </div>

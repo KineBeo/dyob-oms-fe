@@ -54,5 +54,12 @@ export const orderService = {
       throw error;
     }
   },
-  
+
+  async handleSyncProducts () {
+    try {
+      await api.post('/strapi/sync');
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

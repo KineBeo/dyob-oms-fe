@@ -22,6 +22,7 @@ import {
   AccordionItem,
   User,
   Avatar,
+  Tooltip,
 } from "@nextui-org/react";
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -30,7 +31,7 @@ import { logout } from "@/redux/features/auth/authSlice";
 import { RootState } from "@/store/store";
 import { clearCart } from "@/redux/features/cart/cartSlice";
 import { cartService } from "@/utils/cart/cartApi";
-
+import { LogOut, UserIcon } from "lucide-react";
 interface SubLink {
   title: string;
   href: string;
@@ -106,37 +107,48 @@ export default function HeroSection() {
       return (
         <Dropdown>
           <DropdownTrigger>
-            <Button
-              className="bg-[#FBF6EC] font-medium text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444]"
-              isIconOnly={true}
-            >
-              <Avatar
-                className=""
+            <div className="hover:scale-110 transition duration-250">
+              <Tooltip showArrow
                 classNames={{
-                  base: "bg-gradient-to-br from-[#FBF6EC] to-[#D7A444]",
+                  base: [
+                    // arrow color
+                    "before:bg-neutral-400 dark:before:bg-white",
+                  ],
+                  content: ["py-2 px-4 shadow-xl", "text-black"],
                 }}
-                name={user.fullname.split(" ").pop()}
-              />
-            </Button>
+                content={ <div className="">
+                  <div className="text-small font-bold ">Tài khoản của bạn!</div>
+                  <div className="text-tiny">Ấn vào và khám phá với ông bụt</div>
+                </div>}
+                placement="right" 
+               >
+                <Avatar
+                  src="/images/logo-image.png"
+                  size="md"
+                  className="hover:cursor-pointer animate-shake"
+                />
+              </Tooltip>
+            </div>
+
           </DropdownTrigger>
-          <DropdownMenu aria-label="User Actions">
+          <DropdownMenu
+            variant="faded"
+            color="warning"
+            aria-label="User Actions"
+            className="border-2"
+          >
             <DropdownItem
               key="profile"
-              className="font-bold text-text-brown-primary text-xl"
+              startContent={<UserIcon className="text-[#D7A444]" />}
+              className="text-text-brown-primary text-lg font-semibold hover:bg-[#FBF6EC]"
               onClick={() => router.push("/affiliate-dashboard")}
             >
               Tài khoản của tôi
             </DropdownItem>
-            {/* <DropdownItem
-              key="orders"
-              className="font-bold text-text-brown-primary text-xl"
-              onClick={() => router.push("/orders")}
-            >
-              Đơn hàng
-            </DropdownItem> */}
             <DropdownItem
               key="logout"
-              className="font-bold text-red-500 text-xl"
+              startContent={<LogOut className="text-red-500" />}
+              className="text-red-500 text-lg font-semibold hover:bg-red-50"
               onClick={handleLogout}
             >
               Đăng xuất
@@ -153,7 +165,7 @@ export default function HeroSection() {
             onMouseEnter={() => setOpenMenuIndex(menuItems.length)}
             onMouseLeave={() => setOpenMenuIndex(null)}
             isIconOnly={true}
-            startContent={<FaRegUserCircle size={24} />}
+            startContent={<FaRegUserCircle size={32} className="animate-shake"/>}
           />
         </DropdownTrigger>
         <DropdownMenu
@@ -296,7 +308,7 @@ export default function HeroSection() {
           onClick={() => router.push("/")}
           className="hover:cursor-pointer"
         >
-          <div>
+          <div className="hover:scale-110 transition duration-300">
             <Image
               src="/images/logo-image.png"
               alt="Đông Y Ông Bụt Logo"
@@ -304,7 +316,7 @@ export default function HeroSection() {
               height={50}
               priority
               loading="eager"
-              className="w-auto mobile:w-14 h-auto mobile:h-14 hover:scale-110 transition animate-shake"
+              className="w-auto mobile:w-14 h-auto mobile:h-14 animate-shake"
             />
           </div>
           <div className="ml-2">

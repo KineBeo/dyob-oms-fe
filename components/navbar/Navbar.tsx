@@ -181,60 +181,57 @@ export default function HeroSection() {
     if (isAuthenticated && user) {
       return (
         <NavbarMenuItem>
-          <Accordion isCompact className="px-0">
-            <AccordionItem
-              key="auth"
-              aria-label="Authentication"
-              title={
-                <span className="w-fit font-medium text-text-brown-primary">
-                  <div className="flex items-center gap-2">{user.fullname}</div>
-                  <Divider className="bg-[#D7A444]" />
-                </span>
-              }
-            >
-              <div className="flex flex-col gap-2 ml-4">
-                <div className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer">
-                  <Link
-                    color="foreground"
-                    className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
-                    size="md"
-                    onClick={() => {
-                      setIsOpen(false);
-                      router.push("/affiliate-dashboard");
-                    }}
-                  >
-                    <div className="w-full">Tài khoản của tôi</div>
-                  </Link>
-                </div>
-                <div className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer">
-                  <Link
-                    color="foreground"
-                    className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
-                    size="md"
-                    onClick={() => {
-                      setIsOpen(false);
-                      router.push("/orders");
-                    }}
-                  >
-                    <div className="w-full">Đơn hàng</div>
-                  </Link>
-                </div>
-                <div className="w-full text-red-500 hover:text-red-600 cursor-pointer">
-                  <Link
-                    color="foreground"
-                    className="w-full font-medium mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
-                    size="md"
-                    onClick={() => {
-                      setIsOpen(false);
-                      handleLogout();
-                    }}
-                  >
-                    <div className="w-full">Đăng xuất</div>
-                  </Link>
-                </div>
+          <div>
+            <span className="w-fit font-medium text-text-brown-primary">
+              <div className="flex items-center gap-2 font-semibold text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] ">
+                {user.fullname}
               </div>
-            </AccordionItem>
-          </Accordion>
+              <Divider className="bg-[#D7A444]" />
+            </span>
+            <div className="flex flex-col gap-2 ml-4">
+              <div className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer">
+                <Link
+                  color="foreground"
+                  className="w-full font-medium text-text-brown-primary mobile:text-md tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                  size="md"
+                  onClick={() => {
+                    setIsOpen(false);
+                    router.push("/affiliate-dashboard");
+                  }}
+                >
+                  <div className="w-full font-medium text-text-brown-primary">
+                    Tài khoản của tôi
+                  </div>
+                </Link>
+              </div>
+              <div className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer">
+                <Link
+                  color="foreground"
+                  className="w-full font-medium text-text-brown-primary mobile:text-md tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                  size="md"
+                  onClick={() => {
+                    setIsOpen(false);
+                    router.push("/orders");
+                  }}
+                >
+                  <div className="w-full">Đơn hàng</div>
+                </Link>
+              </div>
+              <div className="w-full text-red-500 hover:text-red-600 cursor-pointer">
+                <Link
+                  color="foreground"
+                  className="w-full font-medium mobile:text-md tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                  size="md"
+                  onClick={() => {
+                    setIsOpen(false);
+                    handleLogout();
+                  }}
+                >
+                  <div className="w-full">Đăng xuất</div>
+                </Link>
+              </div>
+            </div>
+          </div>
         </NavbarMenuItem>
       );
     }
@@ -256,7 +253,7 @@ export default function HeroSection() {
               <div className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer">
                 <Link
                   color="foreground"
-                  className="w-full font-medium text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                  className="w-full font-medium text-text-brown-primary mobile:text-md tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
                   size="md"
                   onClick={() => {
                     setIsOpen(false);
@@ -269,7 +266,7 @@ export default function HeroSection() {
               <div className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer">
                 <Link
                   color="foreground"
-                  className="w-full font-semibold text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
+                  className="w-full font-semibold text-text-brown-primary mobile:text-md tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg"
                   size="md"
                   onClick={() => {
                     setIsOpen(false);
@@ -307,14 +304,14 @@ export default function HeroSection() {
               height={50}
               priority
               loading="eager"
-              className="w-auto mobile:w-14 h-auto mobile:h-14 hover:scale-110 transition"
+              className="w-auto mobile:w-14 h-auto mobile:h-14 hover:scale-110 transition animate-shake"
             />
           </div>
           <div className="ml-2">
-            <div className="font-semibold text-text-brown-primary mobile:text-md tablet:text-lg mini-laptop:text-lg laptop:text-xl desktop:text-xl">
+            <div className="font-bold text-text-brown-primary mobile:text-lg tablet:text-lg mini-laptop:text-lg laptop:text-2xl desktop:text-2xl">
               Đông Y Ông Bụt
             </div>
-            <div className="text-text-brown-primary mobile:text-sm tablet:text-md mini-laptop:text-md laptop:text-lg desktop:text-lg">
+            <div className="font-medium text-text-brown-primary mobile:text-md tablet:text-md mini-laptop:text-md laptop:text-xl desktop:text-xl">
               Quán tâm an bệnh
             </div>
           </div>
@@ -399,48 +396,41 @@ export default function HeroSection() {
         {menuItems.map((item, index) =>
           item.hasSubmenu ? (
             <NavbarMenuItem key={`${item.title}-${index}`}>
-              <Accordion isCompact className="px-0">
-                <AccordionItem
-                  key={item.title}
-                  aria-label={item.title}
-                  title={
-                    <span className="w-fit font-medium text-text-brown-primary">
-                      {item.title}
-                      <Divider className="bg-[#D7A444]" />
-                    </span>
-                  }
-                >
-                  <div className="flex flex-col gap-2 ml-4">
-                    {item.submenu?.map((subItem, subIndex) => (
-                      <div
-                        key={`${subItem.title}-${subIndex}`}
-                        className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
+              <div>
+                <div className="w-full font-medium text-text-brown-primary">
+                  {item.title}
+                  <Divider className="bg-[#D7A444] w-full" />
+                </div>
+                <div className="flex flex-col gap-2 ml-4">
+                  {item.submenu?.map((subItem, subIndex) => (
+                    <div
+                      key={`${subItem.title}-${subIndex}`}
+                      className="w-full text-text-brown-primary hover:text-[#D7A444] cursor-pointer"
+                    >
+                      <Link
+                        color="foreground"
+                        className="w-full font-medium text-text-brown-primary"
+                        size="md"
+                        onClick={() => {
+                          setIsOpen(false);
+                          if (subItem.href) {
+                            router.push(subItem.href);
+                          }
+                        }}
                       >
-                        <Link
-                          color="foreground"
-                          className="w-full font-medium text-text-brown-primary"
-                          size="md"
-                          onClick={() => {
-                            setIsOpen(false);
-                            if (subItem.href) {
-                              router.push(subItem.href);
-                            }
-                          }}
-                        >
-                          <div className="w-full">{subItem.title}</div>
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                </AccordionItem>
-              </Accordion>
+                        <div className="w-full">{subItem.title}</div>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </NavbarMenuItem>
           ) : (
             <NavbarMenuItem key={`${item.title}-${index}`}>
               <Link
                 color="foreground"
-                className="w-full font-medium text-text-brown-primary"
-                size="md"
+                className="w-full font-semibold text-text-brown-primary"
+                size="lg"
                 onClick={() => {
                   setIsOpen(false);
                   if (item.href) {

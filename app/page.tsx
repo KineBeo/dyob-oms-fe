@@ -12,6 +12,8 @@ import Articles from "@/components/homepage/Articles";
 import Loading from "@/components/Loading";
 import Script from 'next/script';
 import Image from "next/image";
+import ContactIcons from "@/components/ContactIcon";
+import MoreAritcles from "@/components/homepage/MoreArticles";
 import OtherVideos from "@/components/homepage/OtherVideos";
 const cloudinaryLoader = ({ src, width, quality }: { src: string; width: number; quality?: number }) => {
   const params = ['f_auto', 'c_limit', 'w_' + width, 'q_' + (quality || 75)];
@@ -108,7 +110,6 @@ export default function Home() {
 
       {!isLoading && <Articles homepageLoaded={true} />}
 
-
       <OurMembers
         title={homepageData?.Employee_introduction_title || ""}
         teamMembers={
@@ -160,7 +161,8 @@ export default function Home() {
           })) || []
         }
       />
-
+      <MoreAritcles/>
+      <ContactIcons />
       <OtherVideos
         videos={
           homepageData?.Review?.map((video) => ({

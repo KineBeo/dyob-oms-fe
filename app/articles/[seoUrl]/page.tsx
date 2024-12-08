@@ -8,6 +8,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { RxAvatar } from "react-icons/rx";
 import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/navigation";
+import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 
 
 
@@ -55,20 +56,30 @@ export default function Article() {
           Câu chuyện khách hàng{" "}
         </p>
       </div>
+      <Breadcrumbs className="pl-24 pt-4">
+        <BreadcrumbItem className="font-medium">Trang chủ</BreadcrumbItem>
+        <BreadcrumbItem className="text-[#D7A444] font-bold">
+          Thông tin - sự kiện
+        </BreadcrumbItem>
+      </Breadcrumbs>
       <div className="items-center justify-center flex">
         <div className=" mobile:flex mobile:flex-col tablet:flex tablet:flex-col items-center justify-center">
           <div className="mx-auto max-w-none prose col-span-4">
-            <div className="
+            <div
+              className="
           mini-laptop:flex 
           mini-laptop:flex-row
           laptop:flex 
           laptop:flex-row
           desktop:flex 
-          desktop:flex-row">
+          desktop:flex-row"
+            >
               <div>
                 <div className=" justify-start items-start flex">
                   <div className="px-4 pt-8">
-                    <p className="text-2xl font-bold text-[#3F291B] ">{article.name}</p>
+                    <p className="text-2xl font-bold text-[#3F291B] ">
+                      {article.name}
+                    </p>
                     <div className="flex flex-row py-1 px-4 rounded-4xl  bg-slate-200 ">
                       <FaCalendarAlt className="mt-1 text-[#D7A444]" />
                       <p className="px-4 ">{formattedDate}</p>
@@ -114,15 +125,21 @@ export default function Article() {
                 </article>
               </div>
               <div className="">
-                <p className="font-bold text-[#3F291B] text-2xl py-6 px-4
+                <p
+                  className="font-bold text-[#3F291B] text-2xl py-6 px-4
           mobile:text-center
-          tablet:text-center">
+          tablet:text-center"
+                >
                   Tin liên quan
                 </p>
                 <div className="mobile:grid mobile:grid-cols-2 mobile:gap-4 tablet:grid tablet:grid-cols-2">
                   {otherArticelList?.map((article) => (
                     <div key={article.id} className="">
-                      {OtherArticles(article.image.url, article.name, article.seoUrl)}
+                      {OtherArticles(
+                        article.image.url,
+                        article.name,
+                        article.seoUrl
+                      )}
                     </div>
                   ))}
                 </div>

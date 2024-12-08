@@ -9,6 +9,20 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        shake: {
+         '0%, 100%': { transform: 'rotate(0deg)' },
+          '10%': { transform: 'rotate(-10deg)' },
+          '20%': { transform: 'rotate(10deg)' },
+          '30%': { transform: 'rotate(-10deg)' },
+          '40%': { transform: 'rotate(10deg)' },
+          '50%': { transform: 'rotate(0deg)' },
+        }
+      },
+      animation: {
+        shake: 'shake 1.5s ease-in-out infinite'
+      }
+    ,
       colors: {
         "text-brown-primary": "#3C2415",
         "navbar-background": "#FBF6EC",

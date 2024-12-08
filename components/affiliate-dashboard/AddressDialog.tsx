@@ -119,7 +119,8 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
       className="
         w-full 
         max-w-[95%] 
-        mobile:max-w-[95%] 
+        mobile:max-w-[90%] 
+        mobile:rounded-lg
         tablet:max-w-[90%] 
         mini-laptop:max-w-[80%] 
         laptop:max-w-[70%] 
@@ -147,7 +148,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
         {/* Responsive input sections */}
         <div className="grid grid-cols-1 mobile:grid-cols-1 tablet:grid-cols-2 gap-3 mobile:gap-2 tablet:gap-3 laptop:gap-4">
           <div className="space-y-2">
-            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Họ và tên người nhận hàng</label>
+            <label className="text-sm  tablet:text-sm laptop:text-sm font-medium">Họ và tên người nhận hàng</label>
             <Input
               required
               className="w-full"
@@ -157,7 +158,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
           </div>
           
           <div className="space-y-2">
-            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Số điện thoại</label>
+            <label className="text-sm tablet:text-sm laptop:text-sm font-medium">Số điện thoại</label>
             <Input
               required
               className="w-full"
@@ -169,7 +170,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
 
         <div className="grid grid-cols-1 mobile:grid-cols-1 tablet:grid-cols-2 gap-3 mobile:gap-2 tablet:gap-3 laptop:gap-4">
           <div className="space-y-2">
-            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Tỉnh/Thành phố</label>
+            <label className="text-sm tablet:text-sm laptop:text-sm font-medium">Tỉnh/Thành phố</label>
             <Select 
               value={selectedProvince?.code || ''}
               onValueChange={(value) => {
@@ -196,7 +197,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Quận/Huyện</label>
+            <label className="text-sm tablet:text-sm laptop:text-sm font-medium">Quận/Huyện</label>
             <Select
               value={selectedDistrict?.code || ''}
               onValueChange={(value) => {
@@ -226,7 +227,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
 
         <div className="grid grid-cols-1 mobile:grid-cols-1 tablet:grid-cols-2 gap-3 mobile:gap-2 tablet:gap-3 laptop:gap-4">
           <div className="space-y-2">
-            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Phường/Xã</label>
+            <label className="text-sm tablet:text-sm laptop:text-sm font-medium">Phường/Xã</label>
             <Select
               value={formData.ward}
               onValueChange={(value) => {
@@ -248,7 +249,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Địa chỉ cụ thể</label>
+            <label className="text-sm tablet:text-sm laptop:text-sm font-medium">Địa chỉ cụ thể</label>
             <Input
               required
               className="w-full"
@@ -259,7 +260,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">Ghi chú</label>
+          <label className="text-sm tablet:text-sm laptop:text-sm font-medium">Ghi chú</label>
           <Input
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
@@ -274,7 +275,7 @@ const AddressDialog = ({ isOpen, onClose, onSubmit, initialData = {} }: AddressD
             onChange={(e) => setFormData({ ...formData, is_default: e.target.checked })}
             className="h-4 w-4 rounded border-gray-300"
           />
-          <label htmlFor="isDefault" className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm font-medium">
+          <label htmlFor="isDefault" className="text-sm tablet:text-sm laptop:text-sm font-medium">
             Đặt làm địa chỉ mặc định
           </label>
         </div>

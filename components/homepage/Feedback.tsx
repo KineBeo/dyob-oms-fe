@@ -8,6 +8,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { Card, CardBody, Image } from '@nextui-org/react';
+import Autoplay from 'embla-carousel-autoplay';
 
 interface VideosProps {
   title: string;
@@ -111,6 +112,12 @@ const CustomerFeedback: React.FC<CustomerFeedbackProps> = ({ videos }) => {
       </h1>
       <div className="bg-[#D7A444] mx-auto mb-8 w-24 h-1"></div>
       <Carousel
+        plugins={[
+          Autoplay({
+            delay: 4000,
+          }),
+        ]}
+
         opts={{
           align: "center",
           loop: true,
@@ -121,7 +128,7 @@ const CustomerFeedback: React.FC<CustomerFeedbackProps> = ({ videos }) => {
           {videos.map((video, index) => (
             <CarouselItem
               key={index}
-              className="mobile:basis-full tablet:basis-full my-2 basis-1/2"
+              className="mobile:basis-full tablet:basis-full basis-1/2 my-2"
             >
               <SideVideos
                 title={video.title}

@@ -131,7 +131,7 @@ const DashboardLayout = () => {
                                 </button>
                             </li>
                         ))}
-                        <li>
+                        {/* <li>
                             <button className="flex items-center hover:bg-gray-100 p-2 rounded-lg w-full text-gray-700">
                                 <LogOut className="shrink-0" />
                                 <span className={`ml-3 transition-opacity duration-300 
@@ -139,7 +139,7 @@ const DashboardLayout = () => {
                                     Đăng xuất
                                 </span>
                             </button>
-                        </li>
+                        </li> */}
                     </ul>
                 </nav>
             </aside>

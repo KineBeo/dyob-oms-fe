@@ -201,7 +201,7 @@ const DashboardLayout = () => {
 
 export default DashboardLayout;
 
-export const Logo = ({ name }: { name: string }) => {
+const Logo = ({ name }: { name: string }) => {
     return (
         <Link
             href="#"
@@ -225,7 +225,7 @@ export const Logo = ({ name }: { name: string }) => {
         </Link>
     );
 };
-export const LogoIcon = () => {
+const LogoIcon = () => {
     return (
         <Link
             href="#"

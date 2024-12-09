@@ -136,8 +136,9 @@ const DashboardLayout = () => {
     return (
         <div className={cn(
             "rounded-md flex flex-col md:flex-row bg-gray-100 w-full flex-1 mx-auto border border-neutral-200 overflow-hidden",
-            "h-screen" // for your use case, use `h-screen` instead of `h-[60vh]`
+            "h-full" // for your use case, use `h-screen` instead of `h-[60vh]`
         )}>
+            <div>
             <Sidebar open={isSidebarOpen} setOpen={setIsSidebarOpen}>
                 <SidebarBody className="justify-between gap-10 border border-gray-300">
                     <div className="flex flex-col flex-1">
@@ -179,6 +180,8 @@ const DashboardLayout = () => {
                     />
                 </SidebarBody>
             </Sidebar>
+            </div>
+            
 
             {/* Main Content */}
             <main className="flex-1">

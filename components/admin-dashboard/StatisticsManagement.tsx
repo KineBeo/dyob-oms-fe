@@ -62,22 +62,22 @@ React.useEffect(() => {
             threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
             // Nhóm và tính tổng theo ngày cho orders
-            const dailyTotals = orders.reduce((acc: Record<string, { date: string; revenue: number; newUser: number }>, order: { createdAt: string; total_amount: string }) => {
-                const orderDate = new Date(order.createdAt);
-                if (orderDate >= threeMonthsAgo) {
-                    const dateKey = orderDate.toISOString().split('T')[0];
-                    const amount = parseFloat(order.total_amount);
-                    
-                    if (!acc[dateKey]) {
-                        acc[dateKey] = {
-                            date: dateKey,
-                            revenue: 0,
-                            newUser: 0,
-                        };
-                    }
-                    acc[dateKey].revenue += amount;
+            const dailyTotals = orders.reduce((acc: Record<string, { date: string; revenue: number; newUser: number }>, order: { createdAt: string; total_amount: string; status: string }) => {
+              const orderDate = new Date(order.createdAt);
+              if (orderDate >= threeMonthsAgo && order.status === "COMPLETED") {
+                const dateKey = orderDate.toISOString().split('T')[0];
+                const amount = parseFloat(order.total_amount);
+                
+                if (!acc[dateKey]) {
+                  acc[dateKey] = {
+                    date: dateKey,
+                    revenue: 0,
+                    newUser: 0,
+                  };
                 }
-                return acc;
+                acc[dateKey].revenue += amount;
+              }
+              return acc;
             }, {});
 
             // Nhóm và tính tổng theo ngày cho users

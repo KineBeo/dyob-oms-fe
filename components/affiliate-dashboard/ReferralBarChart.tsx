@@ -1,14 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Referral, UserStatus } from './Referrals';
+import { Select, SelectItem } from '@nextui-org/react';
 
 const ReferralBarChart =  ({ userStatus }: { userStatus: UserStatus }) => {
+  const [timeRange, setTimeRange] = useState(3); // Default to 3 months
+
   const processedData = useMemo(() => {
-    // Create a map to store referrals by date
     const referralsByDate = new Map();
     
-    // Function to process referrals recursively
     const processReferrals = (referrals: Referral[]) => {
       referrals.forEach((referral: Referral) => {
         const date = new Date(referral.createdAt).toISOString().split('T')[0];
@@ -24,12 +25,10 @@ const ReferralBarChart =  ({ userStatus }: { userStatus: UserStatus }) => {
       processReferrals(userStatus.referrals);
     }
 
-    // Get date range for last 3 months
     const endDate = new Date();
     const startDate = new Date();
-    startDate.setMonth(endDate.getMonth() - 1);
+    startDate.setMonth(endDate.getMonth() - timeRange);
 
-    // Create array of all dates in range
     const chartData = [];
     const currentDate = new Date(startDate);
     
@@ -43,27 +42,50 @@ const ReferralBarChart =  ({ userStatus }: { userStatus: UserStatus }) => {
     }
 
     return chartData;
-  }, [userStatus]);
+  }, [userStatus, timeRange]);
+
+  const datesOfChart = [
+    {key: 1, value: '1 tháng'},
+    {key: 2, value: '2 tháng'},
+    {key: 3, value: '3 tháng'},
+    {key: 6, value: '6 tháng'},
+    {key: 12, value: '12 tháng'},
+  ]
 
   return (
     <Card className="w-full border border-gray-300">
       <CardHeader>
         <CardTitle>Thống kê giới thiệu</CardTitle>
-        <CardDescription>Số lượt giới thiệu hàng ngày trong 3 tháng qua</CardDescription>
+        <CardDescription>Số lượt giới thiệu hàng ngày trong {timeRange} tháng qua</CardDescription>
       </CardHeader>
       <CardContent>
+        <div className="mb-4">
+          <Select
+            id="timeRange"
+            value={timeRange}
+            onChange={(e) => setTimeRange(Number(e.target.value))}
+            className="max-w-xs"
+            radius='lg'
+            label="Chọn khoảng thời gian"
+            variant='bordered'
+          >
+            {datesOfChart.map((date) => (
+              <SelectItem key={date.key} value={date.key}>{date.value}</SelectItem>
+            ))}
+          </Select>
+        </div>
         <div className="h-96 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={processedData} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis
                 dataKey="date"
-                angle={-10}
+                angle={-15}
                 textAnchor="end"
                 height={60}
                 tickFormatter={(date) => {
-                  return new Date(date).toLocaleDateString('vi-US', {
-                    month: 'short',
+                  return new Date(date).toLocaleDateString('vi-VN', {
+                    month: 'numeric',
                     day: 'numeric'
                   });
                 }}
@@ -80,7 +102,7 @@ const ReferralBarChart =  ({ userStatus }: { userStatus: UserStatus }) => {
                     day: 'numeric'
                   });
                 }}
-                formatter={(value) => [`${value} referral${value !== 1 ? 's' : ''}`, 'Count']}
+                formatter={(value) => [`SL: ${value} người`, '']}
               />
               <Bar
                 dataKey="referrals"

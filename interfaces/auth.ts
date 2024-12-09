@@ -42,6 +42,9 @@ export interface User {
   fullname: string;
   phone_number: string;
   role: string;
+  cccd: string;
+  bank_name: string;
+  bank_account_number: string;
 }
 
 export interface LoginResponse {

@@ -12,7 +12,10 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
         fullname: user?.fullname || '',
-        phone_number: user?.phone_number || ''
+        phone_number: user?.phone_number || '',
+        cccd: user?.cccd || '',
+        bank_name: user?.bank_name || '',
+        bank_account_number: user?.bank_account_number || ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -40,7 +43,10 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
     const handleCancel = () => {
         setFormData({
             fullname: user?.fullname || '',
-            phone_number: user?.phone_number || ''
+            phone_number: user?.phone_number || '',
+            cccd: user?.cccd || '',
+            bank_name: user?.bank_name || '',
+            bank_account_number: user?.bank_account_number || ''
         });
         setIsEditing(false);
     };
@@ -89,6 +95,48 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                                         />
                                     ) : (
                                         <p className="font-medium">{user?.phone_number}</p>
+                                    )}
+                                </div>
+
+                                <div className="bg-gray-50 p-4 rounded-lg border border-gray-300">
+                                    <p className="text-gray-600 text-sm">CCCD</p>
+                                    {isEditing ? (
+                                        <Input
+                                            name="cccd"
+                                            value={formData.cccd}
+                                            onChange={handleInputChange}
+                                            className="bg-white"
+                                        />
+                                    ) : (
+                                        <p className="font-medium">{user?.cccd}</p>
+                                    )}
+                                </div>
+
+                                <div className="bg-gray-50 p-4 rounded-lg border border-gray-300">
+                                    <p className="text-gray-600 text-sm">Tên ngân hàng</p>
+                                    {isEditing ? (
+                                        <Input
+                                            name="bank_name"
+                                            value={formData.bank_name}
+                                            onChange={handleInputChange}
+                                            className="bg-white"
+                                        />
+                                    ) : (
+                                        <p className="font-medium">{user?.bank_name}</p>
+                                    )}
+                                </div>
+
+                                <div className="bg-gray-50 p-4 rounded-lg border border-gray-300">
+                                    <p className="text-gray-600 text-sm">Số tài khoản</p>
+                                    {isEditing ? (
+                                        <Input
+                                            name="bank_account_number"
+                                            value={formData.bank_account_number}
+                                            onChange={handleInputChange}
+                                            className="bg-white"
+                                        />
+                                    ) : (
+                                        <p className="font-medium">{user?.bank_account_number}</p>
                                     )}
                                 </div>
                             </div>

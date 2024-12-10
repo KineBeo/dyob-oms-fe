@@ -32,6 +32,7 @@ import { RootState } from "@/store/store";
 import { clearCart } from "@/redux/features/cart/cartSlice";
 import { cartService } from "@/utils/cart/cartApi";
 import { LogOut, UserIcon } from "lucide-react";
+import NavbarNotificationPanel from "../notification/NotificationListener";
 interface SubLink {
   title: string;
   href: string;
@@ -107,7 +108,7 @@ export default function HeroSection() {
       return (
         <Dropdown>
           <DropdownTrigger>
-            <div className="hover:scale-110 transition duration-250">
+            <div className="transition duration-250 hover:scale-110">
               <Tooltip showArrow
                 classNames={{
                   base: [
@@ -116,16 +117,16 @@ export default function HeroSection() {
                   ],
                   content: ["py-2 px-4 shadow-xl", "text-black"],
                 }}
-                content={ <div className="">
-                  <div className="text-small font-bold ">Tài khoản của bạn!</div>
+                content={<div className="">
+                  <div className="font-bold text-small">Tài khoản của bạn!</div>
                   <div className="text-tiny">Ấn vào và khám phá với ông bụt</div>
                 </div>}
-                placement="right" 
-               >
+                placement="right"
+              >
                 <Avatar
                   src="/images/logo-image.png"
                   size="md"
-                  className="hover:cursor-pointer animate-shake"
+                  className="animate-shake hover:cursor-pointer"
                 />
               </Tooltip>
             </div>
@@ -140,7 +141,7 @@ export default function HeroSection() {
             <DropdownItem
               key="profile"
               startContent={<UserIcon className="text-[#D7A444]" />}
-              className="text-text-brown-primary text-lg font-semibold hover:bg-[#FBF6EC]"
+              className="hover:bg-[#FBF6EC] font-semibold text-lg text-text-brown-primary"
               onClick={() => router.push("/affiliate-dashboard")}
             >
               Tài khoản của tôi
@@ -148,7 +149,7 @@ export default function HeroSection() {
             <DropdownItem
               key="logout"
               startContent={<LogOut className="text-red-500" />}
-              className="text-red-500 text-lg font-semibold hover:bg-red-50"
+              className="hover:bg-red-50 font-semibold text-lg text-red-500"
               onClick={handleLogout}
             >
               Đăng xuất
@@ -165,7 +166,7 @@ export default function HeroSection() {
             onMouseEnter={() => setOpenMenuIndex(menuItems.length)}
             onMouseLeave={() => setOpenMenuIndex(null)}
             isIconOnly={true}
-            startContent={<FaRegUserCircle size={32} className="animate-shake"/>}
+            startContent={<FaRegUserCircle size={32} className="animate-shake" />}
           />
         </DropdownTrigger>
         <DropdownMenu
@@ -195,7 +196,7 @@ export default function HeroSection() {
         <NavbarMenuItem>
           <div>
             <span className="w-fit font-medium text-text-brown-primary">
-              <div className="flex items-center gap-2 font-semibold text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444] ">
+              <div className="flex items-center gap-2 font-semibold text-text-brown-primary laptop:text-lg desktop:text-lg hover:text-[#D7A444]">
                 {user.fullname}
               </div>
               <Divider className="bg-[#D7A444]" />
@@ -308,7 +309,7 @@ export default function HeroSection() {
           onClick={() => router.push("/")}
           className="hover:cursor-pointer"
         >
-          <div className="hover:scale-110 transition duration-300">
+          <div className="transition duration-300 hover:scale-110">
             <Image
               src="/images/logo-image.png"
               alt="Đông Y Ông Bụt Logo"
@@ -400,6 +401,9 @@ export default function HeroSection() {
               <IoCartOutline size={30} />
             </Button>
           </Badge>
+        </NavbarItem>
+        <NavbarItem>
+          <NavbarNotificationPanel />
         </NavbarItem>
       </NavbarContent>
 

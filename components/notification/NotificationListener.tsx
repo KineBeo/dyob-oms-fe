@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import io from 'socket.io-client';
 import { notificationService } from '@/utils/notification/notification';
+import toast from 'react-hot-toast';
 
 interface Notification {
     id: number;
@@ -73,6 +74,7 @@ export default function NavbarNotificationPanel() {
                 type: 'order',
                 user: order.user
             };
+            toast.success(newNotification.message, { icon: '🎉' });
 
             setNotifications(prev => [newNotification, ...prev]);
         });

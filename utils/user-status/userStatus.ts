@@ -1,4 +1,3 @@
-import { log } from "console";
 import api from "../config";
 import toast from "react-hot-toast";
 export const userStatusService = {

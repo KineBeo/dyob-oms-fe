@@ -6,7 +6,6 @@ import Footer from "@/components/footer/Footer";
 import ContactIcons from "@/components/ContactIcon";
 import { Toaster } from "react-hot-toast";
 import { Providers } from "./provider";
-import { NotificationListener } from "@/components/notification/NotificationListener";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -123,7 +122,6 @@ export default function RootLayout({
               },
             }}
           />
-          <NotificationListener />
         </Providers>
       </body>
     </html>

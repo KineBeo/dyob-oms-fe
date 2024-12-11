@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Eye, EyeOff, Check, X } from 'lucide-react';
 
 interface AuthInputProps {
     id: string;
@@ -11,6 +11,7 @@ interface AuthInputProps {
     error?: string;
     disabled?: boolean;
     options?: { value: string; label: string }[];
+    passwordValidation?: boolean; // New prop to enable password validation
 }
 
 export default function AuthInput({
@@ -22,9 +23,38 @@ export default function AuthInput({
     onChange,
     error,
     disabled,
-    options
+    options,
+    passwordValidation = false // Default to false
 }: AuthInputProps) {
     const [showPassword, setShowPassword] = useState(false);
+    
+    // Password validation states
+    const [passwordConditions, setPasswordConditions] = useState({
+        length: false,
+        uppercase: false,
+        lowercase: false,
+        number: false,
+        specialChar: false
+    });
+
+    // Function to validate password
+    const validatePassword = (password: string) => {
+        return {
+            length: password.length >= 8,
+            uppercase: /[A-Z]/.test(password),
+            lowercase: /[a-z]/.test(password),
+            number: /\d/.test(password),
+            specialChar: /[@$!%*?&]/.test(password)
+        };
+    };
+
+    // Effect to validate password when value changes
+    useEffect(() => {
+        if (type === 'password' && passwordValidation) {
+            const conditions = validatePassword(value);
+            setPasswordConditions(conditions);
+        }
+    }, [value, type, passwordValidation]);
 
     // Determine the actual input type
     const getInputType = () => {
@@ -33,7 +63,42 @@ export default function AuthInput({
         return type;
     };
 
-    // Render select input for user class
+    // Render password validation conditions
+    const renderPasswordValidation = () => {
+        if (type !== 'password' || !passwordValidation) return null;
+
+        const conditionLabels = [
+            { key: 'length', label: 'Ít nhất 8 ký tự' },
+            { key: 'uppercase', label: 'Một chữ cái viết hoa' },
+            { key: 'lowercase', label: 'Một chữ cái viết thường' },
+            { key: 'number', label: 'Một số' },
+            { key: 'specialChar', label: 'Một ký tự đặc biệt (@$!%*?&)' }
+        ];
+
+        return (
+            <div className="mt-2 space-y-1">
+                {conditionLabels.map((condition) => (
+                    <div 
+                        key={condition.key} 
+                        className={`flex items-center text-sm ${
+                            passwordConditions[condition.key as keyof typeof passwordConditions] 
+                                ? 'text-green-600' 
+                                : 'text-red-600'
+                        }`}
+                    >
+                        {passwordConditions[condition.key as keyof typeof passwordConditions] ? (
+                            <Check className="w-4 h-4 mr-2" />
+                        ) : (
+                            <X className="w-4 h-4 mr-2" />
+                        )}
+                        {condition.label}
+                    </div>
+                ))}
+            </div>
+        );
+    };
+
+    // Select input rendering (unchanged from previous implementation)
     if (type === 'select') {
         return (
             <div className="mb-4">
@@ -46,8 +111,7 @@ export default function AuthInput({
                         id={id}
                         value={value}
                         onChange={onChange}
-                        className={`border-[#7A0505] bg-[#EDEFFE] shadow-sm px-3 py-4 border w-full text-sm appearance-none pr-8 ${error ? 'border-red-500' : ''
-                            }`}
+                        className={`border-[#7A0505] bg-[#EDEFFE] shadow-sm px-3 py-4 border w-full text-sm appearance-none pr-8 ${error ? 'border-red-500' : ''}`}
                         disabled={disabled}
                     >
                         {options?.map((option) => (
@@ -69,7 +133,7 @@ export default function AuthInput({
         );
     }
 
-    // Regular input rendering remains the same as before
+    // Regular input rendering with password validation
     return (
         <div className="mb-4">
             <label htmlFor={id} className="block font-medium text-black text-sm">
@@ -82,8 +146,7 @@ export default function AuthInput({
                     id={id}
                     value={value}
                     onChange={onChange}
-                    className={`border-[#7A0505] bg-[#EDEFFE] shadow-sm p-4 ${type === 'password' ? 'pr-12' : 'pr-4'} border w-full text-sm ${error ? 'border-red-500' : ''
-                        }`}
+                    className={`border-[#7A0505] bg-[#EDEFFE] shadow-sm p-4 ${type === 'password' ? 'pr-12' : 'pr-4'} border w-full text-sm ${error ? 'border-red-500' : ''}`}
                     placeholder={placeholder}
                     pattern={type === "tel" ? "[0-9]{10}" : undefined}
                     disabled={disabled}
@@ -105,6 +168,7 @@ export default function AuthInput({
             {error && (
                 <p className="mt-1 text-red-500 text-sm">{error}</p>
             )}
+            {renderPasswordValidation()}
         </div>
     );
 }

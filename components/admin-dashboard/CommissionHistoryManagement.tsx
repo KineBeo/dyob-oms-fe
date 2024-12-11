@@ -10,6 +10,7 @@ import { Button } from '../ui/button';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { User } from '@/interfaces/auth';
+import { Download } from 'lucide-react';
 
 interface CommissionHistory {
   userStatus: UserStatus;
@@ -88,6 +89,45 @@ const CommissionHistoryManagement = () => {
     });
   };
 
+  const exportToCSV = () => {
+    const currentMonth = new Date().getMonth() + 1; // Lấy tháng hiện tại (0-11, nên cần +1)
+    const monthlyData = getYearlyData().filter(item => item.month === currentMonth);
+    const csvData: { [key: string]: string }[] = monthlyData.map(item => ({
+      'Tháng': `Tháng ${item.month}`,
+      'Tên người dùng': item.userStatus.user.fullname,
+      'Số điện thoại': item.userStatus.user.phone_number,
+      'Tài khoản ngân hàng': item.userStatus.user.bank_name,
+      'Số tài khoản': item.userStatus.user.bank_account_number,
+      'Mã người dùng': item.userStatus.personal_referral_code,
+      'Cấp bậc': item.userStatus.user_rank,
+      'Hoa hồng cá nhân': parseFloat(item.monthly_commission).toLocaleString('vi-VN') + ' VNĐ',
+      'Hoa hồng nhóm': parseFloat(item.group_commission).toLocaleString('vi-VN') + ' VNĐ',
+      'Tổng cộng': (parseFloat(item.monthly_commission) + parseFloat(item.group_commission)).toLocaleString('vi-VN') + ' VNĐ'
+    }));
+
+    if (csvData.length === 0) {
+      alert('Không có dữ liệu hoa hồng cho tháng hiện tại.');
+      return;
+    }
+
+    // Tạo header cho CSV
+    const headers = Object.keys(csvData[0]);
+    const csvContent = [
+      headers.join(','), // Header row
+      ...csvData.map(row => headers.map(header => `"${row[header as keyof typeof row]}"`).join(',')) // Data rows
+    ].join('\n');
+
+    // Tạo Blob và tạo URL để download
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `hoa-hong-thang-${currentMonth}-${selectedYear}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const calculateTotalCommission = () => {
     const yearlyData = getYearlyData();
     return {
@@ -120,36 +160,6 @@ const CommissionHistoryManagement = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* <Card>
-          <CardHeader>
-            <CardTitle>Tổng quan hoa hồng năm {selectedYear}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-96">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={prepareChartData()}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line
-                    type="monotone"
-                    dataKey="Hoa hồng tháng"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="Hoa hồng nhóm"
-                    stroke="#82ca9d"
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card> */}
         <Card>
           <CardHeader>
             <CardTitle>Tổng quan hoa hồng năm {selectedYear}</CardTitle>
@@ -217,14 +227,24 @@ const CommissionHistoryManagement = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Chi tiết hoa hồng theo tháng</CardTitle>
+        <div className="flex justify-between items-center">
+            <CardTitle>Chi tiết hoa hồng theo tháng</CardTitle>
+            <Button
+              onClick={exportToCSV}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <Download className="w-4 h-4" />
+              Xuất CSV
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Tháng</TableHead>
-                <TableHead>Mã người dùng</TableHead>
+                <TableHead>Tên người dùng</TableHead>
                 <TableHead>Cấp bậc</TableHead>
                 <TableHead>Hoa hồng cá nhân</TableHead>
                 <TableHead>Hoa hồng nhóm</TableHead>
@@ -236,7 +256,7 @@ const CommissionHistoryManagement = () => {
               {getYearlyData().map((item) => (
                 <TableRow key={`${item.year}-${item.month}`}>
                   <TableCell>Tháng {item.month}</TableCell>
-                  <TableCell>{item.userStatus.personal_referral_code}</TableCell>
+                  <TableCell>{item.userStatus.user.fullname}</TableCell>
                   <TableCell>{item.userStatus.user_rank}</TableCell>
                   <TableCell>{parseFloat(item.monthly_commission).toLocaleString('vi-VN')} VNĐ</TableCell>
                   <TableCell>{parseFloat(item.group_commission).toLocaleString('vi-VN')} VNĐ</TableCell>

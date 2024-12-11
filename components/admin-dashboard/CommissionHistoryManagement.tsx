@@ -12,12 +12,12 @@ import { useSelector } from 'react-redux';
 import { User } from '@/interfaces/auth';
 
 interface CommissionHistory {
-    userStatus: UserStatus;
-    monthly_commission: string;
-    group_commission: string;
-    month: number;
-    year: number;
-    createdAt: Date;
+  userStatus: UserStatus;
+  monthly_commission: string;
+  group_commission: string;
+  month: number;
+  year: number;
+  createdAt: Date;
 }
 
 const CommissionHistoryManagement = () => {
@@ -37,7 +37,7 @@ const CommissionHistoryManagement = () => {
     try {
       setLoading(true);
       const data = await commissionHistoryService.getAllCommissionHistory();
-    //   console.log(data);
+      //   console.log(data);
       setCommissionData(data);
     } catch (error) {
       console.error('Error fetching commission history:', error);
@@ -57,11 +57,35 @@ const CommissionHistoryManagement = () => {
 
   const prepareChartData = () => {
     const yearlyData = getYearlyData();
-    return yearlyData.map(item => ({
-      month: `Tháng ${item.month}`,
-      'Hoa hồng tháng': parseFloat(item.monthly_commission),
-      'Hoa hồng nhóm': parseFloat(item.group_commission)
-    }));
+
+    // Define the type for monthlyTotals
+    type MonthlyTotals = {
+      [key: number]: {
+        month: string;
+        'Tổng hoa hồng cá nhân': number;
+        'Tổng hoa hồng nhóm': number;
+      };
+    };
+
+    // Group data by month and calculate total commissions
+    const monthlyTotals = yearlyData.reduce((acc: MonthlyTotals, item) => {
+      const month = item.month;
+      if (!acc[month]) {
+        acc[month] = {
+          month: `Tháng ${month}`,
+          'Tổng hoa hồng cá nhân': 0,
+          'Tổng hoa hồng nhóm': 0
+        };
+      }
+      acc[month]['Tổng hoa hồng cá nhân'] += parseFloat(item.monthly_commission);
+      acc[month]['Tổng hoa hồng nhóm'] += parseFloat(item.group_commission);
+      return acc;
+    }, {} as MonthlyTotals);
+
+    // Convert to array and sort by month
+    return Object.values(monthlyTotals).sort((a, b) => {
+      return parseInt((a as any).month.split(' ')[1]) - parseInt((b as any).month.split(' ')[1]);
+    });
   };
 
   const calculateTotalCommission = () => {
@@ -96,7 +120,7 @@ const CommissionHistoryManagement = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>Tổng quan hoa hồng năm {selectedYear}</CardTitle>
           </CardHeader>
@@ -120,6 +144,47 @@ const CommissionHistoryManagement = () => {
                     dataKey="Hoa hồng nhóm"
                     stroke="#82ca9d"
                     strokeWidth={2}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card> */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Tổng quan hoa hồng năm {selectedYear}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-96">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={prepareChartData()}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis
+                  tickFormatter={(value) => value.toLocaleString('vi-VN')}
+                  label={{
+                    value: 'VNĐ',
+                    angle: -90,
+                    position: 'insideLeft',
+                    style: { fontSize: '12px' } // Adjust the font size here
+                  }}
+                  tick={{ fontSize: '12px' }} // Adjust the font size here
+                  />
+                  <Tooltip
+                  formatter={(value) => [value.toLocaleString('vi-VN') + ' VNĐ']}
+                  />
+                  <Legend />
+                  <Line
+                  type="monotone"
+                  dataKey="Tổng hoa hồng cá nhân"
+                  stroke="#8884d8"
+                  strokeWidth={2}
+                  />
+                  <Line
+                  type="monotone"
+                  dataKey="Tổng hoa hồng nhóm"
+                  stroke="#82ca9d"
+                  strokeWidth={2}
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -179,8 +244,8 @@ const CommissionHistoryManagement = () => {
                     {(parseFloat(item.monthly_commission) + parseFloat(item.group_commission)).toLocaleString('vi-VN')} VNĐ
                   </TableCell>
                   <TableCell>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={() => handleRowClick(item.userStatus)}
                     >
@@ -195,8 +260,8 @@ const CommissionHistoryManagement = () => {
       </Card>
 
       {selectedUser && (
-        <UserDetailModal 
-        user={selectedUser.user} 
+        <UserDetailModal
+          user={selectedUser.user}
           userStatus={selectedUser}
           isOpen={isModalOpen}
           onOpenChange={setIsModalOpen}

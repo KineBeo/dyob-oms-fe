@@ -226,6 +226,7 @@ export default function Register() {
                                     value={formData.password_hash}
                                     onChange={handleChange}
                                     error={errors.password_hash}
+                                    passwordValidation={true}
                                 />
                                 <AuthInput
                                     id="confirmPassword"

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronRight, ChevronDown, UserPlus, Download, Table, LayoutGrid } from 'lucide-react';
+import { User } from '@/interfaces/auth';
 
 export interface Referral {
     id: string;
@@ -14,6 +15,7 @@ export interface Referral {
 }
 
 export interface UserStatus {
+    user: User;
     personal_referral_code: string;
     user_rank: string;
     user_class: string;
@@ -172,7 +174,7 @@ const ReferralTable = ({ data }: { data: any[] }) => {
 };
 
 const Referrals = ({ userStatus }: { userStatus: UserStatus }) => {
-    console.log('User status:', userStatus);
+    // console.log('User status:', userStatus);
     const [viewMode, setViewMode] = useState<'tree' | 'table'>('tree');
     const flatData = flattenReferrals(userStatus.referrals);
 

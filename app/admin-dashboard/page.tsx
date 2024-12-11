@@ -25,6 +25,7 @@ import { motion } from "framer-motion";
 import { Avatar } from "@nextui-org/react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import CommissionHistoryManagement from "@/components/admin-dashboard/CommissionHistoryManagement";
 
 const DashboardLayout = () => {
     const [activeTab, setActiveTab] = useState('welcome');
@@ -70,11 +71,17 @@ const DashboardLayout = () => {
             id: 'orders'
         },
         {
-            label: 'Cài đặt',
-            href: '#settings',
-            icon: <Settings className="text-neutral-700 dark:text-neutral-200 h-6 w-6 flex-shrink-0" />,
-            id: 'settings'
+            label: 'Quản lý lịch sử hoa hồng từng tháng',
+            href: '#commission-history',
+            icon: <LayoutDashboard className="text-neutral-700 dark:text-neutral-200 h-6 w-6 flex-shrink-0" />,
+            id: 'commission-history'
         },
+        // {
+        //     label: 'Cài đặt',
+        //     href: '#settings',
+        //     icon: <Settings className="text-neutral-700 dark:text-neutral-200 h-6 w-6 flex-shrink-0" />,
+        //     id: 'settings'
+        // },
         // {
         //     label: 'Đăng xuất',
         //     href: '/logout',
@@ -110,6 +117,8 @@ const DashboardLayout = () => {
                 return <ProductsManagement />;
             case 'users':
                 return <UserManagement />;
+            case 'commission-history':
+                return <CommissionHistoryManagement />;
             default:
                 return (
                     <div className="p-6 text-center">

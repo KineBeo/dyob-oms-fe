@@ -10,6 +10,7 @@ export interface UserStatus {
   total_orders: number;
   total_purchase: number;
   total_sales: number;
+  bonus: number;
   //   group_sales: number;
   commission: string;
   //   group_commission: string;

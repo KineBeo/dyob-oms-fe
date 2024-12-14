@@ -174,6 +174,7 @@ const Referrals = ({ userStatus }: { userStatus: UserStatus }) => {
                     <div>Cấp bậc: {userStatus.user_rank}</div>
                     <div>Cá nhân đã chi tiêu: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(userStatus.total_purchase)}</div>
                     <div>Doanh số cá nhân: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(userStatus.total_sales)}</div>
+                    <div>Thưởng: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(userStatus.bonus)}</div>
                     {/* <div>Tổng doanh số: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(userStatus.group_sales)}</div> */}
                     <div>Hoa hồng: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(userStatus.commission))}</div>
                     {/* <div>Thưởng nhóm: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(userStatus.group_commission))}</div> */}

@@ -73,6 +73,10 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, userStatus, isO
                             <span className="text-gray-600">Doanh số cá nhân:</span>
                             <span className="font-medium">{userStatus.total_sales.toLocaleString('vi-VN')} VNĐ</span>
                         </div>
+                        <div className="flex justify-between">
+                            <span className="text-gray-600">Thưởng doanh số:</span>
+                            <span className="font-medium">{userStatus.bonus.toLocaleString('vi-VN')} VNĐ</span>
+                        </div>
                         {/* <div className="flex justify-between">
                             <span className="text-gray-600">Doanh số nhóm:</span>
                             <span className="font-medium">{userStatus.group_sales.toLocaleString('vi-VN')} VNĐ</span>

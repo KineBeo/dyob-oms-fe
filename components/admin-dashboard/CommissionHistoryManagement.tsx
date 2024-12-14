@@ -15,6 +15,7 @@ import { UserStatus } from '@/interfaces/user-status';
 interface CommissionHistory {
   userStatus: UserStatus;
   monthly_commission: string;
+  bonus: string;
   // group_commission: string;
   month: number;
   year: number;
@@ -64,7 +65,7 @@ const CommissionHistoryManagement = () => {
       [key: number]: {
         month: string;
         'Tổng hoa hồng cá nhân': number;
-        'Tổng hoa hồng nhóm': number;
+        'Tổng thưởng': number;
       };
     };
 
@@ -75,11 +76,11 @@ const CommissionHistoryManagement = () => {
         acc[month] = {
           month: `Tháng ${month}`,
           'Tổng hoa hồng cá nhân': 0,
-          'Tổng hoa hồng nhóm': 0
+          'Tổng thưởng': 0
         };
       }
       acc[month]['Tổng hoa hồng cá nhân'] += parseFloat(item.monthly_commission);
-      // acc[month]['Tổng hoa hồng nhóm'] += parseFloat(item.group_commission);
+      acc[month]['Tổng thưởng'] += parseFloat(item.bonus);
       return acc;
     }, {} as MonthlyTotals);
 
@@ -101,6 +102,7 @@ const CommissionHistoryManagement = () => {
       'Mã người dùng': item.userStatus.personal_referral_code,
       'Cấp bậc': item.userStatus.user_rank,
       'Hoa hồng cá nhân': parseFloat(item.monthly_commission).toLocaleString('vi-VN') + ' VNĐ',
+      'Thưởng doanh số': parseFloat(item.bonus).toLocaleString('vi-VN') + ' VNĐ',
       // 'Hoa hồng nhóm': parseFloat(item.group_commission).toLocaleString('vi-VN') + ' VNĐ',
       // 'Tổng cộng': (parseFloat(item.monthly_commission) + parseFloat(item.group_commission)).toLocaleString('vi-VN') + ' VNĐ'
     }));
@@ -132,6 +134,7 @@ const CommissionHistoryManagement = () => {
     const yearlyData = getYearlyData();
     return {
       monthly: yearlyData.reduce((sum, item) => sum + parseFloat(item.monthly_commission), 0),
+      bonus: yearlyData.reduce((sum, item) => sum + parseFloat(item.bonus), 0)
       // group: yearlyData.reduce((sum, item) => sum + parseFloat(item.group_commission), 0)
     };
   };
@@ -192,7 +195,7 @@ const CommissionHistoryManagement = () => {
                   />
                   <Line
                     type="monotone"
-                    dataKey="Tổng hoa hồng nhóm"
+                    dataKey="Tổng thưởng doanh số"
                     stroke="#82ca9d"
                     strokeWidth={2}
                   />
@@ -215,9 +218,9 @@ const CommissionHistoryManagement = () => {
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">Tổng hoa hồng nhóm:</span>
+                <span className="text-gray-600">Thưởng doanh số cá nhân:</span>
                 <span className="font-bold text-xl">
-                  {/* {calculateTotalCommission().group.toLocaleString('vi-VN')} VNĐ */}
+                  {calculateTotalCommission().bonus.toLocaleString('vi-VN')} VNĐ
                 </span>
               </div>
             </div>
@@ -247,7 +250,7 @@ const CommissionHistoryManagement = () => {
                 <TableHead>Tên người dùng</TableHead>
                 <TableHead>Cấp bậc</TableHead>
                 <TableHead>Hoa hồng cá nhân</TableHead>
-                <TableHead>Hoa hồng nhóm</TableHead>
+                <TableHead>Thưởng</TableHead>
                 <TableHead>Tổng cộng</TableHead>
                 <TableHead>Thao tác</TableHead>
               </TableRow>
@@ -263,6 +266,11 @@ const CommissionHistoryManagement = () => {
                   {/* <TableCell>
                     {(parseFloat(item.monthly_commission) + parseFloat(item.group_commission)).toLocaleString('vi-VN')} VNĐ
                   </TableCell> */}
+                  <TableCell>{parseFloat(item.bonus).toLocaleString('vi-VN')} VNĐ</TableCell>
+                  <TableCell>
+                    {(parseFloat(item.monthly_commission) + parseFloat(item.bonus)).toLocaleString('vi-VN')} VNĐ
+                  </TableCell>
+
                   <TableCell>
                     <Button
                       variant="outline"

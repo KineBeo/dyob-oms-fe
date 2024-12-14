@@ -198,6 +198,13 @@ const UserStatusPage = () => {
                     .format(Number(userStatus.total_sales))}
                 </p>
               </div>
+              <div className="border-gray-300 bg-yellow-50 p-4 border rounded-lg">
+                <p className="font-medium text-sm text-yellow-600">Thưởng doanh số</p>
+                <p className="font-bold text-2xl text-yellow-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                    .format(Number(userStatus.bonus))}
+                </p>
+              </div>
               {/* <div className="border-gray-300 bg-orange-50 p-4 border rounded-lg">
                 <p className="font-medium text-orange-600 text-sm">Doanh số nhóm</p>
                 <p className="font-bold text-2xl text-orange-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">

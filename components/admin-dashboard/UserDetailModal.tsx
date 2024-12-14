@@ -1,6 +1,6 @@
 import { User } from "@/interfaces/auth";
-import { UserStatus } from "../affiliate-dashboard/Referrals";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { UserStatus } from "@/interfaces/user-status";
 
 
 interface UserDetailModalProps {
@@ -17,7 +17,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, userStatus, isO
                 <DialogHeader>
                     <DialogTitle>Chi tiết thông tin người dùng</DialogTitle>
                 </DialogHeader>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="gap-4 grid grid-cols-2">
                     <div className="space-y-2">
                         <div className="flex justify-between">
                             <span className="text-gray-600">Họ và tên:</span>
@@ -38,14 +38,14 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, userStatus, isO
                         <div className="flex justify-between">
                             <span className="text-gray-600">Tài khoản ngân hàng:</span>
                             <span className="font-medium">{user.bank_account_number}</span>
-                        </div> 
+                        </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Ngày tham gia:</span>
                             <span className="font-medium">{new Date(userStatus.createdAt).toLocaleDateString('vi-VN')}</span>
-                        </div> 
+                        </div>
                     </div>
                     <div className="space-y-2">
-                    <div className="flex justify-between">
+                        <div className="flex justify-between">
                             <span className="text-gray-600">Mã giới thiệu:</span>
                             <span className="font-medium">{userStatus.personal_referral_code}</span>
                         </div>
@@ -73,13 +73,13 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, userStatus, isO
                             <span className="text-gray-600">Doanh số cá nhân:</span>
                             <span className="font-medium">{userStatus.total_sales.toLocaleString('vi-VN')} VNĐ</span>
                         </div>
-                        <div className="flex justify-between">
+                        {/* <div className="flex justify-between">
                             <span className="text-gray-600">Doanh số nhóm:</span>
                             <span className="font-medium">{userStatus.group_sales.toLocaleString('vi-VN')} VNĐ</span>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="col-span-2">
-                        <div className="flex justify-between border-t pt-2">
+                        <div className="flex justify-between pt-2 border-t">
                             <span className="text-gray-600">Ngày đạt hạng:</span>
                             <span className="font-medium">
                                 {new Date(userStatus.rank_achievement_date).toLocaleDateString('vi-VN')}

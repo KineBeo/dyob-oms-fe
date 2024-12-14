@@ -1,36 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronRight, ChevronDown, UserPlus, Download, Table, LayoutGrid } from 'lucide-react';
-import { User } from '@/interfaces/auth';
-
-export interface Referral {
-    id: string;
-    fullname: string;
-    personal_referral_code: string;
-    referrer_name: string | null;
-    total_purchase: string;
-    user_rank: string;
-    total_sales: number;
-    referrals: Referral[];
-    createdAt: Date;
-}
-
-export interface UserStatus {
-    user: User;
-    personal_referral_code: string;
-    user_rank: string;
-    user_class: string;
-    referrer_name: string | null;
-    rank_achievement_date: string;
-    total_orders: number;
-    total_purchase: number;
-    total_sales: number;
-    group_sales: number;
-    commission: string;
-    group_commission: string;
-    referrals: Referral[];
-    user_type: 'NORMAL' | 'AFFILIATE';
-    createdAt: Date;
-}
+import { Referral, UserStatus } from '@/interfaces/user-status';
 
 
 const formatDate = (date: Date | string | undefined) => {
@@ -119,7 +89,7 @@ const ReferralItem = ({ referral, depth = 0 }: { referral: Referral, depth?: num
                         Cấp bậc: {referral.user_rank} |
                         Doanh số: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                             .format(Number(referral.total_sales))} | Chi tiêu: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                            .format(Number(referral.total_purchase))} 
+                                .format(Number(referral.total_purchase))}
                     </div>
                 </div>
             </div>
@@ -141,14 +111,14 @@ const ReferralItem = ({ referral, depth = 0 }: { referral: Referral, depth?: num
 
 const ReferralTable = ({ data }: { data: any[] }) => {
     return (
-        <div className="overflow-x-auto border border-gray-400">
-            <table className="min-w-full divide-y divide-gray-200">
+        <div className="border-gray-400 border overflow-x-auto">
+            <table className="divide-y divide-gray-200 min-w-full">
                 <thead className="bg-gray-50">
                     <tr>
                         {Object.keys(data[0] || {}).map((header) => (
                             <th
                                 key={header}
-                                className="px-6 py-3 text-left text-xs text-black uppercase tracking-wider font-semibold"
+                                className="px-6 py-3 font-semibold text-black text-left text-xs uppercase tracking-wider"
                             >
                                 {header}
                             </th>
@@ -159,7 +129,7 @@ const ReferralTable = ({ data }: { data: any[] }) => {
                     {data.map((row, index) => (
                         <tr key={index} className="hover:bg-gray-50">
                             {Object.values(row).map((value: any, i) => (
-                                <td key={i} className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                <td key={i} className="px-6 py-4 text-gray-600 text-sm whitespace-nowrap">
                                     {typeof value === 'number' && !Object.keys(row)[i].includes('Cấp')
                                         ? new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value)
                                         : value}
@@ -179,21 +149,21 @@ const Referrals = ({ userStatus }: { userStatus: UserStatus }) => {
     const flatData = flattenReferrals(userStatus.referrals);
 
     return (
-        <div className="bg-white rounded-lg border border-gray-300">
+        <div className="border-gray-300 bg-white border rounded-lg">
             <div className="p-4 border-b">
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="font-semibold text-lg">Mạng lưới giới thiệu</h3>
                     <div className="flex gap-2">
                         <button
                             onClick={() => setViewMode(viewMode === 'tree' ? 'table' : 'tree')}
-                            className="flex items-center gap-2 px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
+                            className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded text-gray-700 text-sm transition-colors"
                         >
                             {viewMode === 'tree' ? <Table size={16} /> : <LayoutGrid size={16} />}
                             {viewMode === 'tree' ? 'Xem dạng bảng' : 'Xem dạng cây'}
                         </button>
                         <button
                             onClick={() => exportToCSV(userStatus)}
-                            className="flex items-center gap-2 px-3 py-2 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded text-sm text-white transition-colors"
                         >
                             <Download size={16} />
                             Xuất CSV
@@ -204,9 +174,9 @@ const Referrals = ({ userStatus }: { userStatus: UserStatus }) => {
                     <div>Cấp bậc: {userStatus.user_rank}</div>
                     <div>Cá nhân đã chi tiêu: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(userStatus.total_purchase)}</div>
                     <div>Doanh số cá nhân: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(userStatus.total_sales)}</div>
-                    <div>Tổng doanh số: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(userStatus.group_sales)}</div>
+                    {/* <div>Tổng doanh số: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(userStatus.group_sales)}</div> */}
                     <div>Hoa hồng: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(userStatus.commission))}</div>
-                    <div>Thưởng nhóm: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(userStatus.group_commission))}</div>
+                    {/* <div>Thưởng nhóm: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(userStatus.group_commission))}</div> */}
                 </div>
             </div>
 

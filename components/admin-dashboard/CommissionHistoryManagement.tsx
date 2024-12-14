@@ -4,18 +4,18 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { commissionHistoryService } from '@/utils/commission-history/commission-historyApi';
-import { UserStatus } from '../affiliate-dashboard/Referrals';
 import UserDetailModal from './UserDetailModal';
 import { Button } from '../ui/button';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { User } from '@/interfaces/auth';
 import { Download } from 'lucide-react';
+import { UserStatus } from '@/interfaces/user-status';
 
 interface CommissionHistory {
   userStatus: UserStatus;
   monthly_commission: string;
-  group_commission: string;
+  // group_commission: string;
   month: number;
   year: number;
   createdAt: Date;
@@ -79,7 +79,7 @@ const CommissionHistoryManagement = () => {
         };
       }
       acc[month]['Tổng hoa hồng cá nhân'] += parseFloat(item.monthly_commission);
-      acc[month]['Tổng hoa hồng nhóm'] += parseFloat(item.group_commission);
+      // acc[month]['Tổng hoa hồng nhóm'] += parseFloat(item.group_commission);
       return acc;
     }, {} as MonthlyTotals);
 
@@ -101,8 +101,8 @@ const CommissionHistoryManagement = () => {
       'Mã người dùng': item.userStatus.personal_referral_code,
       'Cấp bậc': item.userStatus.user_rank,
       'Hoa hồng cá nhân': parseFloat(item.monthly_commission).toLocaleString('vi-VN') + ' VNĐ',
-      'Hoa hồng nhóm': parseFloat(item.group_commission).toLocaleString('vi-VN') + ' VNĐ',
-      'Tổng cộng': (parseFloat(item.monthly_commission) + parseFloat(item.group_commission)).toLocaleString('vi-VN') + ' VNĐ'
+      // 'Hoa hồng nhóm': parseFloat(item.group_commission).toLocaleString('vi-VN') + ' VNĐ',
+      // 'Tổng cộng': (parseFloat(item.monthly_commission) + parseFloat(item.group_commission)).toLocaleString('vi-VN') + ' VNĐ'
     }));
 
     if (csvData.length === 0) {
@@ -132,7 +132,7 @@ const CommissionHistoryManagement = () => {
     const yearlyData = getYearlyData();
     return {
       monthly: yearlyData.reduce((sum, item) => sum + parseFloat(item.monthly_commission), 0),
-      group: yearlyData.reduce((sum, item) => sum + parseFloat(item.group_commission), 0)
+      // group: yearlyData.reduce((sum, item) => sum + parseFloat(item.group_commission), 0)
     };
   };
 
@@ -141,7 +141,7 @@ const CommissionHistoryManagement = () => {
   return (
     <div className="space-y-6 p-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold text-gray-800">Lịch sử hoa hồng</h2>
+        <h2 className="font-bold text-3xl text-gray-800">Lịch sử hoa hồng</h2>
         <Select
           value={selectedYear.toString()}
           onValueChange={(value) => setSelectedYear(parseInt(value))}
@@ -159,7 +159,7 @@ const CommissionHistoryManagement = () => {
         </Select>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="gap-6 grid grid-cols-1 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Tổng quan hoa hồng năm {selectedYear}</CardTitle>
@@ -171,30 +171,30 @@ const CommissionHistoryManagement = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis
-                  tickFormatter={(value) => value.toLocaleString('vi-VN')}
-                  label={{
-                    value: 'VNĐ',
-                    angle: -90,
-                    position: 'insideLeft',
-                    style: { fontSize: '12px' } // Adjust the font size here
-                  }}
-                  tick={{ fontSize: '12px' }} // Adjust the font size here
+                    tickFormatter={(value) => value.toLocaleString('vi-VN')}
+                    label={{
+                      value: 'VNĐ',
+                      angle: -90,
+                      position: 'insideLeft',
+                      style: { fontSize: '12px' } // Adjust the font size here
+                    }}
+                    tick={{ fontSize: '12px' }} // Adjust the font size here
                   />
                   <Tooltip
-                  formatter={(value) => [value.toLocaleString('vi-VN') + ' VNĐ']}
+                    formatter={(value) => [value.toLocaleString('vi-VN') + ' VNĐ']}
                   />
                   <Legend />
                   <Line
-                  type="monotone"
-                  dataKey="Tổng hoa hồng cá nhân"
-                  stroke="#8884d8"
-                  strokeWidth={2}
+                    type="monotone"
+                    dataKey="Tổng hoa hồng cá nhân"
+                    stroke="#8884d8"
+                    strokeWidth={2}
                   />
                   <Line
-                  type="monotone"
-                  dataKey="Tổng hoa hồng nhóm"
-                  stroke="#82ca9d"
-                  strokeWidth={2}
+                    type="monotone"
+                    dataKey="Tổng hoa hồng nhóm"
+                    stroke="#82ca9d"
+                    strokeWidth={2}
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -217,7 +217,7 @@ const CommissionHistoryManagement = () => {
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Tổng hoa hồng nhóm:</span>
                 <span className="font-bold text-xl">
-                  {calculateTotalCommission().group.toLocaleString('vi-VN')} VNĐ
+                  {/* {calculateTotalCommission().group.toLocaleString('vi-VN')} VNĐ */}
                 </span>
               </div>
             </div>
@@ -227,7 +227,7 @@ const CommissionHistoryManagement = () => {
 
       <Card>
         <CardHeader>
-        <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center">
             <CardTitle>Chi tiết hoa hồng theo tháng</CardTitle>
             <Button
               onClick={exportToCSV}
@@ -259,10 +259,10 @@ const CommissionHistoryManagement = () => {
                   <TableCell>{item.userStatus.user.fullname}</TableCell>
                   <TableCell>{item.userStatus.user_rank}</TableCell>
                   <TableCell>{parseFloat(item.monthly_commission).toLocaleString('vi-VN')} VNĐ</TableCell>
-                  <TableCell>{parseFloat(item.group_commission).toLocaleString('vi-VN')} VNĐ</TableCell>
-                  <TableCell>
+                  {/* <TableCell>{parseFloat(item.group_commission).toLocaleString('vi-VN')} VNĐ</TableCell> */}
+                  {/* <TableCell>
                     {(parseFloat(item.monthly_commission) + parseFloat(item.group_commission)).toLocaleString('vi-VN')} VNĐ
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Button
                       variant="outline"

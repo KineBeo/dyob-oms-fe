@@ -1,4 +1,3 @@
-import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, ArrowUpDown, Pencil, Trash, Eye, EyeOff, Search, Loader2 } from 'lucide-react';
 import { User, CreateUserDto, UpdateUserDto } from '@/interfaces/user';

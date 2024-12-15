@@ -36,33 +36,34 @@ const DashboardLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const user = useSelector((state: RootState) => state.auth.user);
     const router = useRouter();
-    const [currentPage, setCurrentPage] = useState(initialPage);
+    const [currentPage, setCurrentPage] = useState(() =>
+        parseInt(searchParams?.get('page') || '1')
+    );
 
+    // Single consolidated useEffect for authentication, URL management, and initial checks
     useEffect(() => {
+        // Authentication check
         if (!user) {
             router.push('/404');
-        } else if (user.role !== 'ADMIN') {
-            router.push('/404');
+            return;
         }
-    }, [user, router]);
 
-    // Cập nhật URL khi thay đổi tab
-    useEffect(() => {
-        const url = new URL(window.location.href);
-        url.searchParams.set('tab', activeTab);
-        window.history.replaceState({}, '', url.toString());
-    }, [activeTab]);
+        if (user.role !== 'ADMIN') {
+            router.push('/404');
+            return;
+        }
 
-    if (!user || user.role !== 'ADMIN') {
-        return <Loading />;
-    }
-
-    useEffect(() => {
+        // Update URL with current tab and page
         const url = new URL(window.location.href);
         url.searchParams.set('tab', activeTab);
         url.searchParams.set('page', currentPage.toString());
         window.history.replaceState({}, '', url.toString());
-    }, [activeTab, currentPage]);
+    }, [user, router, activeTab, currentPage]);
+
+    // Early return for loading state
+    if (!user || user.role !== 'ADMIN') {
+        return <Loading />;
+    }
 
     const menuItems = [
         {

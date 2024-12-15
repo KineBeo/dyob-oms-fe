@@ -1,14 +1,14 @@
 'use client';
 import React, { useEffect, useState, useRef } from 'react';
-import { Bell, X } from 'lucide-react';
+import { Bell, X, ShoppingCart } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import io from 'socket.io-client';
 import { notificationService } from '@/utils/notification/notification';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
-// Định nghĩa interface cho Notification
 interface Notification {
     id: number;
     message: string;
@@ -22,22 +22,20 @@ interface Notification {
 }
 
 export default function NavbarNotificationPanel() {
-    // Lấy trạng thái xác thực và thông tin người dùng từ Redux
     const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
 
-    // State quản lý notifications
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Animation variants cho notifications
+    // Animation variants (keep existing)
     const notificationVariants = {
         initial: { opacity: 0, x: 50 },
         animate: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 300 } },
         exit: { opacity: 0, x: -50, transition: { duration: 0.2 } }
     };
 
-    // Fetch initial notifications
+    // Fetch initial notifications (keep existing)
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
@@ -54,21 +52,7 @@ export default function NavbarNotificationPanel() {
         }
     }, [isAuthenticated]);
 
-    // Đóng dropdown khi click ngoài
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
-    // Kết nối Socket cho notifications real-time
+    // Socket connection (keep existing)
     useEffect(() => {
         if (!isAuthenticated || user?.role !== 'ADMIN') return;
 
@@ -88,14 +72,12 @@ export default function NavbarNotificationPanel() {
                 user: order.user
             };
 
-            // Hiển thị toast notification
             toast.success(newNotification.message, {
                 icon: '🎉',
                 duration: 4000,
                 position: 'top-right'
             });
 
-            // Thêm notification mới vào danh sách
             setNotifications(prev => [newNotification, ...prev]);
         });
 
@@ -104,13 +86,26 @@ export default function NavbarNotificationPanel() {
         };
     }, [isAuthenticated, user]);
 
-    // Nếu chưa đăng nhập thì không hiển thị
+    // Outside click handler (keep existing)
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     if (!isAuthenticated) return null;
 
-    // Đếm số lượng notification chưa đọc
+    // Count unread notifications
     const unreadCount = notifications.filter((notification) => !notification.isRead).length;
 
-    // Đánh dấu notification đã đọc
+    // Mark notification as read
     const markAsRead = async (id: number) => {
         try {
             await notificationService.markAsRead(id);
@@ -125,10 +120,23 @@ export default function NavbarNotificationPanel() {
         }
     };
 
-    // Xóa tất cả notifications
-    const clearAllNotifications = () => {
+    // Delete a specific notification
+    const deleteNotification = async (id: number) => {
         try {
-            // Gọi API xóa tất cả notifications nếu cần
+            await notificationService.deleteNotification(id);
+            setNotifications((prev) => prev.filter((notification) => notification.id !== id));
+            toast.success('Đã xóa thông báo');
+        } catch (error) {
+            console.error('Failed to delete notification', error);
+            toast.error('Không thể xóa thông báo');
+        }
+    };
+
+    // Clear all notifications
+    const clearAllNotifications = async () => {
+        try {
+            // Assuming you have an API endpoint to clear all notifications
+            await notificationService.clearAllNotifications();
             setNotifications([]);
             toast.success('Đã xóa tất cả thông báo');
         } catch (error) {
@@ -138,7 +146,7 @@ export default function NavbarNotificationPanel() {
     };
 
     return (
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative flex items-center space-x-4" ref={dropdownRef}>
             {/* Notification Trigger */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -155,6 +163,20 @@ export default function NavbarNotificationPanel() {
                     </motion.span>
                 )}
             </button>
+
+            {/* Cart with Unread Notifications Popup */}
+            <Link href="/cart" className="relative">
+                <ShoppingCart size={24} className="text-text-brown-primary hover:text-[#D7A444]" />
+                {unreadCount > 0 && (
+                    <motion.span
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="-top-2 -right-2 absolute bg-red-500 px-1.5 py-0.5 rounded-full text-white text-xs"
+                    >
+                        {unreadCount}
+                    </motion.span>
+                )}
+            </Link>
 
             {/* Dropdown Menu */}
             <AnimatePresence>
@@ -198,7 +220,10 @@ export default function NavbarNotificationPanel() {
                                             initial="initial"
                                             animate="animate"
                                             exit="exit"
-                                            className={`flex justify-between items-center hover:bg-gray-50 p-3 border-b cursor-pointer ${notification.isRead ? 'bg-gray-100' : ''}`}
+                                            className={`flex justify-between items-center p-3 border-b cursor-pointer 
+                                                ${notification.isRead
+                                                    ? 'bg-gray-50 text-gray-500'
+                                                    : 'bg-white text-black font-semibold'}`}
                                             onClick={() => markAsRead(notification.id)}
                                         >
                                             <div className="flex-grow">
@@ -210,9 +235,7 @@ export default function NavbarNotificationPanel() {
                                             <button
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    setNotifications((prev) =>
-                                                        prev.filter((notif) => notif.id !== notification.id)
-                                                    );
+                                                    deleteNotification(notification.id);
                                                 }}
                                                 className="ml-2 text-gray-400 hover:text-red-500"
                                             >

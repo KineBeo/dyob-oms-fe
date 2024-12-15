@@ -18,4 +18,18 @@ export const notificationService = {
       throw error;
     }
   },
+  async deleteNotification(notificationId: number) {
+    try {
+      await api.delete(`/notifications/${notificationId}`);
+    } catch (error) {
+      throw error;
+    }
+  },
+  async clearAllNotifications() {
+    try {
+      await api.delete("/notifications/all");
+    } catch (error) {
+      throw error;
+    }
+  },
 };

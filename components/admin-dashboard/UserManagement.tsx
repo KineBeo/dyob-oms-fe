@@ -1,3 +1,4 @@
+import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, ArrowUpDown, Pencil, Trash, Eye, EyeOff, Search, Loader2 } from 'lucide-react';
 import { User, CreateUserDto, UpdateUserDto } from '@/interfaces/user';
@@ -12,10 +13,21 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const UserManagement = () => {
+interface UserManagementProps {
+  initialPage?: number;
+  onPageChange?: (page: number) => void;
+}
+
+const UserManagement = ({
+  initialPage = 1,
+  onPageChange
+}: UserManagementProps) => {
+
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize, setPageSize] = useState(100);
   const [search, setSearch] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -28,20 +40,45 @@ const UserManagement = () => {
     password_hash: ''
   });
 
-  // Fetch users on component mount
   useEffect(() => {
     fetchUsers();
-  }, []);
+    // Gọi callback để đồng bộ page ở component cha
+    if (onPageChange) {
+      onPageChange(currentPage);
+    }
+  }, [currentPage, pageSize, search]);
 
+
+
+  // Fetch users on component mount
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const data = await userService.getAll();
-      setUsers(data);
+      console.log('Fetching users...');
+      const response = await userService.getAllPagination({
+        page: currentPage,
+        pageSize: pageSize,
+        search: search
+      });
+      setUsers(response.data);
+      setTotalPages(response.totalPages);
+      console.log(response);
     } catch (error) {
       console.error('Error fetching users:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -52,6 +89,8 @@ const UserManagement = () => {
       setIsCreateModalOpen(false);
       setFormData({ fullname: '', phone_number: '', password_hash: '' });
       setShowCreatePassword(false);
+      // Reset to first page after creating a user
+      setCurrentPage(1);
       fetchUsers();
     } catch (error) {
       console.error('Error creating user:', error);
@@ -78,12 +117,17 @@ const UserManagement = () => {
     if (window.confirm('Bạn có chắc chắn muốn xoá user này không?')) {
       try {
         await userService.remove(id);
+        // Adjust current page if needed
+        if (users.length === 1 && currentPage > 1) {
+          setCurrentPage(currentPage - 1);
+        }
         fetchUsers();
       } catch (error) {
         console.error('Error deleting user:', error);
       }
     }
   };
+
 
   // Handle search
   const handleSearch = async () => {
@@ -121,9 +165,10 @@ const UserManagement = () => {
     setFormData({ fullname: '', phone_number: '', password_hash: '' });
   };
 
+
   return (
     <div className="bg-white shadow p-6 rounded-lg w-full">
-      {/* Header with New Customer button and Search */}
+      {/* Existing header and search section */}
       <div className="flex justify-between items-center mb-6">
         <Button
           onClick={() => setIsCreateModalOpen(true)}
@@ -137,13 +182,14 @@ const UserManagement = () => {
             type="text"
             placeholder="Search by phone..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setCurrentPage(1); // Reset to first page when searching
+            }}
             className="pl-10"
           />
           <Search
             className="top-1/2 left-3 absolute w-4 h-4 text-gray-400 -translate-y-1/2"
-            onClick={handleSearch}
           />
         </div>
       </div>
@@ -207,6 +253,31 @@ const UserManagement = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-between items-center mt-4">
+        <div className="text-gray-600 text-sm">
+          Trang {currentPage} / {totalPages}
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Create User Modal */}

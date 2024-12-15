@@ -11,22 +11,24 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface UserManagementProps {
   initialPage?: number;
   onPageChange?: (page: number) => void;
 }
 
+
 const UserManagement = ({
   initialPage = 1,
   onPageChange
 }: UserManagementProps) => {
-
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
-  const [pageSize, setPageSize] = useState(100);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalUsers, setTotalUsers] = useState(0);
   const [search, setSearch] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -61,6 +63,7 @@ const UserManagement = ({
       });
       setUsers(response.data);
       setTotalPages(response.totalPages);
+      setTotalUsers(response.totalUsers);
       console.log(response);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -127,7 +130,6 @@ const UserManagement = ({
     }
   };
 
-
   // Handle search
   const handleSearch = async () => {
     if (!search) {
@@ -158,6 +160,18 @@ const UserManagement = ({
     setFormData({ fullname: '', phone_number: '', password_hash: '' });
   };
 
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  const handlePageSizeChange = (value: string) => {
+    const newPageSize = parseInt(value);
+    setPageSize(newPageSize);
+    setCurrentPage(1); // Reset to first page when changing page size
+  };
+
   const handleCloseUpdateModal = () => {
     setIsUpdateModalOpen(false);
     setShowUpdatePassword(false);
@@ -167,7 +181,7 @@ const UserManagement = ({
 
   return (
     <div className="bg-white shadow p-6 rounded-lg w-full">
-      {/* Existing header and search section */}
+      {/* Search and Create User Section */}
       <div className="flex justify-between items-center mb-6">
         <Button
           onClick={() => setIsCreateModalOpen(true)}
@@ -183,7 +197,7 @@ const UserManagement = ({
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
-              setCurrentPage(1); // Reset to first page when searching
+              setCurrentPage(1);
             }}
             className="pl-10"
           />
@@ -256,10 +270,33 @@ const UserManagement = ({
 
       {/* Pagination Controls */}
       <div className="flex justify-between items-center mt-4">
-        <div className="text-gray-600 text-sm">
-          Trang {currentPage} / {totalPages}
-        </div>
         <div className="flex items-center space-x-2">
+          <span className="text-gray-600 text-sm">Số người dùng trong một trang:</span>
+          <Select
+            value={pageSize.toString()}
+            onValueChange={(value) => {
+              const newPageSize = parseInt(value);
+              setPageSize(newPageSize);
+              setCurrentPage(1);
+            }}
+          >
+            <SelectTrigger className="w-[120px]">
+              <SelectValue placeholder="Select page size" />
+            </SelectTrigger>
+            <SelectContent>
+              {[10, 25, 50, 100].map((size) => (
+                <SelectItem key={size} value={size.toString()}>
+                  {size} người
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <div className="text-gray-600 text-sm">
+            Trang {currentPage} / {totalPages}
+          </div>
           <Button
             variant="outline"
             size="sm"

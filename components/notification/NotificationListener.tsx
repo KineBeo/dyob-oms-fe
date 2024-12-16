@@ -86,7 +86,7 @@ export default function NavbarNotificationPanel() {
 
             toast.success(newNotification.message, {
                 icon: '🎉',
-                duration: 4000,
+                duration: 15000,
                 position: 'top-right'
             });
 

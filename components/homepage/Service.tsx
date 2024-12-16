@@ -32,9 +32,9 @@ const ServiceSection = ({ title, services }: ServiceSectionProps) => {
           </h2>
         </div>
 
-        <p className="mx-auto mb-8 font-robotoflex text-base text-black text-center mobile:text-sm">
+        {/* <p className="mx-auto mb-8 font-robotoflex text-base text-black text-center mobile:text-sm">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
+        </p> */}
 
         {/* Services grid desktop */}
         <div className="gap-4 mini-laptop:gap-4 mobile:hidden tablet:hidden grid desktop:grid-cols-3 laptop:grid-cols-3 mini-laptop:grid-cols-3 px-4">

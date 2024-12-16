@@ -13,7 +13,6 @@ import Loading from '@/components/Loading';
 import RankRoadmap, { UserRank } from '@/components/affiliate-dashboard/RankRoadmap';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import Referrals, { UserStatus } from '@/components/affiliate-dashboard/Referrals';
 import OrderCard from '@/components/orders/OrderCard';
 import { Order } from '@/interfaces/order';
 import { userService } from '@/utils/user/userApi';
@@ -21,6 +20,9 @@ import { UpdateUserDto } from '@/interfaces/user';
 import Profile from '@/components/affiliate-dashboard/Profile';
 import { updateUserSuccess } from '@/redux/features/auth/authSlice';
 import ReferralBarChart from '@/components/affiliate-dashboard/ReferralBarChart';
+import { fr } from 'date-fns/locale';
+import Referrals from '@/components/affiliate-dashboard/Referrals';
+import { UserStatus } from '@/interfaces/user-status';
 
 interface Referral {
   id: string;
@@ -110,7 +112,7 @@ const UserStatusPage = () => {
 
   const Overview = () => (
     <div className="space-y-6">
-      <Card className="border border-gray-300">
+      <Card className="border-gray-300 border">
         <CardContent className="p-6">
           <div className="flex items-center gap-4 mb-6">
             <div className="flex justify-center items-center bg-primary/10 rounded-full w-16 h-16">
@@ -132,7 +134,7 @@ const UserStatusPage = () => {
                   {user?.phone_number}
                 </div>
                 <div className="flex items-center gap-1">
-                  <PackageOpen className="w-5 h-5"/>
+                  <PackageOpen className="w-5 h-5" />
                   GÓI {userStatus?.user_class}
                 </div>
               </div>
@@ -144,11 +146,11 @@ const UserStatusPage = () => {
         </CardContent>
       </Card>
       {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
-        <Card className="border border-gray-300">
+        <Card className="border-gray-300 border">
           <CardContent className="p-6">
             <h3 className="mb-4 font-semibold text-lg">Mã giới thiệu</h3>
             <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-300">
+              <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
                 <p className="font-medium break-all">
                   {`${window.location.origin}/authentication/register?ref=${userStatus?.personal_referral_code}`}
                 </p>
@@ -158,7 +160,7 @@ const UserStatusPage = () => {
                   onClick={() => copyReferralLink(userStatus?.personal_referral_code)}
                   variant="outline"
                   size="sm"
-                  className="w-full border border-gray-400"
+                  className="border-gray-400 border w-full"
                 >
                   Sao chép liên kết
                 </Button>
@@ -177,10 +179,10 @@ const UserStatusPage = () => {
         </Card>
       )}
       <ReferralBarChart userStatus={userStatus} />
-      <Card className="border border-gray-300">
+      <Card className="border-gray-300 border">
         <CardContent className="gap-4 grid grid-cols-2 desktop:grid-cols-4 laptop:grid-cols-4 mini-laptop:grid-cols-2 p-6">
 
-          <div className="bg-green-50 p-4 rounded-lg border border-gray-300">
+          <div className="border-gray-300 bg-green-50 p-4 border rounded-lg">
             <p className="font-medium text-green-600 text-sm">Cá nhân chi tiêu</p>
             <p className="font-bold text-2xl text-green-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
               {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
@@ -189,21 +191,28 @@ const UserStatusPage = () => {
           </div>
           {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
             <>
-              <div className="bg-red-50 p-4 rounded-lg border border-gray-300">
+              <div className="border-gray-300 bg-red-50 p-4 border rounded-lg">
                 <p className="font-medium text-red-600 text-sm">Doanh số tích luỹ</p>
                 <p className="font-bold text-2xl text-red-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                     .format(Number(userStatus.total_sales))}
                 </p>
               </div>
-              <div className="bg-orange-50 p-4 rounded-lg border border-gray-300">
+              <div className="border-gray-300 bg-yellow-50 p-4 border rounded-lg">
+                <p className="font-medium text-sm text-yellow-600">Thưởng doanh số</p>
+                <p className="font-bold text-2xl text-yellow-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                    .format(Number(userStatus.bonus))}
+                </p>
+              </div>
+              {/* <div className="border-gray-300 bg-orange-50 p-4 border rounded-lg">
                 <p className="font-medium text-orange-600 text-sm">Doanh số nhóm</p>
                 <p className="font-bold text-2xl text-orange-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                     .format(Number(userStatus.group_sales))
                   }
                 </p>
-              </div>
+              </div> */}
             </>
           )}
         </CardContent>

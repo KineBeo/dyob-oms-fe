@@ -402,9 +402,6 @@ export default function HeroSection() {
             </Button>
           </Badge>
         </NavbarItem>
-        <NavbarItem>
-          <NavbarNotificationPanel />
-        </NavbarItem>
       </NavbarContent>
 
       {/* Mobile */}
@@ -487,6 +484,7 @@ export default function HeroSection() {
           <Divider className="bg-[#D7A444]" />
         </NavbarMenuItem>
       </NavbarMenu>
+      <NavbarNotificationPanel />
     </Navbar>
   );
 }

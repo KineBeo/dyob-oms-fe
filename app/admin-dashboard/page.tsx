@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Loading from "@/components/Loading";
 
 // Import components
@@ -28,19 +28,39 @@ import Image from "next/image";
 import CommissionHistoryManagement from "@/components/admin-dashboard/CommissionHistoryManagement";
 
 const DashboardLayout = () => {
-    const [activeTab, setActiveTab] = useState('welcome');
+    // Sử dụng URL search params để lưu trạng thái tab
+    const searchParams = useSearchParams();
+    const initialTab = searchParams?.get('tab') || 'welcome';
+    const initialPage = parseInt(searchParams?.get('page') || '1');
+    const [activeTab, setActiveTab] = useState(initialTab);
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const user = useSelector((state: RootState) => state.auth.user);
     const router = useRouter();
+    const [currentPage, setCurrentPage] = useState(() =>
+        parseInt(searchParams?.get('page') || '1')
+    );
 
+    // Single consolidated useEffect for authentication, URL management, and initial checks
     useEffect(() => {
+        // Authentication check
         if (!user) {
             router.push('/404');
-        } else if (user.role !== 'ADMIN') {
-            router.push('/404');
+            return;
         }
-    }, [user, router]);
 
+        if (user.role !== 'ADMIN') {
+            router.push('/404');
+            return;
+        }
+
+        // Update URL with current tab and page
+        const url = new URL(window.location.href);
+        url.searchParams.set('tab', activeTab);
+        url.searchParams.set('page', currentPage.toString());
+        window.history.replaceState({}, '', url.toString());
+    }, [user, router, activeTab, currentPage]);
+
+    // Early return for loading state
     if (!user || user.role !== 'ADMIN') {
         return <Loading />;
     }
@@ -49,45 +69,33 @@ const DashboardLayout = () => {
         {
             label: 'Thống kê tổng quan',
             href: '#dashboard',
-            icon: <LayoutDashboard className="text-neutral-700 dark:text-neutral-200 h-6 w-6 flex-shrink-0" />,
+            icon: <LayoutDashboard className="flex-shrink-0 w-6 h-6 text-neutral-700 dark:text-neutral-200" />,
             id: 'dashboard'
         },
         {
             label: 'Quản lý người dùng',
             href: '#users',
-            icon: <Users className="text-neutral-700 dark:text-neutral-200 h-6 w-6 flex-shrink-0" />,
+            icon: <Users className="flex-shrink-0 w-6 h-6 text-neutral-700 dark:text-neutral-200" />,
             id: 'users'
         },
         {
             label: 'Quản lý sản phẩm',
             href: '#products',
-            icon: <PackageOpen className="text-neutral-700 dark:text-neutral-200 h-6 w-6 flex-shrink-0" />,
+            icon: <PackageOpen className="flex-shrink-0 w-6 h-6 text-neutral-700 dark:text-neutral-200" />,
             id: 'products'
         },
         {
             label: 'Quản lý đơn hàng',
             href: '#orders',
-            icon: <ShoppingCart className="text-neutral-700 dark:text-neutral-200 h-6 w-6 flex-shrink-0" />,
+            icon: <ShoppingCart className="flex-shrink-0 w-6 h-6 text-neutral-700 dark:text-neutral-200" />,
             id: 'orders'
         },
         {
             label: 'Quản lý lịch sử hoa hồng từng tháng',
             href: '#commission-history',
-            icon: <LayoutDashboard className="text-neutral-700 dark:text-neutral-200 h-6 w-6 flex-shrink-0" />,
+            icon: <LayoutDashboard className="flex-shrink-0 w-6 h-6 text-neutral-700 dark:text-neutral-200" />,
             id: 'commission-history'
-        },
-        // {
-        //     label: 'Cài đặt',
-        //     href: '#settings',
-        //     icon: <Settings className="text-neutral-700 dark:text-neutral-200 h-6 w-6 flex-shrink-0" />,
-        //     id: 'settings'
-        // },
-        // {
-        //     label: 'Đăng xuất',
-        //     href: '/logout',
-        //     icon: <LogOut className="text-neutral-700 dark:text-neutral-200 h-6 w-6 flex-shrink-0" />,
-        //     id: 'logout'
-        // }
+        }
     ];
 
     const renderContent = () => {
@@ -116,7 +124,10 @@ const DashboardLayout = () => {
             case 'products':
                 return <ProductsManagement />;
             case 'users':
-                return <UserManagement />;
+                return <UserManagement
+                    initialPage={currentPage}
+                    onPageChange={(page) => setCurrentPage(page)}
+                />;
             case 'commission-history':
                 return <CommissionHistoryManagement />;
             default:
@@ -135,10 +146,6 @@ const DashboardLayout = () => {
 
     const handleLinkClick = (id: string) => (e: React.MouseEvent) => {
         e.preventDefault();
-        // if (id === 'logout') {
-        //     // Handle logout logic here
-        //     return;
-        // }
         setActiveTab(id);
     };
 
@@ -148,49 +155,49 @@ const DashboardLayout = () => {
             "h-full" // for your use case, use `h-screen` instead of `h-[60vh]`
         )}>
             <div>
-            <Sidebar open={isSidebarOpen} setOpen={setIsSidebarOpen}>
-                <SidebarBody className="justify-between gap-10 border border-gray-300">
-                    <div className="flex flex-col flex-1">
-                        {isSidebarOpen ? <Logo name={user.role} /> : <LogoIcon />}
+                <Sidebar open={isSidebarOpen} setOpen={setIsSidebarOpen}>
+                    <SidebarBody className="justify-between gap-10 border-gray-300 border">
+                        <div className="flex flex-col flex-1">
+                            {isSidebarOpen ? <Logo name={user.role} /> : <LogoIcon />}
 
-                        <div className="mt-8 flex flex-col gap-2">
-                            {menuItems.map((item) => (
-                                <SidebarLink
-                                    key={item.id}
-                                    link={{
-                                        label: item.label,
-                                        href: item.href,
-                                        icon: item.icon
-                                    }}
-                                    className={`${activeTab === item.id
-                                        ? 'text-white hover:bg-gray-300 font-bold'
-                                        : 'hover:bg-gray-200'
-                                        } rounded-lg`}
-                                    onClick={handleLinkClick(item.id)}
-                                />
-                            ))}
+                            <div className="flex flex-col gap-2 mt-8">
+                                {menuItems.map((item) => (
+                                    <SidebarLink
+                                        key={item.id}
+                                        link={{
+                                            label: item.label,
+                                            href: item.href,
+                                            icon: item.icon
+                                        }}
+                                        className={`${activeTab === item.id
+                                            ? 'text-white hover:bg-gray-300 font-bold'
+                                            : 'hover:bg-gray-200'
+                                            } rounded-lg`}
+                                        onClick={handleLinkClick(item.id)}
+                                    />
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                    <SidebarLink
-                    className="font-bold text-2xl"
-                        link={{
-                            label: user.fullname,
-                            href: "#",
-                            icon: (
-                                <Image
-                                    src="/images/logo-image.png"
-                                    className="h-10 w-10 flex-shrink-0 rounded-full"
-                                    width={50}
-                                    height={50}
-                                    alt="Avatar"
-                                />
-                            ),
-                        }}
-                    />
-                </SidebarBody>
-            </Sidebar>
+                        <SidebarLink
+                            className="font-bold text-2xl"
+                            link={{
+                                label: user.fullname,
+                                href: "#",
+                                icon: (
+                                    <Image
+                                        src="/images/logo-image.png"
+                                        className="flex-shrink-0 rounded-full w-10 h-10"
+                                        width={50}
+                                        height={50}
+                                        alt="Avatar"
+                                    />
+                                ),
+                            }}
+                        />
+                    </SidebarBody>
+                </Sidebar>
             </div>
-            
+
 
             {/* Main Content */}
             <main className="flex-1">
@@ -217,13 +224,13 @@ const Logo = ({ name }: { name: string }) => {
     return (
         <Link
             href="#"
-            className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
+            className="relative z-20 flex items-center space-x-2 py-1 font-normal text-black text-sm"
         >
-            <div className="hover:scale-110 transition duration-250">
+            <div className="transition duration-250 hover:scale-110">
                 <Avatar
                     src="/images/logo-image.png"
                     size="md"
-                    className="hover:cursor-pointer animate-shake"
+                    className="animate-shake hover:cursor-pointer"
                 />
 
             </div>
@@ -241,13 +248,13 @@ const LogoIcon = () => {
     return (
         <Link
             href="#"
-            className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
+            className="relative z-20 flex items-center space-x-2 py-1 font-normal text-black text-sm"
         >
-            <div className="hover:scale-110 transition duration-250">
+            <div className="transition duration-250 hover:scale-110">
                 <Avatar
                     src="/images/logo-image.png"
                     size="md"
-                    className="hover:cursor-pointer animate-shake"
+                    className="animate-shake hover:cursor-pointer"
                 />
             </div>
         </Link>

@@ -16,7 +16,6 @@ interface CommissionHistory {
   userStatus: UserStatus;
   monthly_commission: string;
   bonus: string;
-  // group_commission: string;
   month: number;
   year: number;
   createdAt: Date;
@@ -26,6 +25,7 @@ const CommissionHistoryManagement = () => {
   const [commissionData, setCommissionData] = useState<CommissionHistory[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedUser, setSelectedUser] = useState<UserStatus | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,9 +39,20 @@ const CommissionHistoryManagement = () => {
     try {
       setLoading(true);
       const data = await commissionHistoryService.getAllCommissionHistory();
-      //   console.log(data);
       setCommissionData(data);
+
+      // Find the most recent year and month
+      if (data.length > 0) {
+        const sortedData = data.sort((a: CommissionHistory, b: CommissionHistory) =>
+          new Date(b.year, b.month - 1).getTime() - new Date(a.year, a.month - 1).getTime()
+        );
+
+        const mostRecentEntry = sortedData[0];
+        setSelectedYear(mostRecentEntry.year);
+        setSelectedMonth(mostRecentEntry.month);
+      }
     } catch (error) {
+
       console.error('Error fetching commission history:', error);
     } finally {
       setLoading(false);
@@ -60,7 +71,6 @@ const CommissionHistoryManagement = () => {
   const prepareChartData = () => {
     const yearlyData = getYearlyData();
 
-    // Define the type for monthlyTotals
     type MonthlyTotals = {
       [key: number]: {
         month: string;
@@ -69,7 +79,6 @@ const CommissionHistoryManagement = () => {
       };
     };
 
-    // Group data by month and calculate total commissions
     const monthlyTotals = yearlyData.reduce((acc: MonthlyTotals, item) => {
       const month = item.month;
       if (!acc[month]) {
@@ -84,15 +93,24 @@ const CommissionHistoryManagement = () => {
       return acc;
     }, {} as MonthlyTotals);
 
-    // Convert to array and sort by month
     return Object.values(monthlyTotals).sort((a, b) => {
       return parseInt((a as any).month.split(' ')[1]) - parseInt((b as any).month.split(' ')[1]);
     });
   };
 
   const exportToCSV = () => {
-    const currentMonth = new Date().getMonth() + 1; // Lấy tháng hiện tại (0-11, nên cần +1)
-    const monthlyData = getYearlyData().filter(item => item.month === currentMonth);
+    // Filter data for the selected month and year
+    const monthlyData = getYearlyData().filter(
+      item => item.month === selectedMonth
+    );
+
+    // If no data for the selected month
+    if (monthlyData.length === 0) {
+      alert(`Không có dữ liệu hoa hồng cho tháng ${selectedMonth} năm ${selectedYear}.`);
+      return;
+    }
+
+    // Prepare CSV data
     const csvData: { [key: string]: string }[] = monthlyData.map(item => ({
       'Tháng': `Tháng ${item.month}`,
       'Tên người dùng': item.userStatus.user.fullname,
@@ -103,28 +121,21 @@ const CommissionHistoryManagement = () => {
       'Cấp bậc': item.userStatus.user_rank,
       'Hoa hồng cá nhân': parseFloat(item.monthly_commission).toLocaleString('vi-VN') + ' VNĐ',
       'Thưởng doanh số': parseFloat(item.bonus).toLocaleString('vi-VN') + ' VNĐ',
-      // 'Hoa hồng nhóm': parseFloat(item.group_commission).toLocaleString('vi-VN') + ' VNĐ',
-      // 'Tổng cộng': (parseFloat(item.monthly_commission) + parseFloat(item.group_commission)).toLocaleString('vi-VN') + ' VNĐ'
     }));
 
-    if (csvData.length === 0) {
-      alert('Không có dữ liệu hoa hồng cho tháng hiện tại.');
-      return;
-    }
-
-    // Tạo header cho CSV
+    // Create CSV content
     const headers = Object.keys(csvData[0]);
     const csvContent = [
-      headers.join(','), // Header row
-      ...csvData.map(row => headers.map(header => `"${row[header as keyof typeof row]}"`).join(',')) // Data rows
+      headers.join(','),
+      ...csvData.map(row => headers.map(header => `"${row[header as keyof typeof row]}"`).join(','))
     ].join('\n');
 
-    // Tạo Blob và tạo URL để download
+    // Create and download CSV
     const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `hoa-hong-thang-${currentMonth}-${selectedYear}.csv`);
+    link.setAttribute('download', `hoa-hong-thang-${selectedMonth}-${selectedYear}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -135,33 +146,54 @@ const CommissionHistoryManagement = () => {
     return {
       monthly: yearlyData.reduce((sum, item) => sum + parseFloat(item.monthly_commission), 0),
       bonus: yearlyData.reduce((sum, item) => sum + parseFloat(item.bonus), 0)
-      // group: yearlyData.reduce((sum, item) => sum + parseFloat(item.group_commission), 0)
     };
   };
 
   const uniqueYears = Array.from(new Set(commissionData.map(item => item.year)));
+  const uniqueMonths = Array.from(
+    new Set(getYearlyData().map(item => item.month))
+  ).sort((a, b) => a - b);
 
   return (
     <div className="space-y-6 p-6">
       <div className="flex justify-between items-center">
         <h2 className="font-bold text-3xl text-gray-800">Lịch sử hoa hồng</h2>
-        <Select
-          value={selectedYear.toString()}
-          onValueChange={(value) => setSelectedYear(parseInt(value))}
-        >
-          <SelectTrigger className="w-32">
-            <SelectValue placeholder="Chọn năm" />
-          </SelectTrigger>
-          <SelectContent>
-            {uniqueYears.map(year => (
-              <SelectItem key={year} value={year.toString()}>
-                Năm {year}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex items-center space-x-4">
+          <Select
+            value={selectedYear.toString()}
+            onValueChange={(value) => setSelectedYear(parseInt(value))}
+          >
+            <SelectTrigger className="w-32">
+              <SelectValue placeholder="Chọn năm" />
+            </SelectTrigger>
+            <SelectContent>
+              {uniqueYears.map(year => (
+                <SelectItem key={year} value={year.toString()}>
+                  Năm {year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={selectedMonth.toString()}
+            onValueChange={(value) => setSelectedMonth(parseInt(value))}
+          >
+            <SelectTrigger className="w-32">
+              <SelectValue placeholder="Chọn tháng" />
+            </SelectTrigger>
+            <SelectContent>
+              {uniqueMonths.map(month => (
+                <SelectItem key={month} value={month.toString()}>
+                  Tháng {month}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
+      {/* Rest of the component remains the same as before */}
       <div className="gap-6 grid grid-cols-1 md:grid-cols-2">
         <Card>
           <CardHeader>
@@ -179,9 +211,9 @@ const CommissionHistoryManagement = () => {
                       value: 'VNĐ',
                       angle: -90,
                       position: 'insideLeft',
-                      style: { fontSize: '12px' } // Adjust the font size here
+                      style: { fontSize: '12px' }
                     }}
-                    tick={{ fontSize: '12px' }} // Adjust the font size here
+                    tick={{ fontSize: '12px' }}
                   />
                   <Tooltip
                     formatter={(value) => [value.toLocaleString('vi-VN') + ' VNĐ']}
@@ -256,32 +288,30 @@ const CommissionHistoryManagement = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {getYearlyData().map((item) => (
-                <TableRow key={`${item.year}-${item.month}`}>
-                  <TableCell>Tháng {item.month}</TableCell>
-                  <TableCell>{item.userStatus.user.fullname}</TableCell>
-                  <TableCell>{item.userStatus.user_rank}</TableCell>
-                  <TableCell>{parseFloat(item.monthly_commission).toLocaleString('vi-VN')} VNĐ</TableCell>
-                  {/* <TableCell>{parseFloat(item.group_commission).toLocaleString('vi-VN')} VNĐ</TableCell> */}
-                  {/* <TableCell>
-                    {(parseFloat(item.monthly_commission) + parseFloat(item.group_commission)).toLocaleString('vi-VN')} VNĐ
-                  </TableCell> */}
-                  <TableCell>{parseFloat(item.bonus).toLocaleString('vi-VN')} VNĐ</TableCell>
-                  <TableCell>
-                    {(parseFloat(item.monthly_commission) + parseFloat(item.bonus)).toLocaleString('vi-VN')} VNĐ
-                  </TableCell>
+              {getYearlyData()
+                .filter(item => item.month === selectedMonth)
+                .map((item) => (
+                  <TableRow key={`${item.year}-${item.month}`}>
+                    <TableCell>Tháng {item.month}</TableCell>
+                    <TableCell>{item.userStatus.user.fullname}</TableCell>
+                    <TableCell>{item.userStatus.user_rank}</TableCell>
+                    <TableCell>{parseFloat(item.monthly_commission).toLocaleString('vi-VN')} VNĐ</TableCell>
+                    <TableCell>{parseFloat(item.bonus).toLocaleString('vi-VN')} VNĐ</TableCell>
+                    <TableCell>
+                      {(parseFloat(item.monthly_commission) + parseFloat(item.bonus)).toLocaleString('vi-VN')} VNĐ
+                    </TableCell>
 
-                  <TableCell>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleRowClick(item.userStatus)}
-                    >
-                      Chi tiết
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    <TableCell>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleRowClick(item.userStatus)}
+                      >
+                        Chi tiết
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </CardContent>

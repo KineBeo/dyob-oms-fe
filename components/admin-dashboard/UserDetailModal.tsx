@@ -2,7 +2,6 @@ import { User } from "@/interfaces/auth";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { UserStatus } from "@/interfaces/user-status";
 
-
 interface UserDetailModalProps {
     user: User;
     userStatus: UserStatus;
@@ -46,14 +45,6 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, userStatus, isO
                     </div>
                     <div className="space-y-2">
                         <div className="flex justify-between">
-                            <span className="text-gray-600">Mã giới thiệu:</span>
-                            <span className="font-medium">{userStatus.personal_referral_code}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-600">Loại người dùng:</span>
-                            <span className="font-medium">{userStatus.user_type}</span>
-                        </div>
-                        <div className="flex justify-between">
                             <span className="text-gray-600">Hạng:</span>
                             <span className="font-medium">{userStatus.user_class}</span>
                         </div>
@@ -67,20 +58,20 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, userStatus, isO
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Tổng mua:</span>
-                            <span className="font-medium">{userStatus.total_purchase.toLocaleString('vi-VN')} VNĐ</span>
+                            <span className="font-medium">{Number(userStatus.total_purchase).toLocaleString('vi-VN')} VNĐ</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-gray-600">Hoa hồng:</span>
+                            <span className="font-medium">{Number(userStatus.commission).toLocaleString('vi-VN')} VNĐ</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Doanh số cá nhân:</span>
-                            <span className="font-medium">{userStatus.total_sales.toLocaleString('vi-VN')} VNĐ</span>
+                            <span className="font-medium">{Number(userStatus.total_sales).toLocaleString('vi-VN')} VNĐ</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Thưởng doanh số:</span>
-                            <span className="font-medium">{userStatus.bonus.toLocaleString('vi-VN')} VNĐ</span>
+                            <span className="font-medium">{Number(userStatus.bonus).toLocaleString('vi-VN')} VNĐ</span>
                         </div>
-                        {/* <div className="flex justify-between">
-                            <span className="text-gray-600">Doanh số nhóm:</span>
-                            <span className="font-medium">{userStatus.group_sales.toLocaleString('vi-VN')} VNĐ</span>
-                        </div> */}
                     </div>
                     <div className="col-span-2">
                         <div className="flex justify-between pt-2 border-t">
@@ -89,12 +80,6 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, userStatus, isO
                                 {new Date(userStatus.rank_achievement_date).toLocaleDateString('vi-VN')}
                             </span>
                         </div>
-                        {/* <div className="flex justify-between">
-              <span className="text-gray-600">Lần kiểm tra hạng cuối:</span>
-              <span className="font-medium">
-                {new Date(userStatus.last_rank_check).toLocaleDateString('vi-VN')}
-              </span>
-            </div> */}
                     </div>
                 </div>
             </DialogContent>

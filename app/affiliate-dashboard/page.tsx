@@ -23,6 +23,7 @@ import ReferralBarChart from '@/components/affiliate-dashboard/ReferralBarChart'
 import { fr } from 'date-fns/locale';
 import Referrals from '@/components/affiliate-dashboard/Referrals';
 import { UserStatus } from '@/interfaces/user-status';
+import Statistics from '@/components/affiliate-dashboard/Statistics'
 
 interface Referral {
   id: string;
@@ -325,51 +326,60 @@ const UserStatusPage = () => {
           {/* Sidebar */}
           <div className="space-y-2 w-full md:w-64">
             <Button
-              variant={activeTab === 'overview' ? 'default' : 'ghost'}
+              variant={activeTab === "overview" ? "default" : "ghost"}
               className="justify-start w-full"
-              onClick={() => setActiveTab('overview')}
+              onClick={() => setActiveTab("overview")}
             >
               <BarChart2 className="mr-2 w-4 h-4" />
               Tổng quan
             </Button>
             <Button
-              variant={activeTab === 'profile' ? 'default' : 'ghost'}
+              variant={activeTab === "profile" ? "default" : "ghost"}
               className="justify-start w-full"
-              onClick={() => setActiveTab('profile')}
+              onClick={() => setActiveTab("profile")}
             >
               <UserCircle className="mr-2 w-4 h-4" />
               Thông tin cá nhân
             </Button>
-            {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
+            {(userStatus?.user_type === "AFFILIATE" ||
+              user?.role === "ADMIN") && (
               <Button
-                variant={activeTab === 'referrals' ? 'default' : 'ghost'}
+                variant={activeTab === "referrals" ? "default" : "ghost"}
                 className="justify-start w-full"
-                onClick={() => setActiveTab('referrals')}
+                onClick={() => setActiveTab("referrals")}
               >
                 <UserPlus className="mr-2 w-4 h-4" />
                 Danh sách hệ thống
               </Button>
             )}
             <Button
-              variant={activeTab === 'orders' ? 'default' : 'ghost'}
+              variant={activeTab === "statistics" ? "default" : "ghost"}
               className="justify-start w-full"
-              onClick={() => setActiveTab('orders')}
+              onClick={() => setActiveTab("statistics")}
+            >
+              <BarChart2 className="mr-2 w-4 h-4" />
+              Thống kê
+            </Button>
+            <Button
+              variant={activeTab === "orders" ? "default" : "ghost"}
+              className="justify-start w-full"
+              onClick={() => setActiveTab("orders")}
             >
               <Package className="mr-2 w-4 h-4" />
               Lịch sử mua hàng
             </Button>
             <Button
-              variant={activeTab === 'addresses' ? 'default' : 'ghost'}
+              variant={activeTab === "addresses" ? "default" : "ghost"}
               className="justify-start w-full"
-              onClick={() => setActiveTab('addresses')}
+              onClick={() => setActiveTab("addresses")}
             >
               <MapPin className="mr-2 w-4 h-4" />
               Địa chỉ
             </Button>
             <Button
-              variant={activeTab === 'policy' ? 'default' : 'ghost'}
+              variant={activeTab === "policy" ? "default" : "ghost"}
               className="justify-start w-full"
-              onClick={() => setActiveTab('policy')}
+              onClick={() => setActiveTab("policy")}
             >
               <BookOpen className="mr-2 w-4 h-4" />
               Chính sách
@@ -377,9 +387,9 @@ const UserStatusPage = () => {
             {/* Admin Dashboard Button */}
             {user?.role === "ADMIN" && (
               <Button
-                variant={activeTab === 'admin' ? 'default' : 'ghost'}
-                className='justify-start w-full'
-                onClick={() => router.push('/admin-dashboard')}
+                variant={activeTab === "admin" ? "default" : "ghost"}
+                className="justify-start w-full"
+                onClick={() => router.push("/admin-dashboard")}
               >
                 <LayoutDashboard className="mr-2 w-4 h-4" />
                 Admin Dashboard
@@ -389,15 +399,22 @@ const UserStatusPage = () => {
 
           {/* Main Content */}
           <div className="flex-1">
-            {activeTab === 'overview' && <Overview />}
-            {activeTab === 'profile' && <Profile user={user}
-              userStatus={userStatus}
-              formatDate={formatDate}
-              onUpdateUser={handleUpdateUser} />}
-            {activeTab === 'referrals' && (userStatus?.user_type === 'AFFILIATE' || user?.role == 'ADMIN') && <Referrals userStatus={userStatus} />}
-            {activeTab === 'orders' && <Orders />}
-            {activeTab === 'addresses' && <Addresses />}
-            {activeTab === 'policy' && <Policy />}
+            {activeTab === "overview" && <Overview />}
+            {activeTab === "profile" && (
+              <Profile
+                user={user}
+                userStatus={userStatus}
+                formatDate={formatDate}
+                onUpdateUser={handleUpdateUser}
+              />
+            )}
+            {activeTab === "referrals" &&
+              (userStatus?.user_type === "AFFILIATE" ||
+                user?.role == "ADMIN") && <Referrals userStatus={userStatus} />}
+            {activeTab === "orders" && <Orders />}
+            {activeTab === "statistics" && <Statistics />}
+            {activeTab === "addresses" && <Addresses />}
+            {activeTab === "policy" && <Policy />}
           </div>
         </div>
       </div>

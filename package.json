@@ -37,6 +37,7 @@
     "next-auth": "^4.24.10",
     "next-cloudinary": "^6.16.0",
     "react": "^18",
+    "react-datepicker": "^8.0.0",
     "react-dom": "^18",
     "react-fullpage": "^0.1.19",
     "react-hook-form": "^7.53.1",

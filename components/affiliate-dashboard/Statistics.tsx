@@ -5,6 +5,9 @@ import Loading from "../Loading";
 import { userStatusService } from "@/utils/user-status/userStatus";
 import toast from "react-hot-toast";
 import {vi} from "date-fns/locale/vi";
+import * as XLSX from "xlsx";
+import { Download } from "lucide-react";
+
 
 
 const vietnameseLocale = {
@@ -40,6 +43,9 @@ interface StatisticsData {
 
 const ITEMS_PER_PAGE = 10; // Số dòng mỗi trang
 
+
+// Hàm xuất CSV
+
 const Statistics = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [stats, setStats] = useState<StatisticsData | null>(null);
@@ -74,6 +80,122 @@ const Statistics = () => {
     }
   };
 
+  // Hàm xuất CSV 
+  const exportToExcel = () => {
+    if (!stats?.userTransactions) return;
+
+    // Tạo dữ liệu cho file Excel
+    const excelData = stats.userTransactions.map((transaction) => ({
+      Ngày: new Date(transaction.date).toLocaleDateString("vi-VN"),
+      "Doanh số bán": Number(transaction.sale_amount),
+      "Hoa hồng": Number(transaction.commission_amount),
+      Thưởng: Number(transaction.bonus_amount),
+      "Mua hàng": Number(transaction.purchase_amount),
+      "Số đơn bán": Number(transaction.sale_count),
+      "Số đơn hoa hồng": Number(transaction.commission_count),
+      "Số đơn thưởng": Number(transaction.bonus_count),
+      "Số đơn mua": Number(transaction.purchase_count),
+    }));
+
+    // Thêm dòng tổng cộng
+    const totalsRow = {
+      Ngày: "Tổng cộng",
+      "Doanh số bán": stats.userTransactions.reduce(
+        (sum, t) => sum + Number(t.sale_amount),
+        0
+      ),
+      "Hoa hồng": stats.userTransactions.reduce(
+        (sum, t) => sum + Number(t.commission_amount),
+        0
+      ),
+      Thưởng: stats.userTransactions.reduce(
+        (sum, t) => sum + Number(t.bonus_amount),
+        0
+      ),
+      "Mua hàng": stats.userTransactions.reduce(
+        (sum, t) => sum + Number(t.purchase_amount),
+        0
+      ),
+      "Số đơn bán": stats.userTransactions.reduce(
+        (sum, t) => sum + Number(t.sale_count),
+        0
+      ),
+      "Số đơn hoa hồng": stats.userTransactions.reduce(
+        (sum, t) => sum + Number(t.commission_count),
+        0
+      ),
+      "Số đơn thưởng": stats.userTransactions.reduce(
+        (sum, t) => sum + Number(t.bonus_count),
+        0
+      ),
+      "Số đơn mua": stats.userTransactions.reduce(
+        (sum, t) => sum + Number(t.purchase_count),
+        0
+      ),
+    };
+
+    // Gộp dữ liệu và dòng tổng
+    const allData = [...excelData, totalsRow];
+
+    // Tạo workbook và worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(allData, {
+      header: [
+        "Ngày",
+        "Doanh số bán",
+        "Hoa hồng",
+        "Thưởng",
+        "Mua hàng",
+        "Số đơn bán",
+        "Số đơn hoa hồng",
+        "Số đơn thưởng",
+        "Số đơn mua",
+      ],
+    });
+
+    // Set column widths
+    const colWidths = [
+      { wch: 15 }, // Ngày
+      { wch: 15 }, // Doanh số bán
+      { wch: 15 }, // Hoa hồng
+      { wch: 15 }, // Thưởng
+      { wch: 15 }, // Mua hàng
+      { wch: 12 }, // Số đơn bán
+      { wch: 15 }, // Số đơn hoa hồng
+      { wch: 12 }, // Số đơn thưởng
+      { wch: 12 }, // Số đơn mua
+    ];
+    ws["!cols"] = colWidths;
+
+    // Format currency columns
+    const numberFormat = "#,##0";
+    const range = XLSX.utils.decode_range(ws["!ref"] || "A1");
+    for (let R = range.s.r; R <= range.e.r; R++) {
+      for (let C = 1; C <= 4; C++) {
+        // Columns B to E (currency columns)
+        const cell = ws[XLSX.utils.encode_cell({ r: R, c: C })];
+        if (cell && cell.v) {
+          cell.z = numberFormat;
+        }
+      }
+    }
+
+    // Add to workbook
+    XLSX.utils.book_append_sheet(
+      wb,
+      ws,
+      `Thống kê tháng ${stats.period.month}`
+    );
+
+    // Save file
+    XLSX.writeFile(
+      wb,
+      `thong-ke-thang-${stats.period.month}-${stats.period.year}.xlsx`
+    );
+  };
+
+
+
   // Tính toán các thông số phân trang
   const totalItems = stats?.userTransactions.length || 0;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
@@ -96,15 +218,24 @@ const Statistics = () => {
         <h2 className="text-xl font-semibold">
           Thống kê tháng {stats?.period.month}/{stats?.period.year}
         </h2>
-        <div className="relative">
-          <DatePicker
-            locale={vietnameseLocale}
-            selected={selectedDate}
-            onChange={handleMonthChange}
-            dateFormat="MM/yyyy"
-            showMonthYearPicker
-            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => exportToExcel()}
+            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded text-sm text-white transition-colors"
+          >
+            <Download size={16} />
+            Xuất dữ liệu
+          </button>
+          <div className="relative">
+            <DatePicker
+              locale={vietnameseLocale}
+              selected={selectedDate}
+              onChange={handleMonthChange}
+              dateFormat="MM/yyyy"
+              showMonthYearPicker
+              className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
         </div>
       </div>
 

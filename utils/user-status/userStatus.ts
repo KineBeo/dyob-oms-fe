@@ -22,7 +22,7 @@ export const userStatusService = {
     }
   },
   async getMonthlyStats(month: number, year: number) {
-    const response = await api.get(`/analysis?month=${month}&year=${year}`);
+    const response = await api.get(`/analysis/user?month=${month}&year=${year}`);
     return response.data;
   },
 };

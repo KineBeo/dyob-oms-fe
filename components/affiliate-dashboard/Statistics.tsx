@@ -1,100 +1,90 @@
-// Thêm interface cho dữ liệu thống kê hàng tháng
-
-
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-import toast from "react-hot-toast";
-import {
-  BarChart2,
-  CalendarDays,
-} from "lucide-react";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import Loading from "../Loading";
 import { userStatusService } from "@/utils/user-status/userStatus";
-import { Button } from "../ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import toast from "react-hot-toast";
+import {vi} from "date-fns/locale/vi";
 
-interface MonthlyStats {
-  month: number;
-  year: number;
-  personalSales: number;
-  commission: number;
-  bonus: number;
-  dailyData: Array<{ date: string; amount: number }>;
+
+const vietnameseLocale = {
+  ...vi,
+  options: {
+    ...vi.options,
+    weekStartsOn: 1,
+  },
+};
+
+// Đăng ký locale
+registerLocale("vi", vietnameseLocale);
+
+interface Transaction {
+  date: string;
+  commission_amount: string;
+  bonus_amount: string;
+  purchase_amount: string;
+  sale_amount: string;
+  commission_count: string;
+  bonus_count: string;
+  purchase_count: string;
+  sale_count: string;
 }
 
+interface StatisticsData {
+  userTransactions: Transaction[];
+  period: {
+    month: string;
+    year: string;
+  };
+}
+
+const ITEMS_PER_PAGE = 10; // Số dòng mỗi trang
+
 const Statistics = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [stats, setStats] = useState<MonthlyStats | null>(null);
+  const [stats, setStats] = useState<StatisticsData | null>(null);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // useEffect(() => {
-  //   const fetchStats = async () => {
-  //     if (!user?.id) return;
-  //     setLoading(true);
-  //     try {
-  //       const data = await userStatusService.getMonthlyStats(
-  //         user.id,
-  //         selectedDate.getMonth() + 1,
-  //         selectedDate.getFullYear()
-  //       );
-  //       setStats(data);
-  //     } catch (error) {
-  //       toast.error("Không thể tải dữ liệu thống kê");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const data = await userStatusService.getMonthlyStats(
+          selectedDate.getMonth() + 1,
+          selectedDate.getFullYear()
+        );
+        setStats(data);
+        setCurrentPage(1); // Reset về trang 1 khi thay đổi tháng
+      } catch (error) {
+        toast.error("Không thể tải dữ liệu thống kê");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   fetchStats();
-  // }, [selectedDate, user?.id]);
-   const generateSampleData = (month: number, year: number): MonthlyStats => {
-     const daysInMonth = new Date(year, month, 0).getDate();
-     const dailyData = Array.from({ length: daysInMonth }, (_, i) => ({
-       date: `${year}-${month.toString().padStart(2, "0")}-${(i + 1)
-         .toString()
-         .padStart(2, "0")}`,
-       amount: Math.floor(Math.random() * 5000000) + 1000000,
-     }));
+    fetchStats();
+  }, [selectedDate]);
 
-     return {
-       month,
-       year,
-       personalSales: dailyData.reduce((sum, day) => sum + day.amount, 0),
-       commission: Math.floor(Math.random() * 5000000) + 2000000,
-       bonus: Math.floor(Math.random() * 3000000) + 1000000,
-       dailyData,
-     };
-   };
+  const handleMonthChange = (
+    date: Date | null,
+    event?: React.SyntheticEvent<any, Event> | undefined
+  ) => {
+    if (date) {
+      setSelectedDate(date);
+    }
+  };
 
-   useEffect(() => {
-     setLoading(true);
-     const timeout = setTimeout(() => {
-       const sampleData = generateSampleData(
-         selectedDate.getMonth() + 1,
-         selectedDate.getFullYear()
-       );
-       setStats(sampleData);
-       setLoading(false);
-     }, 800);
+  // Tính toán các thông số phân trang
+  const totalItems = stats?.userTransactions.length || 0;
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
+  const currentTransactions =
+    stats?.userTransactions.slice(startIndex, endIndex) || [];
 
-     return () => clearTimeout(timeout);
-   }, [selectedDate]);
-
-  const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const [year, month] = e.target.value.split("-");
-    setSelectedDate(new Date(parseInt(year), parseInt(month) - 1));
+  // Xử lý chuyển trang
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   if (loading) return <Loading />;
@@ -102,199 +92,223 @@ const Statistics = () => {
   return (
     <div className="space-y-6">
       {/* Month Picker */}
-      <Card className="border border-gray-200">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex items-center gap-2">
-              <CalendarDays className="w-5 h-5 text-gray-600" />
-              <h3 className="font-semibold">Chọn tháng</h3>
-            </div>
-            <input
-              type="month"
-              value={`${selectedDate.getFullYear()}-${(
-                selectedDate.getMonth() + 1
-              )
-                .toString()
-                .padStart(2, "0")}`}
-              onChange={handleMonthChange}
-              className="border rounded-lg px-4 py-2"
-            />
-          </div>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-semibold">
+          Thống kê tháng {stats?.period.month}/{stats?.period.year}
+        </h2>
+        <div className="relative">
+          <DatePicker
+            locale={vietnameseLocale}
+            selected={selectedDate}
+            onChange={handleMonthChange}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-              <p className="text-sm text-blue-600 font-medium">
-                Doanh số cá nhân
-              </p>
-              <p className="text-2xl font-bold text-blue-700 mt-2">
-                {new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(stats?.personalSales || 0)}
-              </p>
-            </div>
-
-            <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-              <p className="text-sm text-green-600 font-medium">Hoa hồng</p>
-              <p className="text-2xl font-bold text-green-700 mt-2">
-                {new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(stats?.commission || 0)}
-              </p>
-            </div>
-
-            <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
-              <p className="text-sm text-purple-600 font-medium">Thưởng</p>
-              <p className="text-2xl font-bold text-purple-700 mt-2">
-                {new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(stats?.bonus || 0)}
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      {/* <div className="space-y-4">
-            <h3 className="font-semibold text-lg flex items-center gap-2">
-              
-              Chi tiết doanh số hàng ngày
-            </h3>
-
-            <div className="divide-y border rounded-lg">
-              {stats?.dailyData.map((day) => (
-                <div 
-                  key={day.date}
-                  className="p-4 hover:bg-gray-50 transition-colors"
-                >
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="font-medium">
-                        Ngày {new Date(day.date).getDate()}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        {new Date(day.date).toLocaleDateString('vi-VN', {
-                          weekday: 'long',
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </p>
-                    </div>
-                    <p className="font-semibold text-green-600">
-                      {new Intl.NumberFormat('vi-VN', {
-                        style: 'currency',
-                        currency: 'VND'
-                      }).format(day.amount)}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div> */}
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle>Chi tiết hoa hồng tháng {stats?.month}</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Ngày</TableHead>
-                <TableHead>Doanh số</TableHead>
-                <TableHead>Hoa hồng cá nhân</TableHead>
-                <TableHead>Thưởng</TableHead>
-                <TableHead>Tổng cộng</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {stats?.dailyData.map((day) => (
-                <TableRow key={`${day.date}-${day.amount}`}>
-                  <TableCell> {day.date}</TableCell>
-                  <TableCell>
-                    {" "}
-                    {new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(day?.amount || 0)}
-                  </TableCell>
-                  <TableCell>
-                    {" "}
-                    {new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(day?.amount || 0)}
-                  </TableCell>
-                  <TableCell>
-                    {" "}
-                    {new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(day?.amount || 0)}
-                  </TableCell>
-                  <TableCell>
-                    {" "}
-                    {new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(day?.amount || 0)}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-      {/* Chart */}
-      {/* <Card className="border border-gray-200">
-        <CardContent className="p-6">
-          <h3 className="font-semibold mb-4 flex items-center gap-2">
-            <BarChart2 className="w-5 h-5" />
-            Biểu đồ thống kê tháng {selectedDate.getMonth() + 1}
-          </h3>
-
-          <div className="h-80">
-            {stats?.dailyData ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={stats.dailyData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis
-                    dataKey="date"
-                    tickFormatter={(date) =>
-                      new Date(date).getDate().toString()
-                    }
-                  />
-                  <YAxis />
-                  <Tooltip
-                    formatter={(value) => [
-                      new Intl.NumberFormat("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      }).format(Number(value)),
-                      "Doanh thu",
-                    ]}
-                  />
-                  <Bar
-                    dataKey="amount"
-                    fill="#3b82f6"
-                    name="Doanh thu hàng ngày"
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="h-full flex items-center justify-center text-gray-500">
-                Không có dữ liệu để hiển thị
-              </div>
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+          <p className="text-sm text-blue-600 font-medium">Doanh số cá nhân</p>
+          <p className="text-2xl font-bold text-blue-700 mt-2">
+            {new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(
+              stats?.userTransactions.reduce(
+                (sum, t) => sum + Number(t.sale_amount),
+                0
+              ) || 0
             )}
+          </p>
+        </div>
+
+        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+          <p className="text-sm text-green-600 font-medium">Hoa hồng</p>
+          <p className="text-2xl font-bold text-green-700 mt-2">
+            {new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(
+              stats?.userTransactions.reduce(
+                (sum, t) => sum + Number(t.commission_amount),
+                0
+              ) || 0
+            )}
+          </p>
+        </div>
+
+        <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+          <p className="text-sm text-purple-600 font-medium">Thưởng</p>
+          <p className="text-2xl font-bold text-purple-700 mt-2">
+            {new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(
+              stats?.userTransactions.reduce(
+                (sum, t) => sum + Number(t.bonus_amount),
+                0
+              ) || 0
+            )}
+          </p>
+        </div>
+      </div>
+
+      {/* Table with Pagination */}
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="bg-gray-50">
+              <th className="p-4 text-left text-md font-medium text-gray-700">
+                Ngày
+              </th>
+              <th className="p-4 text-right text-md font-medium text-gray-700">
+                Doanh số bán
+              </th>
+              <th className="p-4 text-right text-md font-medium text-gray-700">
+                Hoa hồng
+              </th>
+              <th className="p-4 text-right text-md font-medium text-gray-700">
+                Thưởng
+              </th>
+              <th className="p-4 text-right text-md font-medium text-gray-700">
+                Mua hàng
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {currentTransactions.map((transaction) => (
+              <tr key={transaction.date} className="border-b hover:bg-gray-50">
+                <td className="p-4 text-sm text-gray-900">
+                  {new Date(transaction.date).toLocaleDateString("vi-VN")}
+                </td>
+                <td className="p-4 text-right text-sm font-medium text-blue-600">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(Number(transaction.sale_amount))}
+                </td>
+                <td className="p-4 text-right text-sm font-medium text-green-600">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(Number(transaction.commission_amount))}
+                </td>
+                <td className="p-4 text-right text-sm font-medium text-purple-600">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(Number(transaction.bonus_amount))}
+                </td>
+                <td className="p-4 text-right text-sm font-medium text-red-600">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(Number(transaction.purchase_amount))}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+
+          {/* Footer with totals */}
+          {stats && (
+            <tfoot className="bg-gray-50">
+              <tr>
+                <td className="p-4 text-sm font-medium">Tổng cộng</td>
+                <td className="p-4 text-right text-sm font-medium text-blue-600">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(
+                    stats.userTransactions.reduce(
+                      (sum, t) => sum + Number(t.sale_amount),
+                      0
+                    )
+                  )}
+                </td>
+                <td className="p-4 text-right text-sm font-medium text-green-600">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(
+                    stats.userTransactions.reduce(
+                      (sum, t) => sum + Number(t.commission_amount),
+                      0
+                    )
+                  )}
+                </td>
+                <td className="p-4 text-right text-sm font-medium text-purple-600">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(
+                    stats.userTransactions.reduce(
+                      (sum, t) => sum + Number(t.bonus_amount),
+                      0
+                    )
+                  )}
+                </td>
+                <td className="p-4 text-right text-sm font-medium text-red-600">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(
+                    stats.userTransactions.reduce(
+                      (sum, t) => sum + Number(t.purchase_amount),
+                      0
+                    )
+                  )}
+                </td>
+              </tr>
+            </tfoot>
+          )}
+        </table>
+
+        {/* Pagination Controls */}
+        {totalPages > 0 && (
+          <div className="flex justify-between items-center mt-4 px-4">
+            <div className="text-sm text-gray-600">
+              Hiển thị {startIndex + 1}-{endIndex} trong số {totalItems} mục
+            </div>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+              >
+                Trước
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-3 py-1 border rounded-md text-sm ${
+                      currentPage === page
+                        ? "bg-blue-50 text-blue-600 border-blue-200"
+                        : "hover:bg-gray-50"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 border rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+              >
+                Sau
+              </button>
+            </div>
           </div>
-        </CardContent>
-      </Card> */}
+        )}
+      </div>
     </div>
   );
 };
 
-export default Statistics
+export default Statistics;

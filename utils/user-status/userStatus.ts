@@ -21,10 +21,8 @@ export const userStatusService = {
       console.error(error);
     }
   },
-  async getMonthlyStats(userId: number, month: number, year: number) {
-    const response = await api.get(
-      `/api/user-status/${userId}/stats?month=${month}&year=${year}`
-    );
+  async getMonthlyStats(month: number, year: number) {
+    const response = await api.get(`/analysis?month=${month}&year=${year}`);
     return response.data;
   },
 };

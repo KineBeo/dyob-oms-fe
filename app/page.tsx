@@ -1,13 +1,11 @@
 'use client'
 import WhyChoosing from "@/components/homepage/WhyChoosing";
-import Solutions from "@/components/homepage/Solutions";
 import OurMembers from "@/components/homepage/OurMembers";
 import Address from "@/components/homepage/Address";
 import CustomerFeedback from "@/components/homepage/Feedback";
 import Service from "@/components/homepage/Service";
 import * as strapi from '@/utils/globalApi';
 import useSWR from "swr";
-import { CldImage } from 'next-cloudinary';
 import Articles from "@/components/homepage/Articles";
 import Loading from "@/components/Loading";
 import Script from 'next/script';
@@ -46,7 +44,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero section  */}
-      <div className="flex justify-center mobile:hidden tablet:hidden w-full h-full">
+      <div className="mobile:hidden tablet:hidden flex justify-center w-full h-full">
         <Image
           loader={cloudinaryLoader}
           src={desktopImageId}
@@ -65,7 +63,7 @@ export default function Home() {
         />
       </div>
       {/* Mobile hero section  */}
-      <div className="mobile:flex tablet:flex justify-center hidden w-full h-full">
+      <div className="hidden tablet:flex mobile:flex justify-center w-full h-full">
         <Image
           loader={cloudinaryLoader}
           src={mobileImageId}
@@ -161,7 +159,7 @@ export default function Home() {
           })) || []
         }
       />
-      <MoreAritcles/>
+      <MoreAritcles />
       <ContactIcons />
       <OtherVideos
         videos={

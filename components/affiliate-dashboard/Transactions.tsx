@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronDown, ChevronUp } from 'lucide-react';
-import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ChevronDown, ChevronUp, CircleDollarSign, Download, Handshake, RotateCcw, ArrowDownCircle, CirclePercent } from 'lucide-react';
 import useSWR from "swr";
 import { userTransactionService } from '@/utils/user-transaction/userTransaction';
 import Loading from '../Loading';
+import * as XLSX from 'xlsx';
 
 export enum TransactionType {
     COMMISSION = 'COMMISSION',
@@ -37,7 +38,9 @@ const Transaction = () => {
     if (isLoading) return <Loading />;
     if (error) return <div>Error loading transaction data</div>;
 
-    const transactions: Transaction[] = data || [];
+    const transactions: Transaction[] = data ? [...data].sort((a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    ) : [];
 
     const formatCurrency = (amount: number): string => {
         return new Intl.NumberFormat('vi-VN', {
@@ -65,12 +68,16 @@ const Transaction = () => {
 
     const getTransactionIcon = (type: TransactionType): JSX.Element | null => {
         switch (type) {
-            case 'COMMISSION':
-            case 'BONUS':
-            case 'SALE':
-                return <ArrowUpCircle className="w-5 h-5 text-green-600" />;
-            case 'PURCHASE':
+            case TransactionType.COMMISSION:
+                return <CirclePercent className="w-5 h-5 text-green-700" />
+            case TransactionType.BONUS:
+                return <CircleDollarSign className="w-5 h-5 text-yellow-700" />
+            case TransactionType.SALE:
+                return <Handshake className="w-5 h-5 text-green-600" />;
+            case TransactionType.PURCHASE:
                 return <ArrowDownCircle className="w-5 h-5 text-red-600" />;
+            case TransactionType.RESET:
+                return <RotateCcw className="w-5 h-5 text-gray-600" />;
             default:
                 return null;
         }
@@ -119,12 +126,51 @@ const Transaction = () => {
         setExpandedDates(newExpanded);
     };
 
+    const exportToExcel = () => {
+        // Prepare data for export
+        const exportData = transactions.map(transaction => ({
+            'Thời gian': new Date(transaction.createdAt).toLocaleString('vi-VN'),
+            'Loại giao dịch': getTransactionLabel(transaction.type),
+            'Số tiền': transaction.amount,
+            'Nội dung': transaction.description || '-'
+        }));
+
+        // Create worksheet
+        const ws = XLSX.utils.json_to_sheet(exportData);
+
+        // Set column widths
+        ws['!cols'] = [
+            { wch: 20 }, // Thời gian
+            { wch: 15 }, // Loại giao dịch
+            { wch: 15 }, // Số tiền
+            { wch: 30 }  // Nội dung
+        ];
+
+        // Create workbook
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Transactions');
+
+        // Save file
+        XLSX.writeFile(wb, `transactions_${new Date().toISOString().split('T')[0]}.xlsx`);
+    };
+
     const groupedTransactions = groupTransactionsByDate(transactions);
 
     return (
         <Card className="shadow-none border border-gray-300 rounded-none">
             <CardContent className="p-6">
-                <h3 className="mb-6 font-semibold text-xl">Biến động số dư</h3>
+                <div className="flex justify-between items-center mb-6">
+                    <h3 className="font-semibold text-xl">Biến động số dư</h3>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={exportToExcel}
+                        className="flex items-center gap-2"
+                    >
+                        <Download className="w-4 h-4" />
+                        Xuất Excel
+                    </Button>
+                </div>
 
                 <div className="space-y-4">
                     {Object.entries(groupedTransactions).map(([date, dayTransactions]) => (
@@ -148,7 +194,6 @@ const Transaction = () => {
                                             className="flex justify-between items-center p-4 border-gray-100 border-b last:border-b-0"
                                         >
                                             <div className="flex items-center gap-3">
-                                                {getTransactionIcon(transaction.type)}
                                                 <div>
                                                     <div className="flex items-center gap-2">
                                                         {getTransactionIcon(transaction.type)}

@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import CommissionHistoryManagement from "@/components/admin-dashboard/CommissionHistoryManagement";
 import TransactionDashboard from "@/components/admin-dashboard/BalanceManagement";
+import CommissionDashboard from "@/components/admin-dashboard/CommissionHistory";
 
 const DashboardLayout = () => {
     // Sử dụng URL search params để lưu trạng thái tab
@@ -139,7 +140,7 @@ const DashboardLayout = () => {
                     onPageChange={(page) => setCurrentPage(page)}
                 />;
             case 'commission-history':
-                return <CommissionHistoryManagement />;
+                return <CommissionDashboard />;
             default:
                 return (
                     <div className="p-6 text-center">

@@ -170,34 +170,25 @@ const TransactionDashboard = () => {
                 <CardContent>
                     <div className="space-y-4">
                         <div className="gap-4 grid grid-cols-2">
-                            <div className="space-y-2">
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Tổng hoa hồng:</span>
-                                    <span className="font-bold text-xl">
-                                        {formatCurrency(total.commission_amount)} VNĐ
-                                    </span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Tổng thưởng:</span>
-                                    <span className="font-bold text-xl">
-                                        {formatCurrency(total.bonus_amount)} VNĐ
-                                    </span>
-                                </div>
+                            <div className="flex justify-between items-center space-y-2">
+                                <span className="text-gray-600">Tổng hoa hồng:</span>
+                                <span className="font-bold text-xl">
+                                    {formatCurrency(total.commission_amount)} VNĐ
+                                </span>
                             </div>
-                            <div className="space-y-2">
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Tổng mua:</span>
-                                    <span className="font-bold text-xl">
-                                        {formatCurrency(total.purchase_amount)} VNĐ
-                                    </span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Tổng bán:</span>
-                                    <span className="font-bold text-xl">
-                                        {formatCurrency(total.sale_amount)} VNĐ
-                                    </span>
-                                </div>
+                            <div className="flex justify-between items-center">
+                                <span className="text-gray-600">Tổng thưởng:</span>
+                                <span className="font-bold text-xl">
+                                    {formatCurrency(total.bonus_amount)} VNĐ
+                                </span>
                             </div>
+                            <div className="flex justify-between items-center">
+                                <span className="text-gray-600">Tổng mua:</span>
+                                <span className="font-bold text-xl">
+                                    {formatCurrency(total.purchase_amount)} VNĐ
+                                </span>
+                            </div>
+
                         </div>
                     </div>
                 </CardContent>

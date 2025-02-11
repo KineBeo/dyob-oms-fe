@@ -1,16 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import useSWR from "swr";
-import { userStatusService } from '@/utils/user-status/userStatus';
 import { userTransactionService } from '@/utils/user-transaction/userTransaction';
 import Loading from '../Loading';
 
@@ -30,7 +22,12 @@ export interface Transaction {
     description?: string;
 }
 
+interface GroupedTransactions {
+    [date: string]: Transaction[];
+}
+
 const Transaction = () => {
+    const [expandedDates, setExpandedDates] = useState<Set<string>>(new Set());
 
     const { data, error, isLoading } = useSWR("user-transaction", async () => {
         const response = await userTransactionService.getPersonalTransactionData();
@@ -38,15 +35,9 @@ const Transaction = () => {
     });
 
     if (isLoading) return <Loading />;
-
     if (error) return <div>Error loading transaction data</div>;
 
-    console.log(data);
-    let transactions: Transaction[] = data || [];
-
-    if (data) {
-        transactions = data;
-    }
+    const transactions: Transaction[] = data || [];
 
     const formatCurrency = (amount: number): string => {
         return new Intl.NumberFormat('vi-VN', {
@@ -71,7 +62,6 @@ const Transaction = () => {
                 return 'bg-gray-100 text-gray-700 font-bold px-2 py-1 rounded';
         }
     };
-
 
     const getTransactionIcon = (type: TransactionType): JSX.Element | null => {
         switch (type) {
@@ -103,47 +93,86 @@ const Transaction = () => {
         }
     };
 
+    const groupTransactionsByDate = (transactions: Transaction[]): GroupedTransactions => {
+        return transactions.reduce((groups: GroupedTransactions, transaction) => {
+            const date = new Date(transaction.createdAt).toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                weekday: 'long'
+            });
+            if (!groups[date]) {
+                groups[date] = [];
+            }
+            groups[date].push(transaction);
+            return groups;
+        }, {});
+    };
+
+    const toggleDate = (date: string) => {
+        const newExpanded = new Set(expandedDates);
+        if (newExpanded.has(date)) {
+            newExpanded.delete(date);
+        } else {
+            newExpanded.add(date);
+        }
+        setExpandedDates(newExpanded);
+    };
+
+    const groupedTransactions = groupTransactionsByDate(transactions);
+
     return (
         <Card className="shadow-none border border-gray-300 rounded-none">
             <CardContent className="p-6">
                 <h3 className="mb-6 font-semibold text-xl">Biến động số dư</h3>
 
-                <div className="space-y-6">
-                    <div className="border border-gray-300 rounded-lg">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead className="w-[180px]">Thời gian</TableHead>
-                                    <TableHead className="w-[200px]">Loại giao dịch</TableHead>
-                                    <TableHead className="text-right">Số tiền</TableHead>
-                                    <TableHead>Nội dung</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {transactions.map((transaction) => (
-                                    <TableRow key={transaction.id}>
-                                        <TableCell className="font-medium">
-                                            {new Date(transaction.createdAt).toLocaleString()}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="flex items-center gap-2">
-                                                {getTransactionIcon(transaction.type)}
-                                                <span>{getTransactionLabel(transaction.type)}</span>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`text-right font-bold ${getTransactionStyle(transaction.type)}`}
+                <div className="space-y-4">
+                    {Object.entries(groupedTransactions).map(([date, dayTransactions]) => (
+                        <div key={date} className="border border-gray-200 rounded-lg">
+                            <button
+                                className="flex justify-between items-center hover:bg-gray-50 p-3 w-full transition-colors"
+                                onClick={() => toggleDate(date)}
+                            >
+                                <span className="font-medium text-gray-700">{date}</span>
+                                {expandedDates.has(date) ?
+                                    <ChevronUp className="w-5 h-5 text-gray-500" /> :
+                                    <ChevronDown className="w-5 h-5 text-gray-500" />
+                                }
+                            </button>
+
+                            {expandedDates.has(date) && (
+                                <div className="border-gray-200 border-t">
+                                    {dayTransactions.map((transaction) => (
+                                        <div
+                                            key={transaction.id}
+                                            className="flex justify-between items-center p-4 border-gray-100 border-b last:border-b-0"
                                         >
-                                            {formatCurrency(transaction.amount)}
-                                        </TableCell>
-                                        <TableCell className="text-gray-600">
-                                            {transaction.description || '-'}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </div>
+                                            <div className="flex items-center gap-3">
+                                                {getTransactionIcon(transaction.type)}
+                                                <div>
+                                                    <div className="flex items-center gap-2">
+                                                        {getTransactionIcon(transaction.type)}
+                                                        <span>{getTransactionLabel(transaction.type)}</span>
+                                                    </div>
+                                                    <p className="mt-1 text-gray-600 text-sm">
+                                                        {transaction.description || '-'}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className={getTransactionStyle(transaction.type)}>
+                                                    {formatCurrency(transaction.amount)}
+                                                </div>
+                                                <p className="mt-1 text-gray-500 text-sm">
+                                                    {new Date(transaction.createdAt).toLocaleTimeString()}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
             </CardContent>
         </Card>

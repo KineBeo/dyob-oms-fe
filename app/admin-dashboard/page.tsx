@@ -157,6 +157,7 @@ const DashboardLayout = () => {
 
     const handleLinkClick = (id: string) => (e: React.MouseEvent) => {
         e.preventDefault();
+        setIsSidebarOpen(false);
         setActiveTab(id);
     };
 

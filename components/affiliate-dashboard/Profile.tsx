@@ -54,7 +54,7 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
 
     return (
         <div className="space-y-6">
-            <Card className="border-gray-300 shadow-none border">
+            <Card className="shadow-none border border-gray-300 rounded-none">
                 <CardContent className="p-6">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="font-semibold text-xl">Thông tin cá nhân</h3>
@@ -71,7 +71,7 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                     <form onSubmit={handleSubmit}>
                         <div className="gap-6 grid grid-cols-1 md:grid-cols-2">
                             <div className="space-y-4">
-                                <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                                <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                     <p className="text-gray-600 text-sm">Họ và tên</p>
                                     {isEditing ? (
                                         <Input
@@ -85,7 +85,7 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                                     )}
                                 </div>
 
-                                <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                                <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                     <p className="text-gray-600 text-sm">Số điện thoại</p>
                                     {isEditing ? (
                                         <Input
@@ -99,7 +99,7 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                                     )}
                                 </div>
 
-                                <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                                <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                     <p className="text-gray-600 text-sm">CCCD</p>
                                     {isEditing ? (
                                         <Input
@@ -113,7 +113,7 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                                     )}
                                 </div>
 
-                                <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                                <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                     <p className="text-gray-600 text-sm">Tên ngân hàng</p>
                                     {isEditing ? (
                                         <Input
@@ -127,7 +127,7 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                                     )}
                                 </div>
 
-                                <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                                <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                     <p className="text-gray-600 text-sm">Số tài khoản</p>
                                     {isEditing ? (
                                         <Input
@@ -143,12 +143,12 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                             </div>
 
                             <div className="space-y-4">
-                                <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                                <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                     <p className="text-gray-600 text-sm">Gói</p>
                                     <p className="font-medium">{userStatus.user_class}</p>
                                 </div>
 
-                                <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                                <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                     <p className="text-gray-600 text-sm">Ngày tham gia</p>
                                     <p className="font-medium">
                                         {formatDate(userStatus?.createdAt)}
@@ -180,16 +180,16 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
             </Card>
 
             {userStatus?.user_type === 'AFFILIATE' && (
-                <Card className="border-gray-300 shadow-sm border">
+                <Card className="shadow-sm border border-gray-300">
                     <CardContent className="p-6">
                         <h3 className="mb-6 font-semibold text-xl">Thông tin Affiliate</h3>
                         <div className="gap-6 grid grid-cols-1 md:grid-cols-2">
-                            <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                            <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                 <p className="text-gray-600 text-sm">Mã giới thiệu</p>
                                 <p className="font-medium break-all">{userStatus.personal_referral_code}</p>
                             </div>
 
-                            <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                            <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                 <p className="text-gray-600 text-sm">Trạng thái Affiliate</p>
                                 <p className="flex items-center gap-2 font-medium">
                                     <Crown className="w-4 h-4" />
@@ -197,12 +197,12 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                                 </p>
                             </div>
 
-                            <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                            <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                 <p className="text-gray-600 text-sm">Người giới thiệu</p>
                                 <p className="font-medium">{userStatus.referrer_name || 'Chưa có'}</p>
                             </div>
 
-                            <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                            <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                 <p className="text-gray-600 text-sm">Tổng cá nhân chi tiêu</p>
                                 <p className="font-medium">
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
@@ -210,7 +210,7 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                                 </p>
                             </div>
 
-                            <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                            <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                 <p className="text-gray-600 text-sm">Tổng doanh số</p>
                                 <p className="font-medium">
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
@@ -218,7 +218,7 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                                 </p>
                             </div>
 
-                            <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                            <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                 <p className="text-gray-600 text-sm">Hoa hồng</p>
                                 <p className="font-medium">
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
@@ -226,7 +226,7 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                                 </p>
                             </div>
 
-                            <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                            <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                 <p className="text-gray-600 text-sm">Thưởng</p>
                                 <p className="font-medium">
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
@@ -234,7 +234,7 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                                 </p>
                             </div>
 
-                            <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+                            <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                                 <p className="text-gray-600 text-sm">Ngày đạt cấp</p>
                                 <p className="font-medium">
                                     {formatDate(userStatus?.rank_achievement_date)}

@@ -7,7 +7,8 @@ import {
     PackageOpen,
     ShoppingCart,
     Settings,
-    LogOut
+    LogOut,
+    TrendingUp
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -26,6 +27,8 @@ import { Avatar } from "@nextui-org/react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import CommissionHistoryManagement from "@/components/admin-dashboard/CommissionHistoryManagement";
+import TransactionDashboard from "@/components/admin-dashboard/BalanceManagement";
+import CommissionDashboard from "@/components/admin-dashboard/CommissionHistory";
 
 const DashboardLayout = () => {
     // Sử dụng URL search params để lưu trạng thái tab
@@ -67,10 +70,16 @@ const DashboardLayout = () => {
 
     const menuItems = [
         {
-            label: 'Thống kê tổng quan',
+            label: 'Tổng quan',
             href: '#dashboard',
             icon: <LayoutDashboard className="flex-shrink-0 w-6 h-6 text-neutral-700 dark:text-neutral-200" />,
             id: 'dashboard'
+        },
+        {
+            label: 'Thống kê chi tiết',
+            href: '#statistics',
+            icon: <TrendingUp className="flex-shrink-0 w-6 h-6 text-neutral-700 dark:text-neutral-200" />,
+            id: 'statistics'
         },
         {
             label: 'Quản lý người dùng',
@@ -103,7 +112,7 @@ const DashboardLayout = () => {
             case 'welcome':
                 return (
                     <div className="space-y-6 text-center">
-                        <h1 className="font-bold text-4xl text-gray-800">Chào mừng đến với bảng điều khiển</h1>
+                        <h1 className="font-bold text-gray-800 text-4xl">Chào mừng đến với bảng điều khiển</h1>
                         <p className="text-gray-600 text-xl">Vui lòng chọn một mục từ menu để xem thông tin chi tiết</p>
                         <Card className="mx-auto max-w-sm">
                             <CardHeader className="justify-center items-center">
@@ -119,6 +128,8 @@ const DashboardLayout = () => {
                 );
             case 'dashboard':
                 return <StatisticsManagement />;
+            case 'statistics':
+                return <TransactionDashboard />;
             case 'orders':
                 return <OrderManagement />;
             case 'products':
@@ -129,11 +140,11 @@ const DashboardLayout = () => {
                     onPageChange={(page) => setCurrentPage(page)}
                 />;
             case 'commission-history':
-                return <CommissionHistoryManagement />;
+                return <CommissionDashboard />;
             default:
                 return (
                     <div className="p-6 text-center">
-                        <h2 className="font-bold text-2xl text-gray-800">
+                        <h2 className="font-bold text-gray-800 text-2xl">
                             {menuItems.find(item => item.id === activeTab)?.label || 'Không tìm thấy trang'}
                         </h2>
                         <p className="mt-4 text-gray-600">
@@ -146,6 +157,7 @@ const DashboardLayout = () => {
 
     const handleLinkClick = (id: string) => (e: React.MouseEvent) => {
         e.preventDefault();
+        setIsSidebarOpen(false);
         setActiveTab(id);
     };
 
@@ -156,7 +168,7 @@ const DashboardLayout = () => {
         )}>
             <div>
                 <Sidebar open={isSidebarOpen} setOpen={setIsSidebarOpen}>
-                    <SidebarBody className="justify-between gap-10 border-gray-300 border">
+                    <SidebarBody className="justify-between gap-10 border border-gray-300">
                         <div className="flex flex-col flex-1">
                             {isSidebarOpen ? <Logo name={user.role} /> : <LogoIcon />}
 
@@ -224,9 +236,9 @@ const Logo = ({ name }: { name: string }) => {
     return (
         <Link
             href="#"
-            className="relative z-20 flex items-center space-x-2 py-1 font-normal text-black text-sm"
+            className="z-20 relative flex items-center space-x-2 py-1 font-normal text-black text-sm"
         >
-            <div className="transition duration-250 hover:scale-110">
+            <div className="hover:scale-110 transition duration-250">
                 <Avatar
                     src="/images/logo-image.png"
                     size="md"
@@ -248,9 +260,9 @@ const LogoIcon = () => {
     return (
         <Link
             href="#"
-            className="relative z-20 flex items-center space-x-2 py-1 font-normal text-black text-sm"
+            className="z-20 relative flex items-center space-x-2 py-1 font-normal text-black text-sm"
         >
-            <div className="transition duration-250 hover:scale-110">
+            <div className="hover:scale-110 transition duration-250">
                 <Avatar
                     src="/images/logo-image.png"
                     size="md"

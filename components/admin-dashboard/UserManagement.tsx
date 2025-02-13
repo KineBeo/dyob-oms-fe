@@ -182,10 +182,10 @@ const UserManagement = ({
   return (
     <div className="bg-white shadow p-6 rounded-lg w-full">
       {/* Search and Create User Section */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-end items-center mb-6">
         <Button
           onClick={() => setIsCreateModalOpen(true)}
-          className="bg-red-500 hover:bg-red-600"
+          className="bg-red-500 hover:bg-red-600 hidden"
         >
           + Tạo User Mới
         </Button>

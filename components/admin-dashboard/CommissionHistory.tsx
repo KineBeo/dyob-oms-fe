@@ -229,7 +229,7 @@ const CommissionDashboard: React.FC = () => {
                             className="flex items-center gap-2"
                         >
                             <Download className="w-4 h-4" />
-                            Xuất Excel
+                            Xuất dữ liệu
                         </Button>
                     </div>
                 </CardHeader>
@@ -269,8 +269,7 @@ const CommissionDashboard: React.FC = () => {
                                                     <TableCell>{item.userStatus.user_rank}</TableCell>
                                                     <TableCell>
                                                         {
-                                                            // new Intl.NumberFormat('vi-VN').format(Number(item.monthlyCommission))
-                                                            item.monthly_commission
+                                                            new Intl.NumberFormat('vi-VN').format(Number(item.monthly_commission))
                                                         } VNĐ
                                                     </TableCell>
                                                     <TableCell>

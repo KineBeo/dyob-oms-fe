@@ -33,6 +33,7 @@ const Addresses = () => {
 
     const handleAddAddress = async (formData: ShippingFormData) => {
         try {
+            console.log("Data being sent to API:", formData);
             await userAddressService.createAddress(formData);
             fetchAddresses();
         } catch (error) {
@@ -41,13 +42,19 @@ const Addresses = () => {
     };
 
     const handleUpdateAddress = async (formData: ShippingFormData) => {
-        try {
-            if (!editingAddress?.id) return;
-            await userAddressService.updateAddress(editingAddress.id, formData);
-            fetchAddresses();
-        } catch (error) {
-            console.error('Error updating address:', error);
-        }
+    console.log(editingAddress?.id);
+
+    // Loại bỏ user_id khỏi formData
+    const { user_id, ...rest } = formData;
+    console.log("Data being sent to API:", rest); // rest sẽ không chứa user_id
+
+    try {
+        if (!editingAddress?.id) return;
+        await userAddressService.updateAddress(editingAddress.id, rest); // Gửi rest thay vì formData
+        fetchAddresses();
+    } catch (error) {
+        console.error("Error updating address:", error);
+    }
     };
 
     const handleDeleteAddress = async (addressId: number) => {

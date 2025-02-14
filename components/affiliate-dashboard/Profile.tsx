@@ -86,21 +86,12 @@ const Profile = ({ user, userStatus, formatDate, onUpdateUser }: { user: any, us
                                 </div>
 
                                 <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
-                                    <p className="text-gray-600 text-sm">Số điện thoại</p>
-                                    {isEditing ? (
-                                        <Input
-                                            name="phone_number"
-                                            value={formData.phone_number}
-                                            onChange={handleInputChange}
-                                            className="bg-white"
-                                        />
-                                    ) : (
+                                    <p className="text-gray-600 text-sm">Số điện thoại</p> 
                                         <p className="font-medium">{user?.phone_number}</p>
-                                    )}
                                 </div>
 
                                 <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
-                                    <p className="text-gray-600 text-sm">CCCD</p>
+                                    <p className="text-gray-600 text-sm">Số Căn Cước</p>
                                     {isEditing ? (
                                         <Input
                                             name="cccd"

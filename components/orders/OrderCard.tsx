@@ -3,12 +3,24 @@ import { format } from 'date-fns-tz';
 import { vi } from 'date-fns/locale';
 import { Order, OrderStatus } from '@/interfaces/order';
 import ReactMarkdown from 'react-markdown';
+import { Button } from '@nextui-org/react';
+import { addToCart } from '@/redux/features/cart/cartSlice';
+import { cartService } from '@/utils/cart/cartApi';
+import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import CartItems from '../cartpage/CartItem';
+import { RootState } from '@/store/store';
+import ProductCard from '../cards/ProductCard';
 
 interface OrderCardProps {
   order: Order;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const user = useSelector((state: RootState) => state.auth.user);
   const getStatusColor = (status: OrderStatus) => {
     switch (status) {
       case OrderStatus.NOT_START_YET:
@@ -42,6 +54,37 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
     } catch (error) {
       console.error('Date formatting error:', error);
       return '';
+    }
+  };
+
+  const handleRepurchase = async (order: Order) => {
+    try {
+      // Add each product from the order back to cart
+      for (const item of order.orderProduct || []) {
+        dispatch(
+          addToCart({
+            id: item.product.id,
+            product_id: item.product.id,
+            quantity: item.quantity,
+            name: item.product.name,
+            price: item.price,
+            image: 'We dont need this',
+            user_id: user?.id || 0
+          })
+        );
+        
+        await cartService.addToCart({
+          user_id: user?.id || 0,
+          product_id: item.product.id,
+          quantity: item.quantity
+        });
+      }
+
+      toast.success('Đã thêm sản phẩm vào giỏ hàng');
+      router.push('/cart');
+    } catch (error) {
+      console.error('Error repurchasing order:', error);
+      toast.error('Có lỗi xảy ra khi thêm vào giỏ hàng');
     }
   };
 
@@ -110,6 +153,13 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
               {Number(order.total_amount).toLocaleString('vi-VN')}đ
             </span>
           </div>
+        </div>
+        <div className='flex justify-end'>
+          <Button className='bg-[#7A0505] font-bold text-white'
+            radius='sm'
+            size='md'
+            onClick={() => handleRepurchase(order)}
+          > Mua lại </Button>
         </div>
       </div>
     </div>

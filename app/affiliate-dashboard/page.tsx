@@ -6,7 +6,7 @@ import { orderService } from '@/utils/order/orderApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, MapPin, Package, BarChart2, UserPlus, Badge, Crown, Phone, UserIcon, LayoutDashboard, BookOpen, UserCircle, PackageOpen } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Package, BarChart2, UserPlus, Badge, Crown, Phone, UserIcon, LayoutDashboard, BookOpen, UserCircle, PackageOpen, ChartLineIcon } from 'lucide-react';
 import { userAddressService } from '@/utils/user-address/userAddressApi';
 import Addresses from '@/components/affiliate-dashboard/Addresses';
 import Loading from '@/components/Loading';
@@ -23,6 +23,8 @@ import ReferralBarChart from '@/components/affiliate-dashboard/ReferralBarChart'
 import { fr } from 'date-fns/locale';
 import Referrals from '@/components/affiliate-dashboard/Referrals';
 import { UserStatus } from '@/interfaces/user-status';
+import Statistics from '@/components/affiliate-dashboard/Statistics'
+import Transaction from '@/components/affiliate-dashboard/Transactions';
 
 interface Referral {
   id: string;
@@ -112,7 +114,7 @@ const UserStatusPage = () => {
 
   const Overview = () => (
     <div className="space-y-6">
-      <Card className="border-gray-300 border">
+      <Card className="border border-gray-300">
         <CardContent className="p-6">
           <div className="flex items-center gap-4 mb-6">
             <div className="flex justify-center items-center bg-primary/10 rounded-full w-16 h-16">
@@ -146,11 +148,11 @@ const UserStatusPage = () => {
         </CardContent>
       </Card>
       {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
-        <Card className="border-gray-300 border">
+        <Card className="border border-gray-300">
           <CardContent className="p-6">
             <h3 className="mb-4 font-semibold text-lg">Mã giới thiệu</h3>
             <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
-              <div className="border-gray-300 bg-gray-50 p-4 border rounded-lg">
+              <div className="bg-gray-50 p-4 border border-gray-300 rounded-lg">
                 <p className="font-medium break-all">
                   {`${window.location.origin}/authentication/register?ref=${userStatus?.personal_referral_code}`}
                 </p>
@@ -160,7 +162,7 @@ const UserStatusPage = () => {
                   onClick={() => copyReferralLink(userStatus?.personal_referral_code)}
                   variant="outline"
                   size="sm"
-                  className="border-gray-400 border w-full"
+                  className="border border-gray-400 w-full"
                 >
                   Sao chép liên kết
                 </Button>
@@ -179,35 +181,35 @@ const UserStatusPage = () => {
         </Card>
       )}
       <ReferralBarChart userStatus={userStatus} />
-      <Card className="border-gray-300 border">
+      <Card className="border border-gray-300">
         <CardContent className="gap-4 grid grid-cols-2 desktop:grid-cols-4 laptop:grid-cols-4 mini-laptop:grid-cols-2 p-6">
 
-          <div className="border-gray-300 bg-green-50 p-4 border rounded-lg">
+          <div className="bg-green-50 p-4 border border-gray-300 rounded-lg">
             <p className="font-medium text-green-600 text-sm">Cá nhân chi tiêu</p>
-            <p className="font-bold text-2xl text-green-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
+            <p className="font-bold text-green-700 mobile:text-lg mini-laptop:text-xl tablet:text-xl laptop:text-xl text-2xl">
               {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                 .format(Number(userStatus.total_purchase))}
             </p>
           </div>
           {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
             <>
-              <div className="border-gray-300 bg-red-50 p-4 border rounded-lg">
+              <div className="bg-red-50 p-4 border border-gray-300 rounded-lg">
                 <p className="font-medium text-red-600 text-sm">Doanh số tích luỹ</p>
-                <p className="font-bold text-2xl text-red-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
+                <p className="font-bold text-red-700 mobile:text-lg mini-laptop:text-xl tablet:text-xl laptop:text-xl text-2xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                     .format(Number(userStatus.total_sales))}
                 </p>
               </div>
-              <div className="border-gray-300 bg-yellow-50 p-4 border rounded-lg">
-                <p className="font-medium text-sm text-yellow-600">Thưởng doanh số</p>
-                <p className="font-bold text-2xl text-yellow-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
+              <div className="bg-yellow-50 p-4 border border-gray-300 rounded-lg">
+                <p className="font-medium text-yellow-600 text-sm">Thưởng doanh số</p>
+                <p className="font-bold text-yellow-700 mobile:text-lg mini-laptop:text-xl tablet:text-xl laptop:text-xl text-2xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                     .format(Number(userStatus.bonus))}
                 </p>
               </div>
-              {/* <div className="border-gray-300 bg-orange-50 p-4 border rounded-lg">
+              {/* <div className="bg-orange-50 p-4 border border-gray-300 rounded-lg">
                 <p className="font-medium text-orange-600 text-sm">Doanh số nhóm</p>
-                <p className="font-bold text-2xl text-orange-700 mobile:text-lg tablet:text-xl mini-laptop:text-xl laptop:text-xl">
+                <p className="font-bold text-orange-700 mobile:text-lg mini-laptop:text-xl tablet:text-xl laptop:text-xl text-2xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                     .format(Number(userStatus.group_sales))
                   }
@@ -260,7 +262,7 @@ const UserStatusPage = () => {
             <OrderCard key={order.id} order={order} />
           ))
         ) : (
-          <p className="py-8 font-bold text-center text-gray-700 text-lg laptop:text-xl desktop:text-xl">Bạn chưa có đơn hàng nào</p>
+          <p className="py-8 font-bold text-gray-700 text-lg laptop:text-xl desktop:text-xl text-center">Bạn chưa có đơn hàng nào</p>
         )}
       </div>
       {totalPages > 1 && (
@@ -299,7 +301,7 @@ const UserStatusPage = () => {
   const Policy = () => (
     <div className="bg-white shadow-sm rounded-lg">
       <div className="p-4 border-b">
-        <h3 className="font-semibold text-2xl text-center laptop:text-2xl desktop:text-3xl">Chính sách</h3>
+        <h3 className="font-semibold text-2xl laptop:text-2xl desktop:text-3xl text-center">Chính sách</h3>
       </div>
       <div className="p-4">
         <p className=""> </p>
@@ -325,51 +327,69 @@ const UserStatusPage = () => {
           {/* Sidebar */}
           <div className="space-y-2 w-full md:w-64">
             <Button
-              variant={activeTab === 'overview' ? 'default' : 'ghost'}
+              variant={activeTab === "overview" ? "default" : "ghost"}
               className="justify-start w-full"
-              onClick={() => setActiveTab('overview')}
+              onClick={() => setActiveTab("overview")}
             >
               <BarChart2 className="mr-2 w-4 h-4" />
               Tổng quan
             </Button>
             <Button
-              variant={activeTab === 'profile' ? 'default' : 'ghost'}
+              variant={activeTab === "profile" ? "default" : "ghost"}
               className="justify-start w-full"
-              onClick={() => setActiveTab('profile')}
+              onClick={() => setActiveTab("profile")}
             >
               <UserCircle className="mr-2 w-4 h-4" />
               Thông tin cá nhân
             </Button>
-            {(userStatus?.user_type === 'AFFILIATE' || user?.role === 'ADMIN') && (
+            {(userStatus?.user_type === "AFFILIATE" ||
+              user?.role === "ADMIN") && (
               <Button
-                variant={activeTab === 'referrals' ? 'default' : 'ghost'}
+                variant={activeTab === "referrals" ? "default" : "ghost"}
                 className="justify-start w-full"
-                onClick={() => setActiveTab('referrals')}
+                onClick={() => setActiveTab("referrals")}
               >
                 <UserPlus className="mr-2 w-4 h-4" />
                 Danh sách hệ thống
               </Button>
             )}
             <Button
-              variant={activeTab === 'orders' ? 'default' : 'ghost'}
+              variant={activeTab === "statistics" ? "default" : "ghost"}
               className="justify-start w-full"
-              onClick={() => setActiveTab('orders')}
+              onClick={() => setActiveTab("statistics")}
+            >
+              <BarChart2 className="mr-2 w-4 h-4" />
+              Thống kê
+            </Button>
+            <Button
+              variant={activeTab === "orders" ? "default" : "ghost"}
+              className="justify-start w-full"
+              onClick={() => setActiveTab("orders")}
             >
               <Package className="mr-2 w-4 h-4" />
               Lịch sử mua hàng
             </Button>
             <Button
+              variant={activeTab === 'transactions' ? 'default' : 'ghost'}
+              className="justify-start w-full"
+              onClick={() => setActiveTab('transactions')}
+            >
+
+              <ChartLineIcon className="mr-2 w-4 h-4" />
+              Biến động số dư
+            </Button>
+            <Button
               variant={activeTab === 'addresses' ? 'default' : 'ghost'}
               className="justify-start w-full"
-              onClick={() => setActiveTab('addresses')}
+              onClick={() => setActiveTab("addresses")}
             >
               <MapPin className="mr-2 w-4 h-4" />
               Địa chỉ
             </Button>
             <Button
-              variant={activeTab === 'policy' ? 'default' : 'ghost'}
+              variant={activeTab === "policy" ? "default" : "ghost"}
               className="justify-start w-full"
-              onClick={() => setActiveTab('policy')}
+              onClick={() => setActiveTab("policy")}
             >
               <BookOpen className="mr-2 w-4 h-4" />
               Chính sách
@@ -377,9 +397,9 @@ const UserStatusPage = () => {
             {/* Admin Dashboard Button */}
             {user?.role === "ADMIN" && (
               <Button
-                variant={activeTab === 'admin' ? 'default' : 'ghost'}
-                className='justify-start w-full'
-                onClick={() => router.push('/admin-dashboard')}
+                variant={activeTab === "admin" ? "default" : "ghost"}
+                className="justify-start w-full"
+                onClick={() => router.push("/admin-dashboard")}
               >
                 <LayoutDashboard className="mr-2 w-4 h-4" />
                 Admin Dashboard
@@ -398,6 +418,8 @@ const UserStatusPage = () => {
             {activeTab === 'orders' && <Orders />}
             {activeTab === 'addresses' && <Addresses />}
             {activeTab === 'policy' && <Policy />}
+            {activeTab === "statistics" && <Statistics />}
+            {activeTab === 'transactions' && <Transaction />}
           </div>
         </div>
       </div>

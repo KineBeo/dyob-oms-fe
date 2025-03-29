@@ -101,7 +101,7 @@ const ContactIcons = () => {
         }
       `}</style>
 
-      <div className="fixed left-4 bottom-4 flex flex-col gap-3 z-50">
+      <div className="fixed left-4 bottom-4 flex flex-col gap-3 z-50 w-10 ">
         <Chatbot
           isOpen={isChatbotOpen}
           onClose={() => setIsChatbotOpen(false)}

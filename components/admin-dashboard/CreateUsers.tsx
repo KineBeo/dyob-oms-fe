@@ -141,19 +141,7 @@ const CreateUsers = () => {
             setError("Mật khẩu không được để trống");
             return false;
           }
-          
-          // Check parent phone exists in the list if specified
-          if (user.parent_phone_number) {
-            const parentExists = users.some(
-              u => u.phone_number === user.parent_phone_number && 
-                   users.indexOf(u) < users.indexOf(user)
-            );
-            
-            if (!parentExists) {
-              setError(`Số điện thoại của user cha "${user.parent_phone_number}" không tồn tại trong danh sách hoặc không được nhập trước user con`);
-              return false;
-            }
-          }
+
         }
         
         setError("");

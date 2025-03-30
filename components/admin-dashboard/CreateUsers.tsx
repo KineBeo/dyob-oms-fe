@@ -10,7 +10,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { userService } from "@/utils/user/userApi";
 
 enum UserClass {
-    NONE = 'NONE',
     VIP = 'VIP',
     BASIC = 'BASIC'
 }
@@ -239,7 +238,10 @@ const CreateUsers = () => {
     const renderMobileUserCard = (user: any, index: number) => (
         <Card key={user.id} className="mb-4 overflow-hidden">
             <CardHeader className="px-4 py-3 bg-slate-50 flex flex-row items-center justify-between">
-                <div>
+                <div className="flex items-center">
+                    <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center mr-2">
+                        <span className="text-sm font-medium">{index + 1}</span>
+                    </div>
                     <CardTitle className="text-sm">Người dùng {index + 1}</CardTitle>
                 </div>
                 <Button
@@ -274,7 +276,7 @@ const CreateUsers = () => {
                 <div>
                     <label className="text-sm font-medium block mb-1">Mật khẩu</label>
                     <Input
-                        type="password"
+                        type="text"
                         placeholder="Mật khẩu"
                         value={user.password_hash}
                         onChange={(e) => handleUserChange(user.id, 'password_hash', e.target.value)}
@@ -363,7 +365,10 @@ const CreateUsers = () => {
     const renderTabletUserCard = (user: any, index: number) => (
         <Card key={user.id} className="mb-4 overflow-hidden">
             <CardHeader className="px-4 py-3 bg-slate-50 flex flex-row items-center justify-between">
-                <div>
+                <div className="flex items-center">
+                    <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center mr-2">
+                        <span className="text-sm font-medium">{index + 1}</span>
+                    </div>
                     <CardTitle className="text-sm">Người dùng {index + 1}</CardTitle>
                 </div>
                 <Button
@@ -401,7 +406,7 @@ const CreateUsers = () => {
                     <div>
                         <label className="text-sm font-medium block mb-1">Mật khẩu</label>
                         <Input
-                            type="password"
+                            type="text"
                             placeholder="Mật khẩu"
                             value={user.password_hash}
                             onChange={(e) => handleUserChange(user.id, 'password_hash', e.target.value)}
@@ -498,7 +503,8 @@ const CreateUsers = () => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[250px]">Họ tên</TableHead>
+                        <TableHead className="w-[60px] text-center">STT</TableHead>
+                        <TableHead className="w-[220px]">Họ tên</TableHead>
                         <TableHead className="w-[180px]">Số điện thoại</TableHead>
                         <TableHead className="w-[180px]">Mật khẩu</TableHead>
                         <TableHead className="w-[120px]">Tùy chọn</TableHead>
@@ -509,6 +515,9 @@ const CreateUsers = () => {
                     {users.map((user, index) => (
                         <React.Fragment key={user.id}>
                             <TableRow>
+                                <TableCell className="text-center font-medium">
+                                    {index + 1}
+                                </TableCell>
                                 <TableCell>
                                     <Input
                                         placeholder="Họ tên"
@@ -525,7 +534,7 @@ const CreateUsers = () => {
                                 </TableCell>
                                 <TableCell>
                                     <Input
-                                        type="password"
+                                        type="text"
                                         placeholder="Mật khẩu"
                                         value={user.password_hash}
                                         onChange={(e) => handleUserChange(user.id, 'password_hash', e.target.value)}
@@ -547,14 +556,14 @@ const CreateUsers = () => {
                                         onClick={() => handleRemoveUser(user.id)}
                                         disabled={users.length === 1}
                                     >
-                                        <Trash className="h-4 w-4" />
+                                        <Trash className="h-4 w-4 text-red-700" />
                                     </Button>
                                 </TableCell>
                             </TableRow>
                             
                             {user.showAdvanced && (
                                 <TableRow className="bg-slate-50">
-                                    <TableCell colSpan={5}>
+                                    <TableCell colSpan={6}>
                                         <div className="grid grid-cols-2 gap-4 py-2">
                                             <div className="space-y-2">
                                                 <label className="text-sm font-medium">Loại người dùng</label>

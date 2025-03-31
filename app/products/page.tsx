@@ -9,15 +9,25 @@ import FilterSidebar from '@/components/product/FilterSideBar';
 import ProductList from '@/components/product/ProductList';
 import Image from 'next/image';
 import { Breadcrumbs, BreadcrumbItem } from '@nextui-org/react';
+import { MeiliSearch } from 'meilisearch';
+import debounce from 'lodash.debounce';
+
+// Khởi tạo client Meilisearch
+const client = new MeiliSearch({
+  host: process.env.NEXT_PUBLIC_MEILISEARCH_HOST as string,
+  apiKey: process.env.NEXT_PUBLIC_MEILISEARCH_API_KEY as string, 
+});
 
 export default function Products() {
   const [selectedFilters, setSelectedFilters] = useState<Set<number>>(new Set());
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<Product[]>([]);
   const productsPerPage = 20;
 
-  // Fetch product and category data using useSWR
+  // Fetch dữ liệu sản phẩm và danh mục bằng useSWR
   const { data, isLoading, error } = useSWR('products', async () => {
     const response: ProductResponse = await strapi.getAllProducts();
     return response;
@@ -36,23 +46,51 @@ export default function Products() {
 
   const filterCategories: FilterCategory[] = categories?.data || [];
 
+  // Cập nhật danh sách sản phẩm hiển thị khi dữ liệu hoặc bộ lọc thay đổi
   useEffect(() => {
     if (data?.data) {
       const filteredProducts = selectedFilters.size > 0
         ? data.data.filter(product =>
-          product.category.id && selectedFilters.has(product.category.id)
-        )
+            product.category.id && selectedFilters.has(product.category.id)
+          )
         : data.data;
       setDisplayedProducts(filteredProducts);
-      setCurrentPage(1); // Reset to first page when filters change
+      setCurrentPage(1); // Reset về trang đầu tiên khi bộ lọc thay đổi
     }
   }, [data, selectedFilters]);
 
-  // Pagination calculations
-  const totalPages = Math.ceil(displayedProducts.length / productsPerPage);
+  // Hàm tìm kiếm với debounce
+  const debouncedSearch = debounce(async (query: string) => {
+    if (query.trim() === '') {
+      setSearchResults([]);
+      return;
+    }
+    if (searchQuery.trim() !== '') {
+      setSelectedFilters(new Set()); // Xóa bộ lọc khi tìm kiếm
+    }
+    try {
+      const index = client.index('product');
+      const searchResponse = await index.search(query);
+      setSearchResults(searchResponse.hits as Product[]);
+    } catch (error) {
+      console.error('Lỗi tìm kiếm:', error);
+    }
+  }, 300); // Debounce 300ms
+
+  // Theo dõi thay đổi của searchQuery
+  useEffect(() => {
+    debouncedSearch(searchQuery);
+    setCurrentPage(1);
+  }, [searchQuery]);
+
+  // Quyết định danh sách sản phẩm hiển thị: toàn bộ sản phẩm hoặc kết quả tìm kiếm
+  const productsToDisplay = searchQuery.trim() === '' ? displayedProducts : searchResults;
+
+  // Tính toán phân trang
+  const totalPages = Math.ceil(productsToDisplay.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = displayedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = productsToDisplay.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const handleFilterClick = (filterId: number) => {
     setSelectedFilters(prev => {
@@ -64,7 +102,6 @@ export default function Products() {
       }
       return newFilters;
     });
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -88,9 +125,9 @@ export default function Products() {
     setSelectedFilters(new Set());
   };
 
-  if (isLoading) return <Loading />
-  if (error) return <div>Error...</div>
-  if (!data?.data) return (<div>No products found</div>);
+  if (isLoading) return <Loading />;
+  if (error) return <div>Error...</div>;
+  if (!data?.data) return <div>No products found</div>;
 
   return (
     <div className="flex flex-col min-h-screen relative">
@@ -105,21 +142,17 @@ export default function Products() {
         quality={50}
       />
       <div className="flex flex-col items-center justify-center bg-[#3F291B] w-full h-36 mobile:h-32 tablet:h-40">
-        <p className=" font-robotoslab text-[#D7A444] font-semibold text-2xl text-left mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">
-          {" "}
-          SẢN PHẨM ĐÔNG Y ÔNG BỤT{" "}
+        <p className="font-robotoslab text-[#D7A444] font-semibold text-2xl text-left mobile:text-2xl tablet:text-2xl mini-laptop:text-2xl">
+          SẢN PHẨM ĐÔNG Y ÔNG BỤT
         </p>
       </div>
-   
-        <div className='flex justify-center px-4 py-4'>
-          <Breadcrumbs className="w-full max-w-7xl">
-            <BreadcrumbItem className="font-medium">Trang chủ</BreadcrumbItem>
-            <BreadcrumbItem className="text-[#D7A444] font-bold">
-              Sản phẩm
-            </BreadcrumbItem>
-          </Breadcrumbs>
-        </div>
-      
+
+      <div className="flex justify-center px-4 py-4">
+        <Breadcrumbs className="w-full max-w-7xl">
+          <BreadcrumbItem className="font-medium">Trang chủ</BreadcrumbItem>
+          <BreadcrumbItem className="text-[#D7A444] font-bold">Sản phẩm</BreadcrumbItem>
+        </Breadcrumbs>
+      </div>
 
       <div className="flex flex-1 justify-center px-4 py-8">
         <div className="flex mobile:flex-col tablet:flex-col gap-8 w-full max-w-7xl">
@@ -156,6 +189,16 @@ export default function Products() {
                   : `${data.meta.pagination.total} sản phẩm`}
               </span>
             </div>
+
+            {/* Thanh tìm kiếm */}
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Tìm kiếm sản phẩm..."
+              className="border p-2 w-full rounded mb-6"
+            />
+
             <ProductList
               displayedProducts={currentProducts}
               currentPage={currentPage}

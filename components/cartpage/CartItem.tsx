@@ -45,12 +45,18 @@ const CartItems = () => {
           </div>
           <div className="ml-4 flex-grow">
             <h3 className="font-semibold">{item.name}</h3>
-            <p className="text-gray-600">
-              {Number(item.price.replace(/[^0-9.-]+/g, '')).toLocaleString(
-                'vi-VN'
-              )}
-              đ
-            </p>
+            <div>
+              <span className="text-gray-500 line-through">
+                {item.old_price && Number(item.old_price.replace(/[^0-9.-]+/g, '')).toLocaleString('vi-VN')}
+                đ
+              </span>
+              <span className=" font-semibold ml-2">
+                {Number(item.price.replace(/[^0-9.-]+/g, '')).toLocaleString('vi-VN')}
+                đ
+              </span>
+            </div>
+            
+            
             <div className="flex items-center mt-2">
               <button
                 className="p-1 rounded border"

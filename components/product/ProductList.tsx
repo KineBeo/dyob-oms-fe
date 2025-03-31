@@ -25,6 +25,7 @@ function ProductList(props: ProductListProps) {
                         image_url={product.Main_image.provider_metadata.public_id}
                         title={product.Name}
                         price={product.Price}
+                        old_price={product.old_price ?? ""}
                         slug={product.slug}
                     />
                 ))}

@@ -83,6 +83,7 @@ export default function SpecificProduct() {
                     product.Main_image.provider_metadata.public_id]}
                     name={product.Name}
                     price={product.Price}
+                    old_price={product.old_price ?? ''}
                 />
                 <MoreDetails
                     markdown={product.Product_details ?? ''}

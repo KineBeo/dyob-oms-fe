@@ -20,8 +20,9 @@ const BuyNowButton = () => {
       <Tooltip
         content="Mua ngay"
         placement="right"
+        isOpen={true}
         classNames={{
-          content: "text-sm font-semibold"
+          content: "text-lg font-semibold"
         }}
         motionProps={{
             variants: {

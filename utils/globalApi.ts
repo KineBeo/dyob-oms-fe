@@ -51,7 +51,7 @@ export const getAboutUs = async () => {
 export const getOneProduct = async (slug: string) => {
   const response: ProductResponse = await axiosClient
     .get(
-      `products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name&filters[slug][$eq]=${slug}`
+      `products?fields=id,Name,Price,slug,Product_details,old_price&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name&filters[slug][$eq]=${slug}`
     )
     .then((res) => {
       return res.data;
@@ -66,7 +66,7 @@ export const getOneProduct = async (slug: string) => {
 export const getAllProducts = async () => {
   const response: ProductResponse = await axiosClient
     .get(
-      "products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width,height,provider_metadata&populate[Sub_images][fields]=width,height,provider_metadata&populate[category][fields]=name&pagination[pageSize]=100"
+      "products?fields=id,Name,Price,slug,Product_details,old_price&populate[Main_image][fields]=width,height,provider_metadata&populate[Sub_images][fields]=width,height,provider_metadata&populate[category][fields]=name&pagination[pageSize]=100"
     )
     .then((res) => {
       return res.data;
@@ -81,7 +81,7 @@ export const getAllProducts = async () => {
 export const getPageOfProducts = async (page = 1, pageSize = 20) => {
   try {
     const response: ProductResponse = await axiosClient.get(
-      `products?fields=id,Name,Price,slug,Product_details&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name&pagination[page]=${page}&pagination[pageSize]=${pageSize}`
+      `products?fields=id,Name,Price,slug,Product_details,old_price&populate[Main_image][fields]=width, height, provider_metadata&populate[Sub_images][fields]=width, height, provider_metadata&populate[category][fields]=name&pagination[page]=${page}&pagination[pageSize]=${pageSize}`
     );
     return response;
   } catch (error) {

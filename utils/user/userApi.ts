@@ -1,5 +1,5 @@
 import { User } from "@/interfaces/user";
-import { CreateUserDto, UpdateUserDto } from "@/interfaces/user";
+import { CreateUserDto, UpdateUserDto, BatchCreateUsersDto } from "@/interfaces/user";
 import api from "../config";
 import toast from "react-hot-toast";
 
@@ -10,6 +10,23 @@ interface PaginationResponse<T> {
   totalUsers: number;
 }
 
+
+
+interface BatchCreateUsersRequest {
+  users: BatchCreateUsersDto[];
+}
+
+interface BatchCreateUsersResponse {
+  users?: User[];
+}
+interface BatchCreateUsersErrorResponse {
+  message: string;
+  failed: Array<{
+    user: Partial<User>;
+    error: string;
+  }>;
+}
+
 export const userService = {
   async create(userData: CreateUserDto): Promise<User> {
     try {
@@ -17,7 +34,7 @@ export const userService = {
       toast.success("Tạo người dùng thành công");
       return response.data;
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Không thể tạo người dùng");
+      toast.error(error.response?.data?.message || "Không thể tạo người dùng haha");
       throw error;
     }
   },
@@ -124,6 +141,28 @@ export const userService = {
       return response.data;
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Không tìm thấy người dùng");
+      throw error;
+    }
+  },
+
+  // Admin: Tạo nhiều người dùng cùng lúc
+  async addUsers(usersData: BatchCreateUsersDto[]): Promise<BatchCreateUsersResponse> {
+    try {
+      const requestData: BatchCreateUsersRequest = { users: usersData };
+      const response = await api.post<BatchCreateUsersResponse>(
+        "/auth/create-multiple-users",
+        requestData
+      );
+      
+      // Nếu response là mảng, tức là đã thành công
+      if (Array.isArray(response.data)) {
+        toast.success(`Đã tạo thành công ${response.data.length} người dùng`);
+      }
+      
+      return response.data;
+    } catch (error: any) {
+      const errorData = error.response?.data as BatchCreateUsersErrorResponse;
+   
       throw error;
     }
   },

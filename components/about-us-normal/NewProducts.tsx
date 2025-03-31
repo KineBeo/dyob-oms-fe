@@ -56,6 +56,7 @@ const NewProducts: React.FC = () => {
                   }
                   title={otherProduct.Name}
                   price={otherProduct.Price}
+                  old_price={otherProduct.old_price ?? ""}
                   slug={otherProduct.slug}
                 />
               </CarouselItem>

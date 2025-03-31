@@ -8,7 +8,8 @@ import {
     ShoppingCart,
     Settings,
     LogOut,
-    TrendingUp
+    TrendingUp,
+    UserPlus
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -29,6 +30,7 @@ import Image from "next/image";
 import CommissionHistoryManagement from "@/components/admin-dashboard/CommissionHistoryManagement";
 import TransactionDashboard from "@/components/admin-dashboard/BalanceManagement";
 import CommissionDashboard from "@/components/admin-dashboard/CommissionHistory";
+import CreateUsers from "@/components/admin-dashboard/CreateUsers";
 
 const DashboardLayout = () => {
     // Sử dụng URL search params để lưu trạng thái tab
@@ -104,6 +106,11 @@ const DashboardLayout = () => {
             href: '#commission-history',
             icon: <LayoutDashboard className="flex-shrink-0 w-6 h-6 text-neutral-700 dark:text-neutral-200" />,
             id: 'commission-history'
+        }, {
+            label: 'Tạo người dùng',
+            href: '#create-users',
+            icon: <UserPlus className="flex-shrink-0 w-6 h-6 text-neutral-700 dark:text-neutral-200" />,
+            id: 'create-users'
         }
     ];
 
@@ -141,6 +148,8 @@ const DashboardLayout = () => {
                 />;
             case 'commission-history':
                 return <CommissionDashboard />;
+            case 'create-users':
+                return <CreateUsers />;
             default:
                 return (
                     <div className="p-6 text-center">
@@ -167,7 +176,7 @@ const DashboardLayout = () => {
             "h-full" // for your use case, use `h-screen` instead of `h-[60vh]`
         )}>
             <div>
-                <Sidebar open={isSidebarOpen} setOpen={setIsSidebarOpen}>
+                <Sidebar open={isSidebarOpen} setOpen={setIsSidebarOpen} >
                     <SidebarBody className="justify-between gap-10 border border-gray-300">
                         <div className="flex flex-col flex-1">
                             {isSidebarOpen ? <Logo name={user.role} /> : <LogoIcon />}

@@ -65,6 +65,9 @@ export default function Products() {
       setSearchResults([]);
       return;
     }
+    if (searchQuery.trim() !== '') {
+      setSelectedFilters(new Set()); // Xóa bộ lọc khi tìm kiếm
+    }
     try {
       const index = client.index('product');
       const searchResponse = await index.search(query);

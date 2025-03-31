@@ -94,9 +94,11 @@ export default function ProductCard(props: ProductCardProps) {
                         <CardTitle className="line-clamp-1 font-bold text-[#7A0505] text-lg">{props.title}</CardTitle>
                         <CardDescription className="mt-2 font-bold text-lg">
                           <div className="flex flex-col">
-                            <div className=" text-sm line-through opacity-85">
-                            {Number(props.old_price?.replace(/[^0-9.-]+/g, "")).toLocaleString('vi-VN')}đ
+                          {props.old_price &&
+                            <div className="text-sm line-through opacity-85">
+                            {Number(props.old_price.replace(/[^0-9.-]+/g, "")).toLocaleString('vi-VN')}đ
                             </div>
+                            }
                             <div className="text-[#7A0505]">
                             {Number(props.price.replace(/[^0-9.-]+/g, "")).toLocaleString('vi-VN')}đ
                             </div>

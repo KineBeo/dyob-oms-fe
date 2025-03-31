@@ -165,9 +165,11 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price,old_price, images
               <div className="text-[#7A0505]">
                 {Number(price.replace(/[^0-9.-]+/g, "")).toLocaleString("vi-VN")}đ
               </div>
+              {old_price && 
               <div className="text-lg line-through font-medium opacity-85">
-                {Number(old_price?.replace(/[^0-9.-]+/g, "")).toLocaleString("vi-VN")}đ
+                {Number(old_price.replace(/[^0-9.-]+/g, "")).toLocaleString("vi-VN")}đ
               </div>
+              }
             </div>
           </h2>
 

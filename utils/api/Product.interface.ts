@@ -24,6 +24,7 @@ interface Product {
   Product_details_title?: string | null;
   Sub_images?: null | any[]; // Replace 'any' with proper type if sub_images structure is known
   slug: string;
+  old_price?: string | null;
   category: {
     id: number;
   };

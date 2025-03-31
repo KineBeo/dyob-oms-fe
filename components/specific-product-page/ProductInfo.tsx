@@ -14,10 +14,11 @@ import { SiZalo } from 'react-icons/si';
 interface ProductInfoProps {
   name: string;
   price: string;
+  old_price?: string;
   images: string[];
 }
 
-const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
+const ProductInfo: React.FC<ProductInfoProps> = ({ name, price,old_price, images }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
@@ -160,7 +161,14 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ name, price, images }) => {
             </div>
             </div>
           <h2 className="mb-4 font-bold text-3xl">
-            {Number(price.replace(/[^0-9.-]+/g, "")).toLocaleString("vi-VN")}đ
+            <div className='flex flex-row gap-2 items-baseline'>
+              <div className="text-[#7A0505]">
+                {Number(price.replace(/[^0-9.-]+/g, "")).toLocaleString("vi-VN")}đ
+              </div>
+              <div className="text-lg line-through font-medium opacity-85">
+                {Number(old_price?.replace(/[^0-9.-]+/g, "")).toLocaleString("vi-VN")}đ
+              </div>
+            </div>
           </h2>
 
           <div className="flex items-center gap-4 mb-4">

@@ -17,6 +17,7 @@ interface ProductCardProps {
     image_url: string,
     title: string,
     price: string,
+    old_price: string,
     slug: string
 }
 
@@ -48,6 +49,7 @@ export default function ProductCard(props: ProductCardProps) {
             quantity,
             name: props.title,
             price: props.price,
+            old_price: props.old_price,
             user_id: user?.id ?? 0,
             image: props.image_url,
           };
@@ -90,7 +92,16 @@ export default function ProductCard(props: ProductCardProps) {
                 <CardBody className="items-left pt-2 h-full">
                     <div className="flex flex-col justify-between">
                         <CardTitle className="line-clamp-1 font-bold text-[#7A0505] text-lg">{props.title}</CardTitle>
-                        <CardDescription className="mt-2 font-bold text-lg">{Number(props.price.replace(/[^0-9.-]+/g, "")).toLocaleString('vi-VN')}đ</CardDescription>
+                        <CardDescription className="mt-2 font-bold text-lg">
+                          <div className="flex flex-col">
+                            <div className=" text-sm line-through opacity-85">
+                            {Number(props.old_price?.replace(/[^0-9.-]+/g, "")).toLocaleString('vi-VN')}đ
+                            </div>
+                            <div className="text-[#7A0505]">
+                            {Number(props.price.replace(/[^0-9.-]+/g, "")).toLocaleString('vi-VN')}đ
+                            </div>
+                          </div>
+                          </CardDescription>
                     </div>
                 </CardBody>
             </div>

@@ -42,6 +42,7 @@ const OtherProducts: React.FC = () => {
                   image_url={otherProduct.Main_image.provider_metadata.public_id}
                   title={otherProduct.Name}
                   price={otherProduct.Price}
+                  old_price={otherProduct.old_price || ""}
                   slug={otherProduct.slug}
                 />
               </CarouselItem>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from "@nextui-org/react";
+import { Button, Tooltip } from "@nextui-org/react";
 import { ShoppingCart } from "lucide-react";
 import { useRouter } from 'next/navigation';
 
@@ -17,19 +17,45 @@ const BuyNowButton = () => {
         }
       `}</style>
 
-      <div className="flex items-center gap-2  cursor-pointer  transition-transform hover:scale-110 "
-        onClick={() => router.push('/products')}
+      <Tooltip
+        content="Mua ngay"
+        placement="right"
+        isOpen={true}
+        classNames={{
+          content: "text-lg font-semibold"
+        }}
+        motionProps={{
+            variants: {
+              exit: {
+                opacity: 0,
+                transition: {
+                  duration: 0.1,
+                  ease: "easeIn",
+                }
+              },
+              enter: {
+                opacity: 1,
+                transition: {
+                  duration: 0.15,
+                  ease: "easeOut",
+                }
+              },
+            },
+          }}
       >
         <Button
           isIconOnly
+          onClick={() => router.push('/products')}
           radius="full"
-          className="w-10 h-10 bg-transparent bg-amber-600  shadow-none  animate-[wiggle_1s_ease-in-out_infinite]"
+          className="w-10 h-10 bg-amber-500 hover:bg-amber-600 animate-[wiggle_1s_ease-in-out_infinite] transition-transform hover:scale-110"
           aria-label="Mua ngay"
         >
-          <ShoppingCart className="text-white" size={24} />
+          <ShoppingCart 
+            className="text-white group-hover:scale-110 transition-transform" 
+            size={24}
+          />
         </Button>
-        <div className="text-amber-600 text-large font-semibold">Mua ngay</div>
-      </div>
+      </Tooltip>
     </>
   );
 };
